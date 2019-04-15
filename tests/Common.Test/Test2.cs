@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Tests
+namespace Common.Tests
 {
     public class Test2
     {
@@ -21,7 +21,7 @@ namespace Tests
             var expected = answer;
 
             //-- Act
-            var actual = Common.Solution2.ProductOfOther(list);
+            var actual = Solution2.ProductOfOther(list);
 
             //-- Assert
             Assert.AreEqual(actual, expected);

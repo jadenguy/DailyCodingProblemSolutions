@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Tests
+namespace Common.Tests
 {
     public class Test9
     {
@@ -22,7 +22,7 @@ namespace Tests
             var expected = answer;
 
             //-- Act
-            var actual = Common.Solution9.LargestSumNonAdjacent(list);
+            var actual = Solution9.LargestSumNonAdjacent(list);
 
             //-- Assert
             Assert.AreEqual(actual, expected);

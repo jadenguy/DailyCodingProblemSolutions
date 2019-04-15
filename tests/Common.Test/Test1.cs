@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Tests
+namespace Common.Tests
 {
     public class Test1
     {
@@ -25,7 +25,7 @@ namespace Tests
             var expected = answer;
 
             //-- Act
-            var actual = Common.Solution1.PairSumsContain(list, wanted);
+            var actual = Solution1.PairSumsContain(list, wanted);
 
             //-- Assert
             Assert.AreEqual(actual, expected);
