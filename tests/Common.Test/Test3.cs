@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Common;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Test
 {
     public class Test3
     {

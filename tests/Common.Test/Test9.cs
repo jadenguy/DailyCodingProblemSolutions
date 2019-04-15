@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Test
 {
     public class Test9
     {
