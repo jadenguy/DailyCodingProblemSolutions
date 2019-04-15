@@ -1,36 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace Common
 {
     public static class Solution9
     {
-        private class Candidate
+        public static bool IsNullOrEmpty(this Array array)
         {
-
-            protected Candidate(int value, int[] path)
-            {
-                this.Value = value;
-                this.Path = path;
-
-            }
-            public int Value { get; private set; }
-            public int[] Path { get; private set; }
-
-            public override string ToString()
-            {
-                return $"{Value} at {Path}";
-            }
+            return (array == null || array.Length == 0);
         }
         public static int LargestSumNonAdjacent(int[] list)
         {
             var ret = 0;
-            var candidates = new Stack<Candidate>();
-            foreach (var item in list)
+            var i = 0;
+            while (i < list.Length)
             {
-                
+                list[i] += Math.Max(list.ElementAtOrDefault(i - 3), list.ElementAtOrDefault(i - 2));
+                ret = Math.Max(list.ElementAtOrDefault(i - 1), list[i]);
+                i++;
             }
             return ret;
         }
     }
+
 }
