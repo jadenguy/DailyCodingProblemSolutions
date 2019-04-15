@@ -25,7 +25,7 @@ namespace Common.Test
             var actual = Solution9.LargestSumNonAdjacent(list);
 
             //-- Assert
-            Assert.AreEqual(actual, expected);
+            Assert.AreEqual(expected, actual);
 
         }
     }
