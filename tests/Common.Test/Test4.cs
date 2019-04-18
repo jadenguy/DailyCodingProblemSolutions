@@ -13,6 +13,7 @@ namespace Common.Test
 
         [Test]
         [TestCase(new int[] { 1, 2, 4, 5 }, 3)]
+        [TestCase(new int[] { 5,4,1, 2, 4, 5 }, 3)]
         [TestCase(new int[] { 0, 0, 0, -1, 4 }, 1)]
         public void Problem4(int[] list, int answer)
         {
@@ -20,7 +21,7 @@ namespace Common.Test
             var expected = answer;
 
             //-- Act
-            var actual = Solution4.MissingPositiveInteger(list);
+            var actual = Solution4.MissingPositiveIntegerChain(list);
 
             //-- Assert
             Assert.AreEqual(expected, actual);
