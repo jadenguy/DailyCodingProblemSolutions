@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Common.Test
+namespace Common
 {
     public static class Solution4
     {
