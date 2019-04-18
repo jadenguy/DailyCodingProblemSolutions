@@ -6,41 +6,47 @@ namespace Common.Test
 {
     public static class Solution4
     {
-        public static int cycles = 0;
-        public static int MissingPositiveIntegerChain(int[] list)
+        public static int MissingPositiveInteger(int[] list)
         {
-            cycles = 0;
             int length = list.Length;
             var ret = length + 1;
+            var comparisons = 0;
             for (int i = 0; i < length; i++)
             {
-                ChainListSort(ref list, length, i);
-                cycles++;
+                comparisons += MoveValueToIndex(ref list, length, i);
             }
             for (int i = 0; i < length; i++)
             {
                 if (list[i] != i + 1) { ret = Math.Min(ret, i + 1); }
-                cycles++;
             }
-            System.Diagnostics.Debug.WriteLine(cycles);
+            System.Console.WriteLine($"{comparisons} comparisons for {length} items");
             return ret;
         }
-
-        private static void ChainListSort(ref int[] list, int length, int i)
+        private static int MoveValueToIndex(ref int[] list, int length, int i)
         {
-            cycles++;
+            var comparisons = 1;
             var currentValue = list[i];
-            int nextValue = list.ElementAtOrDefault(currentValue - 1);
+            var valueIsValid = (currentValue <= length && currentValue > 0);
+            int nextValue = NextValueOrDefault(list, currentValue, valueIsValid);
             if (currentValue != i + 1)
             {
-                if (currentValue <= 0 || currentValue > length || nextValue == i + 1) { list[i] = 0; }
-                else if (i < length - 1)
+                if (!valueIsValid || nextValue == currentValue) { list[i] = 0; }
+                else if (i < length)
                 {
-                    list[i] = nextValue;
+                    if (nextValue <= length) { list[i] = nextValue; }
+                    else { list[i] = 0; }
                     list[currentValue - 1] = currentValue;
-                    ChainListSort(ref list, length, i + 1);
+                    // comparisons += MoveValidToRightPosition(ref list, length, i); //Uncomment to sort list where gaps equal 0
                 }
             }
+            return comparisons;
+        }
+
+        private static int NextValueOrDefault(int[] list, int currentValue, bool valueIsValid)
+        {
+            int nextValue = 0;
+            if (valueIsValid) { nextValue = list[currentValue - 1]; }
+            return nextValue;
         }
     }
 }
