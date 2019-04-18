@@ -19,15 +19,15 @@ namespace Common.Test
     [TestFixture]
     public class Test3
     {
-        public Node root;
+        public BinaryNode root;
         public string serializedNode;
         [SetUp]
         public void Setup()
         {
-            root = new Node("root");
-            root.Left = new Node("left");
-            root.Right = new Node("right");
-            root.Left.Left = new Node("left.left");
+            root = new BinaryNode("root");
+            root.Left = new BinaryNode("left");
+            root.Right = new BinaryNode("right");
+            root.Left.Left = new BinaryNode("left.left");
             serializedNode = "{\"Value\":\"root\",\"Left\":{\"Value\":\"left\",\"Left\":{\"Value\":\"left.left\",\"Left\":null,\"Right\":null},\"Right\":null},\"Right\":{\"Value\":\"right\",\"Left\":null,\"Right\":null}}";
         }
         [TearDown]

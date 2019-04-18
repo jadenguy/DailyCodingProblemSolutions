@@ -57,7 +57,7 @@ namespace Common
             return ret;
         }
 
-        public static object PairSumsContain(int[] list, int wanted)
+        public static bool PairSumsContain(int[] list, int wanted)
         {
             var ret = false;
             var candidates = new SortedList<int, int>();

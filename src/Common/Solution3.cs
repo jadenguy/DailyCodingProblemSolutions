@@ -5,7 +5,7 @@ namespace Common
 {
     public static class Solution3
     {
-        public static string SerializeNodes(Node root) => JsonConvert.SerializeObject(root);
-        public static Node DeserializeNodes(this string json) => JsonConvert.DeserializeObject<Node>(json);
+        public static string SerializeNodes(BinaryNode root) => JsonConvert.SerializeObject(root);
+        public static BinaryNode DeserializeNodes(this string json) => JsonConvert.DeserializeObject<BinaryNode>(json);
     }
 }
