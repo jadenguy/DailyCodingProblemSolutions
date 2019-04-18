@@ -1,13 +1,14 @@
-// Given the root to a binary tree, implement serialize(root), which serializes the tree into a string, and deserialize(s), which deserializes the string back into the tree.
-// For example, given the following Node class
-// class Node:
-//     def __init__(self, val, left=None, right=None):
-//         self.val = val
-//         self.left = left
-//         self.right = right
-// The following test should pass:
-// node = Node('root', Node('left', Node('left.left')), Node('right'))
-// assert deserialize(serialize(node)).left.left.val == 'left.left'
+// A unival tree (which stands for "universal value") is a tree where all nodes under it have the same value.
+// Given the root to a binary tree, count the number of unival subtrees.
+// For example, the following tree has 5 unival subtrees:
+//    0
+//   / \
+//  1   0
+//     / \
+//    1   0
+//   / \
+//  1   1
+
 
 
 using System.Collections.Generic;
