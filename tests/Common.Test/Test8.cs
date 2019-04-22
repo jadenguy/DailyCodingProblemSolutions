@@ -21,14 +21,14 @@ namespace Common.Test
     public class Test8
     {
         public List<BinaryNode> root = new List<BinaryNode>();
-        
+
         public List<int> univalCount = new List<int>();
         [SetUp]
         public void Setup()
         {
-            root.Add( new BinaryNode("0"));
+            root.Add(new BinaryNode("0"));
             univalCount.Add(1);
-            root.Add( new BinaryNode("0"));
+            root.Add(new BinaryNode("0"));
             root[1].Left = new BinaryNode("1");
             root[1].Right = new BinaryNode("0");
             root[1].Right.Right = new BinaryNode("0");
@@ -44,9 +44,10 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = univalCount[index];
+            var binaryNode = root[index];
 
             //-- Act
-            var actual = Solution8.CountUnival(root[index]);
+            var actual = Solution8.CountUnival(binaryNode, out var SubUnivalCount);
 
             //-- Assert
             Assert.AreEqual(expected, actual);
