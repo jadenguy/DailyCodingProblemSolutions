@@ -28,7 +28,7 @@ namespace Common.Test
             root.Left = new BinaryNode("left");
             root.Right = new BinaryNode("right");
             root.Left.Left = new BinaryNode("left.left");
-            serializedNode = "{\"Value\":\"root\",\"Left\":{\"Value\":\"left\",\"Left\":{\"Value\":\"left.left\",\"Left\":null,\"Right\":null},\"Right\":null},\"Right\":{\"Value\":\"right\",\"Left\":null,\"Right\":null}}";
+            serializedNode = "{\"Value\":\"root\",\"Name\":\"Root\",\"Left\":{\"Value\":\"left\",\"Name\":\"Root.Left\",\"Left\":{\"Value\":\"left.left\",\"Name\":\"Root.Left.Left\",\"Left\":null,\"Right\":null},\"Right\":null},\"Right\":{\"Value\":\"right\",\"Name\":\"Root.Right\",\"Left\":null,\"Right\":null}}";
         }
         [TearDown]
         public void TearDown() { }

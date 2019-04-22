@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Common
 {
-    public class BinaryNode : IEnumerable<BinaryNode>
+    public class BinaryNode
     {
         public BinaryNode(string value, BinaryNode left = null, BinaryNode right = null, string name = "Root")
         {
@@ -13,6 +13,7 @@ namespace Common
             this.Name = name;
         }
         public string Value { get; set; }
+        
         public string Name { get; set; }
         private BinaryNode left;
         private BinaryNode right;
@@ -40,18 +41,10 @@ namespace Common
                 }
             }
         }
-        public IEnumerator<BinaryNode> GetEnumerator()
+        public IEnumerable<BinaryNode> Children()
         {
             if (Left != null) { yield return Left; }
             if (Right != null) { yield return Right; }
-        }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-        public override string ToString()
-        {
-            return $"{Name}: {Value}";
         }
     }
 }
