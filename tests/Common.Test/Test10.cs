@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -14,7 +15,7 @@ namespace Common.Test
         }
         [Test]
 
-        public async System.Threading.Tasks.Task Problem10Async()
+        public async Task Problem10Async()
         {
             //-- Arrange
             var expectedInstant = 0;
