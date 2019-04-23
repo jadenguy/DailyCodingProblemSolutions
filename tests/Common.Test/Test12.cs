@@ -19,7 +19,14 @@ namespace Common.Test
         }
 
         [Test]
-        [TestCase(5, new int[] { 1, 2 }, 4)]
+        [TestCase(19, new int[] { 7, 13 }, 0)]
+        [TestCase(20, new int[] { 7, 13 }, 2)]
+        [TestCase(21, new int[] { 7, 13 }, 1)]
+        [TestCase(1, new int[] { 1, 2 }, 1)]
+        [TestCase(2, new int[] { 1, 2 }, 2)]
+        [TestCase(3, new int[] { 1, 2 }, 3)]
+        [TestCase(4, new int[] { 1, 2 }, 5)]
+        [TestCase(14, new int[] { 12, 3, 1, 9 }, 150)]
         public void Problem12(int stairs, int[] steps, int answer)
         {
             //-- Arrange
