@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Common.Node
 {
     public class LinkedListNode : INode<LinkedListNode>
     {
+        private LinkedListNode next;
+
         public static LinkedListNode GenerateLinkedListNode(int[] nodes)
         {
             var ret = new LinkedListNode(nodes[0]);
@@ -22,7 +25,17 @@ namespace Common.Node
             this.Next = next;
             this.Value = value;
         }
-        public LinkedListNode Next { get; set; }
+
+        public LinkedListNode Next
+        {
+            get => next;
+            set
+            {
+                if (!Traverse().ToList().Select(x => x.Value).Contains(value.Value)) { next = value; }
+                else { throw new ArgumentException("Linked list cannot loop."); }
+            }
+        }
+
         public int Value { get; set; }
         public int Height
         {
