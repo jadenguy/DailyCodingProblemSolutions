@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Common
+namespace Common.Node
 {
-    public class BinaryNode
+    public class BinaryNode : INode<BinaryNode>
     {
         public BinaryNode(string value, BinaryNode left = null, BinaryNode right = null, string name = "Root")
         {

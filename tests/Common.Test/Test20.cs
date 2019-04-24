@@ -2,15 +2,18 @@
 // In this example, assume nodes with the same value are the exact same node objects.
 // Do this in O(M + N) time (where M and N are the lengths of the lists) and constant space.
 using System.Collections.Generic;
+using Common.Node;
 using NUnit.Framework;
 
 namespace Common.Test
 {
     public class Test20
     {
+public LinkedListNode x;
+
         [SetUp]
-        public void Setup()
-        {
+        public void Setup(){ 
+            
         }
 
         [Test]

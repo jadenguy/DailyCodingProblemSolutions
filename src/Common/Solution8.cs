@@ -1,4 +1,5 @@
 using System;
+using Common.Node;
 
 namespace Common
 {
@@ -8,7 +9,7 @@ namespace Common
         {
             var ret = 0;
             isUnival = true;
-            foreach (var child in root.Children())
+            foreach (BinaryNode child in root.Children())
             {
                 ret += CountUnival(child, out var subUnival);
                 isUnival &= subUnival && child.Value == root.Value;

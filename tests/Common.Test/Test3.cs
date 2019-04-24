@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using Common;
+using Common.Node;
 using NUnit.Framework;
 
 namespace Common.Test

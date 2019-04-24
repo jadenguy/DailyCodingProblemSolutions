@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Common
+namespace Common.Node
 {
-    public class CharArrayNode : IDictionary<char, CharArrayNode>
+    public class CharArrayNode : IDictionary<char, CharArrayNode>, INode<CharArrayNode>
     {
         public string Word { get; set; }
         public bool WordEndsHere { get; set; }
@@ -75,6 +75,14 @@ namespace Common
         {
             if (!ContainsKey(character))
             { Add(character, new CharArrayNode(character, Word)); }
+        }
+
+        public IEnumerable<CharArrayNode> Children()
+        {
+            foreach (var item in this.Values)
+            {
+                yield return item;
+            }
         }
     }
 }
