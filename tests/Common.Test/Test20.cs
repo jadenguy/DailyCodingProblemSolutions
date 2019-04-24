@@ -9,18 +9,32 @@ namespace Common.Test
 {
     public class Test20
     {
-public LinkedListNode x;
+        public List<LinkedListNode> lll = new List<LinkedListNode>();
 
         [SetUp]
-        public void Setup(){ 
-            
-        }
+        public void Setup()
+        {
+            lll.Add(LinkedListNode.GenerateLinkedListNode(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }));
+            lll[0][8] = new LinkedListNode(9);
+            lll.Add(LinkedListNode.GenerateLinkedListNode(new int[] { 99, 98 }));
+            lll[1][2] = lll[0][2];
+            lll.Add(LinkedListNode.GenerateLinkedListNode(new int[] { 97, 96, 95, 94 }));
+            lll[2][4] = lll[0][4];
+            lll.Add(LinkedListNode.GenerateLinkedListNode(new int[] { 93, 92, 91 }));
+            lll[3][3] = lll[0][0];
 
+        }
         [Test]
-        [TestCase(new int[] { 3, 7, 8, 10 }, new int[] { 99, 1, 8, 10 }, 8)]
-        public void Problem20(int[] a, int[] b, int common)
+        [TestCase(0, 1, 3)]
+        [TestCase(0, 2, 5)]
+        [TestCase(0, 3, 1)]
+        public void Problem20(int aListIndex, int bListIndex, int common)
         {
             //-- Arrange
+            var a = lll[aListIndex];
+            System.Diagnostics.Debug.WriteLine(a.Print());
+            var b = lll[bListIndex];
+            System.Diagnostics.Debug.WriteLine(b.Print());
             var expected = common;
 
             //-- Act
