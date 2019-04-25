@@ -9,20 +9,21 @@ namespace Common.Test
     public class Test21
     {
 
-        public (int, int)[] x;
+        
         [SetUp]
         public void Setup()
         {
-            x = new (int, int)[] { (30, 75), (0, 50), (60, 150) };
+            
         }
         [Test]
         public void Problem21()
         {
             //-- Arrange
             var expected = 2;
+            var rangeArray = new (int, int)[] { (30, 75), (0, 50), (60, 150) };
 
             //-- Act
-            var actual = Solution21.MaxConcurrent(x);
+            var actual = Solution21.MaxConcurrent(rangeArray);
 
             //-- Assert
             Assert.AreEqual(expected, actual);
