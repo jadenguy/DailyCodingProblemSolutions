@@ -20,7 +20,7 @@ namespace Common.Test
             var expected = answer;
 
             //-- Act
-            var actual = Solution13.
+            var actual = Solution13.SubSpecial(s,k);
 
             //-- Assert
             Assert.AreEqual(expected, actual);
