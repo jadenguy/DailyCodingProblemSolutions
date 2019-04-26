@@ -1,21 +1,21 @@
-using System;
+﻿using System;
 
 namespace Common
 {
-    public class StreamRandomizer<T>
+    public class StreamElementSelector<T>
     {
         private Random random = new Random();
         private int streamElementCount = 0;
         public T Element { get; set; }
-        public StreamRandomizer()
+        public StreamElementSelector()
         {
         }
-        public StreamRandomizer(T first)
+        public StreamElementSelector(T first)
         {
             Element = first;
             streamElementCount++;
         }
-        public T RandomizeElement(T newElement)
+        public T SuggestElement(T newElement)
         {
             streamElementCount++;
             if (random.Next(streamElementCount) == 0)
