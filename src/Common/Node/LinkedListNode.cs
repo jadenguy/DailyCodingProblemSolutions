@@ -31,8 +31,9 @@ namespace Common.Node
             get => next;
             set
             {
-                if (!Traverse().ToList().Select(x => x.Value).Contains(value.Value)) { next = value; }
-                else { throw new ArgumentException("Linked list cannot loop."); }
+                // if (!Traverse().ToList().Select(x => x.Value).Contains(value.Value)) { next = value; }
+                // else { throw new ArgumentException("Linked list cannot loop."); }
+                next = value;
             }
         }
 

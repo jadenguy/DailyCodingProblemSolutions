@@ -11,7 +11,7 @@ namespace Common.Test
     {
 
         [Test]
-        [TestCase(10000000)]
+        [TestCase(100000)]
         public void Problem4(int steps)
         {
             //-- Arrange
@@ -21,7 +21,7 @@ namespace Common.Test
             var actual = Solution14.CalculatePi(steps);
 
             //-- Assert
-            Assert.AreEqual(expected, actual,0.001);
+            Assert.AreEqual(expected, actual,0.01);
         }
     }
 }

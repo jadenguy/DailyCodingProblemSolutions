@@ -14,6 +14,7 @@ namespace Common.Test
 
         [Test]
         [TestCase("abcba",2,"bcb")]
+        [TestCase("abcba",3,"abcba")]
         public void Problem12(string s, int k, string answer)
         {
             //-- Arrange

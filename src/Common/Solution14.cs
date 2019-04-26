@@ -21,7 +21,6 @@ namespace Common
                 var ySquared = Math.Pow(yPoints[i],2);
                 var sqrt = Math.Sqrt(xSquared + ySquared);
                 if (sqrt < 1 ) { inCircleCount++; }
-
             }
             var ret = 4d * inCircleCount / steps;
             return ret;
