@@ -11,6 +11,6 @@ namespace Common.Repository
         public abstract IEnumerator<OrderEntity> GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
         public abstract void Record(OrderEntity order);
-        public abstract IEnumerable<OrderEntity> GetLast(int rowCount);
+        public abstract OrderEntity GetLast(int rowCount);
     }
 }

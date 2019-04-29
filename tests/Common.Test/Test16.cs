@@ -20,7 +20,6 @@ namespace Common.Test
         {
             array = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         }
-
         [Test]
         public void AddToOrderRepository()
         {
@@ -40,20 +39,19 @@ namespace Common.Test
             Assert.AreEqual(array, repository.Select(o => o.Id).ToArray());
         }
         [Test]
-        [TestCase(1, new int[] { 9 })]
-        public void Solution15(int rowCount, int[] results)
+        [TestCase(1, 9)]
+        public void Solution15(int i, int result)
         {
             //-- Arrange
-            var expected = results;
+            var expected = result;
             repository = new OrderListRepository();
             foreach (int item in array) { repository.Record(new OrderEntity(item)); }
 
             //-- Act
-            var actual = repository.GetLast(rowCount);
-
+            var actual = repository.GetLast(i).Id;
 
             //-- Assert
-
+            Assert.AreEqual(expected, actual);
         }
     }
 }
