@@ -49,15 +49,25 @@ namespace Common.Test
         public void NewDirectory()
         {
             var dir = new Directory("dir");
-            System.Diagnostics.Debug.WriteLine(dir, dir.Name);
             dir.AddFSO("this", FileSystemObjectType.Directory);
+            ((Directory)dir["this"]).AddFSO("x", FileSystemObjectType.File);
             dir.AddFSO("that", FileSystemObjectType.Directory);
             dir.AddFSO("other", FileSystemObjectType.File);
-            foreach (var item in dir)
+            var shallow = 0;
+            foreach (var item in dir.gci())
             {
                 System.Diagnostics.Debug.WriteLine(item, item.Name);
+                shallow++;
             }
-
+            var deep = 0;
+            foreach (var item in dir.gci(true))
+            {
+                System.Diagnostics.Debug.WriteLine(item, item.Name);
+                deep++;
+            }
+            Assert.AreEqual(3, shallow);
+            Assert.AreEqual(4, deep);
         }
     }
 }
+
