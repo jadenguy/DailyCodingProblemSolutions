@@ -40,7 +40,8 @@ namespace Common.Test
         }
         [Test]
         [TestCase(1, 9)]
-        public void Solution15(int i, int result)
+        [TestCase(2, 8)]
+        public void Solution16(int i, int result)
         {
             //-- Arrange
             var expected = result;
