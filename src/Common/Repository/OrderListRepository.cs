@@ -11,7 +11,7 @@ namespace Common.Repository
 
         public override IEnumerator<OrderEntity> GetEnumerator() => orderList.GetEnumerator();
 
-        public override OrderEntity GetLast(int rowCount) => orderList.GetRange(orderList.Count - rowCount, 1)[0];
+        public override OrderEntity GetLast(int rowCount) => orderList[orderList.Count - rowCount];
 
         public override void Record(OrderEntity orderEntity) => orderList.Add(orderEntity);
 
