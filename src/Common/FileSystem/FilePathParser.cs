@@ -1,36 +1,40 @@
+using System.Collections.Generic;
+
 namespace Common.FileSystem
 {
     public static class FilePathParser
     {
         public static FileSystemObject Parse(string tree)
         {
-            var ret = new Directory("dir");
+            Directory ret = new Directory("root");
             var fsoList = tree.Split('\n');
-            var currentDir = ret;
-            var currentDepth = 0;
-            for (int i = 1; i < fsoList.Length; i++)
+            var currentPath = new List<Directory>();
+            foreach (string fsoEntry in fsoList)
             {
-                string fso = fsoList[i];
-                var fsoName = string.Empty;
                 var depth = 0;
-                for (int charIndex = 0; charIndex < fso.Length; charIndex++)
+                for (int charIndex = 0; charIndex < fsoEntry.Length; charIndex++)
                 {
-                    char character = fso[charIndex];
-                    if (character == '\t')
-                    {
-                        depth++;
-                    }
-                    else { charIndex = fso.Length; }
+                    char character = fsoEntry[charIndex];
+                    if (character == '\t') { depth++; }
+                    else { charIndex = fsoEntry.Length; }
                 }
-                fsoName = fso.Substring(depth);
-                FileSystemObject item;
-                if (!fsoName.Contains("."))
+
+                var fsoName = fsoEntry.Substring(depth);
+                var fso = FileSystemObjectGenerator.CreateFSO(fsoName);
+                var fsoAsDir = fso as Directory;
+                if (depth == 0)
                 {
-                    item = new Directory(fsoName, "unknown");
+                    currentPath.Add(fsoAsDir);
+                    ret = fsoAsDir;
                 }
                 else
                 {
-                    item = new File(fsoName, "unknown");
+                    currentPath[depth - 1].AddFSO(fso);
+                    if (fsoAsDir != null)
+                    {
+                        if (depth != currentPath.Count) { currentPath.RemoveRange(depth, currentPath.Count - depth); }
+                        currentPath.Add(fsoAsDir);
+                    }
                 }
             }
             return ret;

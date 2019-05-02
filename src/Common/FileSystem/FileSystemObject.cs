@@ -10,7 +10,7 @@ namespace Common.FileSystem
             else { Path = name; }
         }
         public string Name { get; set; }
-        public string Path { get; protected set; }
+        public string Path { get; set; }
         public override string ToString() => Path;
     }
 }
