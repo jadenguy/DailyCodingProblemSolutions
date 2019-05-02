@@ -33,6 +33,8 @@ namespace Common.Test
         {
         }
         [Test]
+        [TestCase("dir\n\tsubdir1\n\tsubdir2", "")]
+        [TestCase("dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext", "dir/subdir2/file.ext")]
         [TestCase("dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext", "dir/subdir2/subsubdir2/file2.ext")]
         public void Problem17(string tree, string longestFilePath)
         {
@@ -48,23 +50,20 @@ namespace Common.Test
         [Test]
         public void NewDirectory()
         {
-            var dir = new Directory("dir");
-            dir.AddFSO("this", FileSystemObjectType.Directory);
-            ((Directory)dir["this"]).AddFSO("x", FileSystemObjectType.File);
-            dir.AddFSO("that", FileSystemObjectType.Directory);
-            dir.AddFSO("other", FileSystemObjectType.File);
+            //-- Arrange
+            var dir = FileSystemObjectGenerator.CreateFSO("dir") as Directory;
+            dir.AddFSO("this");
+            ((Directory)dir["this"]).AddFSO("x.txt");
+            dir.AddFSO("that");
+            dir.AddFSO("other");
+
+            //-- Act
             var shallow = 0;
-            foreach (var item in dir.gci())
-            {
-                System.Diagnostics.Debug.WriteLine(item, item.Name);
-                shallow++;
-            }
+            foreach (var item in dir.gci()) { shallow++; }
             var deep = 0;
-            foreach (var item in dir.gci(true))
-            {
-                System.Diagnostics.Debug.WriteLine(item, item.Name);
-                deep++;
-            }
+            foreach (var item in dir.gci(true)) { deep++; }
+
+            //-- Assert
             Assert.AreEqual(3, shallow);
             Assert.AreEqual(4, deep);
         }
