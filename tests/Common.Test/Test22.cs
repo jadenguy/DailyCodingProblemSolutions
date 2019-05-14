@@ -29,7 +29,7 @@ namespace Common.Test
             var expected = sentence;
 
             //-- Act
-            var actual = Solution22.TryChopUpSourceText(text, wordList).First();
+            var actual = Solution22.ChopUpSourceText(text, wordList).First();
 
             //-- Assert
             Assert.AreEqual(expected, actual);

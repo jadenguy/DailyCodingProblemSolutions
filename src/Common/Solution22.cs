@@ -9,7 +9,7 @@ namespace Common
 {
     public class Solution22
     {
-        public static IEnumerable<string[]> TryChopUpSourceText(string text, string[] wordList)
+        public static IEnumerable<string[]> ChopUpSourceText(string text, string[] wordList)
         {
             if (text.Length > 0)
             {
@@ -20,7 +20,7 @@ namespace Common
                         var ret = new List<string>();
                         ret.Add(word);
                         string subtext = text.Substring(word.Length);
-                        foreach (var item in TryChopUpSourceText(subtext, wordList))
+                        foreach (var item in ChopUpSourceText(subtext, wordList))
                         {
                             ret.AddRange(item);
                             yield return ret.ToArray();
