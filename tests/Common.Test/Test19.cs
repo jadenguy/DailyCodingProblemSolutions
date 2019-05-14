@@ -19,7 +19,7 @@ namespace Common.Test
                                         ,new int[] {10,100,1}
                                         ,new int[] {100,1,10}
                                         ,new int[] {1,10,100}};
-            var expected = new int[] { 2, 1, 3, 2, 1 };
+            var expected = new int[] { 1, 0, 2, 1, 0 };
 
             //-- Act
             var actual = Solution19.PickCheapestColorOptions(priceArray);

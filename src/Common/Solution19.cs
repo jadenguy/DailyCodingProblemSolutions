@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Common
 {
@@ -7,9 +8,23 @@ namespace Common
     {
         public static int[] PickCheapestColorOptions(int[][] priceArray)
         {
-            var choices = new List<int[]>();
             int houseCount = priceArray.Length;
             var bestChoice = new int[houseCount];
+            List<int[]> choices = BestChoicePerColor(priceArray);
+            int previousGroup = 0;
+            for (int i = houseCount - 1; i >= 0; i--)
+            {
+                bestChoice[i] = choices[i][previousGroup];
+                previousGroup = bestChoice[i];
+            }
+            return bestChoice;
+            // .Reverse().ToArray();
+        }
+
+        private static List<int[]> BestChoicePerColor(int[][] priceArray)
+        {
+            int houseCount = priceArray.Length;
+            var choices = new List<int[]>();
             for (int house = 1; house < houseCount; house++)
             {
                 var currentArray = priceArray[house];
@@ -45,14 +60,8 @@ namespace Common
                     bestGroup = i;
                 }
             }
-            choices.Add(new int[]{bestGroup});
-            int previousGroup = 0;
-            for (int i = houseCount - 1; i >= 0; i--)
-            {
-                bestChoice[i] = choices[i][previousGroup];
-                if (i > 0) { previousGroup = choices[houseCount - i][previousGroup]; }
-            }
-            return bestChoice;
+            choices.Add(new int[] { bestGroup });
+            return choices;
         }
     }
 }
