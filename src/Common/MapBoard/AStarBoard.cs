@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Common.MapBoard
@@ -5,7 +6,6 @@ namespace Common.MapBoard
     public class AStarBoard : Board
     {
         private bool[,] searcheableSpace;
-
         public AStarBoard(bool[,] grid, (int, int) start, (int, int) end) : base(grid, start, end)
         {
             searcheableSpace = grid;
@@ -16,13 +16,17 @@ namespace Common.MapBoard
             var searchList = new SortedList<int, Cell>();
             var current = this[Start];
             var goal = this[End];
-            var win = false;
-            searchList.Add(current.F, current);
+            searchList.AddCell(current);
+            searcheableSpace[current.X, current.Y] = false;
             while (current != goal && searchList.Count > 0)
             {
-                current = goal;
+                current = searchList.TakeTop();
+                foreach (var neighbor in GetNeighbors(current))
+                {
+                    searchList.Add(neighbor.F, neighbor);
+                }
             }
-            if (win)
+            if (current == goal)
             {
                 ret.Add(current);
                 current = current.Parent;

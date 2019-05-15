@@ -42,7 +42,9 @@ namespace Common.Test
             Assert.AreEqual(x, y);
         }
         [Test]
-        public void Problem23()
+        [TestCase(0, 0, 0, 0, 0)]
+        [TestCase(0, 3, 0, 0, 7)]
+        public void Problem23(int startX, int startY, int endX, int endY, int length)
         {
             //-- Arrange
             var t = true;
@@ -51,12 +53,10 @@ namespace Common.Test
                                     {t, t, f, t},
                                     {f, f, f, f},
                                     {f, f, f, f}};
-            var start = (3, 0);
-            var end = (0, 0);
-            var expected = 7;
+            var expected = length;
 
             //-- Act
-            var actual = Solution23.AStarSearchStepCount(grid, start, end);
+            var actual = Solution23.AStarSearchStepCount(grid, (startX, startY), (endX, endY));
 
             //-- Assert
             Assert.AreEqual(expected, actual);

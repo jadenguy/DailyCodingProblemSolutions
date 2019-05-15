@@ -29,6 +29,8 @@ namespace Common.MapBoard
         }
         public override string ToString() => $"({X,2} , {Y,2})";
 
+
+
         public bool Equals(Cell other) => this.X == other.X && this.Y == other.Y;
     }
 }

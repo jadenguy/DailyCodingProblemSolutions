@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Common.MapBoard
@@ -72,6 +74,10 @@ namespace Common.MapBoard
         public Cell this[int x, int y]
         {
             get => board[x, y];
+        }
+        public IEnumerable<Cell> GetNeighbors(Cell current)
+        {
+            throw new NotImplementedException();
         }
     }
 }
