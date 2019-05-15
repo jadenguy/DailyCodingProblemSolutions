@@ -17,7 +17,13 @@ namespace Common
             X = x;
             Y = y;
         }
-        public void SetTarget((int, int) target)
+        public Cell(int x, int y, (int, int) target)
+        {
+            X = x;
+            Y = y;
+            SetH(target);
+        }
+        public void SetH((int, int) target)
         {
             h = Math.Abs(X - target.Item1) + Math.Abs(Y - target.Item2);
         }

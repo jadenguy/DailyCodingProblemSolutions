@@ -17,13 +17,22 @@ namespace Common.Test
         [SetUp]
         public void Setup() { }
         [Test]
-        public void CellParentG()
+        public void CellGTest()
         {
             var x = new Cell(0, 1);
             x.Parent = new Cell(0, 0);
             System.Diagnostics.Debug.WriteLine(x);
             Assert.AreEqual(1, x.G);
             Assert.AreEqual(0, x.Parent.G);
+        }
+        [Test]
+        public void CellFTest()
+        {
+            var x = new Cell(0, 1, (1, 1));
+            x.Parent = new Cell(0, 0, (1, 1));
+            System.Diagnostics.Debug.WriteLine(x);
+            Assert.AreEqual(2, x.F);
+            Assert.AreEqual(2, x.Parent.F);
         }
         [Test]
         public void Problem23()
