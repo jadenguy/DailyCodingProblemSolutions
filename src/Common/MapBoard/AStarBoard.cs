@@ -10,16 +10,24 @@ namespace Common.MapBoard
         {
             searcheableSpace = grid;
         }
-        public List<Cell> AStarPath()
+        public Cell[] AStarPath()
         {
             var ret = new List<Cell>();
-            var searchList = new List<Cell>();
+            var searchList = new SortedList<int, Cell>();
             var current = this[Start];
             var goal = this[End];
-            searchList.Add(current);
-
-
-            return ret;
+            var win = false;
+            searchList.Add(current.F, current);
+            while (current != goal && searchList.Count > 0)
+            {
+                current = goal;
+            }
+            if (win)
+            {
+                ret.Add(current);
+                current = current.Parent;
+            }
+            return ret.ToArray();
         }
     }
 }
