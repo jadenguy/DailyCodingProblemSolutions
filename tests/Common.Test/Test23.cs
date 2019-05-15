@@ -8,6 +8,7 @@
 // and start = (3, 0) (bottom left) and end = (0, 0) (top left), the minimum number of steps required to reach the end is 7, since we would need to go through (1, 2) because there is a wall everywhere else on the second row.
 
 using System;
+using Common.MapBoard;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -21,7 +22,6 @@ namespace Common.Test
         {
             var x = new Cell(0, 1);
             x.Parent = new Cell(0, 0);
-            System.Diagnostics.Debug.WriteLine(x);
             Assert.AreEqual(1, x.G);
             Assert.AreEqual(0, x.Parent.G);
         }

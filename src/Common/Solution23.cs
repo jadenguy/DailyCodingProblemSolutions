@@ -1,4 +1,5 @@
 using System;
+using Common.MapBoard;
 
 namespace Common
 {
@@ -9,8 +10,8 @@ namespace Common
             var ret = 0;
             if (!grid[start.Item1, start.Item2] && !grid[end.Item1, end.Item2])
             {
-                var x = new Board(grid, start, end);
-                System.Diagnostics.Debug.WriteLine(x.Print());
+                var starBoard = new AStarBoard(grid, start, end);
+                ret = starBoard.AStarPath().Count;
             }
             return ret;
         }

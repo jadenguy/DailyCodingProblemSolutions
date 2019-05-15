@@ -1,6 +1,6 @@
 using System;
 
-namespace Common
+namespace Common.MapBoard
 {
     public class Cell
     {
@@ -9,7 +9,6 @@ namespace Common
         public int F { get => G + H; }
         public int G { get => (Parent?.G ?? -1) + 1; }
         public int H { get => h; private set => h = value; }
-
         private int h;
         public Cell Parent;
         public Cell(int x, int y)
