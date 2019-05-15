@@ -14,12 +14,16 @@ namespace Common.Test
 {
     public class Test23
     {
-
-
         [SetUp]
-        public void Setup()
+        public void Setup() { }
+        [Test]
+        public void CellParentG()
         {
-
+            var x = new Cell(0, 1);
+            x.Parent = new Cell(0, 0);
+            System.Diagnostics.Debug.WriteLine(x);
+            Assert.AreEqual(1, x.G);
+            Assert.AreEqual(0, x.Parent.G);
         }
         [Test]
         public void Problem23()

@@ -1,0 +1,26 @@
+using System;
+
+namespace Common
+{
+    public class Cell
+    {
+        public int X;
+        public int Y;
+        public int F { get => G + H; }
+        public int G { get => (Parent?.G ?? -1) + 1; }
+        public int H { get => h; private set => h = value; }
+
+        private int h;
+        public Cell Parent;
+        public Cell(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+        public void SetTarget((int, int) target)
+        {
+            h = Math.Abs(X - target.Item1) + Math.Abs(Y - target.Item2);
+        }
+        public override string ToString() => $"({X,2} , {Y,2})";
+    }
+}
