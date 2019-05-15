@@ -35,6 +35,13 @@ namespace Common.Test
             Assert.AreEqual(2, x.Parent.F);
         }
         [Test]
+        public void CellEquitable()
+        {
+            var x = new Cell(0, 0);
+            var y = new Cell(0, 0);
+            Assert.AreEqual(x, y);
+        }
+        [Test]
         public void Problem23()
         {
             //-- Arrange
