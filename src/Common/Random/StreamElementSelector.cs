@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common
+namespace Common.RandomSelector
 {
     public class StreamElementSelector<T>
     {

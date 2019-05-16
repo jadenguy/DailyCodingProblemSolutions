@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Common.RandomSelector;
 using NUnit.Framework;
 
 namespace Common.Test
