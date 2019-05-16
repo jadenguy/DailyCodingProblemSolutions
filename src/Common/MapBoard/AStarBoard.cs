@@ -13,23 +13,30 @@ namespace Common.MapBoard
         public Cell[] AStarPath()
         {
             var ret = new List<Cell>();
-            var searchList = new SortedList<int, Cell>();
+            var searchList = new List<Cell>();
             var current = this[Start];
             var goal = this[End];
             searchList.AddCell(current);
             searcheableSpace[current.X, current.Y] = false;
             while (current != goal && searchList.Count > 0)
             {
-                current = searchList.TakeTop();
+                current = searchList.TakeTopCell();
                 foreach (var neighbor in GetNeighbors(current))
                 {
-                    searchList.Add(neighbor.F, neighbor);
+                    if (searcheableSpace[current.X, current.Y])
+                    {
+                        neighbor.Parent = current;
+                        searchList.AddCell(neighbor);
+                    }
                 }
             }
             if (current == goal)
             {
-                ret.Add(current);
-                current = current.Parent;
+                while (current != null)
+                {
+                    ret.Add(current);
+                    current = current.Parent;
+                }
             }
             return ret.ToArray();
         }

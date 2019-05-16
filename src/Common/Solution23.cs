@@ -11,7 +11,7 @@ namespace Common
             if (!grid[start.Item1, start.Item2] && !grid[end.Item1, end.Item2])
             {
                 var starBoard = new AStarBoard(grid, start, end);
-                ret = starBoard.AStarPath().Length;
+                ret = starBoard.AStarPath().Length -1;
             }
             return ret;
         }
