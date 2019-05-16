@@ -6,7 +6,7 @@ namespace Common.MapBoard
 {
     public class Board
     {
-        private Cell[,] board;
+        protected Cell[,] board;
         public (int, int) Start { get; set; }
         public (int, int) End { get; set; }
         public Board(bool[,] grid, (int, int) start, (int, int) end)
@@ -33,7 +33,7 @@ namespace Common.MapBoard
             var ret = new StringBuilder();
             int xLength = board.GetLength(0);
             int yLength = board.GetLength(1);
-            ret.Append(TopWall(xLength));
+            ret.Append(TopWallForPrint(xLength));
             for (int x = 0; x < xLength; x++)
             {
                 ret.Append("|");
@@ -48,15 +48,15 @@ namespace Common.MapBoard
                     {
                         if (x == Start.Item1 && y == Start.Item2) { ret.Append("S"); }
                         else if (x == End.Item1 && y == End.Item2) { ret.Append("E"); }
-                        else { ret.Append("0"); }
+                        else { ret.Append(" "); }
                     }
                 }
                 ret.AppendLine("|");
             }
-            ret.Append(TopWall(xLength));
+            ret.Append(TopWallForPrint(xLength));
             return ret.ToString();
         }
-        private static string TopWall(int xLength)
+        public static string TopWallForPrint(int xLength)
         {
             var ret = new StringBuilder();
             ret.Append("*");
@@ -77,7 +77,14 @@ namespace Common.MapBoard
         }
         public IEnumerable<Cell> GetNeighbors(Cell current)
         {
-            throw new NotImplementedException();
+            int x = current.X;
+            int y = current.Y;
+            int xMax = board.GetUpperBound(0);
+            if (x > 0 && board[x - 1, y] != null) { yield return board[x - 1, y]; }
+            if (x < xMax && board[x + 1, y] != null) { yield return board[x + 1, y]; }
+            int yMax = board.GetUpperBound(1);
+            if (y > 0 && board[x, y - 1] != null) { yield return board[x, y - 1]; }
+            if (y < yMax && board[x, y + 1] != null) { yield return board[x, y + 1]; }
         }
     }
 }

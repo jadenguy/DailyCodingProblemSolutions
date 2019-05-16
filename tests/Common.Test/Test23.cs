@@ -43,16 +43,41 @@ namespace Common.Test
         }
         [Test]
         [TestCase(0, 0, 0, 0, 0)]
-        [TestCase(0, 3, 0, 0, 7)]
+        [TestCase(3, 0, 0, 0, 7)]
+        [TestCase(17, 0, 0, 0, 67)]
         public void Problem23(int startX, int startY, int endX, int endY, int length)
         {
             //-- Arrange
             var t = true;
             var f = false;
-            var grid = new bool[,] {{f, f, f, f},
-                                    {t, t, f, t},
-                                    {f, f, f, f},
-                                    {f, f, f, f}};
+            var grid = new bool[,] {{f,f,f,f,f,f,f,f,f,f,f,f,f,f},
+                                    {t,t,f,t,t,t,t,t,t,t,t,f,f,f},
+                                    {f,f,f,f,f,f,f,f,f,f,f,f,f,f},
+                                    {f,t,f,f,f,f,f,f,f,f,f,f,f,f},
+                                    {f,t,f,f,f,f,f,f,f,f,f,f,f,f},
+                                    {f,t,f,f,f,f,f,f,f,f,f,f,f,f},
+                                    {f,t,f,f,f,f,f,f,t,t,t,t,f,f},
+                                    {f,t,f,f,f,f,f,f,t,f,f,t,f,f},
+                                    {f,t,f,f,f,f,f,f,t,f,f,t,f,f},
+                                    {f,t,f,f,f,f,f,f,t,f,f,t,f,f},
+                                    {f,t,f,f,f,f,f,f,t,f,f,t,f,f},
+                                    {f,t,f,f,f,f,f,f,t,f,f,t,f,f},
+                                    {f,t,f,f,f,f,f,f,t,f,f,t,f,f},
+                                    {f,t,f,f,f,f,f,f,t,f,f,t,f,f},
+                                    {t,t,f,f,t,t,t,t,t,f,f,t,f,f},
+                                    {f,t,f,f,t,f,f,f,f,f,f,t,f,f},
+                                    {f,t,f,f,t,f,f,f,f,f,f,t,f,f},
+                                    {f,t,f,f,t,f,f,f,f,f,f,t,f,f},
+                                    {f,t,f,f,t,f,t,t,t,t,f,t,f,f},
+                                    {f,t,f,f,t,f,t,f,f,f,f,t,f,f},
+                                    {f,t,t,t,t,f,t,f,f,f,f,t,f,f},
+                                    {f,f,f,f,f,f,t,f,f,f,f,t,f,f},
+                                    {f,f,f,f,f,f,t,f,t,t,t,t,f,f},
+                                    {f,f,f,f,f,f,t,f,f,f,f,f,f,f},
+                                    {f,f,f,f,f,f,t,f,f,f,f,f,f,f},
+                                    {f,f,f,f,f,f,t,f,f,f,f,f,f,f},
+                                    {f,f,f,f,f,f,t,f,f,f,f,f,f,f},
+                                    {f,f,f,f,f,f,t,f,f,f,f,f,f,f}};
             var expected = length;
 
             //-- Act

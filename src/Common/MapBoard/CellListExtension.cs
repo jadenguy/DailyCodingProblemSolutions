@@ -6,14 +6,14 @@ namespace Common.MapBoard
     {
         public static Cell TakeTopCell(this List<Cell> list)
         {
-            var first =;
+            list.Sort((x, y) => x.F.CompareTo(y.F));
+            var first = list[0];
             list.RemoveAt(0);
             return first;
         }
         public static void AddCell(this List<Cell> list, Cell cell)
         {
             list.Add(cell);
-            list.Sort((x, y) => x.F.CompareTo(y.F));
         }
     }
 }
