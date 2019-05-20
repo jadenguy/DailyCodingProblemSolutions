@@ -8,6 +8,7 @@ namespace Common.Node
         public LockingBinaryNode(string value, BinaryNode left = null, BinaryNode right = null, string name = "Root") : base(value, left, right, name)
         {
         }
+        public bool IsLockeable { get => this.TryLock(false); }
         public bool TryLock(bool actuallyLock = true)
         {
             var ret = true;
