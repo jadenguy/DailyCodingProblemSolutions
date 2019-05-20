@@ -46,5 +46,6 @@ namespace Common.Node
             if (Left != null) { yield return Left; }
             if (Right != null) { yield return Right; }
         }
+        // public override  string ToString() => Name +" "+ Value;
     }
 }
