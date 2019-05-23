@@ -17,6 +17,8 @@ namespace Common.Test
         [SetUp]
         public void Setup() { }
         [Test]
+        [TestCase("array","ra.",false)]
+        [TestCase("r","ra.",false)]
         [TestCase("ray","ra.*",true)]
         [TestCase("ra","ra.*",true)]
         [TestCase("array","ra.*",false)]
