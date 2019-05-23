@@ -17,7 +17,9 @@ namespace Common.Test
         [SetUp]
         public void Setup() { }
         [Test]
-        [TestCase("ra.","ray",true)]
+        [TestCase("ray","ra.*",true)]
+        [TestCase("ra","ra.*",true)]
+        [TestCase("array","ra.*",false)]
         public void Problem25(string input, string test, bool passes)
         {
             //-- Arrange
