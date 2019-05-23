@@ -8,17 +8,13 @@ namespace Common.Regex
         {
             Unknown, Wildcard, Character
         }
-        private Type ruleType;
         private char character;
         private bool zeroOrMore;
-        private Type RuleType { get => ruleType; set => ruleType = value; }
         public bool ZeroOrMore { get => zeroOrMore; set => zeroOrMore = value; }
         public char Character { get => character; set => character = value; }
-
-        public RegexRule(char character, Type type = Type.Character, bool zeroOrMore = false)
+        public RegexRule(char character, bool zeroOrMore = false)
         {
             Character = character;
-            RuleType = type;
             ZeroOrMore = zeroOrMore;
         }
         public override string ToString()
@@ -28,10 +24,22 @@ namespace Common.Regex
             if (ZeroOrMore) ret += "*";
             return ret;
         }
-
-        public void Test(string text)
+        public bool Test(string text)
         {
-            throw new NotImplementedException();
+            var ret = true;
+            if (ZeroOrMore)
+            {
+                int i = 0;
+                while (ret && i < text.Length)
+                {
+                    var testChar = text[i];
+                    ret &= Character == '.' || Character == testChar;
+                    i++;
+                }
+            }
+            else if (text.Length != 1) { ret = false; }
+            else { ret &= Character == '.' || Character == text[0]; }
+            return ret;
         }
     }
 }
