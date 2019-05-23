@@ -1,4 +1,6 @@
-﻿namespace Common.Regex
+﻿using System;
+
+namespace Common.Regex
 {
     public class RegexRule
     {
@@ -21,10 +23,15 @@
         }
         public override string ToString()
         {
-            var ret = string.Empty;
+            var ret = "Rule: ";
             ret += Character;
             if (ZeroOrMore) ret += "*";
             return ret;
+        }
+
+        public void Test(string text)
+        {
+            throw new NotImplementedException();
         }
     }
 }
