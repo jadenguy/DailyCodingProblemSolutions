@@ -32,7 +32,7 @@ namespace Common.Test
             //-- Arrange
             bool expected = SanityCheckRegex(input, test, passes);
             System.Diagnostics.Debug.Write($"{input} should ");
-            System.Diagnostics.Debug.Write($"{expected} ");
+            if (expected) { System.Diagnostics.Debug.Write("NOT "); }
             System.Diagnostics.Debug.WriteLine($"match {test}");
 
             //-- Act
@@ -41,19 +41,6 @@ namespace Common.Test
             //-- Assert
             Assert.AreEqual(expected, actual);
         }
-
-        private static bool SanityCheckRegex(string input, string test, bool passes)
-        {
-            var matchCollection = System.Text.RegularExpressions.Regex.Matches(input, test);
-            int count;
-            if (matchCollection.Count > 0)
-            { count = matchCollection.Max(m => m.Length); }
-            else { count = 0; }
-            var expected = input.Length == count;
-            Assert.AreEqual(expected, passes);
-            return passes;
-        }
-
         [Test]
         [TestCase("rr", 'r', true, true)]
         [TestCase("rr", 'r', false, false)]
@@ -75,6 +62,17 @@ namespace Common.Test
 
             //-- Assert
             Assert.AreEqual(expected, actual);
+        }
+        private static bool SanityCheckRegex(string input, string test, bool passes)
+        {
+            var matchCollection = System.Text.RegularExpressions.Regex.Matches(input, test);
+            int count;
+            if (matchCollection.Count > 0)
+            { count = matchCollection.Max(m => m.Length); }
+            else { count = 0; }
+            var expected = input.Length == count;
+            Assert.AreEqual(expected, passes);
+            return passes;
         }
     }
 }
