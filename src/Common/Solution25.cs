@@ -8,50 +8,62 @@ namespace Common
     {
         public static bool Regex(string input, string test)
         {
-            var ret = false;
-            System.Diagnostics.Debug.WriteLine(input);
-            System.Diagnostics.Debug.WriteLine(test);
+            var RulesMatchesFound = true;
+            var matches = new Dictionary<RegexRule, RegexMatch[]>();
             if (IsCorrectCharacterCount(input, test))
             {
-                var matches = new Dictionary<RegexRule, List<(int, int)>>();
                 var rules = GenerateRulesFromTest(test);
                 var firstChar = 0;
-                var ruleIndex = 0;
-                var RuleMatchFound = true;
-                while (RuleMatchFound && ruleIndex < rules.Count)
+                RulesMatchesFound = true;
+                for (int ruleIndex = 0; RulesMatchesFound && ruleIndex < rules.Length; ruleIndex++)
                 {
                     var rule = rules[ruleIndex];
                     System.Diagnostics.Debug.WriteLine(rule);
-                    RuleMatchFound = TryMatchRules(input, firstChar, rule, out var matchList);
-                    if (!rule.ZeroOrMore) { firstChar++; RuleMatchFound = true; }
-                    ruleIndex++;
+                    RulesMatchesFound = TryMatchRules(input, firstChar, rule, out var matchList);
+                    if (!rule.ZeroOrMore) { firstChar++; } else { RulesMatchesFound = true; }
+                    matches.Add(rule, matchList);
+                    if (RulesMatchesFound) { System.Diagnostics.Debug.WriteLine("This rule has results"); }
+                }
+                for (int i = 1; RulesMatchesFound && i < rules.Length; i++)
+                {
+                    var current = matches[rules[i - 1]];
+                    var next = matches[rules[i]];
+                    RegexMatchGroup group = new RegexMatchGroup();
                 }
             }
-            else { System.Diagnostics.Debug.WriteLine("wrong chara count"); }
-            return ret;
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("wrong character count");
+                RulesMatchesFound = false;
+            }
+            return RulesMatchesFound;
         }
-        private static bool TryMatchRules(string input, int firstChar, RegexRule rule, out List<(int, int)> matchList)
+        private static bool TryMatchRules(string input, int firstChar, RegexRule rule, out RegexMatch[] matchList)
         {
             var ret = false;
-            matchList = new List<(int, int)>();
-            foreach (var substring in SubstringsFromPosition(input, firstChar, rule.ZeroOrMore))
-            {
-                System.Diagnostics.Debug.WriteLine($"checking '{substring.Item1}'");
-                if (rule.Test(substring.Item1)) { matchList.Add(substring.Item2); }
-            }
+            matchList = MatchesFromPosition(input, firstChar, rule).ToArray();
+            if (matchList.Length > 0) { ret = true; }
             return ret;
         }
-        private static IEnumerable<(string, (int, int))> SubstringsFromPosition(string input, int firstChar, bool zeroOrMore)
+        private static IEnumerable<RegexMatch> MatchesFromPosition(string input, int firstChar, RegexRule rule)
         {
-            for (int startCharIndex = firstChar; startCharIndex < input.Length; startCharIndex++)
+            if (rule.ZeroOrMore)
             {
-                int subStringCount;
-                var x = 0;
-                if (zeroOrMore) { subStringCount = input.Length - startCharIndex; } else { subStringCount = 0; x++; }
-                for (int charCount = x; charCount <= subStringCount; charCount++)
+                for (int startCharIndex = firstChar; startCharIndex < input.Length; startCharIndex++)
                 {
-                    yield return (input.Substring(startCharIndex, charCount), (startCharIndex, charCount));
+                    for (int charCount = 1; charCount <= input.Length - startCharIndex; charCount++)
+                    {
+                        var possibleMatch = new RegexMatch(input.Substring(startCharIndex, charCount), startCharIndex, charCount, rule);
+                        System.Diagnostics.Debug.WriteLine($"Checking {possibleMatch}");
+                        if (possibleMatch.Validate()) { yield return possibleMatch; }
+                    }
                 }
+            }
+            else
+            {
+                var possibleMatch = new RegexMatch(input.Substring(firstChar, 1), firstChar, 1, rule);
+                System.Diagnostics.Debug.WriteLine($"Checking {possibleMatch}");
+                if (possibleMatch.Validate()) { yield return possibleMatch; }
             }
         }
         private static bool IsCorrectCharacterCount(string input, string test)
@@ -65,32 +77,23 @@ namespace Common
             bool v = enoughCharacters && notTooManyCharacters;
             return v;
         }
-        public static List<RegexRule> GenerateRulesFromTest(string test)
+        public static RegexRule[] GenerateRulesFromTest(string test)
         {
             var rules = new List<RegexRule>();
             var zeroOrMore = false;
             for (int i = test.Length - 1; i >= 0; i--)
             {
-                var symbolString = test[i].ToString().ToUpper();
+                var symbolString = test[i].ToString();
                 var symbol = symbolString.ToCharArray()[0];
                 var parse = false;
-                switch (symbol)
+                if (symbol == '*')
                 {
-                    case '.':
-                        parse = true;
-                        break;
-                    case '*':
-                        parse = false;
-                        zeroOrMore = true;
-                        break;
-                    default:
-                        parse = false;
-                        break;
+                    zeroOrMore = true;
                 }
-                if (symbol >= 'A' && symbol <= 'Z') { parse = true; }
+                else { parse = true; }
                 if (parse) { rules.Insert(0, new RegexRule(symbol, zeroOrMore)); zeroOrMore = false; }
             }
-            return rules;
+            return rules.ToArray();
         }
     }
 }

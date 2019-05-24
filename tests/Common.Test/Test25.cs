@@ -5,9 +5,7 @@
 // For example, given the regular expression "ra." and the string "ray", your function should return true. The same regular expression on the string "raymond" should return false.
 // Given the regular expression ".*at" and the string "chat", your function should return true. The same regular expression on the string "chats" should return false.
 
-
-using System.Collections.Generic;
-using Common.Node;
+using System.Linq;
 using Common.Regex;
 using NUnit.Framework;
 
@@ -23,17 +21,39 @@ namespace Common.Test
         [TestCase("array", "ra.*", false)]
         [TestCase("array", "ra.", false)]
         [TestCase("r", "ra.", false)]
+        [TestCase("b", "a*", false)]
+        [TestCase("", "a*", true)]
+        [TestCase("b", ".*", true)]
+        [TestCase("ba.test.a", "b.*a", true)]
+        [TestCase("ba.test.b", "b.*a", false)]
+
         public void Problem25(string input, string test, bool passes)
         {
             //-- Arrange
-            var expected = passes;
+            bool expected = SanityCheckRegex(input, test, passes);
+            System.Diagnostics.Debug.Write($"{input} should ");
+            System.Diagnostics.Debug.Write($"{expected} ");
+            System.Diagnostics.Debug.WriteLine($"match {test}");
 
             //-- Act
             var actual = Solution25.Regex(input, test);
 
             //-- Assert
-            // Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
+
+        private static bool SanityCheckRegex(string input, string test, bool passes)
+        {
+            var matchCollection = System.Text.RegularExpressions.Regex.Matches(input, test);
+            int count;
+            if (matchCollection.Count > 0)
+            { count = matchCollection.Max(m => m.Length); }
+            else { count = 0; }
+            var expected = input.Length == count;
+            Assert.AreEqual(expected, passes);
+            return passes;
+        }
+
         [Test]
         [TestCase("rr", 'r', true, true)]
         [TestCase("rr", 'r', false, false)]
