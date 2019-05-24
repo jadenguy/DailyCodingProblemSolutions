@@ -16,17 +16,17 @@ namespace Common.Test
         [SetUp]
         public void Setup() { }
         [Test]
+        [TestCase("ba.test.b", "b.*a", false)]
+        [TestCase("b", "a*", false)]
         [TestCase("ray", "ra.*", true)]
         [TestCase("ra", "ra.*", true)]
         [TestCase("array", "ra.*", false)]
         [TestCase("array", "ra.", false)]
         [TestCase("r", "ra.", false)]
-        [TestCase("b", "a*", false)]
         [TestCase("", "a*", true)]
+        [TestCase("aaaa", "a*", true)]
         [TestCase("b", ".*", true)]
         [TestCase("ba.test.a", "b.*a", true)]
-        [TestCase("ba.test.b", "b.*a", false)]
-
         public void Problem25(string input, string test, bool passes)
         {
             //-- Arrange
