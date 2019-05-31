@@ -31,9 +31,7 @@ namespace Common.Test
         {
             //-- Arrange
             bool expected = SanityCheckRegex(input, test, passes);
-            System.Diagnostics.Debug.Write($"{input} should ");
-            if (expected) { System.Diagnostics.Debug.Write("NOT "); }
-            System.Diagnostics.Debug.WriteLine($"match {test}");
+            DebugWriteExpected(input, test, expected);
 
             //-- Act
             var actual = Solution25.Regex(input, test);
@@ -41,6 +39,14 @@ namespace Common.Test
             //-- Assert
             Assert.AreEqual(expected, actual);
         }
+
+        private static void DebugWriteExpected(string input, string test, bool expected)
+        {
+            System.Diagnostics.Debug.Write($"{input} should ");
+            if (expected) { System.Diagnostics.Debug.Write("NOT "); }
+            System.Diagnostics.Debug.WriteLine($"match {test}");
+        }
+
         [Test]
         [TestCase("rr", 'r', true, true)]
         [TestCase("rr", 'r', false, false)]

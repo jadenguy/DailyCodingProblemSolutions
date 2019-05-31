@@ -9,26 +9,23 @@ namespace Common
         public static bool Regex(string input, string test)
         {
             var RulesMatchesFound = true;
-            var matches = new Dictionary<RegexRule, RegexMatch[]>();
             if (IsCorrectCharacterCount(input, test))
             {
                 var rules = GenerateRulesFromTest(test);
-                var firstChar = 0;
-                RulesMatchesFound = true;
-                for (int ruleIndex = 0; RulesMatchesFound && ruleIndex < rules.Length; ruleIndex++)
+                RulesMatchesFound = TryMatchRules(input, rules, out var matches);
+                var current = new RegexMatch[] { new RegexMatch("", 0, 0) };
+                for (int i = 0; RulesMatchesFound && i < rules.Length; i++)
                 {
-                    var rule = rules[ruleIndex];
-                    System.Diagnostics.Debug.WriteLine(rule);
-                    RulesMatchesFound = TryMatchRules(input, firstChar, rule, out var matchList);
-                    if (!rule.ZeroOrMore) { firstChar++; } else { RulesMatchesFound = true; }
-                    matches.Add(rule, matchList);
-                    if (RulesMatchesFound) { System.Diagnostics.Debug.WriteLine("This rule has results"); }
-                }
-                for (int i = 1; RulesMatchesFound && i < rules.Length; i++)
-                {
-                    var current = matches[rules[i - 1]];
                     var next = matches[rules[i]];
-                    RegexMatchGroup group = new RegexMatchGroup();
+                    var join = current // sequence
+                    .Join(
+                        next // inner sequence
+                        , r => r.StartCharacter + r.Length // outer key
+                        , n => n.StartCharacter // inner key
+                        , (r, n) => n //returned results
+                        );
+                    if (join.Count() == 0) { RulesMatchesFound = false; }
+                    current = next;
                 }
             }
             else
@@ -38,7 +35,24 @@ namespace Common
             }
             return RulesMatchesFound;
         }
-        private static bool TryMatchRules(string input, int firstChar, RegexRule rule, out RegexMatch[] matchList)
+        private static bool TryMatchRules(string input, RegexRule[] rules, out Dictionary<RegexRule, RegexMatch[]> matches)
+        {
+            var firstChar = 0;
+            var RulesMatchesFound = true;
+            matches = new Dictionary<RegexRule, RegexMatch[]>();
+            for (int ruleIndex = 0; RulesMatchesFound && ruleIndex < rules.Length; ruleIndex++)
+            {
+                var rule = rules[ruleIndex];
+                System.Diagnostics.Debug.WriteLine(rule);
+                RulesMatchesFound = TryMatchRule(input, firstChar, rule, out var matchList);
+                if (!rule.ZeroOrMore) { firstChar++; } else { RulesMatchesFound = true; }
+                matches.Add(rule, matchList);
+                if (RulesMatchesFound) { System.Diagnostics.Debug.WriteLine("This rule has results"); }
+            }
+            return RulesMatchesFound;
+        }
+
+        private static bool TryMatchRule(string input, int firstChar, RegexRule rule, out RegexMatch[] matchList)
         {
             var ret = false;
             matchList = MatchesFromPosition(input, firstChar, rule).ToArray();
@@ -51,7 +65,7 @@ namespace Common
             {
                 for (int startCharIndex = firstChar; startCharIndex < input.Length; startCharIndex++)
                 {
-                    for (int charCount = 1; charCount <= input.Length - startCharIndex; charCount++)
+                    for (int charCount = 0; charCount <= input.Length - startCharIndex; charCount++)
                     {
                         var possibleMatch = new RegexMatch(input.Substring(startCharIndex, charCount), startCharIndex, charCount, rule);
                         System.Diagnostics.Debug.WriteLine($"Checking {possibleMatch}");
