@@ -16,6 +16,7 @@ namespace Common.Test
         [SetUp]
         public void Setup() { }
         [Test]
+        [TestCase("ba.test.a", "b.*a", true)]
         [TestCase("ra", "ra.*", true)]
         [TestCase("ba.test.b", "b.*a", false)]
         [TestCase("b", "a*", false)]
@@ -26,7 +27,6 @@ namespace Common.Test
         [TestCase("", "a*", true)]
         [TestCase("aaaa", "a*", true)]
         [TestCase("b", ".*", true)]
-        [TestCase("ba.test.a", "b.*a", true)]
         [TestCase("ba.test.bab", "b.*a", false)]
         public void Problem25(string input, string test, bool passes)
         {

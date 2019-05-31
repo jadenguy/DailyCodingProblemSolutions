@@ -66,11 +66,12 @@ namespace Common
         }
         private static IEnumerable<RegexMatch> MatchesFromPosition(string input, int firstChar, RegexRule rule)
         {
-            if (rule.ZeroOrMore)
+            if (input.Length == firstChar) { yield return new RegexMatch("", firstChar, 0, rule); }
+            for (int startCharIndex = firstChar; startCharIndex < input.Length; startCharIndex++)
             {
-                if (input.Length == firstChar) { yield return new RegexMatch("", firstChar, 0, rule); }
-                for (int startCharIndex = firstChar; startCharIndex < input.Length; startCharIndex++)
+                if (rule.ZeroOrMore)
                 {
+
                     for (int charCount = 0; charCount <= input.Length - startCharIndex; charCount++)
                     {
                         var possibleMatch = new RegexMatch(input.Substring(startCharIndex, charCount), startCharIndex, charCount, rule);
@@ -78,12 +79,12 @@ namespace Common
                         if (possibleMatch.Validate()) { yield return possibleMatch; }
                     }
                 }
-            }
-            else
-            {
-                var possibleMatch = new RegexMatch(input.Substring(firstChar, 1), firstChar, 1, rule);
-                // System.Diagnostics.Debug.WriteLine($"Checking {possibleMatch}");
-                if (possibleMatch.Validate()) { yield return possibleMatch; }
+                else
+                {
+                    var possibleMatch = new RegexMatch(input.Substring(startCharIndex, 1), startCharIndex, 1, rule);
+                    // System.Diagnostics.Debug.WriteLine($"Checking {possibleMatch}");
+                    if (possibleMatch.Validate()) { yield return possibleMatch; }
+                }
             }
         }
         private static bool IsCorrectCharacterCount(string input, string test)
