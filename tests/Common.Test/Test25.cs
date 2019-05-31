@@ -16,10 +16,10 @@ namespace Common.Test
         [SetUp]
         public void Setup() { }
         [Test]
+        [TestCase("ra", "ra.*", true)]
         [TestCase("ba.test.b", "b.*a", false)]
         [TestCase("b", "a*", false)]
         [TestCase("ray", "ra.*", true)]
-        [TestCase("ra", "ra.*", true)]
         [TestCase("array", "ra.*", false)]
         [TestCase("array", "ra.", false)]
         [TestCase("r", "ra.", false)]
@@ -27,6 +27,7 @@ namespace Common.Test
         [TestCase("aaaa", "a*", true)]
         [TestCase("b", ".*", true)]
         [TestCase("ba.test.a", "b.*a", true)]
+        [TestCase("ba.test.bab", "b.*a", false)]
         public void Problem25(string input, string test, bool passes)
         {
             //-- Arrange
@@ -42,9 +43,9 @@ namespace Common.Test
 
         private static void DebugWriteExpected(string input, string test, bool expected)
         {
-            System.Diagnostics.Debug.Write($"{input} should ");
-            if (expected) { System.Diagnostics.Debug.Write("NOT "); }
-            System.Diagnostics.Debug.WriteLine($"match {test}");
+            System.Diagnostics.Debug.Write($"[{input}] should ");
+            if (!expected) { System.Diagnostics.Debug.Write("NOT "); }
+            System.Diagnostics.Debug.WriteLine($"match [{test}]");
         }
 
         [Test]
