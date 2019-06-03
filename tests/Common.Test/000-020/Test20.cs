@@ -14,13 +14,13 @@ namespace Common.Test
         [SetUp]
         public void Setup()
         {
-            lll.Add(LinkedListNode.GenerateLinkedListNode(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }));
+            lll.Add(new LinkedListNode(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }));
             lll[0][8] = new LinkedListNode(9);
-            lll.Add(LinkedListNode.GenerateLinkedListNode(new int[] { 99, 98 }));
+            lll.Add(new LinkedListNode(new int[] { 99, 98 }));
             lll[1][2] = lll[0][2];
-            lll.Add(LinkedListNode.GenerateLinkedListNode(new int[] { 97, 96, 95, 94 }));
+            lll.Add(new LinkedListNode(new int[] { 97, 96, 95, 94 }));
             lll[2][4] = lll[0][4];
-            lll.Add(LinkedListNode.GenerateLinkedListNode(new int[] { 93, 92, 91 }));
+            lll.Add(new LinkedListNode(new int[] { 93, 92, 91 }));
             lll[3][3] = lll[0][0];
 
         }

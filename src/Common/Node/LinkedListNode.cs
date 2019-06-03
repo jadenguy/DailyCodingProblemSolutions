@@ -7,36 +7,33 @@ namespace Common.Node
     public class LinkedListNode : INode<LinkedListNode>
     {
         private LinkedListNode next;
-
-        public static LinkedListNode GenerateLinkedListNode(int[] nodes)
+        public LinkedListNode(IEnumerable<int> list)
         {
-            var ret = new LinkedListNode(nodes[0]);
-            var add = ret;
-            for (int i = 1; i < nodes.Length; i++)
+            var e = list.GetEnumerator();
+            if (e.MoveNext())
             {
-                add.Next = new LinkedListNode(nodes[i]);
-                if (i > 0) { add = add.Next; }
+                this.Value = e.Current;
+                var add = this;
+                while (e.MoveNext())
+                {
+                    add.Next = new LinkedListNode(e.Current);
+                    add = add.Next;
+                }
             }
-            return ret;
         }
-
         public LinkedListNode(int value, LinkedListNode next = null)
         {
             this.Next = next;
             this.Value = value;
         }
-
         public LinkedListNode Next
         {
             get => next;
             set
             {
-                // if (!Traverse().ToList().Select(x => x.Value).Contains(value.Value)) { next = value; }
-                // else { throw new ArgumentException("Linked list cannot loop."); }
                 next = value;
             }
         }
-
         public int Value { get; set; }
         public int Height
         {
@@ -50,7 +47,6 @@ namespace Common.Node
                 return ret;
             }
         }
-
         public LinkedListNode this[int x]
         {
             get
