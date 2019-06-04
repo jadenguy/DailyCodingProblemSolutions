@@ -4,29 +4,19 @@
 
 namespace Common
 {
-    public class Solution61
+    public static class Solution61
     {
-        int runs = 0;
-        public float power(float x, int y)
+        public static float power(float x, int y)
         {
-            runs++;
-            System.Diagnostics.Debug.WriteLine(runs);
-
-            float temp;
-
-            if (y == 0)
-                return 1;
-            temp = power(x, y / 2);
-
-            if (y % 2 == 0)
-                return temp * temp;
-            else
+            float pow = 1;
+            while (y > 0)
             {
-                if (y > 0)
-                    return x * temp * temp;
-                else
-                    return (temp * temp) / x;
+                if (y % 2 == 1) { pow *= x; }
+                x *= x;
+                y /= 2;
             }
+            return pow;
         }
+
     }
 }

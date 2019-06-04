@@ -12,15 +12,15 @@ namespace Common.Test
         public void Setup() { }
         [Test]
         [TestCase(2, 10, 1024)]
+        [TestCase(2, 31, 2147483648)]
         [TestCase(8, 7, 2097152)]
-        public void Problem25(float x, int y, int result)
+        public void Problem61(float x, int y, float result)
         {
             //-- Arrange
             var expected = result;
-            var sol = new Solution61();
 
             //-- Act
-            var actual = sol.power(x, y);
+            var actual = Solution61.power(x, y);
 
             //-- Assert
             Assert.AreEqual(expected, actual);
