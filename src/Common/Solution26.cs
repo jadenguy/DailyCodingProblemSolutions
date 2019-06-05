@@ -13,7 +13,7 @@ namespace Common
             {
                 x = x.Next;
             }
-            System.Diagnostics.Debug.WriteLine(x?.Print());
+            // System.Diagnostics.Debug.WriteLine(x?.Print());
             while (x != null && x.Next != null)
             {
                 x = x.Next;
