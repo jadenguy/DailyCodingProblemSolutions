@@ -17,8 +17,11 @@ namespace Common.Test
             list = new Common.Node.LinkedListNode(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
         }
         [Test]
+        [TestCase(19, 2)]
+        [TestCase(18, 3)]
         [TestCase(1, 20)]
-        public void Problem26(int wanted, int value)
+        [TestCase(0, null)]
+        public void Problem26(int wanted, int? value)
         {
             //-- Arrange
             var expectedNValue = value;
@@ -27,11 +30,10 @@ namespace Common.Test
             //-- Act
             Solution26.RemoveNthLastElement(list, wanted);
             var array = list.Traverse().ToArray();
-            var actualNValue = array.GetValue(array.Length - wanted - 1);
+            var actualNValue = ((LinkedListNode)array.ElementAtOrDefault(array.Length - wanted))?.Value;
             var ActualListLength = array.Length;
 
             //-- Assert
-            Assert.Pass();
             Assert.AreEqual(expectedNValue, actualNValue);
             Assert.AreEqual(expectedListLength, ActualListLength);
         }
