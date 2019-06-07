@@ -11,17 +11,19 @@ namespace Common.Test
     {
 
         [Test]
-        [TestCase(100000)]
-        public void Problem4(int steps)
+        [TestCase(10000000)]
+        public void Problem14(int steps)
         {
             //-- Arrange
             var expected = System.Math.PI;
 
             //-- Act
+            var timer = System.Diagnostics.Stopwatch.StartNew();
             var actual = Solution14.CalculatePi(steps);
+            System.Console.WriteLine(timer.ElapsedMilliseconds);
 
             //-- Assert
-            Assert.AreEqual(expected, actual,0.01);
+            Assert.AreEqual(expected, actual, 0.001);
         }
     }
 }
