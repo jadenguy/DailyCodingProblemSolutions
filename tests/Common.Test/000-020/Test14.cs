@@ -11,7 +11,7 @@ namespace Common.Test
     {
 
         [Test]
-        [TestCase(10000000)]
+        [TestCase(100000000)]
         public void Problem14(int steps)
         {
             //-- Arrange
