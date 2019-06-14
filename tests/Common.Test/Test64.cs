@@ -31,11 +31,11 @@ namespace Common.Test
         public void Problem64()
         {
             //-- Arrange
-            var expected = 1;
+            var expected = 1728;
 
             //-- Act
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            var actual = Solution64.KnightToursEveryCell(1).Count();
+            var actual = Solution64.KnightToursEveryCell(5).Count();
             System.Diagnostics.Debug.WriteLine(watch.ElapsedMilliseconds);
             System.Console.WriteLine(watch.ElapsedMilliseconds);
 
