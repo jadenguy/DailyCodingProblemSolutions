@@ -11,10 +11,7 @@ namespace Common.Test
 
 
         [SetUp]
-        public void Setup()
-        {
-
-        }
+        public void Setup() { }
         [Test]
         [TestCase("([])[]({})", true)]
         [TestCase("([)]", false)]
