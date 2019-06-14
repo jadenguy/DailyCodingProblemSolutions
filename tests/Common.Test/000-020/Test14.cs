@@ -9,21 +9,41 @@ namespace Common.Test
     [TestFixture]
     public class Test14
     {
+        private const int e6 = 1000000;
+        private const int e5 = 100000;
+        private const int e4 = 10000;
+        private const int e3 = 1000;
+        private const int e2 = 100;
 
         [Test]
-        [TestCase(100000000)]
-        public void Problem14(int steps)
+        [TestCase(e4, e4)]
+        // [TestCase(e5, e3)]
+        // [TestCase(e6, e2)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e5, e3)]
+        // [TestCase(e6, e2)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e5, e3)]
+        // [TestCase(e6, e2)]
+        public void Problem14(int steps, int parallel)
         {
             //-- Arrange
             var expected = System.Math.PI;
 
             //-- Act
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            var actual = Solution14.CalculatePi(steps);
+            var actual = Solution14.CalculatePi(steps, parallel);
+            System.Diagnostics.Debug.WriteLine(steps);
+            System.Diagnostics.Debug.WriteLine(parallel);
+            System.Diagnostics.Debug.WriteLine(steps * parallel);
+            System.Diagnostics.Debug.WriteLine(expected);
+            System.Diagnostics.Debug.WriteLine(actual);
+            System.Diagnostics.Debug.WriteLine(timer.ElapsedMilliseconds);
             System.Console.WriteLine(timer.ElapsedMilliseconds);
 
+
             //-- Assert
-            Assert.AreEqual(expected, actual, 0.001);
+            Assert.AreEqual(expected, actual, 0.0005);
         }
     }
 }
