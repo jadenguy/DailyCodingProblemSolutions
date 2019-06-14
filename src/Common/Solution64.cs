@@ -30,7 +30,7 @@ namespace Common
             {
                 for (int y = 0; y <= board.GetUpperBound(1); y++)
                 {
-                    sb.Append($"{board[x, y],3}");
+                    sb.Append($"{board[x, y],5}");
                 }
                 sb.AppendLine();
             }
@@ -101,13 +101,13 @@ namespace Common
             var yn1 = y > 0;
             var yn2 = y > 1;
 
-            if (xp1 && yn2) pointList.Add((x + 1, y - 2));
             if (xp1 && yp2) pointList.Add((x + 1, y + 2));
+            if (xp1 && yn2) pointList.Add((x + 1, y - 2));
             if (xn1 && yp2) pointList.Add((x - 1, y + 2));
             if (xn1 && yn2) pointList.Add((x - 1, y - 2));
 
-            if (xp2 && yn1) pointList.Add((x + 2, y - 1));
             if (xp2 && yp1) pointList.Add((x + 2, y + 1));
+            if (xp2 && yn1) pointList.Add((x + 2, y - 1));
             if (xn2 && yp1) pointList.Add((x - 2, y + 1));
             if (xn2 && yn1) pointList.Add((x - 2, y - 1));
 
@@ -115,6 +115,8 @@ namespace Common
             {
                 if (board[point.x, point.y] == 0) { yield return point; }
             }
+            
+            // return pointList.Where(p=>board[p.Item1, p.Item2] == 0);
 
         }
         public static int[,] BlankBoard(int boardSize = 8)
