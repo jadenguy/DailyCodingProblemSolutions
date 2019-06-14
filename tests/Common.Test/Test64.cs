@@ -28,6 +28,20 @@ namespace Common.Test
             Assert.AreEqual(expected, actual);
         }
         [Test]
+        public void OnePositionRectangularKnightTour()
+        {
+            //-- Arrange
+            // var expected = answers;
+
+            //-- Act
+            int[][,] boards = Solution64.KnightTourFrom(new int[3,4], (0, 0), 1).ToArray();
+
+            var actual = boards.Length;
+
+            //-- Assert
+            Assert.GreaterOrEqual(actual,1);
+        }
+        [Test]
         public void Problem64()
         {
             //-- Arrange
