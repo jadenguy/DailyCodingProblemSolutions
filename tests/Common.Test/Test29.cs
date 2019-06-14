@@ -13,10 +13,6 @@ namespace Common.Test
         [SetUp]
         public void Setup() { }
         [Test]
-        [TestCase("([])[]({})", true)]
-        [TestCase("([)]", false)]
-        [TestCase("((()", false)]
-
         public void Problem29Encode()
         {
             //-- Arrange
@@ -27,7 +23,18 @@ namespace Common.Test
 
             //-- Assert
             Assert.AreEqual(expected, actual);
+        }
+                [Test]
+        public void Problem29Decode()
+        {
+            //-- Arrange
+            var expected = decoded;
 
+            //-- Act
+            var actual = Solution29.Decode(encoded);
+
+            //-- Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }
