@@ -1,6 +1,7 @@
 // The area of a circle is defined as πr^2. Estimate π to 3 decimal places using a Monte Carlo method.
 // Hint: The basic equation of a circle is x2 + y2 = r2.
 
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -17,6 +18,17 @@ namespace Common.Test
 
         [Test]
         [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
+        // [TestCase(e4, e4)]
         // [TestCase(e5, e3)]
         // [TestCase(e6, e2)]
         // [TestCase(e4, e4)]
@@ -38,8 +50,10 @@ namespace Common.Test
             System.Diagnostics.Debug.WriteLine(steps * parallel);
             System.Diagnostics.Debug.WriteLine(expected);
             System.Diagnostics.Debug.WriteLine(actual);
+            System.Diagnostics.Debug.WriteLine(expected - actual);
             System.Diagnostics.Debug.WriteLine(timer.ElapsedMilliseconds);
             System.Console.WriteLine(timer.ElapsedMilliseconds);
+            System.Console.WriteLine(expected - actual);
 
 
             //-- Assert
