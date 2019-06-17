@@ -8,8 +8,8 @@ namespace Common.Test
     public class Test29
     {
 
-        string encoded = "4A3B2C1D2A";
-        string decoded = "AAAABBBCCDAA";
+        string encoded = "4A3B2C1D2A10X";
+        string decoded = "AAAABBBCCDAAXXXXXXXXXX";
         [SetUp]
         public void Setup() { }
         [Test]
@@ -24,7 +24,7 @@ namespace Common.Test
             //-- Assert
             Assert.AreEqual(expected, actual);
         }
-                [Test]
+        [Test]
         public void Problem29Decode()
         {
             //-- Arrange
