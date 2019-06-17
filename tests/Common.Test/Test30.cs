@@ -14,7 +14,7 @@ namespace Common.Test
         public void Setup() { }
         [Test]
         [TestCase(new int[] { 3, 1, 2 }, 1)]
-        [TestCase(new int[] { 3, 1, 1, 2 }, 1)]
+        [TestCase(new int[] { 3, 1, 1, 2 }, 2)]
         [TestCase(new int[] { 2, 1, 2 }, 1)]
         [TestCase(new int[] { 3, 0, 1, 3, 0, 5 }, 8)]
         public void Problem30(int[] array, int water)
