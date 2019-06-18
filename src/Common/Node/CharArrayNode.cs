@@ -23,7 +23,6 @@ namespace Common.Node
         {
             ((IDictionary<char, CharArrayNode>)nextLetter).Add(key, value);
         }
-
         public bool ContainsKey(char key)
         {
             return ((IDictionary<char, CharArrayNode>)nextLetter).ContainsKey(key);
@@ -76,7 +75,6 @@ namespace Common.Node
             if (!ContainsKey(character))
             { Add(character, new CharArrayNode(character, Word)); }
         }
-
         public IEnumerable<CharArrayNode> Children()
         {
             foreach (var item in this.Values)
