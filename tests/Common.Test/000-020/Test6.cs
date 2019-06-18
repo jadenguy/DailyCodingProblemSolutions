@@ -2,7 +2,9 @@
 // If using a language that has no pointers (such as Python), you can assume you have access to get_pointer and dereference_pointer functions that converts between nodes and memory addresses.
 
 
-using System.Collections.Generic;
+using System;
+using System.Linq;
+using Common.Node;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -15,15 +17,16 @@ namespace Common.Test
         public void Problem6()
         {
             //-- Arrange
-
-
+            var memory = new XorLinkedListMemoryDictionary(new string[] { "X", "Y", "Z" });
+            var expected = 6;
             //-- Act
-
+            memory.Add("A");
+            memory.Add("B");
+            memory.Add("C");
+            var actual = memory.Count();
 
             //-- Assert
-            System.Diagnostics.Debug.WriteLine("Not bothering");
-            System.Console.WriteLine("Not bothering");
-            Assert.Pass();
+            Assert.AreEqual(expected, actual);
         }
     }
 }
