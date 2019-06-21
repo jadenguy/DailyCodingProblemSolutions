@@ -23,7 +23,7 @@ namespace Common.Test
             var expected = water;
 
             //-- Act
-            int actual = Solution30.FillWithWater(array);
+            var actual = Solution30.FillWithWater(array);
 
             //-- Assert        
             Assert.AreEqual(actual, expected);
