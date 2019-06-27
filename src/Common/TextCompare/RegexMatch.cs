@@ -1,4 +1,4 @@
-namespace Common.Regex
+namespace Common.TextCompare
 {
     public class RegexMatch
     {

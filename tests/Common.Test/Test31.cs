@@ -11,20 +11,22 @@ namespace Common.Test
         [SetUp]
         public void Setup() { }
         [Test]
-        [TestCase("kitten","sitting",3)]
-        [TestCase(".XX.","..",4)]
-        [TestCase("..",".XX.",4)]
-        [TestCase(".X.X","..",4)]
-        [TestCase("..",".X.X",4)]
-        [TestCase("X.X.","..",4)]
-        [TestCase("..","X.X.",4)]
+        [TestCase("abc","cba",2)]
+        [TestCase("kitten", "sitting", 3)]
+        [TestCase("sitting", "kitten", 3)]
+        [TestCase(".XX.","..",2)]
+        [TestCase("..",".XX.",2)]
+        [TestCase(".X.X","..",2)]
+        [TestCase("..",".X.X",2)]
+        [TestCase("X.X.","..",2)]
+        [TestCase("..","X.X.",2)]
         public void Problem31(string textA, string textB, int result)
         {
             //-- Arrange
             var expected = result;
 
             //-- Act
-            var actual = Solution31.MeasureDistance(textA,textB);
+            var actual = Solution31.MeasureDistance(textA, textB);
 
             //-- Assert        
             Assert.AreEqual(actual, expected);

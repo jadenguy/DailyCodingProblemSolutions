@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Common.Regex;
+using Common.TextCompare;
 
 namespace Common
 {

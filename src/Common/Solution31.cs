@@ -1,37 +1,121 @@
 using System;
 using System.Collections.Generic;
-using Common.Regex;
+using System.Linq;
+using Common.TextCompare;
 
 namespace Common
 {
-    public static partial class Solution31
+    public static class Solution31
     {
-        public static int MeasureDistance(string textA, string textB)
+        public static int MeasureDistance(string a, string b)
         {
-            var ret = Math.Max(textA.Length, textB.Length);
-            var matchList = new List<SubString>();
-            foreach (var subA in textA.AllSubStrings())
+            var ret = Math.Max(a.Length, b.Length);
+            var matchList = new List<CharMatch>();
+            for (int x = 0; x < a.Length; x++)
             {
-                foreach (var subB in textB.AllSubStrings())
+                for (int y = 0; y < b.Length; y++)
                 {
-                    if (subA.Text == subB.Text)
+                    if (a[x] == b[y])
                     {
-                        matchList.Add(subB);
+                        matchList.Add(new CharMatch(a[x], x, y));
                     }
                 }
             }
-            return ret;
+            var chains = GenerateChains(matchList);
+            int longestChain = chains.OrderByDescending(m => m.Count).FirstOrDefault().Count;
+            return ret - longestChain;
         }
-        private static IEnumerable<SubString> AllSubStrings(this string textA)
+        private static IEnumerable<List<CharMatch>> GenerateChains(List<CharMatch> matchList)
         {
-            for (int start = 0; start <= textA.Length; start++)
+            foreach (var item in matchList)
             {
-                for (int length = 1; length <= textA.Length - start; length++)
+                var chain = new List<CharMatch>() { item };
+                foreach (var fullChain in chain.AddLink(matchList))
                 {
-                    var subString = textA.Substring(start, length);
-                    yield return new SubString(subString, start, length);
+                    yield return fullChain;
                 }
             }
         }
+        static IEnumerable<List<CharMatch>> AddLink(this List<CharMatch> chain, List<CharMatch> availableLinks)
+        {
+            var item = chain.Last();
+            var nextLinks = availableLinks.Where(x => x.LeftTextIndex > item.LeftTextIndex && x.RightTextIndex > item.RightTextIndex).ToArray();
+            if (nextLinks.Length == 0) { yield return chain; }
+            else
+            {
+                foreach (var nextLink in nextLinks)
+                {
+                    var newChain = new List<CharMatch>(chain) { nextLink };
+                    foreach (var nextChain in newChain.AddLink(availableLinks))
+                    {
+                        yield return nextChain;
+                    }
+                }
+            }
+        }
+        // public static int MeasureDistanceDeadEnd(string a, string b)
+        // {
+        //     var x = 0;
+        //     var y = 0;
+        //     var mostChars = Math.Max(a.Length, b.Length);
+        //     var matches = 0;
+        //     while (x < a.Length)
+        //     {
+        //         char v = a[x];
+        //         char v1 = b[y];
+        //         if (v == v1)
+        //         {
+        //             matches++;
+        //             x++;
+        //             y = matches;
+        //         }
+        //         else
+        //         {
+        //             y++;
+        //         }
+        //     }
+        //     return mostChars - matches;
+        // }
+        // public static int MeasureDistanceOld(string a, string b)
+        // {
+        //     var ret = Math.Max(a.Length, b.Length);
+        //     var matchList = new List<(SubString, SubString)>();
+        //     foreach (var subA in a.AllSubStrings())
+        //     {
+        //         foreach (var subB in b.AllSubStrings())
+        //         {
+        //             if (subA.Text == subB.Text)
+        //             {
+        //                 matchList.Add((subA, subB));
+        //             }
+        //         }
+        //     }
+        //     var dict = matchList.ToDictionary(e => e, e => matchList.Where(x => x.Item1.StartCharacter >= e.Item1.StartCharacter && x.Item2.StartCharacter >= e.Item2.StartCharacter));
+        //     return ret;
+        // }
+        // private static IEnumerable<List<(SubString, SubString)>> GetChains(this Dictionary<(SubString, SubString), List<(SubString, SubString)>> dict, List<(SubString, SubString)> list = null)
+        // {
+        //     if (list == null) { list = dict.Keys.ToList(); }
+        //     var outList = new List<List<(SubString, SubString)>>();
+        //     foreach (var item in list)
+        //     {
+        //         foreach (var x in dict[item])
+        //         {
+        //             outList.AddRange(dict.GetChains(list.ToList()));
+        //         }
+        //     }
+        //     return outList;
+        // }
+        // private static IEnumerable<SubString> AllSubStrings(this string text)
+        // {
+        //     for (int start = 0; start <= text.Length; start++)
+        //     {
+        //         for (int length = 1; length <= text.Length - start; length++)
+        //         {
+        //             var subString = text.Substring(start, length);
+        //             yield return new SubString(subString, start, length);
+        //         }
+        //     }
+        // }
     }
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Common.Regex
+namespace Common.TextCompare
 {
     public class RegexMatchGroup
     {

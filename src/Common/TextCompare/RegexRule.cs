@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Regex
+namespace Common.TextCompare
 {
     public class RegexRule
     {
