@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Common.Node
 {
-    public class XorLinkedListNode : INode<XorLinkedListNode>
+    public class XorLinkedListNode : Node<XorLinkedListNode>
     {
         public XorLinkedListNode(XorLinkedListMemoryDictionary controller, string value, int pointer = 0, int parent = 0)
         {
@@ -16,7 +16,7 @@ namespace Common.Node
         public int Both { get; private set; }
         public int Pointer { get; set; }
         private XorLinkedListMemoryDictionary controller;
-        public IEnumerable<XorLinkedListNode> Children()
+        public override IEnumerable<XorLinkedListNode> Children()
         {
             return this.Children(0);
         }

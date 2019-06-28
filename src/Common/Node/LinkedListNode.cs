@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Common.Node
 {
-    public class LinkedListNode : INode<LinkedListNode>
+    public class LinkedListNode : Node<LinkedListNode>
     {
         private LinkedListNode next;
         public LinkedListNode(IEnumerable<int> list)
@@ -64,22 +64,14 @@ namespace Common.Node
                 this[x - 1].Next = value;
             }
         }
-        public IEnumerable<LinkedListNode> Children()
+        public override IEnumerable<LinkedListNode> Children()
         {
             if (Next != null)
             {
                 yield return Next;
             }
         }
-        public IEnumerable<LinkedListNode> Traverse()
-        {
-            var current = this;
-            while (current != null)
-            {
-                yield return current;
-                current = current.Next;
-            }
-        }
+        public IEnumerable<LinkedListNode> Traverse() => this.BreadthFirstSearch();
         public override string ToString() => $"{Value} {Height}";
         public string Print()
         {

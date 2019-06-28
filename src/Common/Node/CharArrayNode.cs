@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Common.Node
 {
-    public class CharArrayNode : IDictionary<char, CharArrayNode>, INode<CharArrayNode>
+    public class CharArrayNode : Node<CharArrayNode>, IDictionary<char, CharArrayNode>
     {
         public string Word { get; set; }
         public bool WordEndsHere { get; set; }
@@ -75,7 +75,7 @@ namespace Common.Node
             if (!ContainsKey(character))
             { Add(character, new CharArrayNode(character, Word)); }
         }
-        public IEnumerable<CharArrayNode> Children()
+        public override IEnumerable<CharArrayNode> Children()
         {
             foreach (var item in this.Values)
             {
