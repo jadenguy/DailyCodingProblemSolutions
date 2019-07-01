@@ -16,7 +16,7 @@ namespace Common.Node
         public string Name { get; set; }
         private BinaryNode left;
         private BinaryNode right;
-        public BinaryNode Left
+        public virtual BinaryNode Left
         {
             get => left;
             set
@@ -28,7 +28,7 @@ namespace Common.Node
                 }
             }
         }
-        public BinaryNode Right
+        public virtual BinaryNode Right
         {
             get => right;
             set
@@ -45,6 +45,41 @@ namespace Common.Node
             if (Left != null) { yield return Left; }
             if (Right != null) { yield return Right; }
         }
-        public override  string ToString() => Name +" "+ Value;
+        public override string ToString() => Name + " " + Value;
+        public IEnumerable<BinaryNode> InOrder()
+        {
+            if (left != null)
+            {
+                foreach (var item in left.InOrder())
+                {
+                    yield return item;
+                }
+            }
+            yield return this;
+            if (right != null)
+            {
+                foreach (var item in right.InOrder())
+                {
+                    yield return item;
+                }
+            }
+        }  public IEnumerable<BinaryNode> OutOrder()
+        {
+            if (right != null)
+            {
+                foreach (var item in right.InOrder())
+                {
+                    yield return item;
+                }
+            }
+            yield return this;
+            if (left != null)
+            {
+                foreach (var item in left.InOrder())
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }

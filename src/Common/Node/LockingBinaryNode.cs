@@ -25,6 +25,5 @@ namespace Common.Node
             if (ret && actuallyLock) { unlocked = false; }
             return ret;
         }
-        // public override string ToString() => this.ToString() + " "+this.unlocked.ToString();
     }
 }

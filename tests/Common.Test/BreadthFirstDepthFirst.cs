@@ -1,56 +1,153 @@
 using System.Collections.Generic;
-using Common.Node;
+using System.Linq;
 using NUnit.Framework;
 
-namespace Common.Test
+namespace Common.Node.Test
 {
     public class BreathFirstDepthFirst
     {
-        public List<BinaryNode> root = new List<BinaryNode>();
-
-        public List<int> nodeCount = new List<int>();
+        public BinaryNode root;
+        public int nodeCount;
         [SetUp]
         public void Setup()
         {
-            root.Add(new BinaryNode("0"));
-            nodeCount.Add(1);
-            root.Add(new BinaryNode("0"));
-            root[1].Left = new BinaryNode("1");
-            root[1].Right = new BinaryNode("0");
-            root[1].Right.Right = new BinaryNode("0");
-            root[1].Right.Left = new BinaryNode("1");
-            root[1].Right.Left.Left = new BinaryNode("1");
-            root[1].Right.Left.Right = new BinaryNode("1");
-            root[1].Right.Right.Left = new BinaryNode("1");
-            root[1].Right.Right.Right = new BinaryNode("1");
-            nodeCount.Add(9);
+            var count = 0;
+            root = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode(count: ref count);
+            nodeCount = count;
         }
+        [TearDown]
+        public void TearDown() { }
         [Test]
-        // [TestCase(0)]
-        [TestCase(1)]
-        public void BreadthFirst(int index)
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        public void BreadthFirst()
         {
             //-- Arrange
-            var expected = nodeCount[index];
-            var binaryNode = root[index];
+            var expected = nodeCount;
+            var binaryNode = root;
+
             //-- Act
-            var list = new List<BinaryNode>(binaryNode.BreadthFirstSearch());
+            var list = new List<string>(binaryNode.BreadthFirstSearch().Select(n => n.Name));
             var actual = list.Count;
+            System.Diagnostics.Debug.WriteLine("");
+            System.Console.WriteLine("");
+            list.ForEach(e =>
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    System.Console.WriteLine(e);
+                }
+            );
 
             //-- Assert
             Assert.AreEqual(expected, actual);
         }
         [Test]
-        // [TestCase(0)]
-        [TestCase(1)]
-        public void DepthFirst(int index)
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        public void PreOrder()
         {
             //-- Arrange
-            var expected = nodeCount[index];
-            var binaryNode = root[index];
+            var expected = nodeCount;
+            var binaryNode = root;
+
             //-- Act
-            var list = new List<BinaryNode>(binaryNode.DepthFirstSearch());
+            var list = new List<string>(binaryNode.PreOrder().Select(n => n.Name));
             var actual = list.Count;
+            System.Diagnostics.Debug.WriteLine("");
+            System.Console.WriteLine("");
+            list.ForEach(e =>
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    System.Console.WriteLine(e);
+                }
+            );
+
+            //-- Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        public void PostOrder()
+        {
+            //-- Arrange
+            var expected = nodeCount;
+            var binaryNode = root;
+
+            //-- Act
+            var list = new List<string>(binaryNode.PostOrder().Select(n => n.Name));
+            var actual = list.Count;
+            System.Diagnostics.Debug.WriteLine("");
+            System.Console.WriteLine("");
+            list.ForEach(e =>
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    System.Console.WriteLine(e);
+                }
+            );
+
+            //-- Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        public void InOrder()
+        {
+            //-- Arrange
+            var expected = nodeCount;
+            var binaryNode = root;
+
+            //-- Act
+            var list = new List<string>(binaryNode.InOrder().Select(n => n.Name));
+            var actual = list.Count;
+            System.Diagnostics.Debug.WriteLine("");
+            System.Console.WriteLine("");
+            list.ForEach(e =>
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    System.Console.WriteLine(e);
+                }
+            );
+
+            //-- Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
+        public void OutOrder()
+        {
+            //-- Arrange
+            var expected = nodeCount;
+            var binaryNode = root;
+
+            //-- Act
+            var list = new List<string>(binaryNode.OutOrder().Select(n => n.Name));
+            var actual = list.Count;
+            System.Diagnostics.Debug.WriteLine("");
+            System.Console.WriteLine("");
+            list.ForEach(e =>
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    System.Console.WriteLine(e);
+                }
+            );
 
             //-- Assert
             Assert.AreEqual(expected, actual);
