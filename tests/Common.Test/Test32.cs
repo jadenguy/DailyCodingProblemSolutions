@@ -25,7 +25,8 @@ namespace Common.Test
             var expected = false;
 
             //-- Act
-            var actual = (Solution32.Arbitrage(array).FirstOrDefault()).Length;
+            var arbitrageSolution = Solution32.Arbitrage(array);
+            var actual = arbitrageSolution.FirstOrDefault().Length == 1;
 
             //-- Assert        
             Assert.AreEqual(actual, expected);

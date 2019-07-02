@@ -38,8 +38,8 @@ namespace Common
         }
         static IEnumerable<List<CharMatch>> AddLink(this List<CharMatch> chain, List<CharMatch> availableLinks)
         {
-            var item = chain.Last();
-            var nextLinks = availableLinks.Where(x => x.LeftTextIndex > item.LeftTextIndex && x.RightTextIndex > item.RightTextIndex).ToArray();
+            var last = chain.Last();
+            var nextLinks = availableLinks.Where(x => x.LeftTextIndex > last.LeftTextIndex && x.RightTextIndex > last.RightTextIndex).ToArray();
             if (nextLinks.Length == 0) { yield return chain; }
             else
             {
@@ -93,7 +93,7 @@ namespace Common
         //     var dict = matchList.ToDictionary(e => e, e => matchList.Where(x => x.Item1.StartCharacter >= e.Item1.StartCharacter && x.Item2.StartCharacter >= e.Item2.StartCharacter));
         //     return ret;
         // }
-        // private static IEnumerable<List<(SubString, SubString)>> GetChains(this Dictionary<(SubString, SubString), List<(SubString, SubString)>> dict, List<(SubString, SubString)> list = null)
+        // private static IEnumerable<List<(SubString, SubString)>> GetChainsRecurse(this Dictionary<(SubString, SubString), List<(SubString, SubString)>> dict, List<(SubString, SubString)> list = null)
         // {
         //     if (list == null) { list = dict.Keys.ToList(); }
         //     var outList = new List<List<(SubString, SubString)>>();
@@ -101,21 +101,21 @@ namespace Common
         //     {
         //         foreach (var x in dict[item])
         //         {
-        //             outList.AddRange(dict.GetChains(list.ToList()));
+        //             outList.AddRange(dict.GetChainsRecurse(list.ToList()));
         //         }
         //     }
         //     return outList;
         // }
-        // private static IEnumerable<SubString> AllSubStrings(this string text)
-        // {
-        //     for (int start = 0; start <= text.Length; start++)
-        //     {
-        //         for (int length = 1; length <= text.Length - start; length++)
-        //         {
-        //             var subString = text.Substring(start, length);
-        //             yield return new SubString(subString, start, length);
-        //         }
-        //     }
-        // }
+        private static IEnumerable<SubString> AllSubStrings(this string text)
+        {
+            for (int start = 0; start <= text.Length; start++)
+            {
+                for (int length = 1; length <= text.Length - start; length++)
+                {
+                    var subString = text.Substring(start, length);
+                    yield return new SubString(subString, start, length);
+                }
+            }
+        }
     }
 }
