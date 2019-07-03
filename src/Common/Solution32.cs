@@ -1,88 +1,107 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Common.Forex;
 
 namespace Common
 {
     public static class Solution32
     {
-        public enum Currency
+        public static IEnumerable<(int, int)[]> FindArbitrage(decimal[,] array, decimal precision = 0)
         {
-            invalid = -1,
-            A, B, C, D, E, F, G, H, I, J, K, L, M,
-            N, O, P, Q, R, S, T, U, V, W, X, Y, Z
+            CurrencyExchangeTable dict = TurnArrayToDictionaryOfExchangeValues(array);
+            return Arbitrate(dict, precision);
         }
-        public static IEnumerable<(int, int)[]> Arbitrage(float[,] array)
-        {
-            Dictionary<(Currency, Currency), float> dict = TurnArrayToDictionaryOfExchangeValues(array);
-            return Arbitrate(dict);
-        }
-        private static IEnumerable<(int, int)[]> Arbitrate(Dictionary<(Currency, Currency), float> dict)
+        private static IEnumerable<(int, int)[]> Arbitrate(CurrencyExchangeTable dict, decimal precision)
         {
             foreach (var item in GenerateLoops(dict))
             {
                 var loop = item.ToArray();
-                var money = 100f;
-                foreach (var exchange in loop) { money *= dict[exchange]; }
-                if (money > 100f)
+                if (IsArbitrage(dict, loop, precision, out var log))
                 {
-                    var money2 = 100f;
-                    Currency startingCurrency = loop[0].Item1;
-                    System.Diagnostics.Debug.WriteLine($"{money2} of {startingCurrency}");
-                    foreach (var exchange in loop)
-                    {
-                        money2 *= dict[exchange];
-                        var newCurrency = exchange.Item2;
-                        try
-                        {
-                            var money3 = money2 * dict[(newCurrency, startingCurrency)];
-                            System.Diagnostics.Debug.WriteLine($"{money3} in {newCurrency}");
-                        }
-                        catch
-                        {
-                            System.Diagnostics.Debug.WriteLine($"{money2} in {newCurrency}, no direct exchange to {startingCurrency}");
-                        }
-                    }
-                    yield return loop.Select(l => ((int)l.Item1, (int)l.Item2)).ToArray();
+                    System.Diagnostics.Debug.WriteLine(log);
+                    yield return loop.Select(l => (l.OldCurrency.Id, l.NewCurrency.Id)).ToArray();
+                    System.Diagnostics.Debug.WriteLine("");
                 }
             };
         }
-
-        private static Dictionary<(Currency, Currency), float> TurnArrayToDictionaryOfExchangeValues(float[,] array)
+        private static bool IsArbitrage(CurrencyExchangeTable dict, Exchange[] loop, decimal precision, out string log)
         {
-            var dict = new Dictionary<(Currency, Currency), float>();
+            const decimal startingMoney = 1;
+            var v = startingMoney + precision;
+            var money = startingMoney;
+            var outString = new StringBuilder();
+            Currency startingCurrency = loop[0].OldCurrency;
+            outString.AppendLine($"Starting with {money.ToString("0.00")} in {startingCurrency}");
+            var isArbitrage = false;
+            var yahtzee = false;
+            foreach (Exchange exchange in loop)
+            {
+                money *= dict[exchange];
+                var newCurrency = exchange.NewCurrency;
+                if (newCurrency != startingCurrency && dict.Keys.Contains(new Exchange(newCurrency, startingCurrency)))
+                {
+                    decimal exchangeRate = dict[new Exchange(newCurrency, startingCurrency)];
+                    var oldMoney = money * exchangeRate;
+                    outString.AppendLine($"{oldMoney.ToString("0.00")} in {newCurrency}");
+                    if (!yahtzee && oldMoney > v)
+                    {
+                        outString.AppendLine("Yahtzee!");
+                        yahtzee = true;
+                    }
+                }
+                else { outString.AppendLine($"{money.ToString("0.00")} in {newCurrency}, no direct exchange to {startingCurrency}"); }
+            }
+            isArbitrage = money > v;
+            outString.AppendLine($"ending with {money.ToString("0.00")} in {startingCurrency}");
+            log = outString.ToString();
+            return isArbitrage;
+        }
+
+        private static CurrencyExchangeTable TurnArrayToDictionaryOfExchangeValues(decimal[,] array)
+        {
+            var dict = new CurrencyExchangeTable();
+            var yList = new Dictionary<int, Currency>();
+            var rand = new Random();
+            for (int y = 0; y <= array.GetUpperBound(1); y++)
+            {
+                yList.Add(y, new Currency(y, rand.Next().GetHashCode().ToString("X")));
+            }
             for (int x = 0; x <= array.GetUpperBound(0); x++)
             {
-                var xCurrency = (Currency)x;
+                var xCurrency = new Currency(x, rand.Next().GetHashCode().ToString("X"));
                 for (int y = 0; y <= array.GetUpperBound(1); y++)
                 {
-                    var yCurrency = (Currency)(1 + array.GetUpperBound(0) + y);
-                    dict[(xCurrency, yCurrency)] = array[x, y];
-                    System.Diagnostics.Debug.Write(xCurrency);
-                    System.Diagnostics.Debug.Write(yCurrency);
+                    var yCurrency = yList[y];
+                    var exchange = new Exchange(xCurrency, yCurrency);
+                    dict[exchange] = array[x, y];
+                    var reverseExchange = new Exchange(yCurrency, xCurrency);
+                    
+                    System.Diagnostics.Debug.Write($"{exchange} for ");
                     System.Diagnostics.Debug.WriteLine(array[x, y]);
-                    if (array[x, y] == 0) { dict[(yCurrency, xCurrency)] = 0; }
-                    else { dict[(yCurrency, xCurrency)] = 1f / array[x, y]; }
+                    if (array[x, y] == 0) { dict[reverseExchange] = 0; }
+                    else { dict[reverseExchange] = 1 / array[x, y]; }
                 }
             }
             return dict;
         }
-        private static IEnumerable<List<(Currency, Currency)>> GenerateLoops(Dictionary<(Currency, Currency), float> dict)
+        private static IEnumerable<ExchangeChain> GenerateLoops(CurrencyExchangeTable dict)
         {
             foreach (var startingLink in dict.Keys)
             {
-                var newChain = new List<(Currency, Currency)>() { startingLink };
+                var newChain = new ExchangeChain() { startingLink };
                 foreach (var loopChain in newChain.AddLink(dict))
                 {
                     yield return loopChain;
                 }
             }
         }
-        private static IEnumerable<List<(Currency, Currency)>> AddLink(this List<(Currency, Currency)> chain, Dictionary<(Currency, Currency), float> dict)
+        private static IEnumerable<ExchangeChain> AddLink(this ExchangeChain chain, CurrencyExchangeTable dict)
         {
             var last = chain.Last();
             var all = dict.Keys;
-            var matchingLinks = all.Where(x => chain.Contains(x) == false).Where(x => x.Item1 == last.Item2).ToArray();
+            var matchingLinks = all.Where(x => chain.Contains(x) == false).Where(x => x.OldCurrency == last.NewCurrency).ToArray();
             if (chain.IsLoop())
             {
                 yield return chain;
@@ -92,23 +111,26 @@ namespace Common
             {
                 foreach (var nextLink in matchingLinks)
                 {
-                    var newChain = new List<(Currency, Currency)>(chain) { nextLink };
-                    foreach (var nextChain in newChain.AddLink(dict))
+                    if (nextLink.NewCurrency != last.OldCurrency || nextLink.OldCurrency != last.NewCurrency || dict[last] * dict[nextLink] != 1)
                     {
-                        yield return nextChain;
+                        var newChain = new ExchangeChain(chain) { nextLink };
+                        foreach (var nextChain in newChain.AddLink(dict))
+                        {
+                            yield return nextChain;
+                        }
                     }
                 }
             }
         }
-        private static bool IsLoop(this List<(Currency, Currency)> list)
+        private static bool IsLoop(this ExchangeChain list)
         {
-            (Currency, Currency) current = (Currency.invalid, Currency.invalid);
-            (Currency, Currency) previous = list.Last();
+            Exchange current;
+            var previous = list.Last();
             var ret = true;
             for (int i = 0; ret && i < list.Count; i++)
             {
                 current = list[i];
-                ret = current.Item1 == previous.Item2;
+                ret = current.OldCurrency == previous.NewCurrency;
                 previous = current;
             }
             return ret;
