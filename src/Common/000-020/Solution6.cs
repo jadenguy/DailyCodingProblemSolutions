@@ -1,4 +1,14 @@
-﻿// // STOLEN FROM https://stackoverflow.com/questions/5984487/xor-linked-list
+﻿using Common.Node;
+
+namespace Common
+{
+    public class Solution6
+    {
+        XorLinkedListMemoryDictionary NewXLL() => new XorLinkedListMemoryDictionary();
+    }
+}
+
+// // STOLEN FROM https://stackoverflow.com/questions/5984487/xor-linked-list
 
 
 
@@ -101,7 +111,7 @@
 //                 _second = _allocate(firstValue);
 //                 _first->_Value = e.Current;
 //                 // both nodes would have (A xor A) as their link fields, which is just null
-                
+
 //                 // b <-> c <-> d <-> ... <-> z <-> a
 //                 while(e.MoveNext())
 //                 {

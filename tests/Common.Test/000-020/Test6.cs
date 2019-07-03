@@ -19,6 +19,7 @@ namespace Common.Test
             //-- Arrange
             var memory = new XorLinkedListMemoryDictionary(new string[] { "X", "Y", "Z" });
             var expected = 6;
+
             //-- Act
             memory.Add("A");
             memory.Add("B");

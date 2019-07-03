@@ -25,7 +25,7 @@ namespace Common.Test
         [TestCase(false)]
         [TestCase(true)]
         [TestCase(false)]
-        public void Problem32(bool arbitrage)
+        public void Problem32Naive(bool arbitrage)
         {
             //-- Arrange
             var expected = arbitrage;

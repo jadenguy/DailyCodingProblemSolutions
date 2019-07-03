@@ -13,12 +13,12 @@ namespace Common
             CurrencyExchangeTable dict = TurnArrayToDictionaryOfExchangeValues(array);
             return Arbitrate(dict, precision);
         }
-        private static IEnumerable<(int, int)[]> Arbitrate(CurrencyExchangeTable dict, decimal precision)
+        public static IEnumerable<(int, int)[]> Arbitrate(CurrencyExchangeTable dict, decimal precision)
         {
             foreach (var item in GenerateLoops(dict))
             {
                 var loop = item.ToArray();
-                if (IsArbitrage(dict, loop, precision, out var log))
+                if (IsLoopArbitrage(dict, loop, precision, out var log))
                 {
                     System.Diagnostics.Debug.WriteLine(log);
                     yield return loop.Select(l => (l.OldCurrency.Id, l.NewCurrency.Id)).ToArray();
@@ -26,7 +26,7 @@ namespace Common
                 }
             };
         }
-        private static bool IsArbitrage(CurrencyExchangeTable dict, Exchange[] loop, decimal precision, out string log)
+        public static bool IsLoopArbitrage(CurrencyExchangeTable dict, Exchange[] loop, decimal precision, out string log)
         {
             const decimal startingMoney = 1;
             var v = startingMoney + precision;
@@ -77,7 +77,7 @@ namespace Common
                     var exchange = new Exchange(xCurrency, yCurrency);
                     dict[exchange] = array[x, y];
                     var reverseExchange = new Exchange(yCurrency, xCurrency);
-                    
+
                     System.Diagnostics.Debug.Write($"{exchange} for ");
                     System.Diagnostics.Debug.WriteLine(array[x, y]);
                     if (array[x, y] == 0) { dict[reverseExchange] = 0; }
