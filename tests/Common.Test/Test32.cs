@@ -75,8 +75,6 @@ namespace Common.Test
         [Test]
         [TestCase(true, 0)]
         [TestCase(false, 0)]
-        [TestCase(true, 0)]
-        [TestCase(false, 0)]
         [TestCase(true, 1)] // If there's arbitrage and you run through every exchange once, guaranteed result fairly quickly
         // [TestCase(false, 1)] //If there's no arbitrage, you have to brute force check every loop, increasing run length considerably
         public void Problem32Naive(bool arbitrage, int arrayIndex)
@@ -93,7 +91,7 @@ namespace Common.Test
             //-- Act
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var arbitrageSolution = Solution32.FindArbitrage(array).FirstOrDefault();
+            var arbitrageSolution = Solution32Naive.FindArbitrage(array).FirstOrDefault();
             var actual = (arbitrageSolution?.Ratio ?? 0) != 0;
             System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
@@ -106,22 +104,44 @@ namespace Common.Test
             Assert.AreEqual(expected, actual);
         }
         [Test]
-        public void Problem32FullCrossNaive()
+        [TestCase(true, 0)]
+        [TestCase(false, 0)]
+        [TestCase(true, 1)] // If there's arbitrage and you run through every exchange once, guaranteed result fairly quickly
+        [TestCase(false, 1)] //If there's no arbitrage, you have to brute force check every loop, increasing run length considerably
+        public void Problem32BellmanFord(bool arbitrage, int arrayIndex)
         {
             //-- Arrange
-            var expected = true;
+            var expected = arbitrage;
+            var array = arraysArray[arrayIndex];
+            if (arbitrage)
+            {
+                var rand = new System.Random();
+                array[rand.Next(array.GetLowerBound(0)), rand.Next(array.GetLowerBound(1))] *= 1.01m;
+            }
+
+            //-- Act
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var actual = Solution32.FindArbitrageBellmanFord(array);
+
+            //-- Assert        
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void Problem32TableNaive()
+        {
+            //-- Arrange
+            // var expected = true;
 
             //-- Act
             // var stopWatch = new Stopwatch();
             // stopWatch.Start();
-            var arbitrageSolution = Solution32.Arbitrate(table).ToArray();
-            var actual = true;
+            var arbitrageSolution = Solution32Naive.Arbitrate(table).ToArray();
+            // var actual = true;
             // System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             // System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
             // System.Diagnostics.Debug.WriteLine("");
             // System.Console.WriteLine("");
-
-
             var bestArbitrage = arbitrageSolution.OrderByDescending(x => x.Ratio).FirstOrDefault();
             var shortestBest = arbitrageSolution.Where(s => s.Ratio == bestArbitrage.Ratio).ToArray().OrderBy(o => o.Chain.ToArray().Length).FirstOrDefault();
 
@@ -139,8 +159,7 @@ namespace Common.Test
             }
 
             //-- Assert        
-            Assert.AreEqual(expected, actual);
-
+            Assert.Pass(); //I wonder what the best arbitrage would be
         }
     }
 }
