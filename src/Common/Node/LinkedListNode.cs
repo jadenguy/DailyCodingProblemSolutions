@@ -1,10 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Common.Node
 {
-    public class LinkedListNode : Node<LinkedListNode>
+    public class LinkedListNode : Node<LinkedListNode>, IEnumerable<LinkedListNode>
     {
         private LinkedListNode next;
         public LinkedListNode(IEnumerable<int> list)
@@ -86,5 +87,7 @@ namespace Common.Node
             }
             return ret;
         }
+        public IEnumerator<LinkedListNode> GetEnumerator() => Traverse().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => Traverse().GetEnumerator();
     }
 }

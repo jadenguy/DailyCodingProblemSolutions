@@ -11,8 +11,6 @@ namespace Common.Node
         private IDictionary<int, XorLinkedListNode> memory;
         private Random rand;
         private XorLinkedListNode topNode;
-        private string[] v;
-
         public XorLinkedListMemoryDictionary(string rootNodeValue = "root", int seed = 0)
         {
             if (seed == 0) { rand = new Random(); }
