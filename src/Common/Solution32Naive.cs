@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,7 @@ using Common.Forex;
 
 namespace Common
 {
-    public static class Solution32
+    public static class Solution32Naive
     {
         public static IEnumerable<Arbitrage> FindArbitrage(decimal[,] array, decimal precision = 0)
         {
