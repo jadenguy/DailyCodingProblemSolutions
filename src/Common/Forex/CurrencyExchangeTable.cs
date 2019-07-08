@@ -1,18 +1,21 @@
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Common.Forex
 {
-    public class CurrencyExchangeTable : Dictionary<Exchange, decimal>
+    public class CurrencyExchangeTable : List<Exchange>
     {
-        public string Print()
+        public new void Add(Exchange x)
         {
-            var x = new StringBuilder();
-            foreach (var item in this)
+            IEnumerable<Exchange> enumerable = this.Where(e => e.OldCurrency == x.OldCurrency && e.NewCurrency == x.NewCurrency);
+            if (!this.Contains(x) && !enumerable.Any())
             {
-                x.AppendLine(this.Keys.ToString());
+                ((List<Exchange>)this).Add(x);
             }
-            return x.ToString();
+            else
+            {
+                throw new System.ArgumentException("Exchange already exists.");
+            }
         }
     }
 }
