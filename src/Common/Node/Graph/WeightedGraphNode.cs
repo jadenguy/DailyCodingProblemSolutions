@@ -8,11 +8,11 @@ namespace Common.Node.Graph
         public WeightedGraphNode(string name)
         {
             this.Name = name;
-            Paths = new List<WeightedGraphPath>();
+            Paths = new List<GraphPath<WeightedGraphNode>>();
         }
         public void ConnectTo(WeightedGraphNode nextNode, int weight)
         {
-            ((List<WeightedGraphPath>)Paths).Add(new WeightedGraphPath(nextNode, weight));
+            ((List<GraphPath<WeightedGraphNode>>)Paths).Add(new WeightedGraphPath(nextNode, weight));
         }
     }
 }

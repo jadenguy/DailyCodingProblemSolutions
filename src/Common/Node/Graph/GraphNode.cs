@@ -3,9 +3,10 @@ using System.Linq;
 
 namespace Common.Node.Graph
 {
-    public abstract class GraphNode<T> : Node<T> where T : GraphNode<T>
+    public abstract class GraphNode<T> : Node<T>
+        where T : GraphNode<T>
     {
-        public IEnumerable<GraphPath<T>> Paths;
+        public List<GraphPath<T>> Paths;
         public override IEnumerable<T> Children()
         {
             var children = Paths.Select(p => (T)p.Next);

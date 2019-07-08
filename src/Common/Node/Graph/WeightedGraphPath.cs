@@ -3,8 +3,8 @@
     public class WeightedGraphPath : GraphPath<WeightedGraphNode>
     {
         public decimal Weight;
-
-        public WeightedGraphPath(WeightedGraphNode nextNode, int weight)
+        public WeightedGraphPath() { }
+        public WeightedGraphPath(WeightedGraphNode nextNode, int weight = 0)
         {
             Next = nextNode;
             Weight = weight;
