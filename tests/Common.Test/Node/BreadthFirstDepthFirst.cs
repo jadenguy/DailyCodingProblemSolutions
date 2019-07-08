@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Common.Extensions;
 
 namespace Common.Node.Test
 {
@@ -34,12 +35,9 @@ namespace Common.Node.Test
             var actual = list.Count;
             System.Diagnostics.Debug.WriteLine("");
             System.Console.WriteLine("");
-            list.ForEach(e =>
-                {
-                    System.Diagnostics.Debug.WriteLine(e);
-                    System.Console.WriteLine(e);
-                }
-            );
+
+            System.Diagnostics.Debug.WriteLine(list.Print());
+            System.Console.WriteLine(list.Print());
 
             //-- Assert
             Assert.AreEqual(expected, actual);
