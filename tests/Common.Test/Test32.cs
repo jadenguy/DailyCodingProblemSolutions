@@ -62,7 +62,7 @@ namespace Common.Test
             // var stopWatch = new Stopwatch();
             // stopWatch.Start();
             var arbitrageSolution = Solution32.FindArbitrage(array).FirstOrDefault();
-            var actual = arbitrageSolution.Ratio != 0;
+            var actual = (arbitrageSolution?.Ratio ?? 0) != 0;
             // System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             // System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
             // System.Diagnostics.Debug.WriteLine("");
@@ -97,8 +97,8 @@ namespace Common.Test
             // Assert.AreEqual(expected, actual);
             var bestArbitrage = arbitrageSolution.OrderByDescending(x => x.Ratio).FirstOrDefault();
             var shortestBest = arbitrageSolution.Where(s => s.Ratio == bestArbitrage.Ratio).ToArray().OrderBy(o => o.Chain.ToArray().Length).FirstOrDefault();
-            
-            
+
+
             System.Diagnostics.Debug.WriteLine(shortestBest.Ratio);
             System.Diagnostics.Debug.WriteLine(shortestBest.Chain.Print());
             var money = 1000000M;
