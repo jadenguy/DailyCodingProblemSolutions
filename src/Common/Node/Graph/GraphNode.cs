@@ -24,13 +24,10 @@ namespace Common.Node.Graph
                 {
                     yield return current;
                     everVisited.Add(current);
-                }
-                var children = current.Children().ToArray();
-                foreach (var child in children)
-                {
-                    list.Enqueue(child);
+                    foreach (var child in current.Children()) { list.Enqueue(child); }
                 }
             } while (list.Count != 0);
         }
+        public IEnumerable<T> Traverse() => this.BreadthFirstSearch();
     }
 }

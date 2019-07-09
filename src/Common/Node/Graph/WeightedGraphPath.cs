@@ -4,10 +4,11 @@
     {
         public decimal Weight;
         public WeightedGraphPath() { }
-        public WeightedGraphPath(WeightedGraphNode nextNode, int weight = 0)
+        public WeightedGraphPath(WeightedGraphNode nextNode, decimal weight = 0)
         {
             Next = nextNode;
             Weight = weight;
         }
+        public override string ToString() => $"{Next.Name} at {Weight}";
     }
 }
