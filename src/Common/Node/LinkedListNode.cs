@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Common.Node
 {
-    public class LinkedListNode : Node<LinkedListNode>, IEnumerable<LinkedListNode>
+    public class LinkedListNode : Node<LinkedListNode>, IEnumerable<LinkedListNode>, IEquatable<LinkedListNode>
     {
         private LinkedListNode next;
         public LinkedListNode(IEnumerable<int> list)
@@ -89,5 +89,10 @@ namespace Common.Node
         }
         public IEnumerator<LinkedListNode> GetEnumerator() => Traverse().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Traverse().GetEnumerator();
+
+        public bool Equals(LinkedListNode other)
+        {
+            return this.Next == other.Next;
+        }
     }
 }

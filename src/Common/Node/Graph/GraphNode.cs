@@ -1,22 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Common.Node.Graph
 {
-    public abstract class GraphNode<T> : Node<T>
-        where T : GraphNode<T>
+    public class GraphNode : Node<GraphNode>, IEquatable<GraphNode>
+
     {
-        public List<GraphPath<T>> Paths;
-        public override IEnumerable<T> Children()
+        public Dictionary<GraphNode, double> Paths = new Dictionary<GraphNode, double>();
+
+
+        public string Id { get; set; }
+        public GraphNode(string id)
         {
-            var children = Paths.Select(p => (T)p.Next);
-            return children;
+            Id = id;
         }
-        public new virtual IEnumerable<T> BreadthFirstSearch()
+
+        public override IEnumerable<GraphNode> Children() => Paths.Keys.Select(p => p);
+        public override IEnumerable<GraphNode> BreadthFirstSearch()
         {
-            var list = new Queue<T>() { };
-            var everVisited = new List<T>() { };
-            list.Enqueue((T)this);
+            var list = new Queue<GraphNode>() { };
+            var everVisited = new List<GraphNode>() { };
+            list.Enqueue((GraphNode)this);
             do
             {
                 var current = list.Dequeue();
@@ -28,6 +33,8 @@ namespace Common.Node.Graph
                 }
             } while (list.Count != 0);
         }
-        public IEnumerable<T> Traverse() => this.BreadthFirstSearch();
+        public bool Equals(GraphNode other) => this.Id == other.Id;
+        public void ConnectTo(GraphNode node, double weight) { Paths.Add(node, weight); }
+        public override string ToString() => Id;
     }
 }

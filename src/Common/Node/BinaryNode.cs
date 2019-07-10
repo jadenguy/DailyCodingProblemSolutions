@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Common.Node
 {
-    public class BinaryNode : Node<BinaryNode>
+    public class BinaryNode : Node<BinaryNode>, IEquatable<BinaryNode>
     {
         public BinaryNode(string value, BinaryNode left = null, BinaryNode right = null, string name = "Root")
         {
@@ -81,5 +82,7 @@ namespace Common.Node
                 }
             }
         }
+
+        public bool Equals(BinaryNode other) => this.Name == other.Name;
     }
 }

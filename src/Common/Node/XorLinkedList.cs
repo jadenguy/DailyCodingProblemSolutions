@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Common.Node
 {
-    public class XorLinkedListNode : Node<XorLinkedListNode>
+    public class XorLinkedListNode : Node<XorLinkedListNode>, IEquatable<XorLinkedListNode>
     {
         public XorLinkedListNode(XorLinkedListMemoryDictionary controller, string value, int pointer = 0, int parent = 0)
         {
@@ -23,13 +23,15 @@ namespace Common.Node
         public IEnumerable<XorLinkedListNode> Children(int parentIndex)
         {
             var child = Both ^ parentIndex;
-            yield return  controller[child];
+            yield return controller[child];
             ;
         }
         public void SetChild(XorLinkedListNode child)
         {
             Both ^= child.Pointer;
         }
-        public override string ToString()=>$"[{Pointer}] {Value}";
+        public override string ToString() => $"[{Pointer}] {Value}";
+
+        public bool Equals(XorLinkedListNode other) => Pointer == other.Pointer;
     }
 }
