@@ -1,7 +1,6 @@
 // Suppose you are given a table of currency exchange rates, represented as a 2D array. Determine whether there is a possible arbitrage: that is, whether there is some sequence of trades you can make, starting with some amount A of any currency, so that you can end up with some amount greater than A of that currency.
 // There are no transaction costs and you can trade fractional quantities.
 
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Common.Extensions;
@@ -12,44 +11,39 @@ namespace Common.Test
 {
     public class Test32
     {
-        decimal[][,] arraysArray;
+        private const double percentageMarketIsOff = 1.1;
+        double[][,] arraysArray;
         string[] currencyNames;
         CurrencyExchangeTable table;
         [SetUp]
         public void Setup()
         {
-            arraysArray = new decimal[][,]{
-                    new decimal[,] {
-                        {5,5},
-                        {3,3},
-                        {2,2},
-                        {1,1}
+            arraysArray = new double[][,]{
+                    new double[,] {
+                        {2,6},
+                        {1,3}
                     },
-                    new decimal[,] {
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 } ,
-                        { 1,1,1,1,1,1,1,1,1,1,1,1 }
+                    new double[,] {
+                        {3,9,15},
+                        {2,6,10},
+                        {1,3,5}
+                    },
+                    new double[,] {
+                        {5,5,5,5},
+                        {3,3,3,3},
+                        {2,2,2,2},
+                        {1,1,1,1}
+                    },
+                    new double[,] {
+                        {1,2,3,5,7,11,13,17,19},
+                        {2,4,6,10,14,22,26,34,38},
+                        {3,6,9,15,21,33,39,51,57},
+                        {4,8,12,20,28,44,52,68,76},
+                        {5,10,15,25,35,55,65,85,95},
+                        {6,12,18,30,42,66,78,102,114},
+                        {7,14,21,35,49,77,91,119,133},
+                        {8,16,24,40,56,88,104,136,152},
+                        {9,18,27,45,63,99,117,153,171}
                     }
                 };
             currencyNames = new string[] { "USD", "JPY", "EUR", "BTC" };
@@ -58,25 +52,29 @@ namespace Common.Test
             var EUR = new Currency(2, currencyNames[2]);
             var BTC = new Currency(3, currencyNames[3]);
             table = new CurrencyExchangeTable() {
-                new Exchange(USD, JPY, 95.0122490M),
-                new Exchange(JPY, EUR, 0.0081386M),
-                new Exchange(BTC, USD, 134.8500652M),
-                new Exchange(JPY, BTC, 0.0000869M),
-                new Exchange(USD, EUR, 0.7213620M),
-                new Exchange(EUR, USD, 1.1309384M),
-                new Exchange(EUR, JPY, 115.8737287M),
-                new Exchange(JPY, USD, 0.0104622M),
-                new Exchange(EUR, BTC, 0.0099016M),
-                new Exchange(BTC, JPY, 13804.0907039M),
-                new Exchange(BTC, EUR, 99.4688319M),
-                new Exchange(USD, BTC, 0.0076985M)
+                new Exchange(USD, JPY, 95.0122490),
+                new Exchange(JPY, EUR, 0.0081386),
+                new Exchange(BTC, USD, 134.8500652),
+                new Exchange(JPY, BTC, 0.0000869),
+                new Exchange(USD, EUR, 0.7213620),
+                new Exchange(EUR, USD, 1.1309384),
+                new Exchange(EUR, JPY, 115.8737287),
+                new Exchange(JPY, USD, 0.0104622),
+                new Exchange(EUR, BTC, 0.0099016),
+                new Exchange(BTC, JPY, 13804.0907039),
+                new Exchange(BTC, EUR, 99.4688319),
+                new Exchange(USD, BTC, 0.0076985)
             };
         }
         [Test]
         [TestCase(true, 0)]
         [TestCase(false, 0)]
-        [TestCase(true, 1)] // If there's arbitrage and you run through every exchange once, guaranteed result fairly quickly
-        // [TestCase(false, 1)] //If there's no arbitrage, you have to brute force check every loop, increasing run length considerably
+        [TestCase(true, 1)]
+        [TestCase(false, 1)]
+        [TestCase(true, 2)]
+        // [TestCase(false, 2)]//bogs down for 16 symmetrical exchanges
+        [TestCase(true, 3)] // If there's arbitrage and you run chain together all the exchanges, guaranteed result fairly quickly
+        // [TestCase(false, 1)] //Too slow
         public void Problem32Naive(bool arbitrage, int arrayIndex)
         {
             //-- Arrange
@@ -85,13 +83,13 @@ namespace Common.Test
             if (arbitrage)
             {
                 var rand = new System.Random();
-                array[rand.Next(array.GetLowerBound(0)), rand.Next(array.GetLowerBound(1))] *= 1.01m;
+                array[rand.Next(array.GetLowerBound(0)), rand.Next(array.GetLowerBound(1))] *= percentageMarketIsOff;
             }
 
             //-- Act
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var arbitrageSolution = Solution32Naive.FindArbitrage(array).FirstOrDefault();
+            var arbitrageSolution = Solution32Naive.FindArbitrage(array, .00000000000001).FirstOrDefault();
             var actual = (arbitrageSolution?.Ratio ?? 0) != 0;
             System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
@@ -106,8 +104,12 @@ namespace Common.Test
         [Test]
         [TestCase(true, 0)]
         [TestCase(false, 0)]
-        [TestCase(true, 1)] // If there's arbitrage and you run through every exchange once, guaranteed result fairly quickly
-        [TestCase(false, 1)] //If there's no arbitrage, you have to brute force check every loop, increasing run length considerably
+        [TestCase(true, 1)]
+        [TestCase(false, 1)]
+        [TestCase(true, 2)]
+        [TestCase(false, 2)]
+        [TestCase(true, 3)]
+        [TestCase(false, 3)]
         public void Problem32BellmanFord(bool arbitrage, int arrayIndex)
         {
             //-- Arrange
@@ -116,13 +118,17 @@ namespace Common.Test
             if (arbitrage)
             {
                 var rand = new System.Random();
-                array[rand.Next(array.GetLowerBound(0)), rand.Next(array.GetLowerBound(1))] *= 1.01m;
+                array[rand.Next(array.GetLowerBound(0)), rand.Next(array.GetLowerBound(1))] *= percentageMarketIsOff;
             }
 
             //-- Act
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var actual = Solution32.FindArbitrageBellmanFord(array);
+            var actual = Solution32.FindArbitrageBellmanFord(array,.0001);
+            System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
+            System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
+            System.Diagnostics.Debug.WriteLine("");
+            System.Console.WriteLine("");
 
             //-- Assert        
             Assert.AreEqual(expected, actual);
@@ -134,21 +140,20 @@ namespace Common.Test
             // var expected = true;
 
             //-- Act
-            // var stopWatch = new Stopwatch();
-            // stopWatch.Start();
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             var arbitrageSolution = Solution32Naive.Arbitrate(table).ToArray();
             // var actual = true;
-            // System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
-            // System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
-            // System.Diagnostics.Debug.WriteLine("");
-            // System.Console.WriteLine("");
+            System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
+            System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
+            System.Diagnostics.Debug.WriteLine("");
+            System.Console.WriteLine("");
             var bestArbitrage = arbitrageSolution.OrderByDescending(x => x.Ratio).FirstOrDefault();
             var shortestBest = arbitrageSolution.Where(s => s.Ratio == bestArbitrage.Ratio).ToArray().OrderBy(o => o.Chain.ToArray().Length).FirstOrDefault();
 
-
-            System.Diagnostics.Debug.WriteLine(shortestBest.Ratio);
-            System.Diagnostics.Debug.WriteLine(shortestBest.Chain.Print());
-            var money = 1000000M;
+            // System.Diagnostics.Debug.WriteLine(shortestBest.Ratio);
+            // System.Diagnostics.Debug.WriteLine(shortestBest.Chain.Print());
+            var money = 1000000.0;
             System.Diagnostics.Debug.Write(money + " ");
             System.Diagnostics.Debug.WriteLine(shortestBest.Chain[0].OldCurrency);
             foreach (var item in shortestBest.Chain)

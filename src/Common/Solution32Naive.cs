@@ -8,8 +8,8 @@ namespace Common
 {
     public static class Solution32Naive
     {
-        public static IEnumerable<Arbitrage> FindArbitrage(decimal[,] array, decimal precision = 0) => Arbitrate(array.ToExchangeTable(), precision);
-        public static IEnumerable<Arbitrage> Arbitrate(CurrencyExchangeTable list, decimal precision = 0)
+        public static IEnumerable<Arbitrage> FindArbitrage(double[,] array, double precision = 0) => Arbitrate(array.ToExchangeTable(), precision);
+        public static IEnumerable<Arbitrage> Arbitrate(CurrencyExchangeTable list, double precision = 0)
         {
             foreach (var item in GenerateLoops(list))
             {
@@ -22,9 +22,9 @@ namespace Common
                 }
             };
         }
-        public static bool IsLoopArbitrage(CurrencyExchangeTable list, ExchangeChain loop, out string log, out decimal ratio, decimal precision = 0)
+        public static bool IsLoopArbitrage(CurrencyExchangeTable list, ExchangeChain loop, out string log, out double ratio, double precision = 0)
         {
-            const decimal startingMoney = 1;
+            const double startingMoney = 1;
             var v = startingMoney + precision;
             var money = startingMoney;
             var outString = new StringBuilder();
@@ -39,7 +39,7 @@ namespace Common
                 var enumerable = list.Where(x => x.OldCurrency == newCurrency && x.NewCurrency == startingCurrency);
                 if (newCurrency != startingCurrency && enumerable.Any())
                 {
-                    decimal exchangeRate = enumerable.First().ExchangeRate;
+                    double exchangeRate = enumerable.First().ExchangeRate;
                     var oldMoney = money * exchangeRate;
                     outString.AppendLine($"{oldMoney.ToString("0.00")} in {newCurrency}");
                     if (!yahtzee && oldMoney > v)
@@ -56,7 +56,7 @@ namespace Common
             ratio = money;
             return isArbitrage;
         }
-        public static CurrencyExchangeTable ToExchangeTable(this decimal[,] array)
+        public static CurrencyExchangeTable ToExchangeTable(this double[,] array)
         {
             var list = new CurrencyExchangeTable();
             var yList = new Dictionary<int, Currency>();
@@ -129,12 +129,12 @@ namespace Common
             }
             return ret;
         }
-        // public static IEnumerable<Arbitrage> FindArbitrageBellmanFord(decimal[,] array, decimal precision = 0)
+        // public static IEnumerable<Arbitrage> FindArbitrageBellmanFord(double[,] array, double precision = 0)
         // {
         //     CurrencyExchangeTable list = TurnArrayToDictionaryOfExchangeValues(array);
         //     return ArbitrateBellmanFord(list, precision);
         // }
-        // private static IEnumerable<Arbitrage> ArbitrateBellmanFord(CurrencyExchangeTable list, decimal precision)
+        // private static IEnumerable<Arbitrage> ArbitrateBellmanFord(CurrencyExchangeTable list, double precision)
         // {
         //     throw new NotImplementedException();
         // }
