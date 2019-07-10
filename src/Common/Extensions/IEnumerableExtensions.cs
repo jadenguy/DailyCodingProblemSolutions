@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Common.Extensions
@@ -17,5 +19,7 @@ namespace Common.Extensions
             }
             return ret.ToString();
         }
+        public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
+        public static T RandomFirst<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next()).First();
     }
 }
