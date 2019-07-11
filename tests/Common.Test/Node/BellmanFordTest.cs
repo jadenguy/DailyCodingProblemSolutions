@@ -4,57 +4,92 @@ using System.Linq;
 using Common.Node.Graph;
 using NUnit.Framework;
 
-namespace Common.Test.Node
+namespace Common.Node.Test
 {
-    public static class BellmanFordTest
+    public class BellmanFordTest
     {
-        [Test]
-        public static void Test()
+        GraphNode[] graphArray;
+        Dictionary<GraphNode, double> bellmanFordChart;
+        [SetUp]
+        public void SetUp()
         {
-            //-- Arrange
-            // var expected = true;
-            var graphArray = new GraphNode[] {
-                // new GraphNode("NZD"),
-                // new GraphNode("SEK"),
-                // new GraphNode("CNY"),
-                // new GraphNode("CHF"),
-                // new GraphNode("CAD"),
-                // new GraphNode("AUD"),
-                // new GraphNode("GBP"),
-                // new GraphNode("JPY"),
+            graphArray = new GraphNode[] {
+                new GraphNode("GOLD"),
+                new GraphNode("NZD"),
+                new GraphNode("SEK"),
+                new GraphNode("CNY"),
+                new GraphNode("CHF"),
+                new GraphNode("CAD"),
+                new GraphNode("AUD"),
+                new GraphNode("GBP"),
+                new GraphNode("JPY"),
                 new GraphNode("EUR"),
                 new GraphNode("USD"),
             };
+            bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
+            bellmanFordChart[graphArray[0]] = 0;
+
+        }
+        [Test]
+        public void BellmanFordNegativeLinearLoop()
+        {
+            //-- Arrange
+            LinearGraph();
+
+            graphArray[0].ConnectTo(graphArray[0], .1); //create positive loop, ignored
+
+            //-- Act
+            bellmanFordChart.BellmanFord();
+            var noLoop = bellmanFordChart.BellmanFord(0, true, true).All(v => !double.IsNegativeInfinity(v.Value));
+            graphArray[2].ConnectTo(graphArray[2], -.1); //create negative loop, destroys loop
+            var negativeLoop = bellmanFordChart.BellmanFord(0, true, false).Where(v => double.IsNegativeInfinity(v.Value)).Any();
+
+            //-- Assert
+            Assert.IsTrue(noLoop, "A negative loop was detected");
+            Assert.IsTrue(negativeLoop, "The negative loop was not detected");
+        }
+        [Test]
+        public void BellmanFordNegativeLinearNoLoop()
+        {
+            //-- Arrange
+            LinearGraph();
+
+            //-- Act
+            bellmanFordChart.BellmanFord();
+            var noLoop = bellmanFordChart.BellmanFord(0, true, true).All(v => !double.IsNegativeInfinity(v.Value));
+
+            //-- Assert
+            Assert.IsTrue(noLoop, "A negative loop was detected");
+        }
+
+        private void LinearGraph()
+        {
+            for (int i = 1; i < graphArray.Length; i++) { graphArray[i - 1].ConnectTo(graphArray[i], -i); }
+        }
+
+        [Test]
+        public void BellmanFordGraphConnectedNoNegativeNoLoop()
+        {
+            //-- Arrange
             var rand = new Random();
             foreach (var node in graphArray)
             {
-                foreach (var otherNode in graphArray.Where(x => x != node).Where(y => !y.Paths.ContainsKey(node)))
+                foreach (var otherNode in graphArray.Where(o => o != node).Where(o => !o.Paths.ContainsKey(node)))
                 {
                     double weight = rand.NextDouble();
                     node.ConnectTo(otherNode, weight);
-                    otherNode.ConnectTo(node, 1 / weight);
+                    if (weight != 0) { otherNode.ConnectTo(node, 1 / weight); }
+                    else { otherNode.ConnectTo(node, 1 / weight); }
                 }
             }
-            var BellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
-            BellmanFordChart[BellmanFordChart.Keys.First()] = 0;
 
             //-- Act
-            BellmanFordChart.BellmanFord();
-            var firstRun = BellmanFordChart.BellmanFord().ToDictionary(k => k.Key, v => v.Value);
-            var isConnected = firstRun.Select(k => k.Value).Where(v => !double.IsFinite(v)).Any();
-
-
-            var someNode = graphArray[1];
-            someNode.ConnectTo(someNode, -.1);
-
-            BellmanFordChart.BellmanFord(0,false,true);
-            BellmanFordChart.BellmanFord(0,false,true);
-            var secondRun = BellmanFordChart.BellmanFord(0, true, true).ToDictionary(k => k.Key, v => v.Value);
-            var actualTrue = secondRun.Select(k => k.Value).Where(v => !double.IsFinite(v)).Any();
+            var isConnected = bellmanFordChart.BellmanFord().All(v => !double.IsPositiveInfinity(v.Value));
+            var noLoop = bellmanFordChart.BellmanFord(0, true, true).All(v => !double.IsNegativeInfinity(v.Value)); //no loop because every weight was positive
 
             //-- Assert
-            Assert.IsFalse(isConnected);
-            Assert.IsTrue(actualTrue);
+            Assert.IsTrue(isConnected, "Some node is not connected");
+            Assert.IsTrue(noLoop, "A negative loop was detected");
         }
     }
 }

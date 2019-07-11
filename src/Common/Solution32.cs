@@ -8,51 +8,49 @@ namespace Common
 {
     public static class Solution32
     {
-        public static bool FindArbitrageBellmanFord(double[,] array, double precision)
+        public static bool FindArbitrageBellmanFord(double[,] array, double precision = 0)
         {
             var isThereArbitrage = false;
             var table = array.ToExchangeTable();
             var graphArray = table.ToWeightedGraphArray();
-            var BellmanFordChart = graphArray.ToDictionary(k => k, k => double.PositiveInfinity);
-            BellmanFordChart[BellmanFordChart.Keys.First()] = 0;
-            isThereArbitrage = DetectLoop(BellmanFordChart, precision);
-            System.Diagnostics.Debug.WriteLine(BellmanFordChart.Print());
+            var bellmanFordChart = graphArray.ToDictionary(k => k, k => double.PositiveInfinity);
+            bellmanFordChart[bellmanFordChart.Keys.First()] = 0;
+            isThereArbitrage = DetectLoop(bellmanFordChart, precision);
+            System.Diagnostics.Debug.WriteLine(bellmanFordChart.Print());
             return isThereArbitrage;
         }
 
-        private static bool DetectLoop(Dictionary<GraphNode, double> BellmanFordChart, double precision)
+        private static bool DetectLoop(Dictionary<GraphNode, double> bellmanFordChart, double precision)
         {
-            BellmanFordChart.BellmanFord(precision);
-            var firstRun = BellmanFordChart.ToDictionary(k => k.Key, v => v.Value);
-            BellmanFordChart.BellmanFord(precision, true, true);
-            var secondRun = BellmanFordChart.ToDictionary(k => k.Key, v => v.Value);
-            return secondRun.ContainsValue(double.NegativeInfinity);
+            bellmanFordChart.BellmanFord(precision);
+            return bellmanFordChart.BellmanFord(precision, true, true).ContainsValue(double.NegativeInfinity);
         }
-
-        public static Dictionary<GraphNode, double> BellmanFord(this Dictionary<GraphNode, double> BellmanFordChart, double precision = 0, bool onceOver = false, bool detectNegativeCycles = false)
+        public static Dictionary<GraphNode, double> BellmanFord(this Dictionary<GraphNode, double> bellmanFordChart, double precision = 0, bool detectNegativeCycles = false,bool onceOver = false)
         {
-            var connectorList = BellmanFordChart.Keys.SelectMany(g => g.Paths.Select(x => new { Start = g, End = x.Key, Weight = x.Value })).ToList();
+            var connectorList = bellmanFordChart.Keys.SelectMany(g => g.Paths.Select(x => new { Start = g, End = x.Key, Weight = x.Value })).Random().ToArray();
             int i = 1;
+            var same = true;
             System.Diagnostics.Debug.WriteLine(connectorList.Print());
             do
             {
+                var old = bellmanFordChart.ToDictionary(k => k.Key, v => v.Value);
                 foreach (var connector in connectorList)
                 {
-                    var sourceDistance = BellmanFordChart[connector.Start];
-                    double currentDistance = BellmanFordChart[connector.End];
+                    var sourceDistance = bellmanFordChart[connector.Start];
+                    double currentDistance = bellmanFordChart[connector.End];
                     double pathWeight = connector.Weight;
                     double potentialDistance = sourceDistance + pathWeight;
                     if (potentialDistance + precision < currentDistance)
                     {
-                        if (detectNegativeCycles) { BellmanFordChart[connector.End] = double.NegativeInfinity; }
-                        else { BellmanFordChart[connector.End] = potentialDistance; }
+                        if (detectNegativeCycles) { bellmanFordChart[connector.End] = double.NegativeInfinity; }
+                        else { bellmanFordChart[connector.End] = potentialDistance; }
                     }
                 }
                 i++;
-            } while (!onceOver && i < BellmanFordChart.Count);
-            System.Diagnostics.Debug.WriteLine(BellmanFordChart.Print());
-            
-            return BellmanFordChart;
+                System.Diagnostics.Debug.WriteLine(bellmanFordChart.Print());
+                same = bellmanFordChart.Keys.All(item => old[item] == bellmanFordChart[item]);
+            } while (!onceOver && !same && i < bellmanFordChart.Count);
+            return bellmanFordChart;
         }
         public static GraphNode[] ToWeightedGraphArray(this Forex.CurrencyExchangeTable table)
         {

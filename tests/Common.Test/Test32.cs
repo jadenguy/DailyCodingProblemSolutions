@@ -1,10 +1,12 @@
 // Suppose you are given a table of currency exchange rates, represented as a 2D array. Determine whether there is a possible arbitrage: that is, whether there is some sequence of trades you can make, starting with some amount A of any currency, so that you can end up with some amount greater than A of that currency.
 // There are no transaction costs and you can trade fractional quantities.
 
+using System;
 using System.Diagnostics;
 using System.Linq;
 using Common.Extensions;
 using Common.Forex;
+using Common.Node.Graph;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -89,7 +91,7 @@ namespace Common.Test
             //-- Act
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var arbitrageSolution = Solution32Naive.FindArbitrage(array, .00000000000001).FirstOrDefault();
+            var arbitrageSolution = Solution32Naive.FindArbitrage(array, .0000000001).FirstOrDefault();
             var actual = (arbitrageSolution?.Ratio ?? 0) != 0;
             System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
@@ -124,7 +126,7 @@ namespace Common.Test
             //-- Act
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var actual = Solution32.FindArbitrageBellmanFord(array,.0001);
+            var actual = Solution32.FindArbitrageBellmanFord(array, .0000000001);
             System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
             System.Diagnostics.Debug.WriteLine("");
@@ -166,5 +168,58 @@ namespace Common.Test
             //-- Assert        
             Assert.Pass(); //I wonder what the best arbitrage would be
         }
+        [Test]
+        public void BellmanFordGraphNoArbitrage()
+        {
+            //-- Arrange
+            var graphArray = new GraphNode[] {
+                new GraphNode("GOLD"),
+                new GraphNode("NZD"),
+                new GraphNode("SEK"),
+                new GraphNode("CNY"),
+                new GraphNode("CHF"),
+                new GraphNode("CAD"),
+                new GraphNode("AUD"),
+                new GraphNode("GBP"),
+                new GraphNode("JPY"),
+                new GraphNode("EUR"),
+                new GraphNode("USD"),
+            };
+            var bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
+            bellmanFordChart[graphArray[0]] = 0;
+            // var expected = true;
+            var rand = new System.Random();
+            var rootNode = graphArray[0]; //create a gold currency
+            foreach (var otherNode in graphArray.Where(o => o != rootNode).Where(o => !o.Paths.ContainsKey(rootNode))) //create creates an exchange rate for each currency against gold
+            {
+                double weight = rand.NextDouble();
+                negLog(rootNode, otherNode, weight);
+            }
+            foreach (var node in graphArray) //create a fair market against gold currency
+            {
+                foreach (var otherNode in graphArray.Where(o => o != node).Where(o => !o.Paths.ContainsKey(node)))
+                {
+                    double weight = otherNode.Paths[rootNode] * rootNode.Paths[node];
+                    negLog(node, otherNode, weight);
+                }
+            }
+
+            //-- Act
+            var isConnected = bellmanFordChart.BellmanFord(0.000000001).All(v => !double.IsPositiveInfinity(v.Value)); //really small numbers require really small precision checks
+            var noLoop = bellmanFordChart.BellmanFord(0.000000001, true, true).All(v => !double.IsNegativeInfinity(v.Value)); //really small numbers require really small precision checks
+
+            //-- Assert
+            Assert.IsTrue(isConnected, "Some node is not connected");
+            Assert.IsTrue(noLoop, "A negative loop was detected");
+        }
+
+        private static void negLog(GraphNode node, GraphNode otherNode, double weight)
+        {
+            node.ConnectTo(otherNode, -Math.Log(weight));
+            if (weight == 0) { otherNode.ConnectTo(node, 0); }
+            else { otherNode.ConnectTo(node, -Math.Log(1 / weight)); }
+        }
+
+
     }
 }
