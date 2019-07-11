@@ -8,14 +8,11 @@ namespace Common.Node
 
     {
         public Dictionary<GraphNode, double> Paths = new Dictionary<GraphNode, double>();
-
-
         public string Id { get; set; }
         public GraphNode(string id)
         {
             Id = id;
         }
-
         public override IEnumerable<GraphNode> Children() => Paths.Keys.Select(p => p);
         public override IEnumerable<GraphNode> BreadthFirstSearch()
         {
