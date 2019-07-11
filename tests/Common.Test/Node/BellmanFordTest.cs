@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Node.Graph;
+using Common.Node;
 using NUnit.Framework;
 
 namespace Common.Node.Test

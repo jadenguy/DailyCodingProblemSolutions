@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using Common.Extensions;
 using Common.Forex;
-using Common.Node.Graph;
+using Common.Node;
 using NUnit.Framework;
 
 namespace Common.Test
