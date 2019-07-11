@@ -31,7 +31,6 @@ namespace Common.Node
             Both ^= child.Pointer;
         }
         public override string ToString() => $"[{Pointer}] {Value}";
-
-        public bool Equals(XorLinkedListNode other) => Pointer == other.Pointer;
+        [System.Diagnostics.DebuggerStepThrough] public bool Equals(XorLinkedListNode other) => Pointer == other.Pointer;
     }
 }

@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test34
+    public class Test35
     {
 
         [SetUp]
@@ -15,13 +15,14 @@ namespace Common.Test
         public void TearDown() { }
         [Test]
         [TestCase(new char[] { 'G', 'B', 'R', 'R', 'B', 'R', 'G' }, new char[] { 'R', 'R', 'R', 'G', 'G', 'B', 'B' })]
+        [TestCase(new char[] { 'G', 'G', 'G', 'G', 'G', 'R', 'R', 'R', 'R', 'R' }, new char[] { 'R', 'R', 'R', 'R', 'R', 'G', 'G', 'G', 'G', 'G' })]
         public void Problem33(char[] array, char[] results)
         {
             //-- Arrange
             var expected = results;
 
             //-- Act
-            var actual = Solution34.SortRGB(array);
+            var actual = Solution35.SortRGB(array);
 
             //-- Assert
             Assert.AreEqual(expected, actual);

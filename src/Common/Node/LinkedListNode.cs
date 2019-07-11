@@ -90,9 +90,6 @@ namespace Common.Node
         public IEnumerator<LinkedListNode> GetEnumerator() => Traverse().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Traverse().GetEnumerator();
 
-        public bool Equals(LinkedListNode other)
-        {
-            return this.Next == other.Next;
-        }
+        [System.Diagnostics.DebuggerStepThrough] public bool Equals(LinkedListNode other) => this.Next == other.Next;
     }
 }

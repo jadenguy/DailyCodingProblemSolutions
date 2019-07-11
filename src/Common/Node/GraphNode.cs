@@ -30,7 +30,7 @@ namespace Common.Node
                 }
             } while (list.Count != 0);
         }
-        public bool Equals(GraphNode other) => this.Id == other.Id;
+        [System.Diagnostics.DebuggerStepThrough] public bool Equals(GraphNode other) => this.Id == other.Id;
         public void ConnectTo(GraphNode node, double weight) { Paths.Add(node, weight); }
         public override string ToString() => Id;
     }

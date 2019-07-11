@@ -47,6 +47,6 @@ namespace Common.Node
             foreach (var item in this.Values) { yield return item; }
         }
 
-        public bool Equals(CharArrayNode other) => false;
+        [System.Diagnostics.DebuggerStepThrough]public bool Equals(CharArrayNode other) => false;
     }
 }

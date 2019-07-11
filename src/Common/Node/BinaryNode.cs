@@ -64,7 +64,8 @@ namespace Common.Node
                     yield return item;
                 }
             }
-        }  public IEnumerable<BinaryNode> OutOrder()
+        }
+        public IEnumerable<BinaryNode> OutOrder()
         {
             if (right != null)
             {
@@ -83,6 +84,6 @@ namespace Common.Node
             }
         }
 
-        public bool Equals(BinaryNode other) => this.Name == other.Name;
+        [System.Diagnostics.DebuggerStepThrough] public bool Equals(BinaryNode other) => this.Name == other.Name;
     }
 }
