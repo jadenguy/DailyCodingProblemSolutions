@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Common.Extensions;
 
 namespace Common
 {
@@ -19,15 +20,15 @@ namespace Common
                 System.Diagnostics.Debug.WriteLine(letter);
                 if (letter == 'R')
                 {
-                    System.Diagnostics.Debug.WriteLine(Swap(array, r, ref i, ref swaps));
+                    System.Diagnostics.Debug.WriteLine(array.Swap(r, ref i, ref swaps));
                     r++;
                 }
                 else if (letter == 'B')
                 {
-                    System.Diagnostics.Debug.WriteLine(Swap(array, b, ref i, ref swaps));
+                    System.Diagnostics.Debug.WriteLine(array.Swap(b, ref i, ref swaps));
                     b--;
                 }
-                if (letter == 'G')
+                else if (letter == 'G')
                 {
                     i++;
                     System.Diagnostics.Debug.WriteLine("skip");
@@ -36,10 +37,12 @@ namespace Common
             }
             System.Diagnostics.Debug.WriteLine(cycles, "cycles");
             System.Diagnostics.Debug.WriteLine(swaps, "swaps");
+            System.Diagnostics.Debug.WriteLine(array2.Print(), "old");
+            System.Diagnostics.Debug.WriteLine(array.Print(), "new");
             return array;
         }
         [System.Diagnostics.DebuggerStepThrough]
-        private static string Swap(char[] array, int other, ref int index, ref int swaps)
+        private static string Swap(this char[] array, int other, ref int index, ref int swaps)
         {
             if (array[other] == array[index])
             {
