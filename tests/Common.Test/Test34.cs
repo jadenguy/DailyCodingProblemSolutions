@@ -17,8 +17,11 @@ namespace Common.Test
         [Test]
         [TestCase("x", "x")]
         [TestCase("abc", "abcba")]
+        [TestCase("abzzzab", "abazzzaba")]
+        [TestCase("bcba", "abcba")]
         [TestCase("race", "ecarace")]
         [TestCase("google", "elgoogle")]
+        [TestCase("zzzzzzzzzzzzdcba", "abcdzzzzzzzzzzzzdcba")]
         public void Problem34(string input, string palindrome)
         {
             //-- Arrange
