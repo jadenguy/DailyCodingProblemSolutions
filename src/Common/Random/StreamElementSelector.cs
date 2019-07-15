@@ -4,11 +4,13 @@ namespace Common.RandomSelector
 {
     public class StreamElementSelector<T>
     {
-        private Random random = new Random();
+        private Random random;
         private int streamElementCount = 0;
         public T Element { get; set; }
-        public StreamElementSelector()
+        public StreamElementSelector(Random random = null)
         {
+            if (random == null) { random = new Random(); }
+            this.random = random;
         }
         public StreamElementSelector(T first)
         {
