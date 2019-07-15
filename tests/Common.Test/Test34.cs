@@ -10,10 +10,10 @@ namespace Common.Test
 {
     public class Test34
     {
-        [SetUp]
-        public void Setup() { }
-        [TearDown]
-        public void TearDown() { }
+        // [SetUp]
+        // public void Setup() { }
+        // [TearDown]
+        // public void TearDown() { }
         [Test]
         [TestCase("x", "x")]
         [TestCase("abc", "abcba")]
@@ -21,6 +21,7 @@ namespace Common.Test
         [TestCase("bcba", "abcba")]
         [TestCase("race", "ecarace")]
         [TestCase("google", "elgoogle")]
+        [TestCase("aaaaaaaaaaabbbc", "cbbbaaaaaaaaaaabbbc")]
         [TestCase("zzzzzzzzzzzzdcba", "abcdzzzzzzzzzzzzdcba")]
         public void Problem34(string input, string palindrome)
         {
