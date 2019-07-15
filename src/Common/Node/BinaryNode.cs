@@ -4,20 +4,20 @@ using System.Collections.Generic;
 
 namespace Common.Node
 {
-    public class BinaryNode : Node<BinaryNode>, IEquatable<BinaryNode>
+    public class BinaryNode<T> : Node<BinaryNode<T>>, IEquatable<BinaryNode<T>>
     {
-        public BinaryNode(string value, BinaryNode left = null, BinaryNode right = null, string name = "Root")
+        public BinaryNode(T value, BinaryNode<T> left = null, BinaryNode<T> right = null, string name = "Root")
         {
             this.Value = value;
             this.Left = left;
             this.Right = right;
             this.Name = name;
         }
-        public string Value { get; set; }
+        public T Value { get; set; }
         public string Name { get; set; }
-        private BinaryNode left;
-        private BinaryNode right;
-        public virtual BinaryNode Left
+        private BinaryNode<T> left;
+        private BinaryNode<T> right;
+        public virtual BinaryNode<T> Left
         {
             get => left;
             set
@@ -29,7 +29,7 @@ namespace Common.Node
                 }
             }
         }
-        public virtual BinaryNode Right
+        public virtual BinaryNode<T> Right
         {
             get => right;
             set
@@ -41,49 +41,49 @@ namespace Common.Node
                 }
             }
         }
-        public override IEnumerable<BinaryNode> Children()
+        public override IEnumerable<BinaryNode<T>> Children()
         {
             if (Left != null) { yield return Left; }
             if (Right != null) { yield return Right; }
         }
         public override string ToString() => Name + " " + Value;
-        public IEnumerable<BinaryNode> InOrder()
+        public IEnumerable<BinaryNode<T>> InOrder()
         {
-            if (left != null)
+            if (Left != null)
             {
-                foreach (var item in left.InOrder())
+                foreach (var item in Left.InOrder())
                 {
                     yield return item;
                 }
             }
             yield return this;
-            if (right != null)
+            if (Right != null)
             {
-                foreach (var item in right.InOrder())
+                foreach (var item in Right.InOrder())
                 {
                     yield return item;
                 }
             }
         }
-        public IEnumerable<BinaryNode> OutOrder()
+        public IEnumerable<BinaryNode<T>> OutOrder()
         {
-            if (right != null)
+            if (Right != null)
             {
-                foreach (var item in right.InOrder())
+                foreach (var item in Right.InOrder())
                 {
                     yield return item;
                 }
             }
             yield return this;
-            if (left != null)
+            if (Left != null)
             {
-                foreach (var item in left.InOrder())
+                foreach (var item in Left.InOrder())
                 {
                     yield return item;
                 }
             }
         }
 
-        [System.Diagnostics.DebuggerStepThrough] public bool Equals(BinaryNode other) => this.Name == other.Name;
+        [System.Diagnostics.DebuggerStepThrough] public bool Equals(BinaryNode<T> other) => this.Name == other.Name;
     }
 }

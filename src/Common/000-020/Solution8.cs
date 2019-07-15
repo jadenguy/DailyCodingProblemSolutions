@@ -5,11 +5,11 @@ namespace Common
 {
     public static class Solution8
     {
-        public static int CountUnival(BinaryNode root, out bool isUnival)
+        public static int CountUnival(BinaryNode<string> root, out bool isUnival)
         {
             var ret = 0;
             isUnival = true;
-            foreach (BinaryNode child in root.Children())
+            foreach (BinaryNode<string> child in root.Children())
             {
                 ret += CountUnival(child, out var subUnival);
                 isUnival &= subUnival && child.Value == root.Value;

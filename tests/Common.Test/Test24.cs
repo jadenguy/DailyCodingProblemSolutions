@@ -31,9 +31,9 @@ namespace Common.Test
             var expectedRR = true;
 
             //-- Act
-            root.Right.Left.TryLock();
+            ((LockingBinaryNode)root.Right.Left).TryLock();
             var actualRoot = root.TryLock();
-            var actualRR = root.Right.Right.TryLock();
+            var actualRR = ((LockingBinaryNode)root.Right.Right).TryLock();
 
             //-- Assert
             Assert.AreEqual(expectedRoot, actualRoot);

@@ -7,7 +7,7 @@ namespace Common.Node.Test
 {
     public class BreathFirstDepthFirst
     {
-        public BinaryNode root;
+        public BinaryNode<int> root;
         public int nodeCount;
         [SetUp]
         public void Setup()

@@ -12,7 +12,6 @@
 
 
 using System.Collections.Generic;
-using Common;
 using Common.Node;
 using NUnit.Framework;
 
@@ -21,21 +20,21 @@ namespace Common.Test
     [TestFixture]
     public class Test8
     {
-        public List<BinaryNode> root = new List<BinaryNode>();
+        public List<BinaryNode<string>> root = new List<BinaryNode<string>>();
 
         public List<int> univalCount = new List<int>();
         [SetUp]
         public void Setup()
         {
-            root.Add(new BinaryNode("0"));
+            root.Add(new BinaryNode<string>("0"));
             univalCount.Add(1);
-            root.Add(new BinaryNode("0"));
-            root[1].Left = new BinaryNode("1");
-            root[1].Right = new BinaryNode("0");
-            root[1].Right.Right = new BinaryNode("0");
-            root[1].Right.Left = new BinaryNode("1");
-            root[1].Right.Left.Left = new BinaryNode("1");
-            root[1].Right.Left.Right = new BinaryNode("1");
+            root.Add(new BinaryNode<string>("0"));
+            root[1].Left = new BinaryNode<string>("1");
+            root[1].Right = new BinaryNode<string>("0");
+            root[1].Right.Right = new BinaryNode<string>("0");
+            root[1].Right.Left = new BinaryNode<string>("1");
+            root[1].Right.Left.Left = new BinaryNode<string>("1");
+            root[1].Right.Left.Right = new BinaryNode<string>("1");
             univalCount.Add(5);
         }
         [Test]

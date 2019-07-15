@@ -2,10 +2,10 @@ using System;
 
 namespace Common.Node
 {
-    public class LockingBinaryNode : BinaryNode
+    public class LockingBinaryNode : BinaryNode<string>
     {
         private bool unlocked = true;
-        public LockingBinaryNode(string value, BinaryNode left = null, BinaryNode right = null, string name = "Root") : base(value, left, right, name)
+        public LockingBinaryNode(string value, LockingBinaryNode left = null, LockingBinaryNode right = null, string name = "Root") : base(value, left, right, name)
         {
         }
         public bool IsLockeable { get => this.TryLock(false); }
