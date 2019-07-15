@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test4
+    public class Test004
     {
 
         [Test]

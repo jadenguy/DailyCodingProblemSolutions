@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test18
+    public class Test018
     {
         [SetUp]
         public void SetUp() { }

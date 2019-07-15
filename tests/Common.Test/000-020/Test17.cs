@@ -26,7 +26,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test17
+    public class Test017
     {
         [SetUp]
         public void SetUp()

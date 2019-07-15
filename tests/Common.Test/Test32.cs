@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test32
+    public class Test032
     {
         private const double percentageMarketIsOff = 1.1;
         double[][,] arraysArray;

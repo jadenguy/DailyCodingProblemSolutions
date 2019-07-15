@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test6
+    public class Test006
     {
 
         [Test]

@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test14
+    public class Test014
     {
         private const int e6 = 1000000;
         private const int e5 = 100000;

@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test20
+    public class Test020
     {
         public List<LinkedListNode> lll = new List<LinkedListNode>();
 

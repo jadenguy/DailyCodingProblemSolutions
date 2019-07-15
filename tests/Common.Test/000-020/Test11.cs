@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test11
+    public class Test011
     {
         [SetUp]
         public void Setup()

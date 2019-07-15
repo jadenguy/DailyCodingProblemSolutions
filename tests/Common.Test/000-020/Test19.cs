@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test19
+    public class Test019
     {
         [SetUp]
         public void SetUp() { }

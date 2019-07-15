@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test12
+    public class Test012
     {
         [SetUp]
         public void Setup()

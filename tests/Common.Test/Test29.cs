@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test29
+    public class Test029
     {
 
         string encoded = "4A3B2C1D2A10X";

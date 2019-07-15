@@ -9,14 +9,14 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test36
+    public class Test036
     {
         // [SetUp]
         // public void Setup() { }
         // [TearDown]
         // public void TearDown() { }
         [Test]
-        public void Problem34()
+        public void Problem036()
         {
             //-- Arrange
             var expected = new BinarySearchNode(14);

@@ -16,7 +16,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test3
+    public class Test003
     {
         public BinaryNode<string> root;
         public string serializedNode;

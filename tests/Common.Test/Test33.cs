@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test33
+    public class Test033
     {
 
         [SetUp]

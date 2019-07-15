@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test15
+    public class Test015
     {
         public int[] array;
         [SetUp]

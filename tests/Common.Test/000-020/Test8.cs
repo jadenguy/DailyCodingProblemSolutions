@@ -18,7 +18,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test8
+    public class Test008
     {
         public List<BinaryNode<string>> root = new List<BinaryNode<string>>();
 

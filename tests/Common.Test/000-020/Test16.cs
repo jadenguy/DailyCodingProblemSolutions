@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace Common.Test
 {
     [TestFixture]
-    public class Test16
+    public class Test016
     {
         public int[] array;
         public OrderRepository repository;

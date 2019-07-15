@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test64
+    public class Test064
     {
         [SetUp]
         public void Setup() { }

@@ -8,7 +8,7 @@ using Common.Node;
 
 namespace Common.Test
 {
-    public class Test26
+    public class Test026
     {
         LinkedListNode list;
         [SetUp]
