@@ -51,7 +51,7 @@ namespace Common.Test
             string serialized = Solution3.SerializeNodes(root);
 
             //-- Act
-            var actual = Solution3.DeserializeNodes(serialized).Left.Left.Value;
+            var actual = Solution3.DeserializeNodes(serialized).Left.Left.Data;
 
             //-- Assert
             Assert.AreEqual(expected, actual);

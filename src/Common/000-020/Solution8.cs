@@ -12,7 +12,7 @@ namespace Common
             foreach (BinaryNode<string> child in root.Children())
             {
                 ret += CountUnival(child, out var subUnival);
-                isUnival &= subUnival && child.Value == root.Value;
+                isUnival &= subUnival && child.Data == root.Data;
             }
             if (isUnival) { ret++; }
             return ret;

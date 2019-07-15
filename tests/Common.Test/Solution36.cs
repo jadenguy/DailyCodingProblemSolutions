@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Common.Node;
 
 namespace Common
@@ -7,7 +8,8 @@ namespace Common
     {
         public static BinarySearchNode SecondLargestNodeInTree(BinarySearchNode root)
         {
-            throw new NotImplementedException();
+            var array = root.InOrder().ToArray();
+            return (BinarySearchNode)array[array.Length - 2];
         }
     }
 }

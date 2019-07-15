@@ -8,12 +8,12 @@ namespace Common.Node
     {
         public BinaryNode(T value, BinaryNode<T> left = null, BinaryNode<T> right = null, string name = "Root")
         {
-            this.Value = value;
+            this.Data = value;
             this.Left = left;
             this.Right = right;
             this.Name = name;
         }
-        public T Value { get; set; }
+        public T Data { get; set; }
         public string Name { get; set; }
         private BinaryNode<T> left;
         private BinaryNode<T> right;
@@ -46,7 +46,7 @@ namespace Common.Node
             if (Left != null) { yield return Left; }
             if (Right != null) { yield return Right; }
         }
-        public override string ToString() => Name + " " + Value;
+        public override string ToString() => Name + " " + Data;
         public IEnumerable<BinaryNode<T>> InOrder()
         {
             if (Left != null)

@@ -21,14 +21,13 @@ namespace Common.Test
             //-- Arrange
             var expected = new BinarySearchNode(14);
             var tree = new BinarySearchNode(7);
-            tree.Add(new int[] { 0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15 });
-            System.Diagnostics.Debug.WriteLine(tree.InOrder().Print());
+            tree.Add(new int[] { 10, 11, 8, 9, 14, 15, 12, 13, 2, 3, 0, 1, 6, 4, 5 });
 
             //-- Act
             BinarySearchNode actual = Solution36.SecondLargestNodeInTree(tree);
 
             //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Data, actual.Data);
         }
     }
 }
