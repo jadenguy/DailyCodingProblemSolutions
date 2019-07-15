@@ -27,11 +27,11 @@ namespace Common.Test
             Assert.AreEqual(expected, actual);
         }
         [Test]
-        [TestCase(7777)]
+        [TestCase(10000)]
         public void Problem15(int cycles)
         {
             //-- Arrange
-            var expected = 1d;
+            var expected = 1;
             var average = cycles / (double)array.Length;
             var returnedValues = array.ToDictionary(a => a, a => 0);
 
