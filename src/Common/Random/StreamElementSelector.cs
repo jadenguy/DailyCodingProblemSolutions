@@ -7,10 +7,10 @@ namespace Common.RandomSelector
         private Random random;
         private int streamElementCount = 0;
         public T Element { get; set; }
-        public StreamElementSelector(Random random = null)
+        public StreamElementSelector(int seed = 0)
         {
-            if (random == null) { random = new Random(); }
-            this.random = random;
+            if (seed == 0) { random = new Random(); }
+            else random = new Random(seed);
         }
         public StreamElementSelector(T first)
         {

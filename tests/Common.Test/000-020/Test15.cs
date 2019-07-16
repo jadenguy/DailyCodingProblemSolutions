@@ -1,8 +1,10 @@
 // Given a stream of elements too large to store in memory, pick a random element from the stream with uniform probability.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common.RandomSelector;
+using Common.Extensions;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -12,7 +14,7 @@ namespace Common.Test
     {
         public int[] array;
         [SetUp]
-        public void SetUp() { array = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; }
+        public void SetUp() => array = Enumerable.Range(0, 10).ToArray();
         [Test]
         public void StreamElementSelector()
         {
@@ -31,23 +33,27 @@ namespace Common.Test
         public void Problem15(int cycles)
         {
             //-- Arrange
-            var expected = 1;
-            var average = cycles / (double)array.Length;
+            var expectedNumberOfSelections = cycles / (double)array.Length;
+            var expectedStDev = Math.Sqrt(cycles / array.Length);
             var returnedValues = array.ToDictionary(a => a, a => 0);
 
             //-- Act
+            var rand = new Random();
             for (int i = 0; i < cycles; i++)
             {
-                var streamElementSelector = new StreamElementSelector<int>();
+                var streamElementSelector = new StreamElementSelector<int>(rand.Next());
                 returnedValues[Solution15.StreamElements(streamElementSelector, array)]++;
             }
+            var actualNumberOfSelections = returnedValues.Values.Average();
+            var actualStDev = returnedValues.Select(v => (double)v.Value).CalculateStdDev();
+            // System.Diagnostics.Debug.WriteLine(stDev, "Standard Deviation");
+            // System.Diagnostics.Debug.WriteLine(expectedStDev, "Standard Deviation Range");
+            // System.Diagnostics.Debug.WriteLine(actualNumberOfSelections, "Average");
+            // System.Diagnostics.Debug.WriteLine(returnedValues.Print());
 
             //-- Assert
-            foreach (var item in array)
-            {
-                var actual = returnedValues[item] / average;
-                Assert.AreEqual(expected, actual, .1);
-            }
+            Assert.AreEqual(expectedNumberOfSelections, actualNumberOfSelections, "Somehow you didn't select a member");
+            Assert.AreEqual(expectedStDev, actualStDev, expectedStDev * .5, "The standard deviation is outside of expected values");
         }
     }
 }
