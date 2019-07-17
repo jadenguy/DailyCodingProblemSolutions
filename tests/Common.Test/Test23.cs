@@ -81,7 +81,7 @@ namespace Common.Test
             var expected = length;
 
             //-- Act
-            var actual = Solution23.AStarSearchStepCount(grid, (startX, startY), (endX, endY));
+            var actual = Solution23.AStarSearchStepCount(grid, (startX, startY), (endX, endY)).Length - 1;
 
             //-- Assert
             Assert.AreEqual(expected, actual);

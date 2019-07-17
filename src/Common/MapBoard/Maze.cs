@@ -1,15 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Common.MapBoard
 {
-    public class Board
+    public class Maze
     {
         protected Cell[,] board;
         public (int, int) Start { get; set; }
         public (int, int) End { get; set; }
-        public Board(bool[,] grid, (int, int) start, (int, int) end)
+        public Maze(bool[,] grid, (int, int) start, (int, int) end)
         {
             Start = start;
             End = end;

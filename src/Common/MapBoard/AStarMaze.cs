@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Common.MapBoard
 {
-    public class AStarBoard : Board
+    public class AStarMaze : Maze
     {
         private bool[,] searcheableSpace;
-        public AStarBoard(bool[,] grid, (int, int) start, (int, int) end) : base(grid, start, end)
+        public AStarMaze(bool[,] grid, (int, int) start, (int, int) end) : base(grid, start, end)
         {
             searcheableSpace = grid;
         }
