@@ -23,12 +23,27 @@ namespace Common.Test
         [SetUp]
         public void Setup()
         {
-            initialBoards.Add(new HashSet<(int, int)>() { (1, 1), (1, 0), (0, 0), (0, 1) });
+            initialBoards.Add(new HashSet<(int, int)>() { (1, 1), (1, 0), (0, 0), (0, 1), (2, 1) });
+            initialBoards.Add(new HashSet<(int, int)>() { (1, 2), (2, 3), (3, 1), (3, 2), (3, 3) });
         }
         // [TearDown]
         // public void TearDown() { }
         [Test]
+        public void TestRules()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                System.Diagnostics.Debug.WriteLine(rules.Apply(i, true), $"{i} and is alive");
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                System.Diagnostics.Debug.WriteLine(rules.Apply(i, false), $"{i} and is dead");
+            }
+        }
+        [Test]
+
         [TestCase(0, 10)]
+        [TestCase(1, 100)]
         public void Problem039(int boardIndex, int runs)
         {
             //-- Arrange

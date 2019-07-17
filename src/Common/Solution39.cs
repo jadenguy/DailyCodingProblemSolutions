@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common.Board;
+using static Common.Board.ConwayRules;
 
 namespace Common
 {
@@ -12,12 +13,17 @@ namespace Common
         {
             GameOfLifeBoard board = new GameOfLifeBoard(hashSet);
             bool finite = true;
+            bool keepPlaying = true;
             if (rounds == int.MaxValue) { finite = false; }
             int i = 0;
             while (board.Count > 0 && i < rounds)
             {
                 yield return board;
-                board.PlayARound(rules);
+                if (keepPlaying)
+                {
+                    var oldBoard = board.OrderBy(k => k).ToArray();
+                    keepPlaying = board.PlayARound(rules).OrderBy(k => k).ToArray() != oldBoard;
+                }
                 if (finite) { i++; }
             }
             yield return board;
@@ -28,29 +34,27 @@ namespace Common
             int xUpper = board.xUpperBound + 1;
             int yLower = board.yLowerBound - 1;
             int yUpper = board.yUpperBound + 1;
+            var actionList = new List<(LifeAction doThis, int x, int y)>();
             for (int x = xLower; x <= xUpper; x++)
             {
                 for (int y = yLower; y <= yUpper; y++)
                 {
                     var neighbors = board.GetNeighbors(x, y).ToArray();
                     var alive = board.Contains(x, y);
-                    switch (neighbors.Length)
-                    {
-                        case 0:
-                            if (alive) { board.Remove(x, y); }
-                            break;
-                        case 1:
-                            if (alive) { board.Remove(x, y); }
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            if (!alive) { board.Add(x, y); }
-                            break;
-                        default:
-                            if (alive) { board.Remove(x, y); }
-                            break;
-                    }
+                    var doThis = rules.Apply(neighbors.Length, alive);
+                    actionList.Add((doThis, x, y));
+                }
+            }
+            foreach (var action in actionList)
+            {
+                switch (action.doThis)
+                {
+                    case LifeAction.Create:
+                        board.Add(action.x, action.y);
+                        break;
+                    case LifeAction.Destroy:
+                        board.Remove(action.x, action.y);
+                        break;
                 }
             }
             return board;
@@ -61,12 +65,15 @@ namespace Common
             if (board.Count == 0) { return ""; }
             var ret = new StringBuilder();
             var padding = " ";
-            for (int x = board.xLowerBound; x <= board.xUpperBound; x++)
+            int xLower = Math.Min(0, board.xLowerBound);
+            int xUpper = Math.Max(0, board.xUpperBound);
+            int yLower = Math.Min(0, board.yLowerBound);
+            int yUpper = Math.Max(0, board.yUpperBound);
+            ret.AppendLine($"{xLower},{yLower}");
+            for (int x = xLower; x <= xUpper; x++)
             {
                 ret.AppendLine();
                 ret.Append(padding);
-                int yLower = board.yLowerBound;
-                int yUpper = board.yUpperBound;
                 for (int y = yLower; y <= yUpper; y++)
                 {
                     if (board.Contains(x, y)) { ret.Append("*"); }
