@@ -8,6 +8,7 @@
 // You can represent a live cell with an asterisk (*) and a dead cell with a dot (.).
 
 
+using Common.Board;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -27,15 +28,15 @@ namespace Common.Test
         // [TearDown]
         // public void TearDown() { }
         [Test]
-        [TestCase(0, 0)]
+        [TestCase(0, 1)]
         public void Problem039(int boardIndex, int runs)
         {
             //-- Arrange
             // var expected = resultBoard[boardIndex];
 
             //-- Act
-            var actual = Solution39.ConwaysGame(initialBoards[boardIndex]);
-            foreach (var item in actual)//.StreamSlowly(100))
+            var actual = Solution39.PlayConway(initialBoards[boardIndex],runs);
+            foreach (var item in actual).StreamSlowly(100))
             {
                 System.Diagnostics.Debug.WriteLine(item.Display()); ;
             }
