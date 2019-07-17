@@ -8,7 +8,7 @@ namespace Common
 {
     public static class Solution39
     {
-        public static IEnumerable<GameOfLifeBoard> PlayConway(HashSet<(int, int)> hashSet, int rounds = int.MaxValue)
+        public static IEnumerable<GameOfLifeBoard> PlayConway(HashSet<(int, int)> hashSet, ConwayRules rules, int rounds = int.MaxValue)
         {
             GameOfLifeBoard board = new GameOfLifeBoard(hashSet);
             bool finite = true;
@@ -17,12 +17,12 @@ namespace Common
             while (board.Count > 0 && i < rounds)
             {
                 yield return board;
-                board.PlayARound();
+                board.PlayARound(rules);
                 if (finite) { i++; }
             }
             yield return board;
         }
-        public static GameOfLifeBoard PlayARound(this GameOfLifeBoard board)
+        public static GameOfLifeBoard PlayARound(this GameOfLifeBoard board, ConwayRules rules)
         {
             int xLower = board.xLowerBound - 1;
             int xUpper = board.xUpperBound + 1;
@@ -55,6 +55,7 @@ namespace Common
             }
             return board;
         }
+        [System.Diagnostics.DebuggerStepThrough]
         public static string Display(this GameOfLifeBoard board)
         {
             if (board.Count == 0) { return ""; }

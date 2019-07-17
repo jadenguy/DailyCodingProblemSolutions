@@ -18,12 +18,11 @@ namespace Common.Test
     public class Test039
     {
         List<HashSet<(int, int)>> initialBoards = new List<HashSet<(int, int)>>();
-        List<GameOfLifeBoard> resultBoard;
-
+        List<GameOfLifeBoard> resultBoard = new List<GameOfLifeBoard>();
+        ConwayRules rules = new ConwayRules();
         [SetUp]
         public void Setup()
         {
-
             initialBoards.Add(new HashSet<(int, int)>() { (1, 1), (1, 0), (0, 0), (0, 1) });
         }
         // [TearDown]
@@ -36,7 +35,7 @@ namespace Common.Test
             // var expected = resultBoard[boardIndex];
 
             //-- Act
-            var actual = Solution39.PlayConway(initialBoards[boardIndex], runs);
+            var actual = Solution39.PlayConway(initialBoards[boardIndex], rules, runs);
             var i = 0;
             foreach (var item in actual.StreamSlowly(100))
             {
