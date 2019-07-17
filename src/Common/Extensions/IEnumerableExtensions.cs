@@ -24,9 +24,9 @@ namespace Common.Extensions
             }
             return ret;
         }
-        public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n") => string.Join(seperator, enumerable);
-        public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
-        public static IEnumerable<T> StreamSlowly<T>(this IEnumerable<T> e, int milliseconds)
+        [System.Diagnostics.DebuggerStepThrough]public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n") => string.Join(seperator, enumerable);
+        [System.Diagnostics.DebuggerStepThrough]public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
+        [System.Diagnostics.DebuggerStepThrough]public static IEnumerable<T> StreamSlowly<T>(this IEnumerable<T> e, int milliseconds)
         {
             foreach (var item in e)
             {
@@ -34,7 +34,7 @@ namespace Common.Extensions
                 yield return item;
             }
         }
-        public static T RandomFirst<T>(this IEnumerable<T> e, Random rand = null) => e.Random().First();
+        [System.Diagnostics.DebuggerStepThrough]public static T RandomFirst<T>(this IEnumerable<T> e, Random rand = null) => e.Random().First();
         public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable) where T : IEquatable<T>
         {
             if (enumerable.Count() == 1) { yield return enumerable.ToArray(); }

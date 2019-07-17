@@ -9,6 +9,7 @@
 
 
 using Common.Board;
+using Common.Extensions;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -23,22 +24,25 @@ namespace Common.Test
         public void Setup()
         {
 
-            initialBoards.Add(new HashSet<(int, int)>() { (1, 1) });
+            initialBoards.Add(new HashSet<(int, int)>() { (1, 1), (1, 0), (0, 0), (0, 1) });
         }
         // [TearDown]
         // public void TearDown() { }
         [Test]
-        [TestCase(0, 1)]
+        [TestCase(0, 10)]
         public void Problem039(int boardIndex, int runs)
         {
             //-- Arrange
             // var expected = resultBoard[boardIndex];
 
             //-- Act
-            var actual = Solution39.PlayConway(initialBoards[boardIndex],runs);
-            foreach (var item in actual).StreamSlowly(100))
+            var actual = Solution39.PlayConway(initialBoards[boardIndex], runs);
+            var i = 0;
+            foreach (var item in actual.StreamSlowly(100))
             {
+                System.Diagnostics.Debug.WriteLine(i);
                 System.Diagnostics.Debug.WriteLine(item.Display()); ;
+                i++;
             }
 
             //-- Assert
