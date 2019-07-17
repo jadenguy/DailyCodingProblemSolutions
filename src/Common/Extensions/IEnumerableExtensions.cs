@@ -24,21 +24,7 @@ namespace Common.Extensions
             }
             return ret;
         }
-        public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n")
-        {
-            var ret = new StringBuilder();
-            if (enumerable != null)
-            {
-                bool repeat = false;
-                foreach (var item in enumerable)
-                {
-                    if (repeat) { ret.Append(seperator); }
-                    repeat = true;
-                    ret.Append(item.ToString());
-                }
-            }
-            return ret.ToString();
-        }
+        public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n") => string.Join(seperator, enumerable);
         public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
         public static IEnumerable<T> StreamSlowly<T>(this IEnumerable<T> e, int milliseconds)
         {
