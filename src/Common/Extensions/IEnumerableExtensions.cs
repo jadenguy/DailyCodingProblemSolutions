@@ -24,14 +24,17 @@ namespace Common.Extensions
             }
             return ret;
         }
-        public static string Print<T>(this IEnumerable<T> enumerable)
+        public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n")
         {
             var ret = new StringBuilder();
             if (enumerable != null)
             {
+                bool repeat = false;
                 foreach (var item in enumerable)
                 {
-                    ret.AppendLine(item.ToString());
+                    if (repeat) { ret.Append(seperator); }
+                    repeat = true;
+                    ret.Append(item.ToString());
                 }
             }
             return ret.ToString();
@@ -45,6 +48,22 @@ namespace Common.Extensions
                 yield return item;
             }
         }
-        public static T RandomFirst<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next()).First();
+        public static T RandomFirst<T>(this IEnumerable<T> e, Random rand = null) => e.Random().First();
+        public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable) where T : IEquatable<T>
+        {
+            if (enumerable.Count() == 1) { yield return enumerable.ToArray(); }
+            else
+            {
+                for (int i = 0; i < enumerable.Count(); i++)
+                {
+                    var x = new List<T>(enumerable);
+                    x.RemoveAt(i);
+                    foreach (var item in x.EveryPermutation())
+                    {
+                        yield return (new List<T>(item) { enumerable.ElementAt(i) }).ToArray();
+                    }
+                }
+            }
+        }
     }
 }

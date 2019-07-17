@@ -1,7 +1,6 @@
 // You have an N by N board.Write a function that, given N, returns the number of possible arrangements of the board where N queens can be placed on the board without threatening each other, i.e.no two queens share the same row, column, or diagonal.
 
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Common.Test
@@ -13,6 +12,7 @@ namespace Common.Test
         // [TearDown]
         // public void TearDown() { }
         [Test]
+        [TestCase(0, 0)]
         [TestCase(1, 1)]
         [TestCase(2, 0)]
         [TestCase(3, 0)]
