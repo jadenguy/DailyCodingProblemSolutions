@@ -10,7 +10,7 @@ namespace Common.Board
             {
                 for (int j = -1; j <= 1; j++)
                 {
-                    if ((i != 0 && j != 0) && board.Contains((i + x, j + y)))
+                    if (!(i == 0 && j == 0) && board.Contains((i + x, j + y)))
                     {
                         yield return (i, j);
                     }
