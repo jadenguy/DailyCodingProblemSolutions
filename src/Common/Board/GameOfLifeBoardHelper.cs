@@ -12,7 +12,7 @@ namespace Common.Board
                 {
                     if (!(i == 0 && j == 0) && board.Contains((i + x, j + y)))
                     {
-                        yield return (i, j);
+                        yield return (i + x, j + y);
                     }
                 }
             }
