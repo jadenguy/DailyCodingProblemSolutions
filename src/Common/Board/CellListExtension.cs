@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common.MapBoard
+namespace Common.Board
 {
     static class CellListExtension
     {

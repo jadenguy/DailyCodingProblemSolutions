@@ -1,6 +1,6 @@
 using System;
 
-namespace Common.MapBoard
+namespace Common.Board
 {
     public class Cell : IEquatable<Cell>
     {

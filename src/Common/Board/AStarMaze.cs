@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Common.MapBoard
+namespace Common.Board
 {
     public class AStarMaze : Maze
     {
