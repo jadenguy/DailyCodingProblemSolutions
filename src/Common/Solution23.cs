@@ -1,5 +1,5 @@
 using System;
-using Common.MapBoard;
+using Common.Board;
 
 namespace Common
 {
