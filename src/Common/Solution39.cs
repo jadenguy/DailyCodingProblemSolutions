@@ -9,20 +9,23 @@ namespace Common
 {
     public static class Solution39
     {
-        public static IEnumerable<GameOfLifeBoard> PlayConway(HashSet<(int, int)> hashSet, ConwayRules rules, int rounds = int.MaxValue)
+        public static IEnumerable<GameOfLifeBoard> PlayConway(IEnumerable<(int, int)> pattern, ConwayRules rules, int rounds = int.MaxValue)
         {
-            GameOfLifeBoard board = new GameOfLifeBoard(hashSet);
+            GameOfLifeBoard board = new GameOfLifeBoard(pattern);
             bool finite = true;
             bool keepPlaying = true;
             if (rounds == int.MaxValue) { finite = false; }
             int i = 0;
-            while (board.Count > 0 && i < rounds)
+            while (i < rounds)
             {
                 yield return board;
-                if (keepPlaying)
+                if (keepPlaying
+                //&& board.Count > 0
+                )
                 {
                     var oldBoard = board.OrderBy(k => k).ToArray();
                     keepPlaying = board.PlayARound(rules).OrderBy(k => k).ToArray() != oldBoard;
+                    // System.Diagnostics.Debug.WriteLine(board.Display());
                 }
                 if (finite) { i++; }
             }
@@ -30,10 +33,10 @@ namespace Common
         }
         public static GameOfLifeBoard PlayARound(this GameOfLifeBoard board, ConwayRules rules)
         {
-            int xLower = board.xLowerBound - 1;
-            int xUpper = board.xUpperBound + 1;
-            int yLower = board.yLowerBound - 1;
-            int yUpper = board.yUpperBound + 1;
+            int xLower = board.GetLowerBound(0) - 1;
+            int xUpper = board.GetUpperBound(0) + 1;
+            int yLower = board.GetLowerBound(1) - 1;
+            int yUpper = board.GetUpperBound(1) + 1;
             var actionList = new List<(LifeAction doThis, int x, int y)>();
             for (int x = xLower; x <= xUpper; x++)
             {
@@ -65,10 +68,10 @@ namespace Common
             if (board.Count == 0) { return ""; }
             var ret = new StringBuilder();
             var padding = " ";
-            int xLower = Math.Min(0, board.xLowerBound);
-            int xUpper = Math.Max(0, board.xUpperBound);
-            int yLower = Math.Min(0, board.yLowerBound);
-            int yUpper = Math.Max(0, board.yUpperBound);
+            int xLower = Math.Min(0, board.GetLowerBound(0));
+            int xUpper = Math.Max(0, board.GetUpperBound(0));
+            int yLower = Math.Min(0, board.GetLowerBound(1));
+            int yUpper = Math.Max(0, board.GetUpperBound(1));
             ret.AppendLine($"{xLower},{yLower}");
             for (int x = xLower; x <= xUpper; x++)
             {
