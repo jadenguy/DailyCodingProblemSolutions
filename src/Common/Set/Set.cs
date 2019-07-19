@@ -6,34 +6,47 @@ namespace Common.Sets
     public class Set
     {
         HashSet<SetElement> containedSet = new HashSet<SetElement>();
-
-        public Set(IEnumerable<SetElement> setElement)
+        public Set(IEnumerable<SetElement> setElements) => containedSet = new HashSet<SetElement>(setElements.Select(k => new SetElement(k)));
+        public Set(string[] setElements) => containedSet = new HashSet<SetElement>(setElements.Select(k => new SetElement(k)));
+        public Set() { }
+        public Set Not()
         {
-            foreach (var item in setElement)
-            {
-                containedSet.Add(item);
-            }
+            var ret = new Set(containedSet);
+            ret.containedSet.Select(e => e.NotThis());
+            return ret;
         }
-        public Set(string[] v)
-        {
-
-        }
-        public Set Not(Set set)
-        {
-            return this;
-        }
-        public HashSet<SetElement> Contents { get => Render(containedSet); }
-        private HashSet<SetElement> Render(HashSet<SetElement> contents)
+        public HashSet<SetElement> Contents { get => new HashSet<SetElement>(Render(containedSet)) {  }; }
+        private IEnumerable<SetElement> Render(HashSet<SetElement> contents)
         {
             var xor = new Queue<SetElement>(contents.Where(e => e.Xor));
-            var not = new Queue<SetElement>(contents.Where(e => e.Not));
-            var exists = new Queue<SetElement>(contents.Where(e => !e.Not));
+            var ret = new List<SetElement>();
             while (xor.Count > 0)
             {
                 var current = xor.Dequeue();
-                var match = xor.Select(x => x).Where(z => z.IsSame(current)).FirstOrDefault();
+                var keepGoing = true;
+                for (int i = 0; keepGoing && i < xor.Count; i++)
+                {
+                    var other = xor.Dequeue();
+                    if (other.Equivalent(current)) { keepGoing = false; }
+                    else { xor.Enqueue(other); } //ignore not matches
+                }
+                if (keepGoing) { ret.Add(current); }
             }
-            return containedSet;
+            ret.AddRange(contents.Where(e => !e.Xor));
+            // var not = new Queue<SetElement>(contents.Where(e => e.Not));
+            // while (not.Count > 0)
+            // {
+            //     var current = not.Dequeue();
+            //     var keepGoing = true;
+            //     for (int i = 0; keepGoing && i < xor.Count; i++)
+            //     {
+            //         var other = xor.Dequeue();
+            //         if (other.Equivalent(current)) { keepGoing = false; }
+            //         else { xor.Enqueue(other); } //ignore not matches
+            //     }
+            // }
+            // return containedSet = new HashSet<SetElement>(containedSet);
+            return containedSet = new HashSet<SetElement>(ret);
         }
     }
 }

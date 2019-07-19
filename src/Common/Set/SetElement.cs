@@ -1,14 +1,41 @@
 using System;
+using System.Collections.Generic;
 
 namespace Common.Sets
 {
     public class SetElement : IElement<String>
     {
-        public SetElement(string text)
+        public class Equivocator : IEqualityComparer<SetElement>
         {
-            Value = text;
+
+            public bool Equals(SetElement x, SetElement y)
+            {
+                return x.Equivalent(y);
+            }
+
+            public int GetHashCode(SetElement obj)
+            {
+                return obj.ToString().GetHashCode();
+            }
+        }
+
+        public SetElement(string value)
+        {
+            Value = value;
             Xor = false;
             Not = false;
+        }
+        public SetElement(string value, bool not, bool xor)
+        {
+            Value = value;
+            Not = not;
+            Xor = xor;
+        }
+        public SetElement(SetElement that)
+        {
+            Value = that.Value;
+            Not = that.Not;
+            Xor = that.Xor;
         }
         public string Value { get; set; }
         public bool Not { get; private set; }
@@ -22,11 +49,11 @@ namespace Common.Sets
         }
         public bool NotThis() => Not = !Not;
         public bool XorThis() => Xor = !Xor;
-        public bool IsSame(IElement<string> other)
+        public bool Equivalent(IElement<string> other)
         {
             var that = other as SetElement;
             if (that == null) { return false; }
-            else { return this.Equals(that) && this.Xor == that.Xor && this.Not == that.Not; }
+            else { return this.Value.Equals(that.Value) && this.Xor == that.Xor && this.Not == that.Not; }
         }
     }
 }
