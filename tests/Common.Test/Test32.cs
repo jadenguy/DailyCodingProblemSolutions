@@ -91,7 +91,7 @@ namespace Common.Test
             //-- Act
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var arbitrageSolution = Solution32Naive.FindArbitrage(array, .0000000001).FirstOrDefault();
+            var arbitrageSolution = Solution32.ArbitrateNaive(array, .0000000001).FirstOrDefault();
             var actual = (arbitrageSolution?.Ratio ?? 0) != 0;
             System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
@@ -144,7 +144,7 @@ namespace Common.Test
             //-- Act
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var arbitrageSolution = Solution32Naive.Arbitrate(table).ToArray();
+            var arbitrageSolution = Solution32.ArbitrateNaive(table).ToArray();
             // var actual = true;
             System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             System.Console.WriteLine(stopWatch.ElapsedMilliseconds);
