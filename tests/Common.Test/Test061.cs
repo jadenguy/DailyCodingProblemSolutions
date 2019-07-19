@@ -14,7 +14,7 @@ namespace Common.Test
         [TestCase(2, 10, 1024)]
         [TestCase(2, 31, 2147483648)]
         [TestCase(8, 7, 2097152)]
-        public void Problem61(float x, int y, float result)
+        public void Problem061(float x, int y, float result)
         {
             //-- Arrange
             var expected = result;

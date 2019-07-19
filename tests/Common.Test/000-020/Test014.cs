@@ -37,7 +37,7 @@ namespace Common.Test
         // [TestCase(e4, e4)]
         // [TestCase(e5, e3)]
         // [TestCase(e6, e2)]
-        public void Problem14(int steps, int parallel)
+        public void Problem014(int steps, int parallel)
         {
             //-- Arrange
             var expected = System.Math.PI;

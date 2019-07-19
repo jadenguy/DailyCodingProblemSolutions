@@ -45,7 +45,7 @@ namespace Common.Test
         [TestCase(0, 0, 0, 0, 0)]
         [TestCase(3, 0, 0, 0, 7)]
         [TestCase(17, 0, 0, 0, 67)]
-        public void Problem23(int startX, int startY, int endX, int endY, int length)
+        public void Problem023(int startX, int startY, int endX, int endY, int length)
         {
             //-- Arrange
             var t = true;

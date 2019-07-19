@@ -15,7 +15,7 @@ namespace Common.Test
         [TestCase(1, -2, 0, 1)]
         [TestCase(-1, 2, 1, 2)]
         [TestCase(-1, 2, 0, -1)]
-        public void Problem85(int x, int y, int b, int result)
+        public void Problem085(int x, int y, int b, int result)
         {
             //-- Arrange
             var expected = result;

@@ -11,7 +11,7 @@ namespace Common.Test
         public void Setup() { }
         [Test]
         [TestCase("bananas", "anana")]
-        public void Problem25(string text, string anagram)
+        public void Problem025(string text, string anagram)
         {
             //-- Arrange
             var expected = anagram;

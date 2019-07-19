@@ -16,7 +16,7 @@ namespace Common.Test
             
         }
         [Test]
-        public void Problem21()
+        public void Problem021()
         {
             //-- Arrange
             var expected = 2;

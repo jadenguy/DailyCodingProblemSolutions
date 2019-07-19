@@ -23,7 +23,7 @@ namespace Common.Test
         [TestCase("google", "elgoogle")]
         [TestCase("aaaaaaaaaaabbbc", "cbbbaaaaaaaaaaabbbc")]
         [TestCase("zzzzzzzzzzzzdcba", "abcdzzzzzzzzzzzzdcba")]
-        public void Problem34(string input, string palindrome)
+        public void Problem034(string input, string palindrome)
         {
             //-- Arrange
             var expected = palindrome;

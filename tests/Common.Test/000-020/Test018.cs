@@ -18,7 +18,7 @@ namespace Common.Test
         public void SetUp() { }
         [Test]
         [TestCase(new int[] { 10, 5, 2, 7, 8, 7 }, 3, new int[] { 10, 7, 8, 8 })]
-        public void Problem18(int[] input, int k, int[] output)
+        public void Problem018(int[] input, int k, int[] output)
         {
             //-- Arrange
             var expected = output;

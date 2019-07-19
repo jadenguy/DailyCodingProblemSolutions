@@ -20,7 +20,7 @@ namespace Common.Test
         public void Setup() { }
         [Test]
         [TestCase(new string[] { "the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog" }, 16, new string[] { "the  quick brown", "fox  jumps  over", "the   lazy   dog" })]
-        public void Problem27(string[] input, int k, string[] results)
+        public void Problem027(string[] input, int k, string[] results)
         {
             //-- Arrange
             var expected = results;

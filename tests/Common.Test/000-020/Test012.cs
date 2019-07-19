@@ -27,7 +27,7 @@ namespace Common.Test
         [TestCase(3, new int[] { 1, 2 }, 3)]
         [TestCase(4, new int[] { 1, 2 }, 5)]
         [TestCase(14, new int[] { 12, 3, 1, 9 }, 150)]
-        public void Problem12(int stairs, int[] steps, int answer)
+        public void Problem012(int stairs, int[] steps, int answer)
         {
             //-- Arrange
             var expected = answer;

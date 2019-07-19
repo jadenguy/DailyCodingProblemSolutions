@@ -40,7 +40,7 @@ namespace Common.Test
         [Test]
         [TestCase(0)]
         [TestCase(1)]
-        public void Problem8(int index)
+        public void Problem008(int index)
         {
             //-- Arrange
             var expected = univalCount[index];

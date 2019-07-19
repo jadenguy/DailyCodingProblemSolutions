@@ -28,7 +28,7 @@ namespace Common.Test
         [TestCase(0, 1, 3)]
         [TestCase(0, 2, 5)]
         [TestCase(0, 3, 1)]
-        public void Problem20(int aListIndex, int bListIndex, int common)
+        public void Problem020(int aListIndex, int bListIndex, int common)
         {
             //-- Arrange
             var a = lll[aListIndex];

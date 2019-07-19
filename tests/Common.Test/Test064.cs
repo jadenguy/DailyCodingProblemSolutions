@@ -45,7 +45,7 @@ namespace Common.Test
         [TestCase(1,1)]
         [TestCase(2,0)]
         // [TestCase(5,1728)]
-        public void Problem64(int boardSize, int results)
+        public void Problem064(int boardSize, int results)
         {
             //-- Arrange
             var expected = results;

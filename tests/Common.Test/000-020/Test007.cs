@@ -20,7 +20,7 @@ namespace Common.Test
         [TestCase("1111", 5)]
         [TestCase("999", 1)]
         // [TestCase("1234567891011121314151617181920212223242526", 3)]
-        public void Problem7(string code, int count)
+        public void Problem007(string code, int count)
         {
             //-- Arrange
             var expected = count;

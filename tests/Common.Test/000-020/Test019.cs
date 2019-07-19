@@ -11,7 +11,7 @@ namespace Common.Test
         [SetUp]
         public void SetUp() { }
         [Test]
-        public void Problem19()
+        public void Problem019()
         {
             //-- Arrange
             var priceArray = new int[][]{new int[] {100,1,10}

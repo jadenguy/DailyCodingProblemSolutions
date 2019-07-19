@@ -1046,7 +1046,7 @@ namespace Common.Test
 ,"0000000001"
 ,"0000000010"
 ,"0000000011"})]
-        public void Problem11(string[] list, string input, string[] results)
+        public void Problem011(string[] list, string input, string[] results)
         {
             //-- Arrange
             // var input2 = "do";

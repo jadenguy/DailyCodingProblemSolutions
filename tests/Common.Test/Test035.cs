@@ -18,7 +18,7 @@ namespace Common.Test
         [TestCase(new char[] { 'G', 'G', 'G', 'G', 'G', 'R', 'R', 'R', 'R', 'R' }, new char[] { 'R', 'R', 'R', 'R', 'R', 'G', 'G', 'G', 'G', 'G' })]
         [TestCase(new char[] { 'B', 'G', 'G', 'G', 'G' }, new char[] { 'G', 'G', 'G', 'G', 'B' })]
         [TestCase(new char[] { 'G', 'B', 'B', 'B', 'B' }, new char[] { 'G', 'B', 'B', 'B', 'B' })]
-        public void Problem33(char[] array, char[] results)
+        public void Problem033(char[] array, char[] results)
         {
             //-- Arrange
             var expected = results;

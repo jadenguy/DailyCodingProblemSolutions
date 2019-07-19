@@ -36,7 +36,7 @@ namespace Common.Test
         [TestCase("dir\n\tsubdir1\n\tsubdir2", "")]
         [TestCase("dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext", "dir/subdir2/file.ext")]
         [TestCase("dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext", "dir/subdir2/subsubdir2/file2.ext")]
-        public void Problem17(string tree, string longestFilePath)
+        public void Problem017(string tree, string longestFilePath)
         {
             //-- Arrange
             var expected = longestFilePath;

@@ -30,7 +30,7 @@ namespace Common.Test
         }
         [Test]
         [TestCase(10000)]
-        public void Problem15(int cycles)
+        public void Problem015(int cycles)
         {
             //-- Arrange
             var expectedNumberOfSelections = cycles / (double)array.Length;

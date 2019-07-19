@@ -19,7 +19,7 @@ namespace Common.Test
         [TestCase(new int[] { 3, 2, 1 }, new int[] { 2, 3, 6 })]
         [TestCase(new int[] { 1 }, new int[] { 0 })]
         [TestCase(new int[] { }, new int[] { })]
-        public void Problem2(int[] list, int[] answer)
+        public void Problem002(int[] list, int[] answer)
         {
             //-- Arrange
             var expected = answer;

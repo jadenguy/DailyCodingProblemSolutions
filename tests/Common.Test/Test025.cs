@@ -28,7 +28,7 @@ namespace Common.Test
         [TestCase("aaaa", "a*", true)]
         [TestCase("b", ".*", true)]
         [TestCase("ba.test.bab", "b.*a", false)]
-        public void Problem25(string input, string test, bool passes)
+        public void Problem025(string input, string test, bool passes)
         {
             //-- Arrange
             bool expected = SanityCheckRegex(input, test, passes);

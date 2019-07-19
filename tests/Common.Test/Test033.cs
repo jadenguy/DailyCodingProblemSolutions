@@ -22,7 +22,7 @@ namespace Common.Test
         public void TearDown() { }
         [Test]
         [TestCase(new double[] { 2, 1, 5, 7, 2, 0, 5 }, new double[] { 2, 1.5, 2, 3.5, 2, 2, 2 })]
-        public void Problem33(double[] array, double[] results)
+        public void Problem033(double[] array, double[] results)
         {
             //-- Arrange
             var expected = results;

@@ -23,7 +23,7 @@ namespace Common.Test
         [TestCase("thequickbrownfox", new string[] { "theq", "quick", "brown", "the", "fox" }, new string[] { "the", "quick", "brown", "fox" })]
         [TestCase("5612889872", new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, new string[] { "5", "6", "1", "2", "8", "8", "9", "8", "7", "2" })]
 
-        public void Problem22(string text, string[] wordList, string[] sentence)
+        public void Problem022(string text, string[] wordList, string[] sentence)
         {
             //-- Arrange
             var expected = sentence;

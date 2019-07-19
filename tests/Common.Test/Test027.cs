@@ -17,7 +17,7 @@ namespace Common.Test
         [TestCase("([)]", false)]
         [TestCase("((()", false)]
 
-        public void Problem27(string input, bool valid)
+        public void Problem027(string input, bool valid)
         {
             //-- Arrange
             var expected = valid;

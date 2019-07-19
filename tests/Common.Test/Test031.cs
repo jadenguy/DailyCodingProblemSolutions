@@ -20,7 +20,7 @@ namespace Common.Test
         [TestCase("..",".X.X",2)]
         [TestCase("X.X.","..",2)]
         [TestCase("..","X.X.",2)]
-        public void Problem31(string textA, string textB, int result)
+        public void Problem031(string textA, string textB, int result)
         {
             //-- Arrange
             var expected = result;

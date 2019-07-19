@@ -14,7 +14,7 @@ namespace Common.Test
     {
 
         [Test]
-        public void Problem6()
+        public void Problem006()
         {
             //-- Arrange
             var memory = new XorLinkedListMemoryDictionary(new string[] { "X", "Y", "Z" });

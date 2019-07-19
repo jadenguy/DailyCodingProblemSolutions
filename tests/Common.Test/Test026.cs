@@ -20,7 +20,7 @@ namespace Common.Test
         [TestCase(18, 3)]
         [TestCase(1, 20)]
         [TestCase(0, null)]
-        public void Problem26(int wanted, int? value)
+        public void Problem026(int wanted, int? value)
         {
             //-- Arrange
             var expectedNValue = value;
