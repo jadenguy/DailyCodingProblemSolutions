@@ -20,10 +20,7 @@ namespace Common.RandomSelector
         public T SuggestElement(T newElement)
         {
             streamElementCount++;
-            if (random.Next(streamElementCount) == 0)
-            {
-                Element = newElement;
-            }
+            if (random.Next(streamElementCount) == 0) { Element = newElement; }
             return Element;
         }
     }

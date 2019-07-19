@@ -3,33 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common.Board;
+using Common.RandomSelector;
 using static Common.Board.ConwayRules;
 
 namespace Common
 {
     public static class Solution39
     {
-        public static IEnumerable<GameOfLifeBoard> PlayConway(IEnumerable<(int, int)> pattern, ConwayRules rules, int rounds = int.MaxValue)
+        public static IEnumerable<GameOfLifeBoard> PlayConway(IEnumerable<(int, int)> initial, ConwayRules rules, int rounds = int.MaxValue, int seed = 0)
         {
-            GameOfLifeBoard board = new GameOfLifeBoard(pattern);
-            bool finite = true;
-            bool keepPlaying = true;
-            if (rounds == int.MaxValue) { finite = false; }
+            var select = new StreamElementSelector<GameOfLifeBoard>(seed);
+            GameOfLifeBoard oldBoard, board = new GameOfLifeBoard(initial);
+            var keepPlaying = true;
             int i = 0;
-            while (i < rounds)
+            var reportDone = false;
+            do
             {
                 yield return board;
-                if (keepPlaying
-                //&& board.Count > 0
-                )
+                if (keepPlaying && board.Count > 0)
                 {
-                    var oldBoard = board.OrderBy(k => k).ToArray();
-                    keepPlaying = board.PlayARound(rules).OrderBy(k => k).ToArray() != oldBoard;
-                    // System.Diagnostics.Debug.WriteLine(board.Display());
+                    oldBoard = new GameOfLifeBoard(board); //clone board to old before playing
+                    keepPlaying = !board.PlayARound(rules).SetEquals(oldBoard);
+                    reportDone = !keepPlaying;
                 }
-                if (finite) { i++; }
-            }
-            yield return board;
+                else if (reportDone)
+                {
+                    System.Diagnostics.Debug.WriteLine(i, "rounds");
+                    reportDone = false;
+                }
+                if (rounds != int.MaxValue) { i++; }
+            } while (i <= rounds);
+
         }
         public static GameOfLifeBoard PlayARound(this GameOfLifeBoard board, ConwayRules rules)
         {
@@ -65,12 +69,11 @@ namespace Common
         [System.Diagnostics.DebuggerStepThrough]
         public static string Display(this GameOfLifeBoard board)
         {
-            if (board.Count == 0) { return ""; }
             var ret = new StringBuilder();
             var padding = " ";
             int xLower = Math.Min(0, board.GetLowerBound(0));
-            int xUpper = Math.Max(0, board.GetUpperBound(0));
             int yLower = Math.Min(0, board.GetLowerBound(1));
+            int xUpper = Math.Max(0, board.GetUpperBound(0));
             int yUpper = Math.Max(0, board.GetUpperBound(1));
             ret.AppendLine($"{xLower},{yLower}");
             for (int x = xLower; x <= xUpper; x++)

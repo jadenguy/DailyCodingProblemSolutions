@@ -9,24 +9,24 @@ namespace Common.Board
         {
             StayDead, StayAlive, Destroy, Create
         }
-        public ConwayRules(int minCreate = 3, int maxCreate = 3, int minContinue = 2, int maxContinue = 3)
+        public ConwayRules(int minBirth = 3, int maxBirth = 3, int minSurvive = 2, int maxSurvive = 3)
         {
-            this.minCreate = minCreate;
-            this.maxCreate = maxCreate;
-            this.minContinue = minContinue;
-            this.maxContinue = maxContinue;
+            MinBirth = minBirth;
+            MaxBirth = maxBirth;
+            MinSurvive = minSurvive;
+            MaxSurvive = maxSurvive;
         }
-        public int minCreate { get; set; }
-        public int maxCreate { get; set; }
-        public int minContinue { get; set; }
-        public int maxContinue { get; set; }
+        public int MinBirth { get; set; }
+        public int MaxBirth { get; set; }
+        public int MinSurvive { get; set; }
+        public int MaxSurvive { get; set; }
 
-        public LifeAction Apply(int neighbors, bool alive)
+        public LifeAction Apply(int neighbors, bool amAlive)
         {
             LifeAction action = LifeAction.Destroy;
-            if (!alive)
+            if (!amAlive)
             {
-                if (neighbors >= minCreate && neighbors <= maxCreate)
+                if (neighbors >= MinBirth && neighbors <= MaxBirth)
                 {
                     action = LifeAction.Create;
                 }
@@ -34,7 +34,7 @@ namespace Common.Board
             }
             else
             {
-                if (neighbors >= minContinue && neighbors <= maxContinue)
+                if (neighbors >= MinSurvive && neighbors <= MaxSurvive)
                 {
                     action = LifeAction.StayAlive;
                 }

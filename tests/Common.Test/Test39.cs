@@ -19,15 +19,24 @@ namespace Common.Test
     public class Test039
     {
         List<GameOfLifeBoard> initialBoards = new List<GameOfLifeBoard>();
+        List<int> iterations = new List<int>();
         List<GameOfLifeBoard> resultBoards = new List<GameOfLifeBoard>();
-        ConwayRules rules = new ConwayRules();
+        ConwayRules rules = new ConwayRules(3, 3, 2, 3);
         [SetUp]
         public void Setup()
         {
             initialBoards.Add(new GameOfLifeBoard(new (int, int)[] { (1, 1), (1, 0), (0, 0), (0, 1), (2, 1) }));
             resultBoards.Add(new GameOfLifeBoard(new (int, int)[] { }));
+            iterations.Add(10);
             initialBoards.Add(new GameOfLifeBoard(new (int, int)[] { (1, 2), (2, 3), (3, 1), (3, 2), (3, 3) }));
-            resultBoards.Add(new GameOfLifeBoard(new (int, int)[] { (27, 28), (28, 26), (28, 27), (28, 28), (26, 27) }));
+            resultBoards.Add(new GameOfLifeBoard(new (int, int)[] { (26, 27), (27, 28), (28, 26), (28, 27), (28, 28) }));
+            iterations.Add(100);
+            initialBoards.Add(new GameOfLifeBoard(new (int, int)[] { (1, 1), (1, 2), (1, 3) }));
+            resultBoards.Add(new GameOfLifeBoard(new (int, int)[] { (1, 1), (1, 2), (1, 3) }));
+            iterations.Add(1000);
+            initialBoards.Add(new GameOfLifeBoard(new (int, int)[] { (1, 1), (1, 0), (0, 0), (0, 1) }));
+            resultBoards.Add(new GameOfLifeBoard(new (int, int)[] { (0, 0), (0, 1), (1, 0), (1, 1) }));
+            iterations.Add(5);
         }
         // [TearDown]
         // public void TearDown() { }
@@ -45,15 +54,18 @@ namespace Common.Test
         }
         [Test]
 
-        [TestCase(0, 10)]
-        [TestCase(1, 100)]
-        public void Problem039(int boardIndex, int runs)
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        public void Problem039(int boardIndex)
         {
             //-- Arrange
+            var runs = iterations[boardIndex];
             var expected = resultBoards[boardIndex];
+            GameOfLifeBoard initial = initialBoards[boardIndex];
 
             //-- Act
-            var stream = Solution39.PlayConway(initialBoards[boardIndex], rules, runs).Select(b => new GameOfLifeBoard(b)).ToArray();
+            var stream = Solution39.PlayConway(initial, rules, runs).Select(b => new GameOfLifeBoard(b));
             // var i = 0;
             // foreach (var item in stream.StreamSlowly(100))
             // {
@@ -66,7 +78,8 @@ namespace Common.Test
             System.Diagnostics.Debug.WriteLine(actual.Display());
 
             //-- Assert
-            Assert.AreEqual(expected, actual, "You lost at the game of life");
+
+            Assert.IsTrue(expected.SetEquals(actual), "You lost at the game of life");
         }
     }
 }
