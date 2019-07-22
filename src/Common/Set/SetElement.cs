@@ -40,5 +40,8 @@ namespace Common.Sets
             if (that == null) { return false; }
             else { return this.Value.Equals(that.Value) && this.Xor == that.Xor && this.Not == that.Not; }
         }
+        public SetElement NotElement() => new SetElement(Value, !Not, Xor);
+        public SetElement XorElement() => new SetElement(Value, Not, !Xor);
+        public SetElement NotXorElement() => new SetElement(Value, !Not, !Xor);
     }
 }

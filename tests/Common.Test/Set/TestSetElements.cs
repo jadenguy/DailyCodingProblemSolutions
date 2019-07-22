@@ -24,11 +24,41 @@ namespace Common.Sets.Test
         {
             //-- Arrange
             var expected = new SetElement("x");
-            var set1 = new Set(new string[] { "x" });
+            var set = new Set() { "x" };
 
             //-- Act
-            var array = set1;
-            var actual = set1.FirstOrDefault();
+            var array = set;
+            var actual = set.FirstOrDefault();
+
+            //-- Assert
+            Assert.IsTrue(array.Count() == 1, "wrong number of items");
+            Assert.IsTrue(expected.Equivalent(actual), "wrong item");
+        }
+        [Test]
+        public void ElementXorExistsInSet()
+        {
+            //-- Arrange
+            var expected = new SetElement("x", false, true);
+            var set = new Set() { expected };
+
+            //-- Act
+            var array = set;
+            var actual = set.FirstOrDefault();
+
+            //-- Assert
+            Assert.IsTrue(array.Count() == 1, "wrong number of items");
+            Assert.IsTrue(expected.Equivalent(actual), "wrong item");
+        }
+        [Test]
+        public void ElementNotDissolvesInSet()
+        {
+            //-- Arrange
+            var expected = new SetElement("x");
+            var set = new Set(new string[] { "x" });
+
+            //-- Act
+            var array = set;
+            var actual = set.FirstOrDefault();
 
             //-- Assert
             Assert.IsTrue(array.Count() == 1, "wrong number of items");
@@ -39,29 +69,13 @@ namespace Common.Sets.Test
         {
             //-- Arrange
             var expected = new SetElement("x", false, true);
-            var set1 = new Set(new SetElement[] { expected });
+            var set = new Set() { expected };
 
             //-- Act
-            var array = set1;
+            var array = set;
             var actual = array.First();
 
             //-- Assert
-            Assert.IsTrue(array.Count() == 1, "wrong number of items");
-            Assert.IsTrue(expected.Equivalent(actual), "wrong item");
-        }
-        [Test]
-        public void NotElementExistsInSet()
-        {
-            //-- Arrange
-            var expected = new SetElement("x", true, false);
-            var set1 = new Set(new SetElement[] { expected });
-
-            //-- Act
-            var array = set1;
-            var actual = array.First();
-
-            //-- Assert
-
             Assert.IsTrue(array.Count() == 1, "wrong number of items");
             Assert.IsTrue(expected.Equivalent(actual), "wrong item");
         }
@@ -72,7 +86,7 @@ namespace Common.Sets.Test
             var z = new SetElement("Z", false, false);
             var expected = new List<SetElement>() { z };
             var aXor = new SetElement("A", false, true);
-            var set = new Set(new SetElement[] { z, aXor, aXor });
+            var set = new Set() { z, aXor, aXor };
 
             //-- Act
             var actual = set;
@@ -88,7 +102,7 @@ namespace Common.Sets.Test
             var expected = new List<SetElement>() { z };
             var a = new SetElement("A", false, false);
             var aNot = new SetElement("A", true, false);
-            var set = new Set(new SetElement[] { z, a, aNot });
+            var set = new Set() { z, a, aNot };
 
             //-- Act
             var actual = set;
@@ -105,7 +119,7 @@ namespace Common.Sets.Test
             var a = new SetElement("A", false, false);
             var aNot = new SetElement("A", true, false);
             var aXor = new SetElement("A", false, true);
-            var set = new Set(new SetElement[] { z, a, aNot, aXor, aXor });
+            var set = new Set() { z, a, aNot, aXor, aXor };
 
             //-- Act
             var actual = set;
