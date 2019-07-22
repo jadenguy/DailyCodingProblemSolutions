@@ -32,16 +32,14 @@ namespace Common.Sets
             if (Xor) { ret += "Xor "; }
             return ret + Value;
         }
-        // public bool NotThis() => Not = !Not;
-        // public bool XorThis() => Xor = !Xor;
         public bool Equivalent(IElement<string> other)
         {
             var that = other as SetElement;
             if (that == null) { return false; }
             else { return this.Value.Equals(that.Value) && this.Xor == that.Xor && this.Not == that.Not; }
         }
-        public SetElement NotElement() => new SetElement(Value, !Not, Xor);
-        public SetElement XorElement() => new SetElement(Value, Not, !Xor);
-        public SetElement NotXorElement() => new SetElement(Value, !Not, !Xor);
+        [System.Diagnostics.DebuggerStepThrough] public SetElement NotElement() => new SetElement(Value, !Not, Xor);
+        [System.Diagnostics.DebuggerStepThrough] public SetElement XorElement() => new SetElement(Value, Not, !Xor);
+        [System.Diagnostics.DebuggerStepThrough] public SetElement NotXorElement() => new SetElement(Value, !Not, !Xor);
     }
 }

@@ -17,9 +17,9 @@ namespace Common.Sets
 
         private IEnumerable<SetElement> Render()
         {
-            IEnumerable<SetElement> cleanXorList = RemoveDoubleXor(containedSet);
-            // IEnumerable<SetElement> ret = RemoveNotElement(containedSet);
-            // IEnumerable<SetElement> cleanXorList = RemoveDoubleXor(ret);
+            // IEnumerable<SetElement> cleanXorList = RemoveDoubleXor(containedSet);
+            IEnumerable<SetElement> ret = RemoveNotElement(containedSet);
+            IEnumerable<SetElement> cleanXorList = RemoveDoubleXor(ret);
             return containedSet = new List<SetElement>(cleanXorList);
         }
         private IEnumerable<SetElement> RemoveNotElement(IEnumerable<SetElement> set)
@@ -27,7 +27,6 @@ namespace Common.Sets
             var not = new Queue<SetElement>(set.Where(e => e.Not));
             if (not.Count == 0) { return set; }
             var existing = new Queue<SetElement>(set.Where(e => !e.Not));
-            var ret = new List<SetElement>(set);
             while (not.Count > 0)
             {
                 var current = not.Dequeue();
@@ -35,12 +34,12 @@ namespace Common.Sets
                 for (int i = 0; keepGoing && i < existing.Count(); i++)
                 {
                     var other = existing.Dequeue();
-                    SetElement notOther = current.NotElement();
+                    SetElement notOther = other.NotElement();
                     if (current.Equivalent(notOther)) { keepGoing = false; }
-                    else { not.Enqueue(other); } //ignore not matches
+                    else { existing.Enqueue(other); } //ignore not matches
                 }
             }
-            return ret;
+            return new List<SetElement>(existing); 
         }
         private IEnumerable<SetElement> RemoveDoubleXor(IEnumerable<SetElement> set)
         {
