@@ -17,9 +17,8 @@ namespace Common.Sets
 
         private IEnumerable<SetElement> Render()
         {
-            // IEnumerable<SetElement> cleanXorList = RemoveDoubleXor(containedSet);
-            IEnumerable<SetElement> ret = RemoveNotElement(containedSet);
-            IEnumerable<SetElement> cleanXorList = RemoveDoubleXor(ret);
+            IEnumerable<SetElement> cleanNotList = RemoveNotElement(containedSet);
+            IEnumerable<SetElement> cleanXorList = RemoveDoubleXor(cleanNotList);
             return containedSet = new List<SetElement>(cleanXorList);
         }
         private IEnumerable<SetElement> RemoveNotElement(IEnumerable<SetElement> set)

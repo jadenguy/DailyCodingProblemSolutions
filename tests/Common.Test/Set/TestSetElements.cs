@@ -127,5 +127,6 @@ namespace Common.Sets.Test
             //-- Assert
             Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
         }
+        
     }
 }
