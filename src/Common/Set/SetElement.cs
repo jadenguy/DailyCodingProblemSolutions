@@ -1,24 +1,9 @@
 using System;
-using System.Collections.Generic;
 
 namespace Common.Sets
 {
     public class SetElement : IElement<String>
     {
-        public class Equivocator : IEqualityComparer<SetElement>
-        {
-
-            public bool Equals(SetElement x, SetElement y)
-            {
-                return x.Equivalent(y);
-            }
-
-            public int GetHashCode(SetElement obj)
-            {
-                return obj.ToString().GetHashCode();
-            }
-        }
-
         public SetElement(string value)
         {
             Value = value;
@@ -47,8 +32,8 @@ namespace Common.Sets
             if (Xor) { ret += "Xor "; }
             return ret + Value;
         }
-        public bool NotThis() => Not = !Not;
-        public bool XorThis() => Xor = !Xor;
+        // public bool NotThis() => Not = !Not;
+        // public bool XorThis() => Xor = !Xor;
         public bool Equivalent(IElement<string> other)
         {
             var that = other as SetElement;
