@@ -8,30 +8,33 @@ namespace Common.Sets
     public static class SetExensions
     {
 
-        class SetGroupedComparer : IEqualityComparer<IGrouping<SetElement, SetElement>>
+        class SetGroupedComparer<T> : IEqualityComparer<IGrouping<SetElement<T>, SetElement<T>>> where T : IEquatable<T>
         {
-            public bool Equals(IGrouping<SetElement, SetElement> x, IGrouping<SetElement, SetElement> y) => (x.Key.Equivalent(y.Key) && x.Count() == y.Count());
-            public int GetHashCode(IGrouping<SetElement, SetElement> obj) => obj.Print().GetHashCode();
+            public bool Equals(IGrouping<SetElement<T>, SetElement<T>> x, IGrouping<SetElement<T>, SetElement<T>> y) => (x.Key.Equivalent(y.Key) && x.Count() == y.Count());
+            public int GetHashCode(IGrouping<SetElement<T>, SetElement<T>> obj) => obj.Print().GetHashCode();
         }
-        public static bool SetEquivalent(this IEnumerable<SetElement> a, IEnumerable<SetElement> b)
+        public static bool SetEquivalent<T>(this IEnumerable<SetElement<T>> a, IEnumerable<SetElement<T>> b) where T : IEquatable<T>
         {
-            SetElementComparer elementComparer = new SetElementComparer();
-            SetGroupedComparer groupComparer = new SetGroupedComparer();
+            var elementComparer = new SetElementComparer<T>();
+            var groupComparer = new SetGroupedComparer<T>();
             var notOnB = a.Except(b, elementComparer);
             var notOnA = b.Except(a, elementComparer);
             var differnetCountOnB = a.GroupBy(k => k, elementComparer).Except(b.GroupBy(k => k, elementComparer), groupComparer);
             var differentCountOnA = b.GroupBy(k => k, elementComparer).Except(a.GroupBy(k => k, elementComparer), groupComparer);
             return a.Count() == b.Count() && !notOnB.Any() && !notOnA.Any() && !differnetCountOnB.Any() && !differentCountOnA.Any();
         }
-        public static IEnumerable<SetElement> Not(this IEnumerable<SetElement> a) => a.Select(k => k.XorElement());
-        private static IEnumerable<SetElement> Xor(this IEnumerable<SetElement> b) => b.Select(k => k.NotElement());
-        private static IEnumerable<SetElement> NotXor(this IEnumerable<SetElement> b) => b.Select(k => k.NotXorElement());
-        public static IEnumerable<SetElement> Xor(this IEnumerable<SetElement> a, IEnumerable<SetElement> b) => new Set(a.Union(b.Not()));
-        public static IEnumerable<SetElement> Not(this IEnumerable<SetElement> a, IEnumerable<SetElement> b) => new Set(a.Union(b.Xor()));
-        public static IEnumerable<SetElement> And(this IEnumerable<SetElement> a, IEnumerable<SetElement> b)
+        public static IEnumerable<SetElement<T>> ElementsToNewElements<T>(this IEnumerable<SetElement<T>> elements) where T : IEquatable<T> => elements.Select(k => new SetElement<T>(k));
+        public static IEnumerable<Set<T>> ElementsToSets<T>(this IEnumerable<SetElement<T>> elements) where T : IEquatable<T> => elements.Select(k => new Set<T>() { k });
+        public static IEnumerable<SetElement<T>> TypeEnumerableToElements<T>(this IEnumerable<T> elements) where T : IEquatable<T> => elements.Select(k => new SetElement<T>(k));
+        public static IEnumerable<SetElement<T>> Not<T>(this IEnumerable<SetElement<T>> a) where T : IEquatable<T> { return a.Select(k => k.NotElement()); }
+        private static IEnumerable<SetElement<T>> Xor<T>(this IEnumerable<SetElement<T>> b) where T : IEquatable<T> => b.Select(k => k.XorElement());
+        private static IEnumerable<SetElement<T>> NotXor<T>(this IEnumerable<SetElement<T>> b) where T : IEquatable<T> => b.Select(k => k.NotXorElement());
+        public static IEnumerable<SetElement<T>> Xor<T>(this IEnumerable<SetElement<T>> a, IEnumerable<SetElement<T>> b) where T : IEquatable<T> => (a.Xor().Union(b.Xor())).Xor();
+        public static IEnumerable<SetElement<T>> Not<T>(this IEnumerable<SetElement<T>> a, IEnumerable<SetElement<T>> b) where T : IEquatable<T> => a.Union(b.Not());
+        public static IEnumerable<SetElement<T>> And<T>(this IEnumerable<SetElement<T>> a, IEnumerable<SetElement<T>> b) where T : IEquatable<T>
         {
-            SetElementComparer elementComparer = new SetElementComparer();
-            SetGroupedComparer groupComparer = new SetGroupedComparer();
+            var elementComparer = new SetElementComparer<T>();
+            var groupComparer = new SetGroupedComparer<T>();
             var aGroup = a.GroupBy(k => k, elementComparer);
             var bGroup = b.GroupBy(k => k, elementComparer);
             var uniqueElements = a.Union(b).Distinct(elementComparer);
@@ -44,10 +47,10 @@ namespace Common.Sets
                 }
             }
         }
-        public static IEnumerable<SetElement> Or(this IEnumerable<SetElement> a, IEnumerable<SetElement> b)
+        public static IEnumerable<SetElement<T>> Or<T>(this IEnumerable<SetElement<T>> a, IEnumerable<SetElement<T>> b) where T : IEquatable<T>
         {
-            SetElementComparer elementComparer = new SetElementComparer();
-            SetGroupedComparer groupComparer = new SetGroupedComparer();
+            var elementComparer = new SetElementComparer<T>();
+            var groupComparer = new SetGroupedComparer<T>();
             var aGroup = a.GroupBy(k => k, elementComparer);
             var bGroup = b.GroupBy(k => k, elementComparer);
             var uniqueElements = a.Union(b).Distinct(elementComparer);
