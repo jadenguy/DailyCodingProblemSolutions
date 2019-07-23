@@ -25,6 +25,7 @@ namespace Common.Sets
         public string Value { get; set; }
         public bool Not { get; private set; }
         public bool Xor { get; private set; }
+        [System.Diagnostics.DebuggerStepThrough]
         public override string ToString()
         {
             var ret = string.Empty;

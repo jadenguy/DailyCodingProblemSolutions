@@ -24,15 +24,13 @@ namespace Common.Sets.Test
         {
             //-- Arrange
             var expected = new SetElement("x");
-            var set = new Set() { "x" };
 
             //-- Act
-            var array = set;
-            var actual = set.FirstOrDefault();
+            var actual = new Set() { "x" };
 
             //-- Assert
-            Assert.IsTrue(array.Count() == 1, "wrong number of items");
-            Assert.IsTrue(expected.Equivalent(actual), "wrong item");
+            Assert.IsTrue(actual.Count() == 1, "wrong number of items");
+            Assert.IsTrue(expected.Equivalent(actual.FirstOrDefault()), "wrong item");
         }
         [Test]
         public void ElementXorExistsInSet()
@@ -54,42 +52,65 @@ namespace Common.Sets.Test
         {
             //-- Arrange
             var expected = new SetElement("x");
-            var set = new Set(new string[] { "x" });
 
             //-- Act
-            var array = set;
-            var actual = set.FirstOrDefault();
+            var actual = new Set(new string[] { "x" });
 
             //-- Assert
-            Assert.IsTrue(array.Count() == 1, "wrong number of items");
-            Assert.IsTrue(expected.Equivalent(actual), "wrong item");
+            Assert.IsTrue(actual.Count() == 1, "wrong number of items");
+            Assert.IsTrue(expected.Equivalent(actual.First()), "wrong item");
         }
         [Test]
         public void XorElementExistsInSet()
         {
             //-- Arrange
             var expected = new SetElement("x", false, true);
-            var set = new Set() { expected };
 
             //-- Act
-            var array = set;
-            var actual = array.First();
+            var actual = new Set() { expected };
 
             //-- Assert
-            Assert.IsTrue(array.Count() == 1, "wrong number of items");
-            Assert.IsTrue(expected.Equivalent(actual), "wrong item");
+            Assert.IsTrue(actual.Count() == 1, "wrong number of items");
+            Assert.IsTrue(expected.Equivalent(actual.First()), "wrong item");
         }
         [Test]
         public void SetRenderOutXor()
         {
             //-- Arrange
             var z = new SetElement("Z", false, false);
-            var expected = new List<SetElement>() { z };
             var aXor = new SetElement("A", false, true);
-            var set = new Set() { z, aXor, aXor };
+            var expected = new List<SetElement>() { z };
 
             //-- Act
-            var actual = set;
+            var actual = new Set() { z, aXor, aXor };
+
+            //-- Assert
+            Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
+        }
+        [Test]
+        public void TwoSetsContainDifferentCounts()
+        {
+            //-- Arrange
+            var z = new SetElement("Z", false, false);
+            var aXor = new SetElement("A", false, true);
+            var expected = new Set() { z };
+
+            //-- Act
+            var actual = new Set() { z, z, aXor, aXor };
+
+            //-- Assert
+            Assert.IsFalse(actual.SetEquivalent(expected), "Sets differ");
+        }
+        [Test]
+        public void SetContainsTwoIdenticalElements()
+        {
+            //-- Arrange
+            var z = new SetElement("Z", false, false);
+            var aXor = new SetElement("A", false, true);
+            var expected = new List<SetElement>() { z, z };
+
+            //-- Act
+            var actual = new Set() { z, z, aXor, aXor };
 
             //-- Assert
             Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
@@ -99,13 +120,12 @@ namespace Common.Sets.Test
         {
             //-- Arrange
             var z = new SetElement("Z", false, false);
-            var expected = new List<SetElement>() { z };
             var a = new SetElement("A", false, false);
             var aNot = new SetElement("A", true, false);
-            var set = new Set() { z, a, aNot };
+            var expected = new List<SetElement>() { z };
 
             //-- Act
-            var actual = set;
+            var actual = new Set() { z, a, aNot };
 
             //-- Assert
             Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
@@ -115,18 +135,95 @@ namespace Common.Sets.Test
         {
             //-- Arrange
             var z = new SetElement("Z", false, false);
-            var expected = new List<SetElement>() { z };
             var a = new SetElement("A", false, false);
             var aNot = new SetElement("A", true, false);
             var aXor = new SetElement("A", false, true);
-            var set = new Set() { z, a, aNot, aXor, aXor };
+            var expected = new List<SetElement>() { z };
 
             //-- Act
-            var actual = set;
+            var actual = new Set() { z, a, aNot, aXor, aXor };
 
             //-- Assert
             Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
         }
-        
+        [Test]
+        public void TestJoinXor()
+        {
+            //-- Arrange
+            var z = new SetElement("Z", false, false);
+            var a = new SetElement("A", false, false);
+            var b = new SetElement("B", false, false);
+            var aNot = new SetElement("A", true, false);
+            var aXor = new SetElement("A", false, true);
+            var bXor = new SetElement("B", false, true);
+            var expected = new List<SetElement>() { z, bXor };
+            var setA = new Set() { z, aXor };
+            var setB = new Set() { a, b };
+
+            //-- Act
+            var actual = new Set(setA.Xor(setB));
+
+            //-- Assert
+            Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
+        }
+        [Test]
+        public void TestNot()
+        {
+            //-- Arrange
+            var z = new SetElement("Z", false, false);
+            var a = new SetElement("A", false, false);
+            var b = new SetElement("B", false, false);
+            var aNot = new SetElement("A", true, false);
+            var aXor = new SetElement("A", false, true);
+            var setA = new Set() { z, a };
+            var setB = new Set() { a, b };
+            var expected = new List<SetElement>() { z };
+
+            //-- Act
+            var actual = new Set(setA.Not(setB));
+
+            //-- Assert
+            Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
+        }
+        [Test]
+        public void TestAnd()
+        {
+            //-- Arrange
+            var z = new SetElement("Z", false, false);
+            var a = new SetElement("A", false, false);
+            var b = new SetElement("B", false, false);
+            var aNot = new SetElement("A", true, false);
+            var aXor = new SetElement("A", false, true);
+            var setA = new Set() { z, z, a };
+            var setB = new Set() { z
+            , b };
+            var expected = new List<SetElement>() { z };
+
+            //-- Act
+            var actual = new Set(setA.And(setB));
+
+            //-- Assert
+            Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
+        }
+        [Test]
+        public void TestOr()
+        {
+            //-- Arrange
+            var z = new SetElement("Z", false, false);
+            var a = new SetElement("A", false, false);
+            var b = new SetElement("B", false, false);
+            var aNot = new SetElement("A", true, false);
+            var aXor = new SetElement("A", false, true);
+            var setA = new Set() { z, z, a };
+            var setB = new Set() { z
+            , b };
+            var expected = new List<SetElement>() { z, a, z, b };
+
+            //-- Act
+            var actual = new Set(setA.Or(setB));
+
+            //-- Assert
+            Assert.IsTrue(actual.SetEquivalent(expected), "Sets differ");
+        }
     }
 }

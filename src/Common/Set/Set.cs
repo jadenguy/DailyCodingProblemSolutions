@@ -7,21 +7,20 @@ namespace Common.Sets
     public class Set : IEnumerable<SetElement>
     {
         List<SetElement> containedSet = new List<SetElement>();
-        public Set(IEnumerable<SetElement> setElements) => containedSet = setElements.Select(k => new SetElement(k)).ToList();
-        public Set(IEnumerable<string> setElements) => containedSet = setElements.Select(k => new SetElement(k)).ToList();
+        public Set(IEnumerable<SetElement> elements) => containedSet = new List<SetElement>(ElementsToNewElements(elements));
+        public Set(IEnumerable<string> elements) => containedSet = new List<SetElement>(StringEnumerableToElements(elements));
         public Set() { }
-        public void Add(SetElement element) => containedSet.Add(element);
+        public void Add(SetElement element) => containedSet.Add(new SetElement(element));
         public void Add(string element) => containedSet.Add(new SetElement(element));
-        public void Add(IEnumerable<SetElement> elements) => containedSet.AddRange(elements);
-        public void Add(IEnumerable<string> elements) => containedSet.AddRange(elements.Select(k => new SetElement(k)));
-
+        public void Add(IEnumerable<SetElement> elements) => containedSet.AddRange(ElementsToNewElements(elements));
+        public void Add(IEnumerable<string> elements) => containedSet.AddRange(StringEnumerableToElements(elements));
         private IEnumerable<SetElement> Render()
         {
-            IEnumerable<SetElement> cleanNotList = RemoveNotElement(containedSet);
-            IEnumerable<SetElement> cleanXorList = RemoveDoubleXor(cleanNotList);
+            IEnumerable<SetElement> cleanNotList = RemoveNottedElement(containedSet);
+            IEnumerable<SetElement> cleanXorList = RemoveDoubleXorredElement(cleanNotList);
             return containedSet = new List<SetElement>(cleanXorList);
         }
-        private IEnumerable<SetElement> RemoveNotElement(IEnumerable<SetElement> set)
+        private IEnumerable<SetElement> RemoveNottedElement(IEnumerable<SetElement> set)
         {
             var not = new Queue<SetElement>(set.Where(e => e.Not));
             if (not.Count == 0) { return set; }
@@ -38,9 +37,9 @@ namespace Common.Sets
                     else { existing.Enqueue(other); } //ignore not matches
                 }
             }
-            return new List<SetElement>(existing); 
+            return new List<SetElement>(existing);
         }
-        private IEnumerable<SetElement> RemoveDoubleXor(IEnumerable<SetElement> set)
+        private IEnumerable<SetElement> RemoveDoubleXorredElement(IEnumerable<SetElement> set)
         {
             var xor = new Queue<SetElement>(set.Where(e => e.Xor));
             if (xor.Count == 0) { return set; }
@@ -59,17 +58,11 @@ namespace Common.Sets
             }
             return ret;
         }
-        public bool SetEquivalent(IEnumerable<SetElement> other) => SetEquivalent(Render(), other);
-        public static bool SetEquivalent(IEnumerable<SetElement> expected, IEnumerable<SetElement> actual)
-        {
-            var countSame = expected.Count() == actual.Count();
-            SetElementComparer comparer = new SetElementComparer();
-            var x = expected.Except(actual, comparer);
-            var y = actual.Except(expected, comparer);
-            var sameContent = !x.Any() && !y.Any();
-            return countSame && sameContent;
-        }
+        public bool SetEquivalent(IEnumerable<SetElement> other) => Render().SetEquivalent(other);
+        private static IEnumerable<SetElement> ElementsToNewElements(IEnumerable<SetElement> elements) => elements.Select(k => new SetElement(k));
+        private static IEnumerable<SetElement> StringEnumerableToElements(IEnumerable<string> elements) => elements.Select(k => new SetElement(k));
         public IEnumerator<SetElement> GetEnumerator() => Render().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Render().GetEnumerator();
+        public override string ToString() => $"Count = {containedSet.Count}";
     }
 }
