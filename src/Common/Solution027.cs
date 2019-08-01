@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +6,7 @@ namespace Common
     public static class Solution027
 
     {
-        public static bool Validate(this string input)
+        public static bool Validate(string input)
         {
             var ret = true;
             var stack = new Stack<char>();

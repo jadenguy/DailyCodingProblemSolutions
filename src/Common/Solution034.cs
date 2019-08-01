@@ -17,11 +17,10 @@ namespace Common
         {
             if (input.Length < 2) { return input; }
             var ret = string.Empty;
-            string left = input.First().ToString();
-            string right = input.Last().ToString();
+            var left = input.First();
+            var right = input.Last();
             string middle = input.Substring(1, input.Length - 2);
-            bool palindrome = (left).CompareTo(right) == 0;
-            if (palindrome) { ret = left + Palindromize(middle) + right; }
+            if (left == right) { ret = left + Palindromize(middle) + right; }
             else
             {
                 var newLeft = left + Palindromize(middle + right) + left;
