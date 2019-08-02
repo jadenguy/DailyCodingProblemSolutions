@@ -24,7 +24,7 @@ namespace Common.Test
 
             //-- Act
             // var actual = Solution040.FindUnique(array);
-            List<int> actual = new List<int>(Solution040.FindUniqueUsingCommonSet(array.Random()));
+            List<int> actual = new List<int>(Solution040.FindUniqueUsingCommonSet(array.Random().ToArray()));
 
             //-- Assert
             Assert.AreEqual(expected, actual.First());
@@ -37,7 +37,7 @@ namespace Common.Test
             var expected = results;
 
             //-- Act
-            var actual = Solution040.FindUnique(array.Random());
+            var actual = Solution040.FindUnique(array.Random().ToArray());
             // var actual = Solution040.FindUniqueUsingCommonSet(array);
 
             //-- Assert
