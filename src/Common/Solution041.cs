@@ -24,7 +24,7 @@ namespace Common
                 }
             }
         }
-        static IEnumerable<List<(T, T)>> GenerateChains<T>(List<(T, T)> connections, Func<(T, T), (T, T), bool> evaluator)
+        public static IEnumerable<List<(T, T)>> GenerateChains<T>(this List<(T, T)> connections, Func<(T, T), (T, T), bool> evaluator)
         {
             foreach (var item in connections)
             {
@@ -35,7 +35,7 @@ namespace Common
                 }
             }
         }
-        static IEnumerable<List<(T, T)>> AddLink<T>(this List<(T, T)> chain, List<(T, T)> availableLinks, Func<(T, T), (T, T), bool> evaluator)
+        public static IEnumerable<List<(T, T)>> AddLink<T>(this List<(T, T)> chain, List<(T, T)> availableLinks, Func<(T, T), (T, T), bool> evaluator)
         {
             var last = chain.Last();
             var nextLinks = availableLinks.Where(x => !chain.Contains(x)).Where(x => evaluator(x, last)).ToArray();
