@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Extensions;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -13,26 +14,26 @@ namespace Common.Test
     public class Test041
     {
 
-        List<(string, string)[]> array;
+        List<(string, string)[]> flightLists;
         List<string> startingPoint;
         List<string[]> results;
         [SetUp]
         public void Setup()
         {
 
-            array = new List<(string, string)[]>();
+            flightLists = new List<(string, string)[]>();
             startingPoint = new List<string>();
             results = new List<string[]>();
 
-            array.Add(new (string, string)[] { ("SFO", "HKO"), ("YYZ", "SFO"), ("YUL", "YYZ"), ("HKO", "ORD") });
+            flightLists.Add(new (string, string)[] { ("SFO", "HKO"), ("YYZ", "SFO"), ("YUL", "YYZ"), ("HKO", "ORD") });
             startingPoint.Add("YUL");
             results.Add(new string[] { "YUL", "YYZ", "SFO", "HKO", "ORD" });
 
-            array.Add(new (string, string)[] { ("SFO", "COM"), ("COM", "YYZ") });
+            flightLists.Add(new (string, string)[] { ("SFO", "COM"), ("COM", "YYZ") });
             startingPoint.Add("COM");
             results.Add(null);
 
-            array.Add(new (string, string)[] { ("A", "B"), ("A", "C"), ("B", "C"), ("C", "A") });
+            flightLists.Add(new (string, string)[] { ("A", "B"), ("A", "C"), ("B", "C"), ("C", "A") });
             startingPoint.Add("A");
             results.Add(new string[] { "A", "B", "C", "A", "C" });
 
@@ -49,10 +50,14 @@ namespace Common.Test
             var expected = results[testCaseIndex];
 
             //-- Act
-            var itineraries = Solution041.FindItinerary(array[testCaseIndex], startingPoint[testCaseIndex]).ToArray();
+            var flights = flightLists[testCaseIndex]
+                .Select(t => new Tuple<string, string>(t.Item1, t.Item2))
+                .Random()
+                .ToArray();
+            var itineraries = Solution041.FindItineraries(flights, startingPoint[testCaseIndex]).ToArray();
             var actual = itineraries.FirstOrDefault();
 
-            //-- Assert
+            // //-- Assert
             Assert.AreEqual(expected, actual);
         }
     }

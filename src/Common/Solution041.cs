@@ -5,18 +5,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Extensions;
 
 namespace Common
 {
     public static class Solution041
     {
-        public static IEnumerable<List<T>> FindItinerary<T>(IEnumerable<(T From, T To)> flights, T startingPoint) where T : IEquatable<T>
+        public static IEnumerable<List<T>> FindItineraries<TTuple,T>(IEnumerable<TTuple> flights, T startingPoint) where T : IEquatable<T> where TTuple : Tuple<T,T>
         {
-
-            List<(T, T)>[] itineraries = GenerateChains(flights.ToList(), ((T From, T To) a, (T From, T To) b) => a.From.Equals(b.To)).ToArray();
-            foreach (List<(T From, T To)> itinerary in itineraries)
+            var flightList = flights.OrderBy(t => t.Item2).OrderBy(f => f.Item1).ToList();
+            tupleChainEvaluator<TTuple, T> evaluator = new tupleChainEvaluator<TTuple, T>();
+            var itineraries = flightList.GenerateChains(evaluator).ToArray();
+            foreach (var itinerary in itineraries)
             {
-                if (itinerary.Count() == flights.Count() && itinerary.First().From.Equals(startingPoint))
+                if (itinerary.Count() == flights.Count() && itinerary.First().Item1.Equals(startingPoint))
                 {
                     var ret = new List<T>() { startingPoint };
                     ret.AddRange(itinerary.Select(i => i.Item2));
@@ -24,33 +26,12 @@ namespace Common
                 }
             }
         }
-        public static IEnumerable<List<(T, T)>> GenerateChains<T>(this List<(T, T)> connections, Func<(T, T), (T, T), bool> evaluator)
+    }
+    public class tupleChainEvaluator<TTuple, TInstance> : ChainExtensions.IChainabilityComparer<TTuple> where TTuple : Tuple<TInstance,TInstance> where TInstance : IEquatable<TInstance>
+    {
+        public bool Chainable(TTuple a, TTuple b)
         {
-            foreach (var item in connections)
-            {
-                var chain = new List<(T, T)>() { item };
-                foreach (var fullChain in chain.AddLink(connections, evaluator))
-                {
-                    yield return fullChain;
-                }
-            }
-        }
-        public static IEnumerable<List<(T, T)>> AddLink<T>(this List<(T, T)> chain, List<(T, T)> availableLinks, Func<(T, T), (T, T), bool> evaluator)
-        {
-            var last = chain.Last();
-            var nextLinks = availableLinks.Where(x => !chain.Contains(x)).Where(x => evaluator(x, last)).ToArray();
-            if (nextLinks.Length == 0) { yield return chain; }
-            else
-            {
-                foreach (var nextLink in nextLinks)
-                {
-                    var newChain = new List<(T, T)>(chain) { nextLink };
-                    foreach (var nextChain in newChain.AddLink(availableLinks, evaluator))
-                    {
-                        yield return nextChain;
-                    }
-                }
-            }
+            return a.Item2.Equals (b.Item1);
         }
     }
 }

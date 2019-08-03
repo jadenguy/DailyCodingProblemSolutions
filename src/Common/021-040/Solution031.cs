@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Extensions;
 using Common.TextCompare;
 
 namespace Common
@@ -22,39 +23,44 @@ namespace Common
                     }
                 }
             }
-            var chains = GenerateChains(matchList);
-            int longestChain = chains.OrderByDescending(m => m.Count).FirstOrDefault().Count;
+            var chains = matchList.GenerateChains(new CharMatchChainEvaluator());
+            int longestChain = chains.OrderByDescending(m => m.Length).FirstOrDefault().Length;
             return ret - longestChain;
         }
-        private static IEnumerable<List<CharMatch>> GenerateChains(List<CharMatch> matchList)
+        private class CharMatchChainEvaluator : ChainExtensions.IChainabilityComparer<CharMatch>
         {
-            foreach (var item in matchList)
-            {
-                var chain = new List<CharMatch>() { item };
-                foreach (var fullChain in chain.AddLink(matchList))
-                {
-                    yield return fullChain;
-                }
-            }
+            public bool Chainable(CharMatch a, CharMatch b) => b.LeftTextIndex > a.LeftTextIndex && b.RightTextIndex > a.RightTextIndex;
         }
-        static IEnumerable<List<CharMatch>> AddLink(this List<CharMatch> chain, List<CharMatch> availableLinks)
-        {
-            var last = chain.Last();
-            var nextLinks = availableLinks.Where(x => x.LeftTextIndex > last.LeftTextIndex && x.RightTextIndex > last.RightTextIndex).ToArray();
-            if (nextLinks.Length == 0) { yield return chain; }
-            else
-            {
-                foreach (var nextLink in nextLinks)
-                {
-                    var newChain = new List<CharMatch>(chain) { nextLink };
-                    foreach (var nextChain in newChain.AddLink(availableLinks))
-                    {
-                        yield return nextChain;
-                    }
-                }
-            }
-        }
-        // public static int MeasureDistanceDeadEnd(string a, string b)
+        // private static IEnumerable<CharMatch[]> GenerateChains(List<CharMatch> matchList)
+        // {
+        //     foreach (var item in matchList)
+        //     {
+        //         var chain = new List<CharMatch>() { item };
+        //         var evaluator = new CharMatchChainEvaluator();
+        //         foreach (var fullChain in chain.AddLink(matchList, evaluator))
+        //         {
+        //             yield return fullChain;
+        //         }
+        //     }
+        // }
+        // static IEnumerable<List<CharMatch>> AddLink(this List<CharMatch> chain, List<CharMatch> availableLinks)
+        // {
+        //     var last = chain.Last();
+        //     var nextLinks = availableLinks.Where(x => x.LeftTextIndex > last.LeftTextIndex && x.RightTextIndex > last.RightTextIndex).ToArray();
+        //     if (nextLinks.Length == 0) { yield return chain; }
+        //     else
+        //     {
+        //         foreach (var nextLink in nextLinks)
+        //         {
+        //             var newChain = new List<CharMatch>(chain) { nextLink };
+        //             foreach (var nextChain in newChain.AddLink(availableLinks))
+        //             {
+        //                 yield return nextChain;
+        //             }
+        //         }
+        //     }
+        // }
+        // // public static int MeasureDistanceDeadEnd(string a, string b)
         // {
         //     var x = 0;
         //     var y = 0;
