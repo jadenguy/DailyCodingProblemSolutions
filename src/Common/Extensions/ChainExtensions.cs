@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+
 
 namespace Common.Extensions
 {
@@ -10,31 +9,31 @@ namespace Common.Extensions
         {
             bool Chainable( T a, T b);
         }
-        public static IEnumerable<T[]> GenerateChains<T>(this List<T> connections, IChainabilityComparer<T> evaluator)
+        public static IEnumerable<T[]> GenerateChains<T>(this IEnumerable<T> connections, IChainabilityComparer<T> evaluator)
         {
             foreach (var item in connections)
             {
                 var chain = new List<T>() { item };
-                foreach (var fullChain in chain.AddLink(connections, evaluator))
+                foreach (var fullChain in chain.AddLinks(connections, evaluator))
                 {
                     yield return fullChain;
                 }
             }
         }
-        public static IEnumerable<T[]> AddLink<T>(this List<T> chain, List<T> availableLinks, IChainabilityComparer<T> evaluator)
+        public static IEnumerable<T[]> AddLinks<T>(this List<T> chain, IEnumerable<T> availableLinks, IChainabilityComparer<T> evaluator)
         {
-            var last = chain.Last();
-            var nextLinks = availableLinks
-                .Where(next => !chain.Contains(next))
-                .Where(next => evaluator.Chainable(last,next))
-                .ToArray();
-            if (nextLinks.Length == 0) { yield return chain.ToArray(); }
+            var last = chain.FindLast(e=>true);
+            var otherLinks =new List<T>( availableLinks);
+            otherLinks.Remove(last);
+            var nextLinks = otherLinks
+                .FindAll(next => evaluator.Chainable(last,next));
+            if (nextLinks.Count == 0) { yield return chain.ToArray(); }
             else
             {
                 foreach (var nextLink in nextLinks)
                 {
                     var newChain = new List<T>(chain) { nextLink };
-                    foreach (var nextChain in newChain.AddLink(availableLinks, evaluator))
+                    foreach (var nextChain in newChain.AddLinks(otherLinks, evaluator))
                     {
                         yield return nextChain;
                     }
