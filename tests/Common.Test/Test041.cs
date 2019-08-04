@@ -50,11 +50,13 @@ namespace Common.Test
 
 
             flightLists.Add(new (string, string)[] { ("A", "B")
+                , ("B", "A")
+                , ("A", "B")
                 , ("B", "B")
                 , ("B", "B") });
 
             startingPoint.Add("A");
-            results.Add(new string[] { "A", "B", "B", "B" });
+            results.Add(new string[] { "A", "B","A", "B", "B", "B" });
 
         }
         [TearDown]
