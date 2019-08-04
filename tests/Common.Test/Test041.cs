@@ -25,7 +25,10 @@ namespace Common.Test
             startingPoint = new List<string>();
             results = new List<string[]>();
 
-            flightLists.Add(new (string, string)[] { ("SFO", "HKO"), ("YYZ", "SFO"), ("YUL", "YYZ"), ("HKO", "ORD") });
+            flightLists.Add(new (string, string)[] { ("SFO", "HKO")
+                , ("YYZ", "SFO")
+                , ("YUL", "YYZ")
+                , ("HKO", "ORD") });
             startingPoint.Add("YUL");
             results.Add(new string[] { "YUL", "YYZ", "SFO", "HKO", "ORD" });
 
@@ -33,9 +36,25 @@ namespace Common.Test
             startingPoint.Add("COM");
             results.Add(null);
 
-            flightLists.Add(new (string, string)[] { ("A", "B"), ("A", "C"), ("B", "C"), ("C", "A") });
+            flightLists.Add(new (string, string)[] { ("A", "B")
+                , ("A", "C")
+                , ("B", "C")
+                , ("C", "A") });
             startingPoint.Add("A");
             results.Add(new string[] { "A", "B", "C", "A", "C" });
+
+            flightLists.Add(new (string, string)[] { ("A", "B")
+                , ("B", "B") });
+            startingPoint.Add("A");
+            results.Add(new string[] { "A", "B", "B" });
+
+
+            flightLists.Add(new (string, string)[] { ("A", "B")
+                , ("B", "B")
+                , ("B", "B") });
+
+            startingPoint.Add("A");
+            results.Add(new string[] { "A", "B", "B", "B" });
 
         }
         [TearDown]
@@ -44,6 +63,8 @@ namespace Common.Test
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
         public void Problem041(int testCaseIndex)
         {
             //-- Arrange
