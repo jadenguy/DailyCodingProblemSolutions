@@ -26,18 +26,15 @@ namespace Common.Extensions
             int length = source.Length;
             for (int i = 0; i < Math.Pow(2, length); i++)
             {
-                T[] combination = new T[length];
+                List<T> combination = new List<T> { };
                 for (int j = 0; j < length; j++)
                 {
-                    int v = length - j - 1;
-                    int v1 = 1 << v;
-                    int v2 = (i & v1);
-                    if (v2 != 0)
+                    if ((i & 1 << length - j - 1) != 0)
                     {
-                        combination[j] = source[j];
+                        combination.Add(source[j]);
                     }
                 }
-                yield return combination;
+                yield return combination.ToArray();
             }
         }
         public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable) where T : IEquatable<T>
@@ -47,9 +44,9 @@ namespace Common.Extensions
             {
                 for (int i = 0; i < enumerable.Count(); i++)
                 {
-                    var x = new List<T>(enumerable);
-                    x.RemoveAt(i);
-                    foreach (var item in x.EveryPermutation())
+                    var permutation = new List<T>(enumerable);
+                    permutation.RemoveAt(i);
+                    foreach (var item in permutation.EveryPermutation())
                     {
                         yield return (new List<T>(item) { enumerable.ElementAt(i) }).ToArray();
                     }
