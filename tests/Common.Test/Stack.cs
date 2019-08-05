@@ -7,7 +7,7 @@ namespace Common
     public class Stack<T> : IEnumerable<T>
     {
         private int capacity = 1000;
-        private int index = 0;
+        private int index = -1;
         private T[] elements;
         public Stack()
         {
@@ -16,7 +16,7 @@ namespace Common
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < index; i++)
+            for (int i = 0; i <= index; i++)
             {
                 yield return elements[i];
             }
@@ -24,9 +24,22 @@ namespace Common
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        internal void Push(int v)
+        public void Push(T v)
         {
-            throw new NotImplementedException();
+            index++;
+            elements[index]=v;
+        }
+
+        public T Pop()
+        {
+            var ret= elements[index];
+            index--;
+            return ret;
+        }
+
+        public T Peek()
+        {
+            return elements[index];
         }
     }
 }
