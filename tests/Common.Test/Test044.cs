@@ -18,10 +18,11 @@ namespace Common.Test
         public void Problem044(int[] A, int inversions)
         {
             //-- Arrange
-            var expected =inversions;
+            var expected = inversions;
+            int actual = 0;
             //-- Act
 
-            var actual = Solution044.CountInversions(A);
+            var array = Solution044.CountSorts(A, ref actual);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
