@@ -48,10 +48,28 @@ namespace Common.Test
             //-- Arrange
             var expected = new int[] { 1, 2 };
             var stack = new Stack<int>();
-            //-- Act
 
+            //-- Act
             stack.Push(1);
             stack.Push(2);
+            var actual = stack.ToArray();
+
+            // //-- Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void Problem043PushMultipleValues()
+        {
+            //-- Arrange
+            int values = 5000;
+            var expected = Enumerable.Range(0, values).ToArray();
+            var stack = new Stack<int>();
+
+            //-- Act
+            for (int i = 0; i < values; i++)
+            {
+                stack.Push(i);
+            }
             var actual = stack.ToArray();
 
             // //-- Assert
@@ -63,8 +81,8 @@ namespace Common.Test
             //-- Arrange
             var expected = 1;
             var stack = new Stack<int>();
-            //-- Act
 
+            //-- Act
             stack.Push(1);
             var actual = stack.Pop();
 
@@ -77,8 +95,8 @@ namespace Common.Test
             //-- Arrange
             var expected = 1;
             var stack = new Stack<int>();
-            //-- Act
 
+            //-- Act
             stack.Push(1);
             var actual = stack.Peek();
 

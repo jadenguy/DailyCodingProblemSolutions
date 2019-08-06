@@ -25,7 +25,10 @@ namespace Common.Collections
             private set
             {
                 if (index > length) { throw new IndexOutOfRangeException(); }
-                elements[index / capacityRoot][index % capacityRoot] = value;
+                int superArray = index / capacityRoot;
+                if (elements[superArray] == null) { elements[superArray] = new T[capacityRoot]; }
+                int localArray = index % capacityRoot;
+                elements[superArray][localArray] = value;
             }
         }
         public IEnumerator<T> GetEnumerator()
