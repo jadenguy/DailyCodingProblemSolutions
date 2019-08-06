@@ -1,6 +1,9 @@
-// Given a list of integers S and a target number k, write a function that returns a subset of S that adds up to k. If such a subset cannot be made, then return null.
-// Integers can appear more than once in the list. You may assume all numbers in the list are positive.
-// For example, given S = [12, 1, 61, 5, 9, 2] and k = 24, return [12, 9, 2, 1] since it sums up to 24.
+// Implement a stack that has the following methods:
+
+// push(val), which pushes an element onto the stack
+// pop(), which pops off and returns the topmost element of the stack. If there are no elements in the stack, then it should throw an error or return null.
+// max(), which returns the maximum value in the stack currently. If there are no elements in the stack, then it should throw an error or return null.
+// Each method should run in constant time.
 
 using NUnit.Framework;
 
