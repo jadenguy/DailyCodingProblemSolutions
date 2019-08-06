@@ -21,7 +21,7 @@ namespace Common.Test
             var expected =inversions;
             //-- Act
 
-            var actual = Solution044.CountInversoins(A);
+            var actual = Solution044.CountInversions(A);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
