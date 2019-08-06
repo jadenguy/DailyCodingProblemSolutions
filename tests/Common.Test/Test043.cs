@@ -5,6 +5,8 @@
 // max(), which returns the maximum value in the stack currently. If there are no elements in the stack, then it should throw an error or return null.
 // Each method should run in constant time.
 
+using System.Linq;
+using Common.Collections;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -18,10 +20,10 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = new int[] { };
-            var stack = new Common.Stack<int>();
+            var stack = new Stack<int>();
             //-- Act
 
-            var actual = stack;
+            var actual = stack.ToArray();
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
@@ -30,22 +32,37 @@ namespace Common.Test
         public void Problem043PushOne()
         {
             //-- Arrange
-            var expected = new int[] {1 };
-            var stack = new Common.Stack<int>();
+            var expected = new int[] { 1 };
+            var stack = new Stack<int>();
             //-- Act
 
             stack.Push(1);
-            var actual = stack;
+            var actual = stack.ToArray();
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
-                [Test]
+        [Test]
+        public void Problem043PushOneTwo()
+        {
+            //-- Arrange
+            var expected = new int[] { 1, 2 };
+            var stack = new Stack<int>();
+            //-- Act
+
+            stack.Push(1);
+            stack.Push(2);
+            var actual = stack.ToArray();
+
+            // //-- Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
         public void Problem043PopOne()
         {
             //-- Arrange
             var expected = 1;
-            var stack = new Common.Stack<int>();
+            var stack = new Stack<int>();
             //-- Act
 
             stack.Push(1);
@@ -54,11 +71,12 @@ namespace Common.Test
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
-        [Test]public void Problem043PeekOne()
+        [Test]
+        public void Problem043PeekOne()
         {
             //-- Arrange
             var expected = 1;
-            var stack = new Common.Stack<int>();
+            var stack = new Stack<int>();
             //-- Act
 
             stack.Push(1);
