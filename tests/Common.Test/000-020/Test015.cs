@@ -45,7 +45,7 @@ namespace Common.Test
                 returnedValues[Solution015.StreamElements(streamElementSelector, array)]++;
             }
             var actualNumberOfSelections = returnedValues.Values.Average();
-            var actualStDev = returnedValues.Select(v => (double)v.Value).CalculateStdDev();
+            var actualStDev = returnedValues.Select(v => (double)v.Value).SampleStandardDeviation();
             // System.Diagnostics.Debug.WriteLine(stDev, "Standard Deviation");
             // System.Diagnostics.Debug.WriteLine(expectedStDev, "Standard Deviation Range");
             // System.Diagnostics.Debug.WriteLine(actualNumberOfSelections, "Average");

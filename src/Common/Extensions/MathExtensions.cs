@@ -6,19 +6,20 @@ namespace Common.Extensions
 {
     public static class MathExtensions
     {
-        public static double CalculateStdDev(this IEnumerable<double> values)
+        private static double StandardDeviation(IEnumerable<double> numberSet, double divisor)
         {
-            double ret = 0;
-            if (values.Count() > 0)
-            {
-                //Compute the Average      
-                double avg = values.Average();
-                //Perform the Sum of (value-avg)_2_2      
-                double sum = values.Sum(d => Math.Pow(d - avg, 2));
-                //Put it all together      
-                ret = Math.Sqrt((sum) / (values.Count() - 1));
-            }
-            return ret;
+            double mean = numberSet.Average();
+            return Math.Sqrt(numberSet.Sum(x => Math.Pow(x - mean, 2)) / divisor);
+        }
+
+        public static double PopulationStandardDeviation(this IEnumerable<double> numberSet)
+        {
+            return StandardDeviation(numberSet, numberSet.Count());
+        }
+
+        public static double SampleStandardDeviation(this IEnumerable<double> numberSet)
+        {
+            return StandardDeviation(numberSet, numberSet.Count() - 1);
         }
     }
 }
