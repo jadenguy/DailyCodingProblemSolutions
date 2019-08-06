@@ -8,7 +8,7 @@ namespace Common
     {
         public static async Task<Task> TaskScheduler(Action action, int delay)
         {
-            var millisecondsDelay = delay * 1000;
+            var millisecondsDelay = delay;
             await Task.Delay(millisecondsDelay);
             return Task.Run(action);
         }

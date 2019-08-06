@@ -18,10 +18,10 @@ namespace Common.Test
         public async Task Problem10Async()
         {
             //-- Arrange
+            var delay = 500;
             var expectedInstant = 0;
-            var expectedAwaited = 1000;
+            var expectedAwaited = delay;
             Action action;
-            var delay = 1;
             var stopwatch = Stopwatch.StartNew();
             action = () => System.Console.WriteLine("TaskDone");
 
