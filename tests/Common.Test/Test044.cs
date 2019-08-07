@@ -2,7 +2,7 @@
 // Given an array, count the number of inversions it has. Do this faster than O(N^2) time.
 // You may assume each element in the array is distinct.
 // For example, a sorted list has zero inversions. The array [2, 4, 1, 3, 5] has three inversions: (2, 1), (4, 1), and (4, 3). The array [5, 4, 3, 2, 1] has ten inversions: every distinct pair forms an inversion.
-
+using System.Linq;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -19,12 +19,15 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = inversions;
+            var solution = new Solution044();
             int actual = 0;
             //-- Act
 
-            var array = Solution044.CountSorts(A, ref actual);
+            var array = solution.CountSorts(A);
+            actual = solution.Swaps;
 
             // //-- Assert
+            Assert.AreEqual(A.OrderBy(k => k).ToArray(), array, "Sort Worked");
             Assert.AreEqual(expected, actual);
         }
     }
