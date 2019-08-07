@@ -13,9 +13,8 @@ namespace Common.Test
         private const double stDevTolerance = .1;
         private const double avgTolerance = .1;
         private const int nRuns = 1000;
-
-        [SetUp]
-        // public void Setup() { }
+        // [SetUp] public void Setup() {}
+        // [TearDown] public void TearDown(){}
         [Test]
         public void Problem045()
         {
@@ -29,7 +28,6 @@ namespace Common.Test
 
             Assert.AreEqual(expected.SampleStandardDeviation(), actual.SampleStandardDeviation(), stDevTolerance, "standard deviation wrong");
             Assert.AreEqual(expected.Average(), actual.Average(), avgTolerance, "average wrong");
-
         }
         [Test]
         public void Problem045Control()
