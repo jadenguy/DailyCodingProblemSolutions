@@ -1,52 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Common.Extensions;
+
 namespace Common
 {
-    public class Solution044
+    public static class Solution044
     {
-
-
-        // 
-        private int swaps = 0;
-
-        public int Swaps
-        {
-            get => swaps; set
-            {
-                swaps = value;
-            }
-        }
-
-        public T[] CountSorts<T>(T[] array) where T : IComparable<T>
-        {
-            var newArray = MergeSort(array).ToArray();
-            return newArray;
-        }
-        public IEnumerable<T> MergeSort<T>(IEnumerable<T> array) where T : IComparable<T>
-        {
-            int length = array.Count();
-            int smallHalf = length / 2;
-            int bigHalf = length - smallHalf;
-            var leftHalf = array.Take(bigHalf);
-            var rightHalf = array.Reverse().Take(smallHalf).Reverse();
-            IEnumerable<T> sortedLeft = leftHalf;
-            IEnumerable<T> sortedRight = rightHalf;
-            // System.Diagnostics.Debug.WriteLine(sortedLeft.Print(","), "l half");
-            // System.Diagnostics.Debug.WriteLine(rightHalf.Print(","), "r half");
-            if (length > 2)
-            {
-                // System.Diagnostics.Debug.WriteLine("recurse");
-                // System.Diagnostics.Debug.WriteLine("");
-                sortedLeft = MergeSort(leftHalf);
-                sortedRight = MergeSort(rightHalf);
-            }
-            // System.Diagnostics.Debug.WriteLine("merging");
-            // System.Diagnostics.Debug.WriteLine("");
-            return Merge(sortedLeft, sortedRight);
-        }
-
         public static int NaiveInversionCount(int[] a)
         {
             var ret = 0;
@@ -59,48 +18,10 @@ namespace Common
             }
             return ret;
         }
-
-        private IEnumerable<T> Merge<T>(IEnumerable<T> leftHalf, IEnumerable<T> rightHalf) where T : IComparable<T>
+        public static T[] CountSorts<T>(T[] array, ref int swaps) where T : IComparable<T>
         {
-            // System.Diagnostics.Debug.WriteLine(leftHalf.Print(","), "l half");
-            // System.Diagnostics.Debug.WriteLine(rightHalf.Print(","), "r half");
-            var l = new Queue<T>(leftHalf);
-            var r = new Queue<T>(rightHalf);
-            var ret = new List<T>();
-            bool keepGoing = true;
-            do
-            {
-                var lExists = l.TryPeek(out T left);
-                var rExists = r.TryPeek(out T right);
-                if (lExists && rExists)
-                {
-                    if (left.CompareTo(right) < 0)
-                    {
-                        ret.Add(l.Dequeue());
-                        // System.Diagnostics.Debug.WriteLine($"{left} less than {right}");
-                    }
-                    else
-                    {
-                        { ret.Add(r.Dequeue()); }
-                        Swaps += l.Count;
-                        // System.Diagnostics.Debug.WriteLine($"{right} less than {left}, swap measure {Swaps}");
-                    }
-                }
-                else if (lExists)
-                {
-                    ret.Add(l.Dequeue());
-                    // System.Diagnostics.Debug.WriteLine($"right empty, adding {left}");
-                }
-                else if (rExists)
-                {
-                    ret.Add(r.Dequeue());
-                    // System.Diagnostics.Debug.WriteLine($"left empty, adding {right}");
-                }
-                else { keepGoing = false; }
-            } while (keepGoing);
-            // System.Diagnostics.Debug.Write("Merged to: ");
-            // System.Diagnostics.Debug.WriteLine(ret.Print(","));
-            return ret;
+            var newArray = array.MergeSort(ref swaps).ToArray();
+            return newArray;
         }
         // private static IEnumerable<IEnumerable<T>> ChopArray<T>(IEnumerable<T> array)
         // {
@@ -123,15 +44,11 @@ namespace Common
         //         }
         //     }
         // }
-
-
-
         // public static int countInversions(int[] array)
         // {
         //     // stolen from https://runzhuoli.me/2018/09/06/count-inversions-in-an-array.html
         //     return countInversions(array, new int[array.Length], 0, array.Length - 1);
         // }
-
         // private static int countInversions(int[] array, int[] temp, int leftStart, int rightEnd)
         // {
         //     if (leftStart >= rightEnd)
@@ -144,7 +61,6 @@ namespace Common
         //     int splitInversions = countSplitInversions(array, temp, leftStart, rightEnd);
         //     return leftInversions + rightInversions + splitInversions;
         // }
-
         // private static int countSplitInversions(int[] array, int[] temp, int leftStart, int rightEnd)
         // {
         //     int inversions = 0;
@@ -178,7 +94,5 @@ namespace Common
         //     Array.Copy(temp, leftStart, array, leftStart, rightEnd - leftStart + 1);
         //     return inversions;
         // }
-
-
     }
 }
