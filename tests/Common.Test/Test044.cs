@@ -9,12 +9,30 @@ namespace Common.Test
 {
     public class Test044
     {
+        [Test]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 0)]
+        [TestCase(new int[] { 2, 4, 1, 3, 5 }, 3)]
+        [TestCase(new int[] { 5, 4, 3, 2, 1 }, 10)]
+        [TestCase(new int[] { 6, 5, 4, 3, 2, 1 }, 15)]
+        public void Problem044Long(int[] A, int inversions)
+        {
+            //-- Arrange
+            var expected = inversions;
+
+            //-- Act
+            var actual = Solution044.NaiveInversionCount(A);
+
+            //-- Assert
+            Assert.AreEqual(actual, expected);
+        }
+
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, 0)]
         [TestCase(new int[] { 2, 4, 1, 3, 5 }, 3)]
         [TestCase(new int[] { 5, 4, 3, 2, 1 }, 10)]
+        [TestCase(new int[] { 6, 5, 4, 3, 2, 1 }, 15)]
         public void Problem044(int[] A, int inversions)
         {
             //-- Arrange
@@ -22,13 +40,35 @@ namespace Common.Test
             var solution = new Solution044();
             int actual = 0;
             //-- Act
-
+            System.Diagnostics.Debug.WriteLine("*****************************************************");
+            System.Diagnostics.Debug.WriteLine("********************** STARTING *********************");
+            System.Diagnostics.Debug.WriteLine("*****************************************************");
             var array = solution.CountSorts(A);
             actual = solution.Swaps;
 
             // //-- Assert
-            Assert.AreEqual(A.OrderBy(k => k).ToArray(), array, "Sort Worked");
+            Assert.AreEqual(A.OrderBy(k => k).ToArray(), array, "Sort failed");
+            System.Diagnostics.Debug.WriteLine(expected, "expected");
+            System.Diagnostics.Debug.WriteLine(actual, "actual");
+            System.Diagnostics.Debug.WriteLine(expected);
+            System.Diagnostics.Debug.WriteLine(actual);
             Assert.AreEqual(expected, actual);
         }
+        // [Test]
+        // [TestCase(new int[] { 1, 2, 3, 4, 5 }, 0)]
+        // [TestCase(new int[] { 2, 4, 1, 3, 5 }, 3)]
+        // [TestCase(new int[] { 5, 4, 3, 2, 1 }, 10)]
+        // [TestCase(new int[] { 6, 5, 4, 3, 2, 1 }, 15)]
+        // public void Problem044Stolen(int[] A, int inversions)
+        // {
+        //     //-- Arrange
+        //     var expected = inversions;
+
+        //     //-- Act
+        //     var actual = Solution044.countInversions(A);
+
+        //     //-- Assert
+        //     Assert.AreEqual(actual, expected);
+        // }
     }
 }
