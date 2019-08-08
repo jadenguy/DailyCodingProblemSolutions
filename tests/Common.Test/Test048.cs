@@ -36,26 +36,36 @@ namespace Common.Test
             nodes = new List<BinaryNode<string>>();
             poNodes = new List<BinaryNode<string>[]>();
             ioNodes = new List<BinaryNode<string>[]>();
+            BinaryNode<string> root;
 
-            var root = n(a);
-            nodes.Add(root);
+            // linear
+            nodes.Add(root = n(a));
             root.Left = n(b);
             root.Left.Left = n(c);
-            poNodes.Add(root.PostOrder().ToArray());
-            ioNodes.Add(root.InOrder().ToArray());
-            root = n(a);
-            nodes.Add(root);
+            AddResults(root);
+
+            // 1 branch
+            nodes.Add(root = n(a));
+            root.Left = n(b);
+            root.Right = n(c);
+            AddResults(root);
+
+            // 2 height branch
+            nodes.Add(root = n(a));
             root.Left = n(b);
             root.Right = n(c);
             root.Left.Left = n(d);
             root.Left.Right = n(e);
             root.Right.Left = n(f);
             root.Right.Right = n(g);
-            poNodes.Add(root.PostOrder().ToArray());
-            ioNodes.Add(root.InOrder().ToArray());
-            
+            AddResults(root);
         }
 
+        private void AddResults(BinaryNode<string> root)
+        {
+            poNodes.Add(root.PreOrder().Select(k => n(k.Data)).ToArray());
+            ioNodes.Add(root.InOrder().Select(k => n(k.Data)).ToArray());
+        }
 
         // [TearDown] public void TearDown() { }
         [Test]
@@ -65,10 +75,10 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = nodes[testCase];
+            var preOrder = poNodes[testCase];
+            var inOrder = ioNodes[testCase];
 
             //-- Act
-            BinaryNode<string>[] preOrder = poNodes[testCase];
-            BinaryNode<string>[] inOrder = ioNodes[testCase];
             var actual = Solution048.Reconstruct(preOrder, inOrder);
 
             // //-- Assert
