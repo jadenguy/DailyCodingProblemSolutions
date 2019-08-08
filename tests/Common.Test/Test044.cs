@@ -40,18 +40,18 @@ namespace Common.Test
             var solution = new Solution044();
             int actual = 0;
             //-- Act
-            System.Diagnostics.Debug.WriteLine("*****************************************************");
-            System.Diagnostics.Debug.WriteLine("********************** STARTING *********************");
-            System.Diagnostics.Debug.WriteLine("*****************************************************");
+            // System.Diagnostics.Debug.WriteLine("*****************************************************");
+            // System.Diagnostics.Debug.WriteLine("********************** STARTING *********************");
+            // System.Diagnostics.Debug.WriteLine("*****************************************************");
             var array = solution.CountSorts(A);
             actual = solution.Swaps;
 
             // //-- Assert
             Assert.AreEqual(A.OrderBy(k => k).ToArray(), array, "Sort failed");
-            System.Diagnostics.Debug.WriteLine(expected, "expected");
-            System.Diagnostics.Debug.WriteLine(actual, "actual");
-            System.Diagnostics.Debug.WriteLine(expected);
-            System.Diagnostics.Debug.WriteLine(actual);
+            // System.Diagnostics.Debug.WriteLine(expected, "expected");
+            // System.Diagnostics.Debug.WriteLine(actual, "actual");
+            // System.Diagnostics.Debug.WriteLine(expected);
+            // System.Diagnostics.Debug.WriteLine(actual);
             Assert.AreEqual(expected, actual);
         }
         // [Test]

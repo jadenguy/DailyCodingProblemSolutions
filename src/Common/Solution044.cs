@@ -30,20 +30,20 @@ namespace Common
             int smallHalf = length / 2;
             int bigHalf = length - smallHalf;
             var leftHalf = array.Take(bigHalf);
-            var rightHalf = array.TakeLast(smallHalf);
+            var rightHalf = array.Reverse().Take(smallHalf).Reverse();
             IEnumerable<T> sortedLeft = leftHalf;
             IEnumerable<T> sortedRight = rightHalf;
+            // System.Diagnostics.Debug.WriteLine(sortedLeft.Print(","), "l half");
+            // System.Diagnostics.Debug.WriteLine(rightHalf.Print(","), "r half");
             if (length > 2)
             {
-                System.Diagnostics.Debug.WriteLine("recurse");
-                System.Diagnostics.Debug.WriteLine("");
-                System.Diagnostics.Debug.WriteLine(sortedLeft.Print(","), "l half");
+                // System.Diagnostics.Debug.WriteLine("recurse");
+                // System.Diagnostics.Debug.WriteLine("");
                 sortedLeft = MergeSort(leftHalf);
-                System.Diagnostics.Debug.WriteLine(rightHalf.Print(","), "r half");
                 sortedRight = MergeSort(rightHalf);
             }
-            System.Diagnostics.Debug.WriteLine("merging");
-            System.Diagnostics.Debug.WriteLine("");
+            // System.Diagnostics.Debug.WriteLine("merging");
+            // System.Diagnostics.Debug.WriteLine("");
             return Merge(sortedLeft, sortedRight);
         }
 
@@ -77,29 +77,29 @@ namespace Common
                     if (left.CompareTo(right) < 0)
                     {
                         ret.Add(l.Dequeue());
-                        System.Diagnostics.Debug.WriteLine($"{left} less than {right}");
+                        // System.Diagnostics.Debug.WriteLine($"{left} less than {right}");
                     }
                     else
                     {
                         { ret.Add(r.Dequeue()); }
                         Swaps += l.Count;
-                        System.Diagnostics.Debug.WriteLine($"{right} less than {left}, swap {Swaps}");
+                        // System.Diagnostics.Debug.WriteLine($"{right} less than {left}, swap measure {Swaps}");
                     }
                 }
                 else if (lExists)
                 {
                     ret.Add(l.Dequeue());
-                    System.Diagnostics.Debug.WriteLine($"right empty, adding {left}");
+                    // System.Diagnostics.Debug.WriteLine($"right empty, adding {left}");
                 }
                 else if (rExists)
                 {
                     ret.Add(r.Dequeue());
-                    System.Diagnostics.Debug.WriteLine($"left empty, adding {right}");
+                    // System.Diagnostics.Debug.WriteLine($"left empty, adding {right}");
                 }
                 else { keepGoing = false; }
             } while (keepGoing);
-            System.Diagnostics.Debug.Write("Merged to: ");
-            System.Diagnostics.Debug.WriteLine(ret.Print(","));
+            // System.Diagnostics.Debug.Write("Merged to: ");
+            // System.Diagnostics.Debug.WriteLine(ret.Print(","));
             return ret;
         }
         // private static IEnumerable<IEnumerable<T>> ChopArray<T>(IEnumerable<T> array)
