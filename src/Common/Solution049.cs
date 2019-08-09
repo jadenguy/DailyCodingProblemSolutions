@@ -18,13 +18,13 @@ namespace Common
                 if (value >= 0)
                 {
 
+                    array[writeHead] += value;
                 }
                 else
                 {
                     writeHead += TryWriteAhead(array, length, writeHead, value);
 
                 }
-                array[writeHead] += value;
             }
             if (0 > ret) { return 0; }
             return ret;
