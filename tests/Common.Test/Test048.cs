@@ -47,19 +47,19 @@ namespace Common.Test
             ioNodes = new List<BinaryNode<string>[]>();
             BinaryNode<string> root;
 
-            // linear
-            nodes.Add(root = n(a,"root"));
-            root.Left = n(b);
-            root.Left.Left = n(c);
-            AddResults(root);
-
-            // 1 branch
+            // 0 branch
             nodes.Add(root = n(a,"root"));
             root.Left = n(b);
             root.Right = n(c);
             AddResults(root);
 
-            // 2 height branch
+            // 1 linear
+            nodes.Add(root = n(a,"root"));
+            root.Left = n(b);
+            root.Left.Left = n(c);
+            AddResults(root);
+
+            // 2 large branch
             nodes.Add(root = n(a,"root"));
             root.Left = n(b);
             root.Right = n(c);
@@ -69,7 +69,6 @@ namespace Common.Test
             root.Right.Right = n(g);
             AddResults(root);
         }
-
         private void AddResults(BinaryNode<string> root)
         {
             poNodes.Add(root.PreOrder().Select(k => n(k.Data)).ToArray());
@@ -80,6 +79,7 @@ namespace Common.Test
         [Test]
         [TestCase(0)]
         [TestCase(1)]
+        [TestCase(2)]
         public void Problem048(int testCase)
         {
             //-- Arrange
@@ -91,7 +91,9 @@ namespace Common.Test
             var actual = Solution048.Reconstruct(preOrder, inOrder);
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.PreOrder().Select(n => n.Data), actual.PreOrder().Select(n => n.Data), "preorder failed");
+            Assert.AreEqual(expected.InOrder().Select(n => n.Data), actual.InOrder().Select(n => n.Data), "inorder failed");
+            Assert.AreEqual(expected.PostOrder().Select(n => n.Data), actual.PostOrder().Select(n => n.Data), "postorder failed");
         }
     }
 }
