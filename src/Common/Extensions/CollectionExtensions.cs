@@ -9,6 +9,7 @@ namespace Common.Extensions
 
     public static class CollectionExtensions
     {
+        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> inOrder, int i) => inOrder.Reverse().Take(i).Reverse();
         [System.Diagnostics.DebuggerStepThrough] public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n") => string.Join(seperator, enumerable);
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
         [System.Diagnostics.DebuggerStepThrough]
