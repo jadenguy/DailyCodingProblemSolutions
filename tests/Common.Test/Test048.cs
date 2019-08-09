@@ -29,7 +29,16 @@ namespace Common.Test
         const string e = "E";
         const string f = "F";
         const string g = "G";
-        private static BinaryNode<string> n(string text) => new BinaryNode<string>(text);
+        private static BinaryNode<string> n(string text, string name = null)
+        {
+            if (name is null)
+            {
+                name = text;
+            }
+
+            return new BinaryNode<string>(value: text, name: name);
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -39,19 +48,19 @@ namespace Common.Test
             BinaryNode<string> root;
 
             // linear
-            nodes.Add(root = n(a));
+            nodes.Add(root = n(a,"root"));
             root.Left = n(b);
             root.Left.Left = n(c);
             AddResults(root);
 
             // 1 branch
-            nodes.Add(root = n(a));
+            nodes.Add(root = n(a,"root"));
             root.Left = n(b);
             root.Right = n(c);
             AddResults(root);
 
             // 2 height branch
-            nodes.Add(root = n(a));
+            nodes.Add(root = n(a,"root"));
             root.Left = n(b);
             root.Right = n(c);
             root.Left.Left = n(d);
