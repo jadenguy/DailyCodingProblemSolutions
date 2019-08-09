@@ -14,6 +14,7 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
+        [TestCase(new int[] { 1, 1, 1, 1, 1 }, 5)]
         [TestCase(new int[] { 34, -50, 42, 14, -5, 86 }, 137)]
         [TestCase(new int[] { -5, -1, -8, -9 }, 0)]
         public void Problem049(int[] array, int maxSum)
