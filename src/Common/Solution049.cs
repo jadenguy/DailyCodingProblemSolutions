@@ -1,40 +1,20 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
-
+using Common.Extensions;
+using Common.Algorithm;
 namespace Common
 {
     public class Solution049
     {
-        public static int FindLargestSubstring(int[] array2)
+        public static int FindLargestContinuousSubset(IEnumerable<int> array) => DnC.DivideAndConquor(array, CombineOrReturnOne);
+        public static int CombineOrReturnOne(int a, int b)
         {
-            var array = array2.ToArray();
-            if (array.Length == 0) { return 0; }
-            var ret = 0;
-            var length = array.Length;
-            var writeHead = 0;
-            for (int i = 1; i < length; i++)
-            {
-                int value = array[i];
-                array[i] = 0;
-                if (value >= 0)
-                {
-
-                    array[writeHead] += value;
-                }
-                else
-                {
-                    writeHead += TryWriteAhead(array, length, writeHead, value);
-
-                }
-            }
-            if (0 > ret) { return 0; }
-            return ret;
+            if (a > 0 && b > 0) { return a + b; }
+            if (a > 0) { return a; }
+            if (b > 0) { return b; }
+            return 0;
         }
-
-        private static int TryWriteAhead(int[] array, int length, int index, int value)
-        {
-            if (index + 1 < length)
-            { array[index + 1] = value; }
-            return 2;
-        }
+        
     }
 }
