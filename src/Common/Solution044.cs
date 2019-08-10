@@ -20,7 +20,7 @@ namespace Common
         }
         public static T[] CountSorts<T>(T[] array, ref int swaps) where T : IComparable<T>
         {
-            var newArray = array.MergeSort(ref swaps).ToArray();
+            var newArray = array.MergeSortMeasure(ref swaps).ToArray();
             return newArray;
         }
         // private static IEnumerable<IEnumerable<T>> ChopArray<T>(IEnumerable<T> array)

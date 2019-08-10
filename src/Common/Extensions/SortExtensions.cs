@@ -1,23 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Algorithm;
 
 namespace Common.Extensions
 {
     public static class SortExtensions
     {
-                public static IEnumerable<T> MergeSort<T>(this IEnumerable<T> array) where T : IComparable<T>
+        public static IEnumerable<T> MergeSort<T>(this IEnumerable<T> array)
+            where T : IComparable<T>
         {
-            int x = 0;
-            return array.MergeSort(ref x);
+            // IEnumerable<T> x = Merge<T>(array, array);
+            
+            // var ret = DnC.DivideAndConquor<T>(array, Merge<T>);
+            throw new Exception();
+            // return ;
         }
-        public static IEnumerable<T> MergeSort<T>(this IEnumerable<T> array, ref int swaps) where T : IComparable<T>
+        public static IEnumerable<T> MergeSortMeasure<T>(this IEnumerable<T> array, ref int swaps) where T : IComparable<T>
         {
             int length = array.Count();
             int smallHalf = length / 2;
             int bigHalf = length - smallHalf;
             var leftHalf = array.Take(bigHalf);
-            var rightHalf = array.Reverse().Take(smallHalf).Reverse();
+            var rightHalf = array.TakeLast(smallHalf);
             IEnumerable<T> sortedLeft = leftHalf;
             IEnumerable<T> sortedRight = rightHalf;
             // System.Diagnostics.Debug.WriteLine(sortedLeft.Print(","), "l half");
@@ -26,14 +31,20 @@ namespace Common.Extensions
             {
                 // System.Diagnostics.Debug.WriteLine("recurse");
                 // System.Diagnostics.Debug.WriteLine("");
-                sortedLeft = MergeSort(leftHalf, ref swaps);
-                sortedRight = MergeSort(rightHalf, ref swaps);
+                sortedLeft = MergeSortMeasure(leftHalf, ref swaps);
+                sortedRight = MergeSortMeasure(rightHalf, ref swaps);
             }
             // System.Diagnostics.Debug.WriteLine("merging");
             // System.Diagnostics.Debug.WriteLine("");
-            return Merge(sortedLeft, sortedRight, ref swaps);
+            return MergeMeasure(sortedLeft, sortedRight, ref swaps);
         }
-        private static IEnumerable<T> Merge<T>(this IEnumerable<T> leftHalf, IEnumerable<T> rightHalf, ref int swaps) where T : IComparable<T>
+        private static IEnumerable<T> Merge<T>(IEnumerable<T> leftHalf, IEnumerable<T> rightHalf)
+            where T : IComparable<T>
+        {
+            var x = 0;
+            return MergeMeasure(leftHalf, rightHalf, ref x);
+        }
+        private static IEnumerable<T> MergeMeasure<T>(this IEnumerable<T> leftHalf, IEnumerable<T> rightHalf, ref int swaps) where T : IComparable<T>
         {
             // System.Diagnostics.Debug.WriteLine(leftHalf.Print(","), "l half");
             // System.Diagnostics.Debug.WriteLine(rightHalf.Print(","), "r half");

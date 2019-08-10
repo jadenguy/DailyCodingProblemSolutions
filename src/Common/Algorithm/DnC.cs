@@ -8,8 +8,8 @@ namespace Common.Algorithm
     public static class DnC
     {
 
-        public static Q DivideAndConquor<T, Q>(IEnumerable<T> array, Func<T, T, Q> evaluator)
-            where Q : T
+        public static T DivideAndConquor<T>(IEnumerable<T> array, Func<T, T, T> evaluator)
+
         {
             var divided = Divide(array, out var leftHalf, out var rightHalf);
             return Conquor(evaluator, leftHalf, rightHalf, divided);
@@ -23,8 +23,7 @@ namespace Common.Algorithm
             rightHalf = array.TakeLast(smallHalf);
             return length <= 2;
         }
-        private static Q Conquor<T, Q>(Func<T, T, Q> evaluator, IEnumerable<T> leftHalf, IEnumerable<T> rightHalf, bool divided)
-            where Q : T
+        private static T Conquor<T>(Func<T, T, T> evaluator, IEnumerable<T> leftHalf, IEnumerable<T> rightHalf, bool divided)
         {
             if (!divided) { return evaluator(leftHalf.FirstOrDefault(), rightHalf.FirstOrDefault()); }
             else
