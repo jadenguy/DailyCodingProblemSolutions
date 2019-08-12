@@ -9,7 +9,8 @@ namespace Common.Extensions
 
     public static class CollectionExtensions
     {
-        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> inOrder, int i) => inOrder.Reverse().Take(i).Reverse();
+        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeSub<T>(this IEnumerable<T> inumerable, int start, int length = 1) => inumerable.Skip(start).Take(length);
+        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumerable, int i) => enumerable.Reverse().Take(i).Reverse();
         [System.Diagnostics.DebuggerStepThrough] public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n") => string.Join(seperator, enumerable);
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
         [System.Diagnostics.DebuggerStepThrough]
@@ -21,6 +22,7 @@ namespace Common.Extensions
                 yield return item;
             }
         }
+        [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T[]> EverySubset<T>(this IEnumerable<T> enumerable)
         {
             var source = enumerable.ToArray();
@@ -38,6 +40,7 @@ namespace Common.Extensions
                 yield return combination.ToArray();
             }
         }
+        [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable) where T : IEquatable<T>
         {
             if (enumerable.Count() == 1) { yield return enumerable.ToArray(); }
