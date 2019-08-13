@@ -4,6 +4,6 @@ namespace Common.Repository
     {
         public OrderEntity(int id) => Id = id;
         public int Id { get; set; }
-        public Order Order { get; set; }
+        public Order Value { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace Common.Repository
 {
-    interface IEntity<T, V> where T : struct
+    interface IEntity<TId, TValue> where TId : struct
     {
-        T Id { get; set; }
-        V Order { get; set; }
+        TId Id { get; set; }
+        TValue Value { get; set; }
     }
 }
