@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Common.Extensions;
 
 namespace Common.Test
 {
@@ -29,12 +31,12 @@ namespace Common.Test
         {
             throw new NotImplementedException();
         }
-        public static IEnumerable<string> SampleBoard(string square)
+        public static IEnumerable<string> BoardToSquares(string square)
         {
-            
             for (int i = 0; i < 9; i++)
             {
-                yield return square.Substring(i * 9, 9);
+                yield return square.Substring(i * 9, 9);// this is vertical
+                System.Diagnostics.Debug.WriteLine(Enumerable.Range(i*9,9).Print(","));
             }
         }
     }
