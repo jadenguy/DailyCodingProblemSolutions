@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -117,6 +118,44 @@ namespace Common
                 ret &= IsSquareSolved(square);
             }
             return ret;
+        }
+
+        public static string SolveBackTracking(string initialBoard)
+        {
+            var board = initialBoard;
+            for (int i = 0; i < 81; i++)
+            {
+                char v = board[i];
+                while (v == '0')
+                {
+                    IEnumerable<char> enumerable = SuggestNext(board, i).ToArray();
+                    foreach (var suggestion in enumerable)
+                    {
+                        string x = "";
+                        if (i > 0) { x += board.Substring(0, i); }
+                        x += suggestion;
+                        if (i < 80)
+                        {
+                            int length = 81 - i - 1;
+                            int startIndex = i + 1;
+                            x += board.Substring(startIndex, length);
+                        }
+                        var possibleBoard = SolveBackTracking(x);
+                        if (possibleBoard.Contains(0.ToString()))
+                        {
+                            return board;
+                        }
+                    }
+                }
+            }
+            return board;
+        }
+
+        private static IEnumerable<char> SuggestNext(string initialBoard, int i)
+        {
+            int[][] neighborIndex = FindNeighbors(i).ToArray();
+            char[][] neighborValue = neighborIndex.Select(k => k.Select(r => initialBoard[r]).Distinct().ToArray()).ToArray();
+            return Enumerable.Range(1, 9).Select(n => n).Select(x => x.ToString()[0]).Where(l => !neighborValue.Where(n => n.Contains(l)).Any());
         }
     }
 }

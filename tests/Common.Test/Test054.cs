@@ -35,7 +35,7 @@ namespace Common.Test
             bool actual = Solution054.ValidateSquare(square);
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, "square state validity wrong");
         }
         [Test]
         [TestCase(initialBoard, true)]
@@ -50,7 +50,7 @@ namespace Common.Test
             bool actual = Solution054.ValidateBoard(board);
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, "board state validity wrong");
         }
         [Test]
         [TestCase(initialBoard, false)]
@@ -65,7 +65,7 @@ namespace Common.Test
             bool actual = Solution054.IsBoardSolved(board);
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, "board solve state wrong");
         }
         [Test]
         [TestCase(emptySquare, emptyBoard)]
@@ -85,7 +85,7 @@ namespace Common.Test
             {
                 for (int i = 0; i < expectedSquareCount; i++)
                 {
-                    Assert.AreEqual(expectedSquare, actual[i]);
+                    Assert.AreEqual(expectedSquare, actual[i], "wrong squares");
                 }
             }
         }
@@ -129,6 +129,18 @@ namespace Common.Test
                     Assert.AreEqual(expectedSquareSquare, actual[i + 18], "box wrong");
                 }
             }
+        }
+        [Test]
+        public void Problem054SolveBacktracking()
+        {
+            //-- Arrange
+            bool expected = true;
+
+            //-- Act
+            var actual = Solution054.SolveBackTracking(initialBoard);
+
+            //-- Assert
+            Assert.AreEqual(expected, actual, "wrong neighbors");
         }
     }
 }
