@@ -94,7 +94,8 @@ namespace Common.Test
                 }
                 for (int i = 9; i < 18; i++)
                 {
-                    var expectedVertical = (i - 9) * 9;
+                    int vRow = i - 9;
+                    var expectedVertical = new string(vRow.ToString()[0], 9);
                     Assert.AreEqual(expectedVertical, actual[i]);
                 }
             }
