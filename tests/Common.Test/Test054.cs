@@ -38,16 +38,31 @@ namespace Common.Test
             Assert.AreEqual(expected, actual);
         }
         [Test]
-        [TestCase(initialBoard, false)]
+        [TestCase(initialBoard, true)]
         [TestCase(completeBoard, true)]
         [TestCase(invalidBoard, false)]
-        public void Problem054IsBoardValid(string square, bool valid)
+        public void Problem054IsBoardValid(string board, bool valid)
         {
             //-- Arrange
             var expected = valid;
 
             //-- Act
-            bool actual = Solution054.ValidateBoard(square);
+            bool actual = Solution054.ValidateBoard(board);
+
+            // //-- Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        [TestCase(initialBoard, false)]
+        [TestCase(completeBoard, true)]
+        [TestCase(invalidBoard, false)]
+        public void Problem054IsBoardSolved(string board, bool valid)
+        {
+            //-- Arrange
+            var expected = valid;
+
+            //-- Act
+            bool actual = Solution054.IsBoardSolved(board);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
@@ -75,12 +90,12 @@ namespace Common.Test
             }
         }
         [Test]
-        [TestCase(indexHBoard)]
-        public void Problem054BoardToDimensionsComplex(string board)
+        public void Problem054BoardToDimensionsComplex()
         {
             //-- Arrange
             var expectedSquareCount = 27;
             var expectedHorizontal = indexSquare;
+            string board = indexHBoard;
 
             //-- Act
             var actual = Solution054.BoardToSquares(board);
@@ -98,7 +113,6 @@ namespace Common.Test
                     var z = 333 * x;
                     var expectedSquareSquare = (12 + z).ToString("000");
                     expectedSquareSquare += expectedSquareSquare + expectedSquareSquare;
-
                     Assert.AreEqual(expectedSquareSquare, actual[i + 18]);
                 }
             }
