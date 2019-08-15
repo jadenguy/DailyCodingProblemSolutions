@@ -17,8 +17,8 @@ namespace Common.Test
         private const string initialBoard = "003020600900305001001806400008102900700000008006708200002609500800203009005010300";
         private const string completeBoard = "483921657967345821251876493548132976729564138136798245372689514814253769695417382";
         private const string invalidBoard = "111111111111111111111111111111111111111111111111111111111111111111111111111111111";
-        private const string numberBoard = "012345678012345678012345678012345678012345678012345678012345678012345678012345678";
-        private const string numberSquare = "012345678";
+        private const string indexHBoard = "012345678012345678012345678012345678012345678012345678012345678012345678012345678";
+        private const string indexSquare = "012345678";
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
@@ -75,12 +75,13 @@ namespace Common.Test
             }
         }
         [Test]
-        [TestCase(numberBoard)]
+        [TestCase(indexHBoard)]
         public void Problem054BoardToDimensionsComplex(string board)
         {
             //-- Arrange
             var expectedSquareCount = 27;
-            var expectedHorizontal = numberSquare;
+            var expectedHorizontal = indexSquare;
+
             //-- Act
             var actual = Solution054.BoardToSquares(board);
 
@@ -91,12 +92,14 @@ namespace Common.Test
                 for (int i = 0; i < 9; i++)
                 {
                     Assert.AreEqual(expectedHorizontal, actual[i]);
-                }
-                for (int i = 9; i < 18; i++)
-                {
-                    int vRow = i - 9;
-                    var expectedVertical = new string(vRow.ToString()[0], 9);
-                    Assert.AreEqual(expectedVertical, actual[i]);
+                    var expectedVertical = new string(i.ToString()[0], 9);
+                    Assert.AreEqual(expectedVertical, actual[i + 9]);
+                    var x = i % 3;
+                    var z = 333 * x;
+                    var expectedSquareSquare = (12 + z).ToString("000");
+                    expectedSquareSquare += expectedSquareSquare + expectedSquareSquare;
+
+                    Assert.AreEqual(expectedSquareSquare, actual[i + 18]);
                 }
             }
         }

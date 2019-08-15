@@ -44,7 +44,7 @@ namespace Common
             }
             return ret;
         }
-        // I figured out working this out that Sudoku is a 2D representation of a 3d problem, slices of a 3 x 3 x 3 cube. So I've encoded a 3d problem, displayed as a 2d board, encoded as a 1d string.
+        // I figured out working this out that Sudoku is a 2D representation of a 3d problem, slices of a 3 x 3 x 3 cube. So I've encoded a 3d problem, displayed as a 2d board, as a 1d string.
         private static int[,] DefineSquares()
         {
             var ret = new int[27, 9];
