@@ -1,10 +1,12 @@
+using System.Collections.Generic;
+
 namespace Common.Collections
 {
     public class StackQueue<T>
     {
         private object queueLock = new object();
-        private System.Collections.Generic.Stack<T> queue = new System.Collections.Generic.Stack<T>();
-        private System.Collections.Generic.Stack<T> reverseQueue = new System.Collections.Generic.Stack<T>();
+        private Stack<T> queue = new Stack<T>();
+        private Stack<T> reverseQueue = new Stack<T>();
         public StackQueue() { }
         public void Enqueue(T v)
         {

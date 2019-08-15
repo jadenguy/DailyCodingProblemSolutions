@@ -20,7 +20,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = new int[] { };
-            var stack = new Stack<int>();
+            var stack = new DoubleArrayStack<int>();
             //-- Act
 
             var actual = stack.ToArray();
@@ -33,7 +33,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = new int[] { 1 };
-            var stack = new Stack<int>();
+            var stack = new DoubleArrayStack<int>();
             //-- Act
 
             stack.Push(1);
@@ -47,7 +47,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = new int[] { 1, 2 };
-            var stack = new Stack<int>();
+            var stack = new DoubleArrayStack<int>();
 
             //-- Act
             stack.Push(1);
@@ -63,7 +63,7 @@ namespace Common.Test
             //-- Arrange
             int values = 5000;
             var expected = Enumerable.Range(0, values).ToArray();
-            var stack = new Stack<int>();
+            var stack = new DoubleArrayStack<int>();
 
             //-- Act
             for (int i = 0; i < values; i++)
@@ -80,7 +80,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = 1;
-            var stack = new Stack<int>();
+            var stack = new DoubleArrayStack<int>();
 
             //-- Act
             stack.Push(1);
@@ -94,7 +94,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = 1;
-            var stack = new Stack<int>();
+            var stack = new DoubleArrayStack<int>();
 
             //-- Act
             stack.Push(1);

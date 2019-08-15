@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Common.Collections
 {
-    public class Stack<T> : IEnumerable<T>
+    public class DoubleArrayStack<T> : IEnumerable<T>
     {
         private int capacityRoot = 1024;
         private int length = 0;
         private T[][] elements;
         public int Length { get => length; set => length = value; }
-        public Stack()
+        public DoubleArrayStack()
         {
             elements = new T[capacityRoot][];
             elements[0] = new T[capacityRoot];
