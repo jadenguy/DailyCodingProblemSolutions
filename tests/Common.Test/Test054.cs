@@ -90,6 +90,19 @@ namespace Common.Test
             }
         }
         [Test]
+        public void WhoAreMyNeighborsThree()
+        {
+            //-- Arrange
+            int wanted = 3;
+            int[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 21, 22, 23, 30, 39, 48, 57, 66, 75 };
+
+            //-- Act
+            var actual = Solution054.FindNeighbors(wanted).SelectMany(k => k).OrderBy(k => k).Distinct();
+
+            //-- Assert
+            Assert.AreEqual(expected, actual, "wrong neighbors");
+        }
+        [Test]
         public void Problem054BoardToDimensionsComplex()
         {
             //-- Arrange
@@ -106,14 +119,14 @@ namespace Common.Test
             {
                 for (int i = 0; i < 9; i++)
                 {
-                    Assert.AreEqual(expectedHorizontal, actual[i]);
+                    Assert.AreEqual(expectedHorizontal, actual[i], "row wrong");
                     var expectedVertical = new string(i.ToString()[0], 9);
-                    Assert.AreEqual(expectedVertical, actual[i + 9]);
+                    Assert.AreEqual(expectedVertical, actual[i + 9], "column wrong");
                     var x = i % 3;
                     var z = 333 * x;
                     var expectedSquareSquare = (12 + z).ToString("000");
                     expectedSquareSquare += expectedSquareSquare + expectedSquareSquare;
-                    Assert.AreEqual(expectedSquareSquare, actual[i + 18]);
+                    Assert.AreEqual(expectedSquareSquare, actual[i + 18], "box wrong");
                 }
             }
         }

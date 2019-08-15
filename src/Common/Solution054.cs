@@ -67,39 +67,44 @@ namespace Common
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    ret[i] += board[squares[i, j]];
+                    ret[i] += board[squares[i][j]];
                 }
             }
             return ret;
         }
-        // I figured out working this out that Sudoku is a 2D representation of a 3d problem, slices of a 3 x 3 x 3 cube. So I've encoded a 3d problem, displayed as a 2d board, as a 1d string.
-        private static int[,] DefineSquares()
+        public static int[][] FindNeighbors(int i)
         {
-            var ret = new int[27, 9];
+            var squares = Solution054.DefineSquares();
+            return squares.Where(k => k.Contains(i)).ToArray();
+        }
+
+        // I figured out working this out that Sudoku is a 2D representation of a 3d problem, slices of a 3 x 3 x 3 cube. So I've encoded a 3d problem, displayed as a 2d board, as a 1d string.
+        public static int[][] DefineSquares()
+        {
+            var ret = new int[27][];
             // trinary representations of 9 below, once for which group, one for which value per group
             // sBig is the significant square trit, and sSmall is the insignificant trit
-            for (int sBig = 0; sBig < 3; sBig++)
+            for (int squareIndex = 0; squareIndex < 9; squareIndex++)
             {
-                for (int sSmall = 0; sSmall < 3; sSmall++)
+                ret[squareIndex] = new int[9];
+                ret[squareIndex + 9] = new int[9];
+                ret[squareIndex + 18] = new int[9];
+                // see above about sBig and sSmall, but Cell index trit values
+                for (int cellIndex = 0; cellIndex < 9; cellIndex++)
                 {
-                    var squareIndex = sBig * 3 + sSmall;
-                    // see above about sBig and sSmall, but Cell index trit values
-                    for (int cBig = 0; cBig < 3; cBig++)
-                    {
-                        for (int cSmall = 0; cSmall < 3; cSmall++)
-                        {
-                            int cellIndex = ((cBig * 3) + cSmall);
-                            int horizontal = cellIndex + (squareIndex * 9);
-                            int vertical = (cellIndex * 9) + squareIndex;
-                            // got it, could have used % instead of building it components of 9, but here we are
-                            // basically using the same formula as the above but swap the big trit with the small
-                            //  trit of the opposite one
-                            int box = (cBig * 9) + (cSmall) + (sSmall * 3) + (sBig * 27);
-                            ret[squareIndex, cellIndex] = horizontal;
-                            ret[squareIndex + 9, cellIndex] = vertical;
-                            ret[squareIndex + 18, cellIndex] = box;
-                        }
-                    }
+                    int horizontal = cellIndex + (squareIndex * 9);
+                    int vertical = (cellIndex * 9) + squareIndex;
+                    // got it, could have used % instead of building it components of 9, but here we are
+                    // basically using the same formula as the above but swap the big trit with the small
+                    //  trit of the opposite one
+                    var cBig = cellIndex / 3;
+                    var cSmall = cellIndex % 3;
+                    var sBig = squareIndex / 3;
+                    var sSmall = squareIndex % 3;
+                    int box = (cBig * 9) + (cSmall) + (sSmall * 3) + (sBig * 27);
+                    ret[squareIndex][cellIndex] = horizontal;
+                    ret[squareIndex + 9][cellIndex] = vertical;
+                    ret[squareIndex + 18][cellIndex] = box;
                 }
             }
             return ret;
