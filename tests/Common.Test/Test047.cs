@@ -22,7 +22,7 @@ namespace Common.Test
             int actual = Solution047.FindBestBuyPriceNaive(prices).Low;
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, prices[actual]);
         }
     }
 }
