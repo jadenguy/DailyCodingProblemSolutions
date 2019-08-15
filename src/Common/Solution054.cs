@@ -27,16 +27,25 @@ namespace Common.Test
             }
             return valid;
         }
-        public static bool ValidateBoard(string square)
+        public static bool ValidateBoard(string board)
         {
-            throw new NotImplementedException();
+            var ret = true;
+            foreach (var square in BoardToSquares(board))
+            {
+                ret &= ValidateSquare(square);
+            }
+            return ret;
         }
-        public static IEnumerable<string> BoardToSquares(string square)
+        public static IEnumerable<string> BoardToSquares(string board)
         {
+            var vrt = new List<int>[9];
+            var hrz = new List<int>[9];
+            var sqr = new List<int>[9];
             for (int i = 0; i < 9; i++)
             {
-                yield return square.Substring(i * 9, 9);// this is vertical
-                System.Diagnostics.Debug.WriteLine(Enumerable.Range(i*9,9).Print(","));
+                vrt[i] = new List<int>(Enumerable.Range(i * 9, 9));
+                hrz[i] = new List<int>(Enumerable.Range(i * 9, 9));
+                sqr[i] = new List<int>(Enumerable.Range(i * 9, 9));
             }
         }
     }

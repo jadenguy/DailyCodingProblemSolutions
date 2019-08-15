@@ -54,14 +54,14 @@ namespace Common.Test
         [Test]
         [TestCase(emptySquare, emptyBoard)]
         [TestCase(invalidSquare, invalidBoard)]
-        public void Problem054SampleBoard(string square, bool valid)
+        public void Problem054SampleBoard(string square, string board)
         {
             //-- Arrange
-            var expectedSquare = valid;
+            var expectedSquare = square;
             var expectedSquareCount = 27;
 
             //-- Act
-            var actual = Solution054.BoardToSquares(square).ToArray();
+            var actual = Solution054.BoardToSquares(board).ToArray();
 
             // //-- Assert
             Assert.AreEqual(expectedSquareCount, actual.Length, "wrong number of samples returned");
