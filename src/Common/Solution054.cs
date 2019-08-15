@@ -36,17 +36,48 @@ namespace Common.Test
             }
             return ret;
         }
-        public static IEnumerable<string> BoardToSquares(string board)
+        public static string[] BoardToSquares(string board)
         {
+            var ret = new string[27];
             var vrt = new List<int>[9];
             var hrz = new List<int>[9];
             var sqr = new List<int>[9];
-            for (int i = 0; i < 9; i++)
+            for (int h = 0; h < 3; h++)
             {
-                vrt[i] = new List<int>(Enumerable.Range(i * 9, 9));
-                hrz[i] = new List<int>(Enumerable.Range(i * 9, 9));
-                sqr[i] = new List<int>(Enumerable.Range(i * 9, 9));
+                for (int i = 0; i < 3; i++)
+                {
+                    var squareIndex = h * 3 + i;
+                    vrt[squareIndex] = new List<int>(9);
+                    hrz[squareIndex] = new List<int>(9);
+                    sqr[squareIndex] = new List<int>(9);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        for (int k = 0; k < 3; k++)
+                        {
+                            int cellIndex = ((j * 3) + k);
+                            int horizontal = cellIndex + (squareIndex * 9);
+                            int vertical = (cellIndex) * 9 + squareIndex;
+                            int box = (3 * j) + (k) + (i * 9) + h * 3; // this is giving me trouble
+
+                            System.Diagnostics.Debug.WriteLine(squareIndex, "i");
+                            System.Diagnostics.Debug.WriteLine(horizontal, "h");
+                            System.Diagnostics.Debug.WriteLine(vertical, "v");
+                            System.Diagnostics.Debug.WriteLine(box, "b");
+                            System.Diagnostics.Debug.WriteLine("");
+
+                            hrz[squareIndex].Add(horizontal);
+                            vrt[squareIndex].Add(vertical);
+                            sqr[squareIndex].Add(box);
+
+                            ret[squareIndex] += board[horizontal];
+                            ret[squareIndex + 9] += board[vertical];
+                            ret[squareIndex + 18] += board[box];
+                        }
+                    }
+                }
+
             }
+            return ret;
         }
     }
 }

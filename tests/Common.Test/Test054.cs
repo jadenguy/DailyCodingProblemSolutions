@@ -17,7 +17,8 @@ namespace Common.Test
         private const string initialBoard = "003020600900305001001806400008102900700000008006708200002609500800203009005010300";
         private const string completeBoard = "483921657967345821251876493548132976729564138136798245372689514814253769695417382";
         private const string invalidBoard = "111111111111111111111111111111111111111111111111111111111111111111111111111111111";
-
+        private const string numberBoard = "012345678012345678012345678012345678012345678012345678012345678012345678012345678";
+        private const string numberSquare = "012345678";
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
@@ -54,7 +55,7 @@ namespace Common.Test
         [Test]
         [TestCase(emptySquare, emptyBoard)]
         [TestCase(invalidSquare, invalidBoard)]
-        public void Problem054SampleBoard(string square, string board)
+        public void Problem054BoardToDimensionsSimple(string square, string board)
         {
             //-- Arrange
             var expectedSquare = square;
@@ -70,6 +71,31 @@ namespace Common.Test
                 for (int i = 0; i < expectedSquareCount; i++)
                 {
                     Assert.AreEqual(expectedSquare, actual[i]);
+                }
+            }
+        }
+        [Test]
+        [TestCase(numberBoard)]
+        public void Problem054BoardToDimensionsComplex(string board)
+        {
+            //-- Arrange
+            var expectedSquareCount = 27;
+            var expectedHorizontal = numberSquare;
+            //-- Act
+            var actual = Solution054.BoardToSquares(board);
+
+            // //-- Assert
+            Assert.AreEqual(expectedSquareCount, actual.Length, "wrong number of samples returned");
+            if (expectedSquareCount == actual.Length)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    Assert.AreEqual(expectedHorizontal, actual[i]);
+                }
+                for (int i = 9; i < 18; i++)
+                {
+                    var expectedVertical = (i - 9) * 9;
+                    Assert.AreEqual(expectedVertical, actual[i]);
                 }
             }
         }
