@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common.Extensions;
-
-namespace Common.Test
+namespace Common
 {
     public class Solution054
     {
