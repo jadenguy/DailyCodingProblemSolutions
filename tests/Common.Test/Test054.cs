@@ -140,7 +140,7 @@ namespace Common.Test
             var actual = Solution054.SolveBackTracking(initialBoard);
 
             //-- Assert
-            Assert.AreEqual(expected, actual, "wrong neighbors");
+            Assert.AreEqual(expected, actual, "something went wrong");
         }
     }
 }

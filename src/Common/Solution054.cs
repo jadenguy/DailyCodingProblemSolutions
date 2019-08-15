@@ -128,7 +128,8 @@ namespace Common
                 char v = board[i];
                 while (v == '0')
                 {
-                    IEnumerable<char> enumerable = SuggestNext(board, i).ToArray();
+                    char[] enumerable = SuggestNext(board, i).ToArray();
+                    if (enumerable.Length == 0) { break; }
                     foreach (var suggestion in enumerable)
                     {
                         string x = "";
