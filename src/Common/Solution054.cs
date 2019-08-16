@@ -124,21 +124,42 @@ namespace Common
             var board = initialBoard.Select(d => int.Parse(d.ToString()).ToString()[0]).ToArray();
             var options = FindUnknowns(board);
             if (!board.Contains('0')) { yield return board.Print(""); }
+            if (options.Values.Where(v => v.Length == 0).Any()) { yield break; }
+
             // var neighbors = new Dictionary<int, int[]>();
+            (int, char, int)[] suggestionOrdered = GetRankedGuesses(board, options);
+            foreach (var suggestion in suggestionOrdered)
+            {
+                var index = suggestion.Item1;
+                var character = suggestion.Item2;
+                var newBoard = board.ToArray();
+                newBoard[index] = character;
+                foreach (var solution in Solve(newBoard.Print("")))
+                {
+                    yield return solution;
+                }
+            }
+        }
+
+        private static (int, char, int)[] GetRankedGuesses(char[] board, Dictionary<int, char[]> options)
+        {
             var suggestions = new List<(int, char, int)>();
+
             foreach (var key in options.Keys)
             {
                 var neighborhoodValues = FindNeighbors(key).SelectMany(k => k).Distinct().Where(q => board[q] == '0').Union(new int[1] { key }).ToArray();
                 // neighbors.Add(key, n);
                 var neighborSuggestions = neighborhoodValues.SelectMany(g => options[g]).ToArray();
-                var counts = neighborSuggestions.GroupBy(s => s).Select(r => new { Key = r.Key, Value = r.Count() }).ToArray();
+                var counts = neighborSuggestions.Where((f) => options[key].Contains(f)).GroupBy(s => s).Select(r => new { Key = r.Key, Value = r.Count() }).ToArray();
                 foreach (var item in counts)
                 {
                     suggestions.Add((key, item.Key, item.Value));
                 }
             }
-            var suggestionOrder = suggestions.OrderBy(x => x.Item3).ToArray();
+            var suggestionOrdered = suggestions.OrderBy(x => x.Item3).ToArray();
+            return suggestionOrdered;
         }
+
         private static Dictionary<int, char[]> FindUnknowns(char[] board)
         {
             bool foundAllZeroSolutions = false;

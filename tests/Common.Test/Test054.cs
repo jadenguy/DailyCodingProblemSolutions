@@ -181,7 +181,7 @@ namespace Common.Test
             }
         }
         [Test]
-        // [TestCase(Grid01, true)]
+        [TestCase(Grid01, true)]
         [TestCase(Grid02, true)]
         // [TestCase(Grid03, true)]
         // [TestCase(Grid04, true)]
