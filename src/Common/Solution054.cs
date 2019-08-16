@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common.Extensions;
 
 namespace Common
 {
@@ -119,44 +120,91 @@ namespace Common
             }
             return ret;
         }
-
-        public static string SolveBackTracking(string initialBoard)
+        public static IEnumerable<string> Solve(string initialBoard)
         {
-            var board = initialBoard;
-            for (int i = 0; i < 81; i++)
+            var board = initialBoard.Select(d => int.Parse(d.ToString()).ToString()[0]).ToArray();
+            int i = 0;
+            var height = 1;
+            var dict = new Dictionary<int, char[]>();
+            var done = false;
+            while (!done)
             {
-                char v = board[i];
-                while (v == '0')
+                char cellValue = board[i];
+                if (!board.Contains('0'))
                 {
-                    char[] enumerable = SuggestNext(board, i).ToArray();
-                    if (enumerable.Length == 0) { break; }
-                    foreach (var suggestion in enumerable)
+                    yield return string.Join("", board);
+                    done = true;
+                }
+                if (cellValue == '0')
+                {
+                    if (dict.ContainsKey(i)) { height++; }
+                    else { dict.Add(i, SuggestNext(string.Join("", board), i).ToArray()); }
+                    var suggestions = dict[i];
+                    if (suggestions.Length == 1)
                     {
-                        string x = "";
-                        if (i > 0) { x += board.Substring(0, i); }
-                        x += suggestion;
-                        if (i < 80)
+                        board[i] = suggestions[0];
+                        height = 1;
+                        dict.Clear();
+                    }
+                    else if (suggestions.Length == height)
+                    {
+                        foreach (var suggestion in suggestions)
                         {
-                            int length = 81 - i - 1;
-                            int startIndex = i + 1;
-                            x += board.Substring(startIndex, length);
-                        }
-                        var possibleBoard = SolveBackTracking(x);
-                        if (possibleBoard.Contains(0.ToString()))
-                        {
-                            return board;
+                            board[i] = suggestion;
+                            var possibleBoard = Solve(string.Join("", board));
+                            if (possibleBoard.Contains(0.ToString()))
+                            {
+                                yield return string.Join("", board);
+                                dict.Clear();
+                                done = true;
+                            }
                         }
                     }
+                    else if (!board.Contains('0'))
+                    {
+                        yield return string.Join("", board);
+                        done = true;
+                    }
                 }
+                i = (i + 1) % 81;
             }
-            return board;
         }
-
         private static IEnumerable<char> SuggestNext(string initialBoard, int i)
         {
             int[][] neighborIndex = FindNeighbors(i).ToArray();
             char[][] neighborValue = neighborIndex.Select(k => k.Select(r => initialBoard[r]).Distinct().ToArray()).ToArray();
             return Enumerable.Range(1, 9).Select(n => n).Select(x => x.ToString()[0]).Where(l => !neighborValue.Where(n => n.Contains(l)).Any());
         }
+        // public static IEnumerable<string> SolveBackTracking(string initialBoard)
+        // {
+        //     var board = initialBoard.ToCharArray();
+        //     for (int i = 0; i < 81; i++)
+        //     {
+        //         char v = board[i];
+        //         while (v == '0')
+        //         {
+        //             char[] suggestions = SuggestNext(string.Join("", board), i).ToArray();
+        //             if (suggestions.Length == 0) { break; }
+        //             foreach (var suggestion in suggestions)
+        //             {
+        //                 // string x = "";
+        //                 // if (i > 0) { x += board.Substring(0, i); }
+        //                 // x += suggestion;
+        //                 // if (i < 80)
+        //                 // {
+        //                 //     int length = 81 - i - 1;
+        //                 //     int startIndex = i + 1;
+        //                 //     x += board.Substring(startIndex, length);
+        //                 // }
+        //                 board[i] = suggestion;
+        //                 var possibleBoard = SolveBackTracking(string.Join("", board));
+        //                 if (possibleBoard.Contains(0.ToString()))
+        //                 {
+        //                     yield return string.Join("", board);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     }
 }

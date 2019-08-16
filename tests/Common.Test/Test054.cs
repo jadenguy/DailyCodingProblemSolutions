@@ -131,13 +131,14 @@ namespace Common.Test
             }
         }
         [Test]
-        public void Problem054SolveBacktracking()
+        public void Problem054Solve()
         {
             //-- Arrange
             bool expected = true;
 
             //-- Act
-            var actual = Solution054.SolveBackTracking(initialBoard);
+            var solutions = Solution054.Solve(initialBoard);
+            var actual = Solution054.IsBoardSolved(solutions.First());
 
             //-- Assert
             Assert.AreEqual(expected, actual, "something went wrong");
