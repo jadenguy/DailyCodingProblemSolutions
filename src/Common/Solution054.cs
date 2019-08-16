@@ -79,7 +79,6 @@ namespace Common
             var squares = Solution054.DefineSquares();
             return squares.Where(k => k.Contains(i)).ToArray();
         }
-
         // I figured out working this out that Sudoku is a 2D representation of a 3d problem, slices of a 3 x 3 x 3 cube. So I've encoded a 3d problem, displayed as a 2d board, as a 1d string.
         public static int[][] DefineSquares()
         {
@@ -123,66 +122,51 @@ namespace Common
         public static IEnumerable<string> Solve(string initialBoard)
         {
             var board = initialBoard.Select(d => int.Parse(d.ToString()).ToString()[0]).ToArray();
+            var options = FindUnknowns(board);
+            if (!board.Contains('0')) { yield return board.Print(""); }
+            // var neighbors = new Dictionary<int, int[]>();
+            var suggestions = new List<(int, char, int)>();
+            foreach (var key in options.Keys)
+            {
+                var neighborhoodValues = FindNeighbors(key).SelectMany(k => k).Distinct().Where(q => board[q] == '0').Union(new int[1] { key }).ToArray();
+                // neighbors.Add(key, n);
+                var neighborSuggestions = neighborhoodValues.SelectMany(g => options[g]).ToArray();
+                var counts = neighborSuggestions.GroupBy(s => s).Select(r => new { Key = r.Key, Value = r.Count() }).ToArray();
+                foreach (var item in counts)
+                {
+                    suggestions.Add((key, item.Key, item.Value));
+                }
+            }
+            var suggestionOrder = suggestions.OrderBy(x => x.Item3).ToArray();
+        }
+        private static Dictionary<int, char[]> FindUnknowns(char[] board)
+        {
+            bool foundAllZeroSolutions = false;
+            var unknowns = new Dictionary<int, char[]>();
             int i = 0;
-            var height = 1;
-            var dict = new Dictionary<int, char[]>();
-            var done = false;
-            while (!done)
+            while (!foundAllZeroSolutions)
             {
                 char cellValue = board[i];
                 if (!board.Contains('0'))
                 {
-                    yield return board.Print("");
-                    done = true;
-                }
-                if (height > 10)
-                {
-                    done = true;
+                    foundAllZeroSolutions = true;
+                    unknowns.Clear();
                 }
                 if (cellValue == '0')
                 {
-                    if (dict.ContainsKey(i))
+                    if (!unknowns.ContainsKey(i)) { unknowns.Add(i, SuggestNext(board.Print(""), i).ToArray()); }
+                    else { foundAllZeroSolutions = true; }
+                    var options = unknowns[i];
+                    if (options.Length == 0) { foundAllZeroSolutions = true; }
+                    else if (options.Length == 1)
                     {
-                        height++;
-                    }
-                    else
-                    {
-                        dict.Add(i, SuggestNext(board.Print(""), i).ToArray());
-                    }
-                    var suggestions = dict[i];
-                    if (suggestions.Length == 0)
-                    {
-                        done = true;
-                    }
-                    else if (suggestions.Length == 1)
-                    {
-                        board[i] = suggestions[0];
-                        height = 1;
-                        dict.Clear();
-                    }
-                    else if (suggestions.Length <= height)
-                    {
-                        foreach (var suggestion in suggestions)
-                        {
-                            board[i] = suggestion;
-                            // var possibleBoard = Solve(board.Print(""));
-                            // if (possibleBoard.Contains(0.ToString()))
-                            // {
-                            //     yield return board.Print("");
-                            //     // dict.Clear();
-                            //     done = true;
-                            // }
-                            board[i] = '0';
-                        }
-                    }
-                    else if (!board.Contains('0'))
-                    {
-                        yield return board.Print("");
-                        done = true;
+                        board[i] = options[0];
+                        unknowns.Clear();
                     }
                 }
                 i = (i + 1) % 81;
             }
+            return unknowns;
         }
         private static IEnumerable<char> SuggestNext(string initialBoard, int i)
         {
