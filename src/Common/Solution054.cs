@@ -145,7 +145,10 @@ namespace Common
                     {
                         height++;
                     }
-                    else { dict.Add(i, SuggestNext(board.Print(""), i).ToArray()); }
+                    else
+                    {
+                        dict.Add(i, SuggestNext(board.Print(""), i).ToArray());
+                    }
                     var suggestions = dict[i];
                     if (suggestions.Length == 0)
                     {
@@ -162,13 +165,13 @@ namespace Common
                         foreach (var suggestion in suggestions)
                         {
                             board[i] = suggestion;
-                            var possibleBoard = Solve(board.Print(""));
-                            if (possibleBoard.Contains(0.ToString()))
-                            {
-                                yield return board.Print("");
-                                dict.Clear();
-                                done = true;
-                            }
+                            // var possibleBoard = Solve(board.Print(""));
+                            // if (possibleBoard.Contains(0.ToString()))
+                            // {
+                            //     yield return board.Print("");
+                            //     // dict.Clear();
+                            //     done = true;
+                            // }
                             board[i] = '0';
                         }
                     }

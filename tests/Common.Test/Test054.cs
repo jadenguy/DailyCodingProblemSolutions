@@ -231,7 +231,6 @@ namespace Common.Test
         [TestCase(Grid48, true)]
         [TestCase(Grid49, true)]
         [TestCase(Grid50, true)]
-        // [TestCase(emptyBoard, false)]
         public void Problem054Solve(string board, bool result)
         {
             //-- Arrange
