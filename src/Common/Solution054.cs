@@ -132,37 +132,49 @@ namespace Common
                 char cellValue = board[i];
                 if (!board.Contains('0'))
                 {
-                    yield return string.Join("", board);
+                    yield return board.Print("");
+                    done = true;
+                }
+                if (height > 10)
+                {
                     done = true;
                 }
                 if (cellValue == '0')
                 {
-                    if (dict.ContainsKey(i)) { height++; }
-                    else { dict.Add(i, SuggestNext(string.Join("", board), i).ToArray()); }
+                    if (dict.ContainsKey(i))
+                    {
+                        height++;
+                    }
+                    else { dict.Add(i, SuggestNext(board.Print(""), i).ToArray()); }
                     var suggestions = dict[i];
-                    if (suggestions.Length == 1)
+                    if (suggestions.Length == 0)
+                    {
+                        done = true;
+                    }
+                    else if (suggestions.Length == 1)
                     {
                         board[i] = suggestions[0];
                         height = 1;
                         dict.Clear();
                     }
-                    else if (suggestions.Length == height)
+                    else if (suggestions.Length <= height)
                     {
                         foreach (var suggestion in suggestions)
                         {
                             board[i] = suggestion;
-                            var possibleBoard = Solve(string.Join("", board));
+                            var possibleBoard = Solve(board.Print(""));
                             if (possibleBoard.Contains(0.ToString()))
                             {
-                                yield return string.Join("", board);
+                                yield return board.Print("");
                                 dict.Clear();
                                 done = true;
                             }
+                            board[i] = '0';
                         }
                     }
                     else if (!board.Contains('0'))
                     {
-                        yield return string.Join("", board);
+                        yield return board.Print("");
                         done = true;
                     }
                 }
@@ -183,7 +195,7 @@ namespace Common
         //         char v = board[i];
         //         while (v == '0')
         //         {
-        //             char[] suggestions = SuggestNext(string.Join("", board), i).ToArray();
+        //             char[] suggestions = SuggestNext(board.Print(""), i).ToArray();
         //             if (suggestions.Length == 0) { break; }
         //             foreach (var suggestion in suggestions)
         //             {
@@ -197,10 +209,10 @@ namespace Common
         //                 //     x += board.Substring(startIndex, length);
         //                 // }
         //                 board[i] = suggestion;
-        //                 var possibleBoard = SolveBackTracking(string.Join("", board));
+        //                 var possibleBoard = SolveBackTracking(board.Print(""));
         //                 if (possibleBoard.Contains(0.ToString()))
         //                 {
-        //                     yield return string.Join("", board);
+        //                     yield return board.Print("");
         //                 }
         //             }
         //         }
