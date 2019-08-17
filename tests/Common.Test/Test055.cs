@@ -16,7 +16,7 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        public void Problem055Encode(string board, bool result)
+        public void Problem055Encode()
         {
             //-- Arrange
             Random rand = new Random();
@@ -41,7 +41,8 @@ namespace Common.Test
                 Assert.AreEqual(expectedUrl, actual, "something went wrong");
             }
         }
-        public void Problem055Decode(string board, bool result)
+        [Test]
+        public void Problem055Decode()
         {
             //-- Arrange
             Random rand = new Random();
