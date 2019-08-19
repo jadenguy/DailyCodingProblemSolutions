@@ -12,19 +12,21 @@ namespace Common.Test
         [SetUp]
         public void SetUp() { }
         [Test]
-        [TestCase("the quick brown fox jumps over the lazy dog", 10)]
-        public void Problem057(string text, int k)
+        [TestCase("the quick brown fox jumps over the lazy dog", 10, new string[] { "the quick", "brown fox", "jumps over", "the lazy", "dog" })]
+        [TestCase("the quick brown fox jumps over the lazy dog", 45, new string[] { "the quick brown fox jumps over the lazy dog" })]
+        [TestCase("the quick brown fox jumps over the lazy dog", 6, new string[] { "the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog" })]
+        public void Problem057(string text, int k, string[] results)
         {
             //-- Arrange
-            var expected = new string[] { "the quick", "brown fox", "jumps over", "the lazy", "dog" };
+            int nonSpaces = text.Where(f => !f.Equals(' ')).Count();
+            int spaces = text.Where(f => f.Equals(' ')).Count();
+            var expected = results;
 
             //-- Act
             var actual = Solution057.TextToLines(text, k);
+            int charactersReturned = actual.Sum(s => s.Length);
 
             //-- Assert
-            int nonSpaces = text.Where(f => !f.Equals(' ')).Count();
-            int spaces = text.Where(f => f.Equals(' ')).Count();
-            int charactersReturned = actual.Sum(s => s.Length);
             Assert.AreEqual(nonSpaces, charactersReturned, spaces);
             Assert.AreEqual(expected, actual);
         }

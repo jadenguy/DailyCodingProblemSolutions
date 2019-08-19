@@ -7,11 +7,10 @@ namespace Common.Test
     {
         public static IEnumerable<string> TextToLines(string text, int k)
         {
-            var ret = string.Empty;
             if (string.IsNullOrWhiteSpace(text))
             {
-                yield return ret;
-                yield break;
+                yield return string.Empty;
+
             }
             else
             {
@@ -27,14 +26,12 @@ namespace Common.Test
                     lineCursor++;
                     if (lineCursor > k)
                     {
-                        ret = text.Substring(lineStart, lastSpace - lineStart);
-                        yield return ret;
+                        yield return text.Substring(lineStart, lastSpace - lineStart); ;
                         lineStart = lastSpace + 1;
                         lineCursor = i - lastSpace;
                     }
                 }
-                ret = text.Substring(lineStart, text.Length - lineStart);
-                yield return ret;
+                yield return text.Substring(lineStart, text.Length - lineStart);
             }
         }
     }
