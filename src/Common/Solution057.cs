@@ -20,13 +20,21 @@ namespace Common.Test
                 var lineCursor = 0;
                 for (int i = 0; i < text.Length; i++)
                 {
+                    if (text[i] == ' ')
+                    {
+                        lastSpace = i;
+                    }
                     lineCursor++;
                     if (lineCursor > k)
                     {
-                        yield return text.Substring(lineStart, lastSpace - lineStart);
-                        lineStart = lastSpace;
+                        ret = text.Substring(lineStart, lastSpace - lineStart);
+                        yield return ret;
+                        lineStart = lastSpace + 1;
+                        lineCursor = i - lastSpace;
                     }
                 }
+                ret = text.Substring(lineStart, text.Length - lineStart);
+                yield return ret;
             }
         }
     }

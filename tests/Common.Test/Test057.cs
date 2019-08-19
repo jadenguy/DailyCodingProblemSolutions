@@ -2,6 +2,7 @@
 // You can assume that there are no spaces at the ends of the string and that there is exactly one space between each word.
 // For example, given the string "the quick brown fox jumps over the lazy dog" and k = 10, you should return: ["the quick", "brown fox", "jumps over", "the lazy", "dog"]. No string in the list has a length of more than 10.
 
+using System.Linq;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -21,8 +22,11 @@ namespace Common.Test
             var actual = Solution057.TextToLines(text, k);
 
             //-- Assert
+            int nonSpaces = text.Where(f => !f.Equals(' ')).Count();
+            int spaces = text.Where(f => f.Equals(' ')).Count();
+            int charactersReturned = actual.Sum(s => s.Length);
+            Assert.AreEqual(nonSpaces, charactersReturned, spaces);
             Assert.AreEqual(expected, actual);
-
         }
     }
 }
