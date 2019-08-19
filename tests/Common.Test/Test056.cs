@@ -34,11 +34,15 @@ namespace Common.Test
         }
 
         [Test]
-        [TestCase(0, 4, false)]
-        public void Problem056(int nodeIndex, int k, bool color)
+        [TestCase(0, false)]
+        [TestCase(1, false)]
+        [TestCase(2, false)]
+        [TestCase(3, true)]
+        [TestCase(4, true)]
+        public void Problem056(int k, bool color)
         {
             //-- Arrange
-            var node = nodes[nodeIndex];
+            var node = nodes[0];
             var expected = color;
 
             //-- Act
