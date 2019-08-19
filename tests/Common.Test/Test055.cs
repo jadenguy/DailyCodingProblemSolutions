@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Common.Test
 {
-    public class Test055Encoding
+    public class Test055
     {
         [Test]
         public void Problem055()
