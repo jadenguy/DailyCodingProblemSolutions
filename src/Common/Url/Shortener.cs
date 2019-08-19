@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Common.Extension;
+using Common.Extensions;
 
 namespace Common.Url
 {

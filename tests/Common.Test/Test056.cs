@@ -20,12 +20,12 @@ namespace Common.Test
             Join(0, 2);
             Join(0, 3);
             Join(0, 5);
-            Join(2, 3);
-            Join(2, 1);
+            Join(1, 2);
             Join(1, 3);
-            Join(4, 3);
-            Join(4, 5);
             Join(1, 5);
+            Join(2, 3);
+            Join(3, 4);
+            Join(4, 5);
         }
         private void Join(int a, int b)
         {
@@ -39,10 +39,13 @@ namespace Common.Test
         {
             //-- Arrange
             var node = nodes[nodeIndex];
+            var expected = color;
 
             //-- Act
+            var actual = Solution056.IsColorable(node, k);
 
             //-- Assert
+            Assert.AreEqual(expected, actual);
 
         }
     }
