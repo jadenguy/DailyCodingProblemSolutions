@@ -3,6 +3,7 @@
 // For example, given the array [13, 18, 25, 2, 8, 10] and the element 8, return 4 (the index of 8 in the array).
 // You can assume all the integers in the array are unique.
 
+using System.Linq;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -11,18 +12,31 @@ namespace Common.Test
     {
         // [SetUp] public void SetUp() { }
         [Test]
-        [TestCase(new int[] { 13, 18, 25, 2, 8, 10 }, 8, 4)]
-        [TestCase(new int[] { 13, 18, 25, 2, 8, 10 }, 9, null)]
-        public void Problem058(int[] array, int value, int? index)
+        public void Problem058WithComparison()
         {
             //-- Arrange
-            var expected = index;
-
+            const int Count = 111;
+            const int Delta = 13;
+            var array = Enumerable.Range(0, Count).Select(k => (k + Delta) % Count).ToArray();
+            int[] speedNaive = new int[Count];
+            int[] speedComplex = new int[Count];
             //-- Act
-            var actual = Solution058.FindRotatedSortedArrayIndex(array, value);
+
+            for (int i = 0; i < Count; i++)
+            {
+                var expected = (Count + i - Delta) % Count;
+                var actualNaive = Solution058.FindRotatedSortedArrayIndexNaive(array, i, out var naive);
+                speedNaive[i] = naive;
+                var actualComplex = Solution058.FindRotatedSortedArrayIndexDivideAndConquor(array, i, out var complex);
+                speedComplex[i] = complex;
+                Assert.AreEqual(expected, actualNaive);
+                Assert.AreEqual(expected, actualComplex);
+            }
 
             //-- Assert
-            Assert.AreEqual(expected, actual);
+            double averageComplexEval = speedComplex.Average();
+            double averageNaiveEval = speedNaive.Average();
+            Assert.IsTrue(averageComplexEval.CompareTo(averageNaiveEval) < 0, "took longer");
         }
     }
 }
