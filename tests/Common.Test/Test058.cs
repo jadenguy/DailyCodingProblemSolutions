@@ -13,12 +13,12 @@ namespace Common.Test
     {
         // [SetUp] public void SetUp() { }
         [Test]
-        // [TestCase(3)]
+        // [TestCase(3)] //it's dumb to even try and beat naive at this size, every operation counts here
         // [TestCase(100)] // too few tests to be actually faster
         // [TestCase(250)] // faster starts showing up here
-        [TestCase(300)] // almost guaranteed to pass
+        [TestCase(350)] // almost guaranteed to pass
         // [TestCase(500)] 
-        // [TestCase(1000)] // almost double now
+        // [TestCase(1000)] // almost double gains now
         public void Problem058WithComparison(int Count)
         {
             //-- Arrange
@@ -40,7 +40,6 @@ namespace Common.Test
                 }
             }
             var DnCTime = time.ElapsedMilliseconds;
-
             time = Stopwatch.StartNew();
             for (int Delta = 0; Delta < Count; Delta++)
             {
@@ -55,21 +54,22 @@ namespace Common.Test
             var naiveTime = time.ElapsedMilliseconds;
 
             //-- Assert
-            Assert.IsNull(Solution058.FindRotatedSortedArrayIndexNaive(enumerable, Start - 1, out speedNaive[Count * Count]));
-            Assert.IsNull(Solution058.FindRotatedSortedArrayIndexNaive(enumerable, Start + Count + 1, out speedNaive[Count * Count + 1]));
-            Assert.IsNull(Solution058.FindRotatedSortedArrayIndexDivideAndConquor(enumerable, Start - 1, out speedDnC[Count * Count]));
-            Assert.IsNull(Solution058.FindRotatedSortedArrayIndexDivideAndConquor(enumerable, Start + Count + 1, out speedDnC[Count * Count + 1]));
+            Assert.IsNull(Solution058.FindRotatedSortedArrayIndexNaive(enumerable, Start - 1, out speedNaive[Count * Count])); //below the list
+            Assert.IsNull(Solution058.FindRotatedSortedArrayIndexNaive(enumerable, Start + Count + 1, out speedNaive[Count * Count + 1])); //above the list
+            Assert.IsNull(Solution058.FindRotatedSortedArrayIndexDivideAndConquor(enumerable, Start - 1, out speedDnC[Count * Count])); //below the list
+            Assert.IsNull(Solution058.FindRotatedSortedArrayIndexDivideAndConquor(enumerable, Start + Count + 1, out speedDnC[Count * Count + 1])); //above the list
             double averageDnCEval = speedDnC.Average();
             double averageNaiveEval = speedNaive.Average();
-            Assert.IsTrue(averageDnCEval.CompareTo(averageNaiveEval) < 0, "took longer");
-            Assert.IsTrue(DnCTime.CompareTo(naiveTime) < 0, "took longer");
+            System.Diagnostics.Debug.WriteLine("");
             System.Diagnostics.Debug.WriteLine(naiveTime, "naiveTime");
             System.Diagnostics.Debug.WriteLine(DnCTime, "DnCTime");
+            System.Console.WriteLine();
             System.Console.Write("naive time: ");
             System.Console.WriteLine(naiveTime);
-            System.Console.Write("DnC time");
+            System.Console.Write("DnC time: ");
             System.Console.WriteLine(DnCTime);
-
+            Assert.IsTrue(averageDnCEval.CompareTo(averageNaiveEval) < 0, "took longer");
+            Assert.IsTrue(DnCTime.CompareTo(naiveTime) < 0, "took longer");
         }
     }
 }
