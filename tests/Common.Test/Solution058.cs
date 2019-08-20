@@ -32,11 +32,11 @@ namespace Common.Test
                 else if (left < value && value < middle) { rightIndex = middleIndex; } //inspect left half next, value between left half ranges
                 else if (right < middle) { leftIndex = middleIndex; } // go left if there's an inversion on the left
                 else if (middle < left) { rightIndex = middleIndex; } // go right if there's an inversion to the right
-                else { throw new System.Exception("how did I get here?"); } //error, logic failed
+                else { done = true; } // outside of range and no inversions to be seen
                 leftIndex++;
                 rightIndex--;
             }
-            steps = i;
+            steps = i * 3; //three comparisons kinda
             return ret;
         }
         public static int? FindRotatedSortedArrayIndexNaive(int[] array, int value, out int steps)
@@ -52,7 +52,7 @@ namespace Common.Test
                     ret = index;
                 }
             }
-            steps = i;
+            steps = i * 2; //two comparisons kinda
             return ret;
         }
     }
