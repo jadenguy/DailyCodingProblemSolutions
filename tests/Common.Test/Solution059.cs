@@ -8,15 +8,20 @@ namespace Common.Test
         public static int TransferFile(byte[] localFile, byte[] remoteFile, int blockSize = 1000)
         {
             var ret = 0;
-            var localfile = new List<byte>();
-            for (int i = 0; i < localFile.Length / blockSize; i++)
+            var localFileTemp = new List<byte>();
+            int length = remoteFile.Length;
+            for (int i = 0; i < length / blockSize; i++)
             {
-                int blockIndex = blockSize * i;
-                var block = localFile.Skip(blockIndex).Take(blockSize);
-                byte checksum = checkSum(block);
-                System.Diagnostics.Debug.WriteLine(checksum);
+                var localBlock = GetBlock(localFile, blockSize, blockSize * i).ToArray();
+                byte localCheckSum = checkSum(localBlock);
+                System.Diagnostics.Debug.WriteLine(localCheckSum);
             }
             return ret;
+        }
+
+        private static IEnumerable<byte> GetBlock(byte[] localFile, int blockSize, int blockStart)
+        {
+            return localFile.Skip(blockStart).Take(blockSize);
         }
 
         private static byte checkSum(IEnumerable<byte> block)
