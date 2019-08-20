@@ -1,32 +1,31 @@
-
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Common.Test
 {
     public class Solution059
     {
-        public static int TransferFile(byte[] localFile, byte[] remoteFile, int blockSize=1000)
+        public static int TransferFile(byte[] localFile, byte[] remoteFile, int blockSize = 1000)
         {
             var ret = 0;
             var localfile = new List<byte>();
             for (int i = 0; i < localFile.Length / blockSize; i++)
             {
                 int blockIndex = blockSize * i;
-                byte checksum = checkSum(localFile, blockSize, blockIndex);
+                var block = localFile.Skip(blockIndex).Take(blockSize);
+                byte checksum = checkSum(block);
                 System.Diagnostics.Debug.WriteLine(checksum);
             }
             return ret;
         }
 
-        private static byte checkSum(byte[] localFile, int blockSize, int blockIndex)
+        private static byte checkSum(IEnumerable<byte> block)
         {
-            var enumerable = localFile.Skip(blockIndex).Take(blockSize);
-            var checksum = default(byte);
-            foreach (var item in enumerable)
+            byte checksum = default(byte);
+            foreach (var byteItem in block) // using xor as rudimentary checksum
             {
-                checksum ^= item;
+                checksum ^= byteItem;
             }
-
             return checksum;
         }
     }

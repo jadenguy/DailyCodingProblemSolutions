@@ -23,7 +23,7 @@ namespace Common.Test
             int uniqueBytes = 4321;
             int repeatBytes = totalBytes - uniqueBytes;
             const int blockSize = 1000;
-            
+
             var rand = new Random();
             var seed = rand.Next();
             var file1 = RandomFileMD5(seed, totalBytes);
