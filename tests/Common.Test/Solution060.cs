@@ -1,4 +1,5 @@
 using System.Linq;
+using Common.Extensions;
 
 namespace Common
 {
@@ -7,12 +8,9 @@ namespace Common
         public static bool SplitArray(int[] array)
         {
             var ret = false;
-            var sorted = array.OrderBy(k => k).ToArray();
             var sum = array.Sum();
-            for (int i = 0; i < sorted.Length; i++)
-            {
-                
-            }
+            if (sum % 2 == 0)
+            { ret = array.EverySubset().Where(k => k.Sum() == sum / 2).Any(); }
             return ret;
         }
     }

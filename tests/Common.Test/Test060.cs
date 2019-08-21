@@ -12,7 +12,8 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase(new int[]{15, 5, 20, 10, 35, 15, 10},false)]
+        [TestCase(new int[] { 15, 5, 20, 10, 35, 15, 10 }, true)]
+        [TestCase(new int[] { 15, 5, 20, 10, 35 }, false)]
         public void Problem060(int[] array, bool splittable)
         {
             //-- Arrange
