@@ -37,7 +37,7 @@ namespace Common.Test
             int twoBlocks = blockSize * 2;
             int blockCount = totalBytes / blockSize;
             int blockChecksumOverhead = 17 * blockCount;
-            int delta = twoBlocks + blockChecksumOverhead + initialBytes;
+            var delta = (twoBlocks + blockChecksumOverhead + initialBytes) * 1.01; //1 percent overhead for failure of connection
             var rand = new Random();
             var file1 = RandomFile(rand.Next(), totalBytes);
             byte[] file2 = RandomDifferentFile(file1, totalBytes, deltaBytes, rand.Next());
