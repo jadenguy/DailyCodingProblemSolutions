@@ -16,33 +16,29 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        public void Problem059()
+        [TestCase(1000000, 432100, 1000)]
+        public void Problem059(int totalBytes = 1000000, int deltaBytes = 432100, int blockSize = 1000)
         {
             //-- Arrange
-            int totalBytes = 1000000;
-            int deltaBytes = 4321;
-            const int blockSize = 1000;
-
+            var expected = deltaBytes + (totalBytes / blockSize);
             var rand = new Random();
             var seed = rand.Next();
             var file1 = RandomFile(seed, totalBytes);
             byte[] file2 = RandomDifferentFile(file1, totalBytes, deltaBytes, rand.Next());
-            var expected = deltaBytes + (totalBytes / blockSize);
-
-            //-- Act
-
             object fileSystem = new object();
             object connection = new object();
+
+            //-- Act
             var actual = Solution059.TransferFile(file1, file2, fileSystem, connection, blockSize); //minimum overhead equal to the block count plus file size
 
             // //-- Assert
-            Assert.AreEqual(file1, file2);
+            Assert.AreEqual(file1, file2, "file not transferred");
             bool savedFileTransferBytes = totalBytes.CompareTo(actual) > 0;
             Assert.IsTrue(savedFileTransferBytes, "transfer smaller than whole file");
             if (savedFileTransferBytes)
             {
                 System.Console.WriteLine(expected - actual);
-                Assert.AreEqual(expected, actual, blockSize * 2, "within 2 blocks of unique bytes");
+                Assert.AreEqual(expected, actual, blockSize * 2, "within 2 blocks of unique bytes"); //peak efficiency
             }
         }
 
