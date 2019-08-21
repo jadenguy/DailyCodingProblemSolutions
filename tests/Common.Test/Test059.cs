@@ -13,35 +13,47 @@ namespace Common.Test
 {
     public class Test059
     {
+
+
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase(1000000, 432100, 1000)]
-        public void Problem059(int totalBytes = 1000000, int deltaBytes = 432100, int blockSize = 1000)
+        // [TestCase(1, 0, 1)]
+        // [TestCase(100, 0, 1)]
+        [TestCase(100, 0, 20, 1000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        [TestCase(100000, 0, 100, 1000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        [TestCase(100000, 0, 1000, 1000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        [TestCase(1000000, 0, 10000, 1000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        [TestCase(1000000, 432100, 10000, 1000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        [TestCase(1000000, 543210, 10000, 1000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        [TestCase(100000000, 54321000, 100000, 1000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        [TestCase(100000000, 54321000, 1000000, 1000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        [TestCase(100000000, 54321000, 1000000, 100000000)] //more efficient once block size exceeds 16 bytes (md5 return size) plus a few overhead bytes 
+        public void Problem059(int totalBytes = 1000000, int deltaBytes = 1000000, int blockSize = 1000000, int connectionErrorRate = 100000000)
         {
             //-- Arrange
-            var expected = deltaBytes + (totalBytes / blockSize);
+            var expected = deltaBytes;
+            int initialBytes = 5;
+            int twoBlocks = blockSize * 2;
+            int blockCount = totalBytes / blockSize;
+            int blockChecksumOverhead = 17 * blockCount;
+            int delta = twoBlocks + blockChecksumOverhead + initialBytes;
             var rand = new Random();
-            var seed = rand.Next();
-            var file1 = RandomFile(seed, totalBytes);
+            var file1 = RandomFile(rand.Next(), totalBytes);
             byte[] file2 = RandomDifferentFile(file1, totalBytes, deltaBytes, rand.Next());
             object fileSystem = new object();
             object connection = new object();
 
             //-- Act
-            var actual = Solution059.TransferFile(file1, file2, fileSystem, connection, blockSize); //minimum overhead equal to the block count plus file size
+            int actual = (int)Solution059.TransferFile(file1, file2, fileSystem, connection, blockSize, connectionErrorRate); //minimum overhead equal to the block count plus file size
 
             // //-- Assert
+            System.Console.WriteLine($"{actual - expected} bytes more than {expected} required ");
+            System.Console.WriteLine($"{(((actual - expected) * 100) / totalBytes)}% overage");
             Assert.AreEqual(file1, file2, "file not transferred");
-            bool savedFileTransferBytes = totalBytes.CompareTo(actual) > 0;
-            Assert.IsTrue(savedFileTransferBytes, "transfer smaller than whole file");
-            if (savedFileTransferBytes)
-            {
-                System.Console.WriteLine(expected - actual);
-                Assert.AreEqual(expected, actual, blockSize * 2, "within 2 blocks of unique bytes"); //peak efficiency
-            }
+            Assert.IsTrue(totalBytes.CompareTo(actual) > 0, "not more efficient");
+            Assert.AreEqual(expected, actual, delta, "not within 2 blocks of unique bytes, something went wrong"); //peak efficiency testing
         }
-
         private static byte[] RandomDifferentFile(byte[] file, int totalBytes, int uniqueBytes, int seed)
         {
             var ret = new byte[totalBytes];
@@ -54,7 +66,6 @@ namespace Common.Test
             Array.Copy(repeatedEnd, 0, ret, uniqueBytes + (repeatBytes / 2), repeatBytes - repeatBytes / 2);
             return ret;
         }
-
         private static byte[] RandomFile(int seed, int elementCount)
         {
             var rand = new Random(seed);

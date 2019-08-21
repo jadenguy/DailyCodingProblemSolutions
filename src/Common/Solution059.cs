@@ -1,15 +1,16 @@
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace Common.Test
 {
     public class Solution059
     {
-        public static int TransferFile(byte[] localFile, byte[] remoteFile, object fileSystem, object connection, int blockSize = 1000)
+        public static ulong TransferFile(byte[] localFile, byte[] remoteFile, object fileSystem, object connection, int blockSize = 1000, int errorOnePer = 1000000, int maxRetry = 10)
         {
-            var ret = 0;
-            int tx = 0;
-            int rx = 0;
+            ulong ret = 0;
+            ulong tx = 0;
+            ulong rx = 0;
             // var localFileTemp = new List<byte>();
             // one byte for the request message
             tx += 1;
@@ -23,22 +24,37 @@ namespace Common.Test
                 var localBlock = GetBlock(fileSystem, localFile, blockSize, i);
                 // one byte for the request message
                 tx++;
-                byte remoteCheckSum = GetRemoteCheckSum(connection, remoteFile, blockSize, i);
+                byte[] remoteCheckSum = GetRemoteCheckSum(connection, remoteFile, blockSize, i);
                 // one byte back
-                rx++;
-                while (checkSum(localBlock) != remoteCheckSum)
+                rx += (ulong)remoteCheckSum.Length;
+                byte[] localCheckSum = checkSum(localBlock);
+                var retry = 0;
+                while (!localCheckSum.SequenceEqual(remoteCheckSum))
                 {
                     tx++;
-                    var remoteBlock = GetRemoteBlock(connection, remoteFile, blockSize, i);
-                    rx += blockSize;
+                    var remoteBlock = GetRemoteWithErrorRate(GetRemoteBlock(connection, remoteFile, blockSize, i), new byte[blockSize], errorOnePer / blockSize);
+                    rx += (ulong)blockSize;
                     ReplaceBlock(fileSystem, localFile, blockSize, i, remoteBlock);
                     localBlock = GetBlock(fileSystem, localFile, blockSize, i);
+                    localCheckSum = checkSum(localBlock);
+                    retry++;
+                    if (retry > maxRetry)
+                    {
+                        throw new Exception("Download failed, connection too unstable");
+                    }
                 }
             }
             ret = tx + rx;
             return ret;
         }
-
+        private static T GetRemoteWithErrorRate<T>(T @return, T errorReturn, int errorOnePer)
+        {
+            if (new System.Random().Next(errorOnePer) == 0)
+            {
+                return errorReturn;
+            }
+            return @return;
+        }
         private static byte[] resizeLocalFile(byte[] localFile, int length)
         {
             int localLength = localFile.Length;
@@ -48,10 +64,8 @@ namespace Common.Test
                 Array.Copy(localFile, temp, Math.Min(length, localLength));
                 localFile = temp;
             }
-
             return localFile;
         }
-
         private static void ReplaceBlock(object fileSystem, byte[] localFile, int blockSize, int i, byte[] remoteBlock)
         {
             Array.Copy(remoteBlock, 0, localFile, blockSize * i, blockSize);
@@ -60,10 +74,10 @@ namespace Common.Test
         {
             return GetBlock(connection, file, blockSize, i);
         }
-        private static byte GetRemoteCheckSum(object connection, byte[] remoteFile, int blockSize, int i)
+        private static byte[] GetRemoteCheckSum(object connection, byte[] remoteFile, int blockSize, int i)
         {
             var block = GetBlock(connection, remoteFile, blockSize, i).ToArray();
-            byte remoteCheckSum = checkSum(block);
+            byte[] remoteCheckSum = checkSum(block);
             return remoteCheckSum;
         }
         private static int RequestRemoteFileSize(object connection, byte[] remoteFile)
@@ -74,14 +88,14 @@ namespace Common.Test
         {
             return file.Skip(blockSize * index).Take(blockSize).ToArray();
         }
-        private static byte checkSum(byte[] block)
+        private static byte[] checkSum(byte[] block)
         {
-            byte checksum = default(byte);
-            foreach (var byteItem in block) // using xor as rudimentary checksum
+            byte[] hash;
+            using (MD5 md5 = MD5.Create())
             {
-                checksum ^= byteItem;
+                hash = md5.ComputeHash(block);
             }
-            return checksum;
+            return hash;
         }
     }
 }
