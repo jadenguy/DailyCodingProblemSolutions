@@ -59,25 +59,55 @@ namespace Common
                 }
             }
         }
-        public static int[,] SelectElements(int height, int width)
+        public static int[,] SelectElements(int width, int height)
         {
-            int[,] board = new int[height, width];
-            for (int xPos = 0; xPos < height; xPos++)
+            int[,] board = new int[width, height];
+            int halfWidth = board.GetUpperBound(0);
+            int halfHeight = board.GetUpperBound(1);
+            for (int x = width - 1; x >= 0; x--)
             {
-                for (int yPos = xPos; yPos < width; yPos++)
+                for (int y = height - 1; y >= 0; y--)
                 {
-                    board[xPos, yPos] = 1;
+                    board[x, y]++;
+                    var flipX = width - x - 1;
+                    var flipY = height - y - 1;
+                    TryStealValue(board, x, y, flipX, y);
+                    TryStealValue(board, x, y, x, flipY);
+                    TryStealValue(board, x, y, flipX, flipY);
                 }
             }
-            for (int xPos = 0; xPos < height; xPos++)
+            if (width == height)
             {
-                for (int yPos = xPos; yPos < width; yPos++)
+                for (int x = 0; x < halfWidth; x++)
                 {
-                    board[xPos, yPos] = 1;
+                    for (int y = x; y < halfHeight; y++)
+                    {
+                        var switchX = y;
+                        var switchY = x;
+                        TryStealValue(board, x, y, switchX, switchY);
+                    }
                 }
             }
             return board;
         }
+        private static bool TryStealValue(int[,] board, int newX, int newY, int oldX, int oldY)
+        {
+            var ret = false;
+            // try
+            // {
+                int value = board[oldX, oldY];
+                board[newX, newY] += value;
+                board[oldX, oldY] -= value;
+                ret = true;
+            // }
+            // catch (System.Exception)
+            // {
+                // throw;
+                // System.Diagnostics.Debug.WriteLine("exception!");
+            // }
+            return ret;
+        }
+
         private static IEnumerable<(int, int)> FindNextKnightMove(int[,] board, (int x, int y) position)
         {
             var xMax = board.GetUpperBound(0);

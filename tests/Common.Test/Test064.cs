@@ -67,12 +67,21 @@ namespace Common.Test
         [TestCase(1, 2, 0, 0, 2)]
         [TestCase(2, 3, 0, 0, 4)]
         [TestCase(2, 3, 0, 1, 2)]
-        public void PickArrayElements(int height, int width, int x, int y, int repetitions)
+        [TestCase(3, 3, 0, 1, 4)]
+        [TestCase(5, 6, 1, 1, 4)]
+        [TestCase(2, 6, 0, 0, 4)]
+        [TestCase(9, 9, 4, 4, 1)]
+        
+        [TestCase(9, 9, 1, 2, 8)]
+        [TestCase(10, 10, 1, 2, 8)]
+        public void PickArrayElements(int dim0, int dim1, int x, int y, int repetitions)
         //  I could save between 2 and 8 rounds of calculation by returning the set of result families that could be rotated and flipped.
         {
             //-- Arrange
+            var height = (dim0 < dim1) ? dim0 : dim1;
+            var width = (dim0 > dim1) ? dim0 : dim1;
             var expectedAtLocation = repetitions;
-            var expectedTotal = x * y;
+            var expectedTotal = height * width;
             //-- Act
 
             var selected = Solution064.SelectElements(height, width);
@@ -85,7 +94,7 @@ namespace Common.Test
             int actual = selected[x, y];
 
             //-- Assert
-            // Assert.AreEqual(expectedAtLocation, actual);
+            Assert.AreEqual(expectedAtLocation, actual);
             Assert.AreEqual(expectedTotal, selectionSum);
         }
     }
