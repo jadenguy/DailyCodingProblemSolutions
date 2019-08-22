@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Common
 {
@@ -61,25 +59,21 @@ namespace Common
                 }
             }
         }
-
-        public static int[,] SelectElements(int size)
+        public static int[,] SelectElements(int height, int width)
         {
-            int[,] board;
-            bool odd = true;
-            if (size % 2 == 0) { odd = false; }
-            board = new int[size, size];
-            for (int xPos = 0; xPos < size / 2; xPos++)
+            int[,] board = new int[height, width];
+            for (int xPos = 0; xPos < height; xPos++)
             {
-                for (int yPos = xPos; yPos < size / 2; yPos++)
+                for (int yPos = xPos; yPos < width; yPos++)
                 {
-                    var value = 8;
-                    board[xPos, yPos] = -1;
-                    if (xPos == yPos)
-                    {
-                        value = 4;
-                        if (odd && xPos == 1 + (size / 2)) { value = 1; }
-                    }
-                    board[xPos, yPos] = value;
+                    board[xPos, yPos] = 1;
+                }
+            }
+            for (int xPos = 0; xPos < height; xPos++)
+            {
+                for (int yPos = xPos; yPos < width; yPos++)
+                {
+                    board[xPos, yPos] = 1;
                 }
             }
             return board;
@@ -112,12 +106,12 @@ namespace Common
             if (xn2 && yp1) pointList.Add((x - 2, y + 1));
             if (xn2 && yn1) pointList.Add((x - 2, y - 1));
 
-            foreach ((int x, int y) point in pointList)
-            {
-                if (board[point.x, point.y] == 0) { yield return point; }
-            }
-            
-            // return pointList.Where(p=>board[p.Item1, p.Item2] == 0);
+            // foreach ((int x, int y) point in pointList)
+            // {
+            //     if (board[point.x, point.y] == 0) { yield return point; }
+            // }
+
+            return pointList.Where(p => board[p.Item1, p.Item2] == 0);
 
         }
         public static int[,] BlankBoard(int boardSize = 8)
