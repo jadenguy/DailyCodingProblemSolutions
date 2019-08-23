@@ -1,8 +1,7 @@
 ﻿// A knight's tour is a sequence of moves by a knight on a chessboard such that all squares are visited once.
 // Given N, write a function to return the number of knight's tours on an N by N chessboard.
 
-using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 
@@ -49,25 +48,28 @@ namespace Common.Test
         [Test]
         [TestCase(1, 1)]
         [TestCase(2, 0)]
-        [TestCase(5, 1728)] // un-check if you want to see 18 seconds pass you by, I could save time if I figured out the number of reflections, etc.
+        // [TestCase(5, 1728)] // un-check if you want to see 18 seconds pass you by, I could save time if I figured out the number of reflections, etc.
+        // [TestCase(5, 1728)] // un-check if you want to see 3 seconds pass you by, I could save time if I defined which directions to test in based on symmetries
+        // [TestCase(8, 19591828170979904)] // this will always be a challenge
+
         public void Problem064(int boardSize, int results)
         {
             //-- Arrange
             var expected = results;
 
             //-- Act
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            var actual = Solution064.KnightToursEveryCell(boardSize).Count();
-            System.Diagnostics.Debug.WriteLine(watch.ElapsedMilliseconds);
-            System.Console.WriteLine(watch.ElapsedMilliseconds);
 
-            var watch2 = System.Diagnostics.Stopwatch.StartNew();
+            var watch2 = Stopwatch.StartNew();
             var actual2 = Solution064.KnightToursEveryCellCountOnly(boardSize);
             System.Diagnostics.Debug.WriteLine(watch2.ElapsedMilliseconds);
             System.Console.WriteLine(watch2.ElapsedMilliseconds);
+            // var watch = System.Diagnostics.Stopwatch.StartNew();
+            // var actual = Solution064.KnightToursEveryCell(boardSize).Count();
+            // System.Diagnostics.Debug.WriteLine(watch.ElapsedMilliseconds);
+            // System.Console.WriteLine(watch.ElapsedMilliseconds);
 
             //-- Assert
-            Assert.AreEqual(expected, actual);
+            // Assert.AreEqual(expected, actual);
             Assert.AreEqual(expected, actual2);
         }
 
