@@ -33,10 +33,10 @@ namespace Common.Test
 {
     public class Test065
     {
-        [SetUp]
-        public void Setup() { }
+        // [SetUp] public void Setup() { }
+        // [TearDown] public void TearDown(){}
         [Test]
-        public void Problem061()
+        public void Problem065()
         {
             //-- Arrange
             int[] expected = { 1, 2, 3, 4, 5, 10, 15, 20, 19, 18, 17, 16, 11, 6, 7, 8, 9, 14, 13, 12 };
