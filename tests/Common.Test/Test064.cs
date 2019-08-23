@@ -1,6 +1,8 @@
 ﻿// A knight's tour is a sequence of moves by a knight on a chessboard such that all squares are visited once.
 // Given N, write a function to return the number of knight's tours on an N by N chessboard.
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -47,7 +49,7 @@ namespace Common.Test
         [Test]
         [TestCase(1, 1)]
         [TestCase(2, 0)]
-        // [TestCase(5,1728)] // un-check if you want to see 18 seconds pass you by, I could save time if I figured out the number of reflections, etc.
+        [TestCase(5, 1728)] // un-check if you want to see 18 seconds pass you by, I could save time if I figured out the number of reflections, etc.
         public void Problem064(int boardSize, int results)
         {
             //-- Arrange
@@ -59,19 +61,26 @@ namespace Common.Test
             System.Diagnostics.Debug.WriteLine(watch.ElapsedMilliseconds);
             System.Console.WriteLine(watch.ElapsedMilliseconds);
 
+            var watch2 = System.Diagnostics.Stopwatch.StartNew();
+            var actual2 = Solution064.KnightToursEveryCellCountOnly(boardSize);
+            System.Diagnostics.Debug.WriteLine(watch2.ElapsedMilliseconds);
+            System.Console.WriteLine(watch2.ElapsedMilliseconds);
+
             //-- Assert
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual2);
         }
+
         [Test]
         [TestCase(1, 1, 0, 0, 1)]
         [TestCase(1, 2, 0, 0, 2)]
         [TestCase(2, 3, 0, 0, 4)]
         [TestCase(2, 3, 0, 1, 2)]
+        [TestCase(2, 6, 0, 0, 4)]
         [TestCase(3, 3, 0, 1, 4)]
         [TestCase(5, 6, 1, 1, 4)]
-        [TestCase(2, 6, 0, 0, 4)]
+        [TestCase(5, 7, 1, 1, 4)]
         [TestCase(9, 9, 4, 4, 1)]
-        
         [TestCase(9, 9, 1, 2, 8)]
         [TestCase(10, 10, 1, 2, 8)]
         public void PickArrayElements(int dim0, int dim1, int x, int y, int repetitions)

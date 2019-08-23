@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ namespace Common
     public static class Solution064
 
     {
-        public static IEnumerable<int[,]> KnightToursEveryCell(int boardSize = 5)
+        public static List<int[,]> KnightToursEveryCell(int boardSize = 5)
         {
             var ret = new List<int[,]>();
             var board = BlankBoard(boardSize);
@@ -15,9 +16,7 @@ namespace Common
             {
                 for (int y = 0; y < boardSize; y++)
                 {
-                    var startPosition = (x, y);
-                    var results = KnightTourFrom((int[,])board.Clone(), startPosition, 1).ToArray();
-                    ret.AddRange(results);
+                    ret.AddRange(KnightTourFrom((int[,])board.Clone(), (x, y), 1));
                 }
             }
             return ret;
@@ -90,20 +89,41 @@ namespace Common
             }
             return board;
         }
+
+        public static int KnightToursEveryCellCountOnly(int boardSize)
+        {
+            var ret = 0;
+            var board = BlankBoard(boardSize);
+            var multiplier = SelectElements(boardSize, boardSize);
+            for (int x = 0; x < boardSize; x++)
+            {
+                for (int y = 0; y < boardSize; y++)
+                {
+                    int countMultiplier = multiplier[x, y];
+                    if (countMultiplier > 0)
+                    {
+                        var results = KnightTourFrom((int[,])board.Clone(), (x, y), 1);
+                        ret += (results.Count() * countMultiplier);
+                    }
+                }
+            }
+            return ret;
+        }
+
         private static bool TryStealValue(int[,] board, int newX, int newY, int oldX, int oldY)
         {
             var ret = false;
             // try
             // {
-                int value = board[oldX, oldY];
-                board[newX, newY] += value;
-                board[oldX, oldY] -= value;
-                ret = true;
+            int value = board[oldX, oldY];
+            board[newX, newY] += value;
+            board[oldX, oldY] -= value;
+            ret = true;
             // }
             // catch (System.Exception)
             // {
-                // throw;
-                // System.Diagnostics.Debug.WriteLine("exception!");
+            // throw;
+            // System.Diagnostics.Debug.WriteLine("exception!");
             // }
             return ret;
         }
