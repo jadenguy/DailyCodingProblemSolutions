@@ -1,7 +1,6 @@
 ﻿// Implement a job scheduler which takes in a function f and an integer n, and calls f after n milliseconds.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -28,10 +27,10 @@ namespace Common.Test
             var stopwatch = Stopwatch.StartNew();
             action = () => System.Console.WriteLine("TaskDone");
             int DeltaInstant = 50;
-            int DeltaDelayed =delay/10;
+            int DeltaDelayed = delay / 10;
 
-        //-- Act
-        var awaiter = Solution010.TaskScheduler(action, delay);
+            //-- Act
+            var awaiter = Solution010.TaskScheduler(action, delay);
             var actualInstant = stopwatch.ElapsedMilliseconds;
             await awaiter;
             var actualAwaited = stopwatch.ElapsedMilliseconds;
