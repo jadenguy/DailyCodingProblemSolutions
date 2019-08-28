@@ -32,8 +32,8 @@ namespace Common.Test
             var actualStdDev = actualNumeric.PopulationStandardDeviation();
 
             //-- Assert
-            Assert.AreEqual(expectedAverage, actualAverage, .01, "average wrong");
-            Assert.AreEqual(expectedStdDev, actualStdDev, .01, "deviation wrong");
+            Assert.AreEqual(expectedAverage, actualAverage, .05, "average wrong");
+            Assert.AreEqual(expectedStdDev, actualStdDev, .05, "deviation wrong");
         }
     }
 }
