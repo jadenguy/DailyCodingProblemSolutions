@@ -21,12 +21,12 @@ namespace Common.Test
 {
     public class Test072
     {
-        static List<GraphNode> nodes;
+        static List<GraphNode[]> nodes;
         static List<int?> results;
         [SetUp]
         public void Setup()
         {
-            nodes = new List<GraphNode>();
+            nodes = new List<GraphNode[]>();
             results = new List<int?>();
             AddTest(3, "ABACA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4) });
             AddTest(0, "A", new (int from, int to)[] { (0, 0) });
@@ -36,7 +36,7 @@ namespace Common.Test
         {
             List<GraphNode> nodeList = GenerateConnectedNodes(Text, g);
             results.Add(result);
-            nodes.Add(nodeList[0]);
+            nodes.Add(nodeList.ToArray());
         }
 
         private static List<GraphNode> GenerateConnectedNodes(string Text, (int from, int to)[] Links)
@@ -73,7 +73,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = results[testIndex];
-            GraphNode graphNode = nodes[testIndex];
+            var graphNode = nodes[testIndex];
 
             //-- Act
             var actual = Solution072.DoTheThing(graphNode);
