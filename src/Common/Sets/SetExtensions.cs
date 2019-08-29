@@ -5,7 +5,7 @@ using Common.Extensions;
 
 namespace Common.Sets
 {
-    public static class SetExensions
+    public static class SetExtensions
     {
         public class GroupComparer<T> : IEqualityComparer<IGrouping<T, T>> where T : IEquatable<T>
         {
