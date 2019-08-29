@@ -21,18 +21,8 @@ namespace Common.Test
 {
     public class Test072
     {
-        static List<GraphNode[]> nodes;
-        static List<int?> results;
-        [SetUp]
-        public void Setup()
-        {
-            nodes = new List<GraphNode[]>();
-            results = new List<int?>();
-            AddTest(3, "ABACA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4) });
-            AddTest(null, "A", new (int from, int to)[] { (0, 0) });
-            AddTest(4, "ABACADA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4), (1, 5), (5, 6), (4, 6) });
-        }
-        private static void AddTest(int? result, string Text, (int from, int to)[] g)
+        // [SetUp] public void Setup() { }
+        private static void AddTest(int? result, string Text, (int from, int to)[] g, List<GraphNode[]> nodes, List<int?> results)
         {
             results.Add(result);
             nodes.Add(Solution072.GenerateConnectedNodes(Text, g).ToArray());
@@ -41,6 +31,13 @@ namespace Common.Test
         [Test]
         public void Problem072()
         {
+            List<GraphNode[]> nodes;
+            List<int?> results;
+            nodes = new List<GraphNode[]>();
+            results = new List<int?>();
+            AddTest(3, "ABACA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4) }, nodes, results);
+            AddTest(null, "A", new (int from, int to)[] { (0, 0) }, nodes, results);
+            AddTest(4, "ABACADA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4), (1, 5), (5, 6), (4, 6) }, nodes, results);
             for (int i = 0; i < nodes.Count; i++)
             {
                 //-- Arrange
