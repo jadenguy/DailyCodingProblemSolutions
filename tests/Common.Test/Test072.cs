@@ -32,56 +32,27 @@ namespace Common.Test
             AddTest(null, "A", new (int from, int to)[] { (0, 0) });
             AddTest(4, "ABACADA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4), (1, 5), (5, 6), (4, 6) });
         }
-
         private static void AddTest(int? result, string Text, (int from, int to)[] g)
         {
-            List<GraphNode> nodeList = GenerateConnectedNodes(Text, g);
             results.Add(result);
-            nodes.Add(nodeList.ToArray());
+            nodes.Add(Solution072.GenerateConnectedNodes(Text, g).ToArray());
         }
-
-        private static List<GraphNode> GenerateConnectedNodes(string Text, (int from, int to)[] Links)
-        {
-            var nodeList = new List<GraphNode>();
-            nodeList.AddRange(GenerateNodes(Text));
-            ConnectNodes(nodeList, Links);
-            return nodeList;
-        }
-
-        private static void ConnectNodes(List<GraphNode> nodeList, (int from, int to)[] Links)
-        {
-            foreach (var item in Links)
-            {
-                nodeList[item.from].ConnectTo(nodeList[item.to], -1);
-            }
-        }
-        private static List<GraphNode> GenerateNodes(string text)
-        {
-            var nodeList = new List<GraphNode>();
-            foreach (var item in text)
-            {
-                nodeList.Add(new GraphNode(item.ToString()));
-            }
-            GraphNode x = new GraphNode("A");
-            return nodeList;
-        }
-
         // [TearDown] public void TearDown(){}
         [Test]
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        public void Problem072(int testIndex)
+        public void Problem072()
         {
-            //-- Arrange
-            var expected = results[testIndex];
-            var graphNode = nodes[testIndex];
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                //-- Arrange
+                var expected = results[i];
+                var graphNode = nodes[i];
 
-            //-- Act
-            var actual = Solution072.DoTheThing(graphNode);
+                //-- Act
+                var actual = Solution072.DoTheThing(graphNode);
 
-            //-- Assert
-            Assert.AreEqual(expected, actual);
+                //-- Assert
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 }

@@ -57,5 +57,30 @@ namespace Common
                 }
             }
         }
+        public static List<GraphNode> GenerateConnectedNodes(string Text, (int from, int to)[] Links)
+        {
+            var nodeList = new List<GraphNode>();
+            nodeList.AddRange(GenerateNodes(Text));
+            ConnectNodes(nodeList, Links);
+            return nodeList;
+        }
+
+        private static void ConnectNodes(List<GraphNode> nodeList, (int from, int to)[] Links)
+        {
+            foreach (var item in Links)
+            {
+                nodeList[item.from].ConnectTo(nodeList[item.to], -1);
+            }
+        }
+        private static List<GraphNode> GenerateNodes(string text)
+        {
+            var nodeList = new List<GraphNode>();
+            foreach (var item in text)
+            {
+                nodeList.Add(new GraphNode(item.ToString()));
+            }
+            GraphNode x = new GraphNode("A");
+            return nodeList;
+        }
     }
 }
