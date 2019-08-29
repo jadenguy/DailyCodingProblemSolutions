@@ -29,7 +29,8 @@ namespace Common.Test
             nodes = new List<GraphNode[]>();
             results = new List<int?>();
             AddTest(3, "ABACA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4) });
-            AddTest(0, "A", new (int from, int to)[] { (0, 0) });
+            AddTest(null, "A", new (int from, int to)[] { (0, 0) });
+            AddTest(4, "ABACADA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4), (1, 5), (5, 6), (4, 6) });
         }
 
         private static void AddTest(int? result, string Text, (int from, int to)[] g)
@@ -68,7 +69,8 @@ namespace Common.Test
         // [TearDown] public void TearDown(){}
         [Test]
         [TestCase(0)]
-        // [TestCase(1)]
+        [TestCase(1)]
+        [TestCase(2)]
         public void Problem072(int testIndex)
         {
             //-- Arrange
