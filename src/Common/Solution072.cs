@@ -5,9 +5,9 @@ using Common.Node;
 
 namespace Common
 {
-    internal class Solution072
+    public class Solution072
     {
-        internal static int? DoTheThing(GraphNode[] graphNodes)
+        public static int? DoTheThing(GraphNode[] graphNodes)
         {
             int? ret = null;
             bool isLoop = DetectNegativeLoop(graphNodes);
