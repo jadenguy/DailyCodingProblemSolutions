@@ -22,15 +22,16 @@ namespace Common.Test
     public class Test072
     {
         // [SetUp] public void Setup() { }
-        private static void AddTest(int? result, string Text, (int from, int to)[] g, List<GraphNode[]> nodes, List<int?> results)
+        // [TearDown] public void TearDown(){}
+        private static void AddTest(int? result, string Text, (int from, int to)[] Links, List<GraphNode[]> nodes, List<int?> results)
         {
             results.Add(result);
-            nodes.Add(Solution072.GenerateConnectedNodes(Text, g).ToArray());
+            nodes.Add(Solution072.GenerateConnectedNodes(Text, Links).ToArray());
         }
-        // [TearDown] public void TearDown(){}
         [Test]
         public void Problem072()
         {
+            //-- Arrange
             List<GraphNode[]> nodes;
             List<int?> results;
             nodes = new List<GraphNode[]>();
@@ -38,13 +39,13 @@ namespace Common.Test
             AddTest(3, "ABACA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4) }, nodes, results);
             AddTest(null, "A", new (int from, int to)[] { (0, 0) }, nodes, results);
             AddTest(4, "ABACADA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4), (1, 5), (5, 6), (4, 6) }, nodes, results);
+
+            //-- Act
             for (int i = 0; i < nodes.Count; i++)
             {
-                //-- Arrange
                 var expected = results[i];
                 var graphNode = nodes[i];
 
-                //-- Act
                 var actual = Solution072.DoTheThing(graphNode);
 
                 //-- Assert
