@@ -28,7 +28,7 @@ namespace Common.Test
 
             //-- Act
             Solution026.RemoveNthLastElement(list, wanted);
-            var array = list.Traverse().ToArray();
+            var array = list.BreadthFirstSearch().ToArray();
             var actualNValue = ((LinkedListNode)array.ElementAtOrDefault(array.Length - wanted))?.Value;
             var ActualListLength = array.Length;
 

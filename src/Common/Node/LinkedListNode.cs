@@ -10,14 +10,14 @@ namespace Common.Node
         private LinkedListNode next;
         public LinkedListNode(IEnumerable<int> list)
         {
-            var e = list.GetEnumerator();
-            if (e.MoveNext())
+            var enumerator = list.GetEnumerator();
+            if (enumerator.MoveNext())
             {
-                this.Value = e.Current;
+                this.Value = enumerator.Current;
                 var add = this;
-                while (e.MoveNext())
+                while (enumerator.MoveNext())
                 {
-                    add.Next = new LinkedListNode(e.Current);
+                    add.Next = new LinkedListNode(enumerator.Current);
                     add = add.Next;
                 }
             }
@@ -41,7 +41,7 @@ namespace Common.Node
             get
             {
                 var ret = 0;
-                foreach (var item in Traverse())
+                foreach (var item in BreadthFirstSearch())
                 {
                     ret++;
                 }
@@ -72,12 +72,11 @@ namespace Common.Node
                 yield return Next;
             }
         }
-        public IEnumerable<LinkedListNode> Traverse() => this.BreadthFirstSearch();
         public override string ToString() => $"{Value} {Height}";
         public string Print()
         {
             var ret = string.Empty;
-            var enumerator = Traverse().GetEnumerator();
+            var enumerator = BreadthFirstSearch().GetEnumerator();
             var height = this.Height;
             for (int i = 0; i < height; i++)
             {
@@ -87,8 +86,8 @@ namespace Common.Node
             }
             return ret;
         }
-        public IEnumerator<LinkedListNode> GetEnumerator() => Traverse().GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => Traverse().GetEnumerator();
+        public IEnumerator<LinkedListNode> GetEnumerator() => BreadthFirstSearch().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => BreadthFirstSearch().GetEnumerator();
 
         [System.Diagnostics.DebuggerStepThrough] public bool Equals(LinkedListNode other) => this.Next == other.Next;
     }

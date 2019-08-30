@@ -1,12 +1,14 @@
 // Given the head of a singly linked list, reverse it in-place.
 
+using Common.Node;
+
 namespace Common
 {
     internal class Solution073
     {
-        internal static Node.LinkedListNode ReverseLinkedList(Node.LinkedListNode x)
+        internal static LinkedListNode ReverseLinkedList(LinkedListNode x)
         {
-            Node.LinkedListNode next = null, previous = null, current = x;
+            LinkedListNode next = null, previous = null, current = x;
             do
             {
                 next = current.Next;
