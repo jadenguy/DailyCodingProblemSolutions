@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Common.Test
+namespace Common
 {
     public class Solution071
     {
