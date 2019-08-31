@@ -4,18 +4,18 @@ using Common.Node;
 
 namespace Common
 {
-    internal class Solution073
+    public class Solution073
     {
-        internal static LinkedListNode ReverseLinkedList(LinkedListNode x)
+        public static LinkedListNode ReverseLinkedList(LinkedListNode x)
         {
             LinkedListNode next = null, previous = null, current = x;
-            do
+            while (current != null)
             {
                 next = current.Next;
                 current.Next = previous;
                 previous = current;
                 current = next;
-            } while (next != null);
+            }
             return previous;
         }
     }
