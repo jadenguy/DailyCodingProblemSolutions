@@ -8,12 +8,20 @@ namespace Common
     {
         public static int LongestRaisingSequence(int[] sequence)
         {
-            var ret = 0;
-            var array = NewMethod(sequence).ToArray();
+            var array = HowManyAfterRaise(sequence).Reverse().ToArray();
+            var howManyGreater = 0;
+            var ret = 1;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == howManyGreater)
+                {
+                    howManyGreater ++;
+                    ret++;
+                }
+            }
             return ret;
         }
-
-        private static IEnumerable<int> NewMethod(int[] sequence)
+        private static IEnumerable<int> HowManyAfterRaise(int[] sequence)
         {
             int length = sequence.Length;
             for (int i = 0; i < length; i++)
