@@ -24,7 +24,9 @@ namespace Common.Test
             //-- Act
             // Solution075.LongestRaisingSequenceOld(sequence);
             // var actual = Solution075.LongestRaisingSequenceBinaryTree(sequence);
-            var actual = Solution075.LongestRaisingSequence(sequence).Length;
+            var lis = Solution075.LongestIncreasingSequence(sequence);
+            var actual = lis.Length;
+
 
             //-- Assert
             Assert.AreEqual(expected, actual);

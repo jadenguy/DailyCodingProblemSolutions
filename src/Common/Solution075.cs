@@ -41,7 +41,7 @@ namespace Common
             ret = splitCount.Values.Max() + 1;
             return ret;
         }
-        public static int[] LongestRaisingSequence(int[] sequence)
+        public static int[] LongestIncreasingSequence(int[] sequence)
         {
             var sequenceFromHere = sequence.ToDictionary(k => k, v => new int[] { v });
             // var lisSequence = sequence.ToDictionary(k => k, v => new int[0]);
@@ -57,7 +57,7 @@ namespace Common
                 }
                 catch (System.Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine("no increasing values after here");
+                    // System.Diagnostics.Debug.WriteLine("no increasing values after here");
                 }
             }
             return sequenceFromHere.Values.OrderByDescending(r => r.Length).First();
