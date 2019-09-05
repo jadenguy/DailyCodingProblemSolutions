@@ -41,25 +41,26 @@ namespace Common
             ret = splitCount.Values.Max() + 1;
             return ret;
         }
-        public static int LongestRaisingSequence(int[] sequence)
+        public static int[] LongestRaisingSequence(int[] sequence)
         {
-            var greaterPlaces = sequence.ToDictionary(n => n, n => 1);
+            var sequenceFromHere = sequence.ToDictionary(k => k, v => new int[] { v });
+            // var lisSequence = sequence.ToDictionary(k => k, v => new int[0]);
             for (int j = sequence.Length - 1; j >= 0; j--)
             {
                 int value = sequence[j];
                 var futureSpaces = sequence.Skip(j).Where(r => r > value);
-                var enumerable = greaterPlaces.Where(k => futureSpaces.Contains(k.Key));
+                var enumerable = sequenceFromHere.Where(k => futureSpaces.Contains(k.Key));
                 try
                 {
-                    int nextKey = enumerable.OrderByDescending(v => v.Value).First().Key;
-                    greaterPlaces[value] += greaterPlaces[nextKey];
+                    int nextKey = enumerable.OrderByDescending(v => v.Value.Length).First().Key;
+                    sequenceFromHere[value] = sequence.Skip(j).Take(1).Union(sequenceFromHere[nextKey]).ToArray();
                 }
                 catch (System.Exception)
                 {
                     System.Diagnostics.Debug.WriteLine("no increasing values after here");
                 }
             }
-            return greaterPlaces.Values.Max();
+            return sequenceFromHere.Values.OrderByDescending(r => r.Length).First();
         }
     }
 }
