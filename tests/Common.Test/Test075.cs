@@ -11,6 +11,7 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown(){}
         [Test]
+        [TestCase(new int[] { 5, 4, 3, 2, 1, 0, -1 }, 1)]
         [TestCase(new int[] { 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15 }, 6)]
         [TestCase(new int[] { 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15, -1 }, 6)]
         [TestCase(new int[] { 10, 22, 9, 33, 21, 50, 41, 60, 80 }, 6)]
@@ -21,7 +22,8 @@ namespace Common.Test
             var expected = result;
 
             //-- Act
-            Solution075.LongestRaisingSequenceOld(sequence);
+            // Solution075.LongestRaisingSequenceOld(sequence);
+            // var actual = Solution075.LongestRaisingSequenceBinaryTree(sequence);
             var actual = Solution075.LongestRaisingSequence(sequence);
 
             //-- Assert

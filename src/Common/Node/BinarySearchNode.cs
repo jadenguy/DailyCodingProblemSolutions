@@ -14,18 +14,17 @@ namespace Common.Node
             // if (left != null) { this.Add(left.InOrder()); }
             // if (right != null) { this.Add(right.InOrder().Select(k => (BinarySearchNode)k).ToArray()); }
         }
-
-        public static BinarySearchNode GenerateBinarySearchNode(int[] sequence)
+        public static BinarySearchNode GenerateBinarySearchNode(IEnumerable<int> sequence)
         {
             var ret = new BinarySearchNode(0);
-            if (sequence.Length > 0)
+            var array = sequence.ToArray();
+            if (array.Length > 0)
             {
-                ret.Data = sequence[0];
-                ret.Add(sequence.Skip(1));
+                ret.Data = array[0];
+                ret.Add(array.Skip(1));
             }
             return ret;
         }
-
         private void Add(IEnumerable<BinaryNode<int>> enumerable) => Add(enumerable.Select(v => v.Data));
         public void Add(IEnumerable<int> enumerable)
         {
