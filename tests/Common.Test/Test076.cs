@@ -35,6 +35,8 @@ namespace Common.Test
             testResult.Add(0);
             testCase.Add(new string[] { "zyx", "wvu", "tsr" });
             testResult.Add(3);
+            testCase.Add(new string[] { "zyx" });
+            testResult.Add(0);
             testCases = testCase.ToArray();
             testResults = testResult.ToArray();
         }
@@ -46,6 +48,7 @@ namespace Common.Test
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
+        [TestCase(3)]
         public void Problem076(int testIndex)
         {
             //-- Arrange
