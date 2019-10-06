@@ -40,13 +40,12 @@ namespace Common
             }
             return sb.ToString();
         }
-        public static IEnumerable<int[,]> KnightTourFrom(int[,] board, (int x, int y) startPosition, int placeInList = 1)
+        public static IEnumerable<int[,]> KnightTourFrom(int[,] board, (int x, int y) startPosition, int placeInList = 1, int? endPlace = null)
         {
             board[startPosition.x, startPosition.y] = placeInList;
-            if (placeInList == board.Length)
+            if (endPlace == null) { endPlace = board.Length; }
+            if (placeInList == endPlace)
             {
-                // System.Diagnostics.Debug.WriteLine(board.PrintBoard());
-                // System.Diagnostics.Debug.WriteLine($"{placeInList} at {startPosition}");
                 yield return board;
             }
             else
@@ -54,7 +53,7 @@ namespace Common
                 var nextMove = FindNextKnightMove(board, startPosition);
                 foreach (var move in nextMove)
                 {
-                    foreach (var item in KnightTourFrom((int[,])board.Clone(), move, placeInList + 1))
+                    foreach (var item in KnightTourFrom((int[,])board.Clone(), move, placeInList + 1, endPlace))
                     {
                         yield return item;
                     }
