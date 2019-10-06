@@ -22,7 +22,7 @@ namespace Common.Test
 
             //-- Act
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            int[][,] boards = Solution064.KnightTourFrom(Solution064.BlankBoard(size), (startX, startY), 1).ToArray();
+            int[][,] boards = Solution064.KnightTourFrom(Solution064.BlankBoard(size), (startX, startY)).ToArray();
             System.Diagnostics.Debug.WriteLine(watch.ElapsedMilliseconds);
             System.Console.WriteLine(watch.ElapsedMilliseconds);
 
@@ -38,7 +38,7 @@ namespace Common.Test
             // var expected = answers;
 
             //-- Act
-            int[][,] boards = Solution064.KnightTourFrom(new int[3, 4], (0, 0), 1).ToArray();
+            int[][,] boards = Solution064.KnightTourFrom(new int[3, 4], (0, 0)).ToArray();
 
             var actual = boards.Length;
 
