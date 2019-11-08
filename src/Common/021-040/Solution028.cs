@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Extensions;
 
 namespace Common
 {
@@ -21,18 +22,6 @@ namespace Common
             public int Spaces { get; set; }
             public int Length { get => Word.Length + Spaces; }
             public override string ToString() => Word + new String(Joiner, Spaces);
-        }
-        public static bool TryPeek<T>(this Queue<T> queue, out T peek)
-        {
-            var ret = false;
-            peek = default(T);
-            try
-            {
-                peek = queue.Peek();
-                ret = true;
-            }
-            catch { }
-            return ret;
         }
         public static string[] Justify(string[] input, int lineLength)
         {

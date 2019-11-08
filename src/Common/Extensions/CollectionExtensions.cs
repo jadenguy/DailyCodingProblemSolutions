@@ -9,9 +9,23 @@ namespace Common.Extensions
     public static class CollectionExtensions
     {
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeSub<T>(this IEnumerable<T> inumerable, int start, int length = 1) => inumerable.Skip(start).Take(length);
+
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumerable, int i) => enumerable.Reverse().Take(i).Reverse();
         [System.Diagnostics.DebuggerStepThrough] public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n") => string.Join(seperator, enumerable);
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
+        [System.Diagnostics.DebuggerStepThrough]
+        public static bool TryPeek<T>(this Queue<T> queue, out T peek)
+        {
+            var ret = false;
+            peek = default(T);
+            try
+            {
+                peek = queue.Peek();
+                ret = true;
+            }
+            catch { }
+            return ret;
+        }
         [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T> StreamSlowly<T>(this IEnumerable<T> e, int milliseconds)
         {
