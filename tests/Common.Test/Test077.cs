@@ -17,6 +17,56 @@ namespace Common.Test
             var testResult = new List<(int, int)[]>();
             testCase.Add(new (int, int)[] { (5, 10), (4, 8), (1, 3), (20, 25) });
             testResult.Add(new (int, int)[] { (1, 3), (4, 10), (20, 25) });
+
+            testCase.Add(new (int, int)[] {
+                (43,51),
+                (21,29),
+                (7,15),
+                (37,45),
+                (22,30),
+                (2,10),
+                (9,17),
+                (40,48),
+                (30,38),
+                (45,53),
+                (17,25),
+                (28,36),
+                (14,22),
+                (29,37),
+                (20,28),
+                (18,26),
+                (27,35),
+                (25,33),
+                (12,20),
+                (42,50),
+                (19,27),
+                (36,44),
+                (3,11),
+                (13,21),
+                (16,24),
+                (32,40),
+                (38,46),
+                (26,34),
+                (4,12),
+                (10,18),
+                (23,31),
+                (46,54),
+                (34,42),
+                (24,32),
+                (35,43),
+                (31,39),
+                (39,47),
+                (11,19),
+                (41,49),
+                (33,41),
+                (15,23),
+                (5,13),
+                (6,14),
+                (44,52),
+                (1,9),
+                (8,16)
+                });
+            testResult.Add(new (int, int)[] { (1, 54) });
             testCases = testCase.ToArray();
             testResults = testResult.ToArray();
         }
@@ -26,6 +76,7 @@ namespace Common.Test
 
         [Test]
         [TestCase(0)]
+        [TestCase(1)]
         public void Problem077(int testIndex)
         {
             //-- Arrange
