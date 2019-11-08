@@ -6,13 +6,13 @@ namespace Common
 {
     public class Solution076
     {
-        public static int MinimumRemovedColumnsForRowOrder(string[] rows)
+        public static int MinimumRemovedColumnsForRowOrder(IEnumerable<string> rows)
         {
-            int rowCount = rows.Length;
+            int rowCount = rows.Count();
             var ret = Enumerable.Range(0, rowCount).ToDictionary(k => k, v => false);
             for (int i = 0; i < rowCount; i++)
             {
-                var row = rows[i];
+                var row = rows.ElementAt(i);
                 int columnCount = row.Length;
                 System.Diagnostics.Debug.WriteLine(row.Print(","));
                 for (int j = 1; j < columnCount; j++)
@@ -49,7 +49,7 @@ namespace Common
                 }
                 ret.Add(text);
             }
-            return MinimumRemovedColumnsForRowOrder(ret.ToArray());
+            return MinimumRemovedColumnsForRowOrder(ret);
         }
     }
 }
