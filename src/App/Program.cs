@@ -8,9 +8,12 @@ namespace App
     {
         static int Main(string[] args)
         {
-            // Console.WriteLine("Hello World!");
-
-
+            Console.WriteLine("Hello World!");
+            // FindResults();
+            return 0;
+        }
+        private static void FindResults()
+        {
             var letters = new string[] {
                 "TACHYONS",
                 " NUDGED ",
@@ -49,7 +52,6 @@ namespace App
                 var word = places.OrderBy(f => f.Item1).Select(l => letters[l.Item2][l.Item3]).ToArray();
                 System.Console.WriteLine(string.Join("", word));
             }
-            return 0;
         }
     }
 }
