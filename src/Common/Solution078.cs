@@ -6,7 +6,7 @@ namespace Common
 {
     public class Solution078
     {
-        public static LinkedListNode MergeSortedLinkedList(IEnumerable<LinkedListNode> nodes)
+        public static SinglyLinkedListNode<int> MergeSortedLinkedList(IEnumerable<SinglyLinkedListNode<int>> nodes)
         {
             var ret = new List<int>();
             var dict = Enumerable.Range(0, nodes.Count()).ToDictionary(k => k, v => nodes.ElementAt(v));
@@ -17,7 +17,7 @@ namespace Common
                 ret.Add(earliest.Value.Value);
                 dict[earliest.Key] = earliest.Value.Next;
             }
-            return new Node.LinkedListNode(ret);
+            return new Node.SinglyLinkedListNode<int>(ret);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = Enumerable.Range(1, Count).Select(n => Count - n);
-            var x = new Node.LinkedListNode(Enumerable.Range(0, Count));
+            var x = new Node.SinglyLinkedListNode<int>(Enumerable.Range(0, Count));
 
             //-- Act
             var actual = Solution073.ReverseLinkedList(x).BreadthFirstSearch();

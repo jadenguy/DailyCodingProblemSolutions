@@ -6,9 +6,9 @@ namespace Common
 {
     public class Solution073
     {
-        public static LinkedListNode ReverseLinkedList(LinkedListNode x)
+        public static SinglyLinkedListNode<int> ReverseLinkedList(SinglyLinkedListNode<int> x)
         {
-            LinkedListNode next = null, previous = null, current = x;
+            SinglyLinkedListNode<int> next = null, previous = null, current = x;
             while (current != null)
             {
                 next = current.Next;

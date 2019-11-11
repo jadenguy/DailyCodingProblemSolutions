@@ -8,10 +8,10 @@ namespace Common
     public class Solution020
 
     {
-        public static int FindCommonNode(LinkedListNode a, LinkedListNode b)
+        public static int FindCommonNode(SinglyLinkedListNode<int> a, SinglyLinkedListNode<int> b)
         {
-            LinkedListNode big;
-            LinkedListNode small;
+            SinglyLinkedListNode<int> big;
+            SinglyLinkedListNode<int> small;
             int diff;
             int heightA = a.Height;
             int heightB = b.Height;

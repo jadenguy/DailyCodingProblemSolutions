@@ -6,7 +6,7 @@ namespace Common
     public static class Solution026
 
     {
-        public static void RemoveNthLastElement(LinkedListNode list, int wanted)
+        public static void RemoveNthLastElement(SinglyLinkedListNode<int> list, int wanted)
         {
             var x = list;
             var y = list;

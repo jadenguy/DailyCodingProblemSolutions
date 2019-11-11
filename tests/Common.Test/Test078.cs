@@ -36,7 +36,7 @@ namespace Common.Test
         public void Problem078()
         {
             //-- Arrange
-            var nodes = testCase.Select(l => new LinkedListNode(l));
+            var nodes = testCase.Select(l => new SinglyLinkedListNode<int>(l));
             var expected = testResult;
             System.Diagnostics.Debug.WriteLine(Common.Extensions.CollectionExtensions.Print(expected));
 

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace Common.Node
 {
-    public class LinkedListNode : Node<LinkedListNode>, IEnumerable<LinkedListNode>, IEquatable<LinkedListNode>
+    public class SinglyLinkedListNode<T> : Node<SinglyLinkedListNode<T>>, IEnumerable<SinglyLinkedListNode<T>>, IEquatable<SinglyLinkedListNode<T>>
     {
-        private LinkedListNode next;
-        public LinkedListNode(IEnumerable<int> list)
+        private SinglyLinkedListNode<T> next;
+        public SinglyLinkedListNode(IEnumerable<T> list)
         {
             var enumerator = list.GetEnumerator();
             if (enumerator.MoveNext())
@@ -16,17 +16,16 @@ namespace Common.Node
                 var add = this;
                 while (enumerator.MoveNext())
                 {
-                    add.Next = new LinkedListNode(enumerator.Current);
+                    add.Next = new SinglyLinkedListNode<T>(enumerator.Current);
                     add = add.Next;
                 }
             }
         }
-        public LinkedListNode(int value, LinkedListNode next = null)
+        public SinglyLinkedListNode(T value)
         {
-            this.Next = next;
             this.Value = value;
         }
-        public LinkedListNode Next
+        public SinglyLinkedListNode<T> Next
         {
             get => next;
             set
@@ -34,7 +33,7 @@ namespace Common.Node
                 next = value;
             }
         }
-        public int Value { get; set; }
+        public T Value { get; set; }
         public int Height
         {
             get
@@ -47,7 +46,7 @@ namespace Common.Node
                 return ret;
             }
         }
-        public LinkedListNode this[int x]
+        public SinglyLinkedListNode<T> this[int x]
         {
             get
             {
@@ -64,7 +63,7 @@ namespace Common.Node
                 this[x - 1].Next = value;
             }
         }
-        public override IEnumerable<LinkedListNode> Children()
+        public override IEnumerable<SinglyLinkedListNode<T>> Children()
         {
             if (Next != null)
             {
@@ -85,9 +84,9 @@ namespace Common.Node
             }
             return ret;
         }
-        public IEnumerator<LinkedListNode> GetEnumerator() => BreadthFirstSearch().GetEnumerator();
+        public IEnumerator<SinglyLinkedListNode<T>> GetEnumerator() => BreadthFirstSearch().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => BreadthFirstSearch().GetEnumerator();
 
-        [System.Diagnostics.DebuggerStepThrough] public bool Equals(LinkedListNode other) => this.Next == other.Next;
+        [System.Diagnostics.DebuggerStepThrough] public bool Equals(SinglyLinkedListNode<T> other) => this.Next == other.Next;
     }
 }

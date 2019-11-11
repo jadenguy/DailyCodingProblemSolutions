@@ -10,11 +10,11 @@ namespace Common.Test
 {
     public class Test026
     {
-        LinkedListNode list;
+        SinglyLinkedListNode<int> list;
         [SetUp]
         public void Setup()
         {
-            list = new Common.Node.LinkedListNode(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
+            list = new Common.Node.SinglyLinkedListNode<int>(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
         }
         [Test]
         [TestCase(18, 3)]
@@ -29,7 +29,7 @@ namespace Common.Test
             //-- Act
             Solution026.RemoveNthLastElement(list, wanted);
             var array = list.BreadthFirstSearch().ToArray();
-            var actualNValue = ((LinkedListNode)array.ElementAtOrDefault(array.Length - wanted))?.Value;
+            var actualNValue = ((SinglyLinkedListNode<int>)array.ElementAtOrDefault(array.Length - wanted))?.Value;
             var ActualListLength = array.Length;
 
             //-- Assert
