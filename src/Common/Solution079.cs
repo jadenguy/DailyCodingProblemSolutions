@@ -14,9 +14,7 @@ namespace Common
                 if (prev > current)
                 {
                     inversions++;
-                    if (current <= 1 
-                    || prev >= 1
-                    )
+                    if (current <= 1 && prev > 1)
                     {
                         return false;
                     }
