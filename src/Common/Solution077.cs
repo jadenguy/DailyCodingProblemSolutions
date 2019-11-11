@@ -8,7 +8,7 @@ namespace Common
 {
     public class Solution077
     {
-        static Func<(int start, int end), (int start, int end), bool> isOverlap = (a, b) => b.end > a.start && a.end > b.start;
+        static Func<(int start, int end), (int start, int end), bool> isOverlap = (a, b) => b.end > a.start && a.end > b.start && b.end > a.end;
         public static (int, int)[] MergedOverlapping((int start, int end)[] array)
         {
             if (array.IsNullOrEmpty()) { throw new NullReferenceException("Array empty or null"); }
@@ -20,9 +20,10 @@ namespace Common
                 sortedArray.Dequeue();
                 if (pair.start > max)
                 {
-                    if (sortedArray.Count > 0 && sortedArray.Where(other => isOverlap(pair, other)).Any())
+                    if (sortedArray.Count > 0)
                     {
-                        pair.end = sortedArray.Where(other => isOverlap(pair, other)).Max(element => element.end);
+                        while (sortedArray.Where(other => isOverlap(pair, other)).Any())
+                        { pair.end = sortedArray.Where(other => isOverlap(pair, other)).First().end; }
                     }
                     ret.Enqueue(pair);
                 }

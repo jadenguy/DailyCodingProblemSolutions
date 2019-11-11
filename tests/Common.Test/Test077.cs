@@ -17,7 +17,6 @@ namespace Common.Test
             var testResult = new List<(int, int)[]>();
             testCase.Add(new (int, int)[] { (5, 10), (4, 8), (1, 3), (20, 25) });
             testResult.Add(new (int, int)[] { (1, 3), (4, 10), (20, 25) });
-
             testCase.Add(new (int, int)[] {
                 (43,51),
                 (21,29),
