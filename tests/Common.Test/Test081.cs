@@ -26,12 +26,15 @@ namespace Common.Test
             dict.Add('8', new char[] { 'T', 'U', 'V' });
             dict.Add('9', new char[] { 'W', 'X', 'Y', 'Z' });
             var expected = (new string[] { "AD", "AE", "AF", "BD", "BE", "BF", "CD", "CE", "CF" }).OrderBy(s => s);
+            var testFluffy = "358339"; // https://phonespell.org/combo.cgi?n=fluffy
 
             //-- Act
             var actual = Solution081.FindPossibilities(dict, sequence).OrderBy(s => s);
+            var fluffy = Solution081.FindPossibilities(dict, testFluffy).OrderBy(s => s);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
+            Assert.IsTrue(fluffy.Contains("FLUFFY"));
         }
     }
 }
