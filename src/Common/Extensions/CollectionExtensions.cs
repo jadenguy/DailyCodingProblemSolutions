@@ -54,6 +54,8 @@ namespace Common.Extensions
             }
         }
         [System.Diagnostics.DebuggerStepThrough]
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> array) => (array == null || !array.Any());
+        [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable) where T : IEquatable<T>
         {
             if (enumerable.Count() == 1) { yield return enumerable.ToArray(); }

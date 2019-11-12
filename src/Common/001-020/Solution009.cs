@@ -6,10 +6,6 @@ namespace Common
     public static class Solution009
 
     {
-        public static bool IsNullOrEmpty(this Array array)
-        {
-            return (array == null || array.Length == 0);
-        }
         public static int LargestSumNonAdjacent(int[] list)
         {
             var ret = 0;
