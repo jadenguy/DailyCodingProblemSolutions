@@ -7,8 +7,10 @@ namespace Common
 {
     public static class Solution048
     {
-        public static BinaryNode<T> Reconstruct<T>(IEnumerable<BinaryNode<T>> preOrder, IEnumerable<BinaryNode<T>> inOrder)
+        public static BinaryNode<T> Reconstruct<T>(IEnumerable<BinaryNode<T>> pOrder, IEnumerable<BinaryNode<T>> iOrder)
         {
+            var preOrder = pOrder.ToArray();
+            var inOrder = iOrder.ToArray();
             int iLength = inOrder.Count();
             if (iLength == 0) { return null; }
             int pLength = preOrder.Count();
