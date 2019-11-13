@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+
 
 namespace Common.Node
 {
@@ -11,6 +13,11 @@ namespace Common.Node
             this.Left = left;
             this.Right = right;
             this.Name = name;
+        }
+        public BinaryNode(BinaryNode<T> node)
+        {
+            this.Data = node.Data;
+            this.Name = node.Name;
         }
         public T Data { get; set; }
         public string Name { get; set; }
@@ -82,6 +89,19 @@ namespace Common.Node
                 }
             }
         }
-        [System.Diagnostics.DebuggerStepThrough] public bool Equals(BinaryNode<T> other) => this.Name.Equals(other.Name) && this.Data.Equals(other.Data);
+        [System.Diagnostics.DebuggerStepThrough]
+        public bool Equals(BinaryNode<T> other)
+        {
+            if (other is null) { return false; }
+
+            bool sameName = this.Name.Equals(other.Name);
+            bool sameData = this.Data.Equals(other.Data);
+            bool sameChildren = true;
+
+            if (this.Left != null || other.Left != null) { sameChildren &= this.Left != null && this.Left.Equals(other.Left); }
+            if (this.Right != null || other.Right != null) { sameChildren &= this.Right != null && this.Right.Equals(other.Right); }
+
+            return sameName && sameData && sameChildren;
+        }
     }
 }
