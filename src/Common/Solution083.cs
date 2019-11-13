@@ -8,7 +8,9 @@ namespace Common
     {
         public static BinaryNode<string> Invert(BinaryNode<string> node)
         {
-            return Solution048.Reconstruct(node.PreOrder(), node.OutOrder());
+            System.Collections.Generic.IEnumerable<BinaryNode<string>> pOrder = node.PreOrderReverseChildren();
+            System.Collections.Generic.IEnumerable<BinaryNode<string>> iOrder = node.OutOrder();
+            return Solution048.Reconstruct(pOrder, iOrder);
         }
     }
 }

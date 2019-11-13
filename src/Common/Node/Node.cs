@@ -37,6 +37,21 @@ namespace Common.Node
                 }
             } while (list.Count != 0);
         }
+        public virtual IEnumerable<T> PreOrderReverseChildren(bool root = true)
+        {
+            var list = new Stack<T>() { };
+            list.Push((T)this);
+            do
+            {
+                var current = list.Pop();
+                yield return current;
+                var children = current.Children().ToArray();
+                foreach (var child in children)
+                {
+                    list.Push(child);
+                }
+            } while (list.Count != 0);
+        }
         public virtual IEnumerable<T> PostOrder(bool root = true)
         {
             foreach (var child in Children())

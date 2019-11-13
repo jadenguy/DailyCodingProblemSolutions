@@ -7,9 +7,9 @@ namespace Common
 {
     public static class Solution048
     {
-        public static BinaryNode<T> Reconstruct<T>(IEnumerable<BinaryNode<T>> pOrder, IEnumerable<BinaryNode<T>> iOrder)
+        public static BinaryNode<T> Reconstruct<T>(IEnumerable<BinaryNode<T>> pOrder, IEnumerable<BinaryNode<T>> iOrder, string name = null)
         {
-            var preOrder = pOrder.ToArray();
+            var preOrder = pOrder.ToArray(); //fixes too many traversals issue
             var inOrder = iOrder.ToArray();
             int iLength = inOrder.Count();
             if (iLength == 0) { return null; }
@@ -26,15 +26,16 @@ namespace Common
                 // in-order collection.
                 for (int i = 0; !foundRoot && i < iLength; i++)
                 {
-                    var current = inOrder.ElementAt(i);
+                    var current = new BinaryNode<T>(inOrder.ElementAt(i), name);
                     foundRoot = current.Data.Equals(potentialRoot.Data);
                     if (foundRoot)
                     {
+                        potentialRoot = current;
                         var leftNChildren = inOrder.Take(i);
                         var rightNChildren = inOrder.TakeLast(iLength - i - 1);
                         var resOfPreOrder = preOrder.TakeLast(pLength - p - 1);
-                        potentialRoot.Left = Reconstruct(resOfPreOrder, leftNChildren);
-                        potentialRoot.Right = Reconstruct(resOfPreOrder, rightNChildren);
+                        potentialRoot.Left = Reconstruct(resOfPreOrder, leftNChildren, potentialRoot.Name + ".Left");
+                        potentialRoot.Right = Reconstruct(resOfPreOrder, rightNChildren, potentialRoot.Name + ".Right");
                     }
                 }
             }

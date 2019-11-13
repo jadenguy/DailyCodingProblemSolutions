@@ -43,10 +43,15 @@ namespace Common.Test
             root.Left = n('b');
             root.Right = n('c');
             root.Left.Left = n('d');
+            root.Left.Right = n('e');
+            root.Right.Left = n('f');
             evaluations.Add(invertRoot = n('a'));
             invertRoot.Right = n('b');
             invertRoot.Left = n('c');
             invertRoot.Right.Right = n('d');
+            invertRoot.Right.Left = n('e');
+            invertRoot.Left.Right = n('f');
+            
         }
         // [TearDown] public void TearDown() { }
         [Test]

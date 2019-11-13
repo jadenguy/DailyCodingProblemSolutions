@@ -14,10 +14,11 @@ namespace Common.Node
             this.Right = right;
             this.Name = name;
         }
-        public BinaryNode(BinaryNode<T> node)
+        public BinaryNode(BinaryNode<T> node, string name = null)
         {
             this.Data = node.Data;
-            this.Name = node.Name;
+            if (name == null) { this.Name = node.Name; }
+            else { this.Name = name; }
         }
         public T Data { get; set; }
         public string Name { get; set; }
@@ -75,7 +76,7 @@ namespace Common.Node
         {
             if (Right != null)
             {
-                foreach (var item in Right.InOrder())
+                foreach (var item in Right.OutOrder())
                 {
                     yield return item;
                 }
@@ -83,13 +84,13 @@ namespace Common.Node
             yield return this;
             if (Left != null)
             {
-                foreach (var item in Left.InOrder())
+                foreach (var item in Left.OutOrder())
                 {
                     yield return item;
                 }
             }
         }
-        [System.Diagnostics.DebuggerStepThrough]
+        // [System.Diagnostics.DebuggerStepThrough]
         public bool Equals(BinaryNode<T> other)
         {
             if (other is null) { return false; }
