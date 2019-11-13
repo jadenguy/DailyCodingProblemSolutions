@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Common.Node;
 
 namespace Common
@@ -7,7 +8,7 @@ namespace Common
     {
         public static BinaryNode<string> Invert(BinaryNode<string> node)
         {
-            throw new NotImplementedException();
+            return Solution048.Reconstruct(node.PreOrder(), node.OutOrder());
         }
     }
 }
