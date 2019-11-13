@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Common.Node
@@ -83,7 +82,6 @@ namespace Common.Node
                 }
             }
         }
-
-        [System.Diagnostics.DebuggerStepThrough] public bool Equals(BinaryNode<T> other) => this.Name == other.Name;
+        [System.Diagnostics.DebuggerStepThrough] public bool Equals(BinaryNode<T> other) => this.Name.Equals(other.Name) && this.Data.Equals(other.Data);
     }
 }
