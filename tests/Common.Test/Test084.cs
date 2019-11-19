@@ -7,6 +7,7 @@
 // 1 1 0 0 1
 // 1 1 0 0 1
 
+using System.Linq;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -32,13 +33,13 @@ namespace Common.Test
                     "11101"
                 };
             }
-            Solution084.IslandBoard board = Solution084.StringArrayToGrid(input);
+            Solution084.IslandOcean board = Solution084.StringArrayToGrid(input);
 
             //-- Act
-            var actual = Solution084.CountIslands(board);
+            var actual = Solution084.ListIs`lands(board);
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual.Count());
         }
     }
 }
