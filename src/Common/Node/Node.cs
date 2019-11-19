@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Common.Node
 {
-    public abstract class Node<T> where T : Node<T>, IEquatable<T>
+    public abstract class Node<T> where T : Node<T>
     {
         public abstract IEnumerable<T> Children();
         public virtual IEnumerable<T> BreadthFirstSearch()

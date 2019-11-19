@@ -36,7 +36,7 @@ namespace Common.Test
                 name = text;
             }
 
-            return new BinaryNode<string>(value: text, name: name);
+            return new BinaryNode<string>(data: text, name: name);
         }
 
         [SetUp]

@@ -18,7 +18,7 @@ namespace Common
             bool foundRoot = false;
             for (int p = 0; !foundRoot && p < pLength; p++)
             {
-                potentialRoot = preOrder.ElementAtOrDefault(p);
+                potentialRoot = preOrder.ElementAtOrDefault(p).Copy(name);
                 // if we have a left or right half of an in-order, 
                 // the root of that half is one of the first two 
                 // elements in the pre-order, we don't know which
@@ -26,11 +26,9 @@ namespace Common
                 // in-order collection.
                 for (int i = 0; !foundRoot && i < iLength; i++)
                 {
-                    var current = new BinaryNode<T>(inOrder.ElementAt(i), name);
-                    foundRoot = current.Data.Equals(potentialRoot.Data);
+                    foundRoot = inOrder.ElementAt(i).Data.Equals(potentialRoot.Data);
                     if (foundRoot)
                     {
-                        potentialRoot = current;
                         var leftNChildren = inOrder.Take(i);
                         var rightNChildren = inOrder.TakeLast(iLength - i - 1);
                         var resOfPreOrder = preOrder.TakeLast(pLength - p - 1);

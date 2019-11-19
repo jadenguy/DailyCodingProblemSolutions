@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-
 
 namespace Common.Node
 {
     public class BinaryNode<T> : Node<BinaryNode<T>>, IEquatable<BinaryNode<T>>
     {
-        public BinaryNode(T value, BinaryNode<T> left = null, BinaryNode<T> right = null, string name = "Root")
+        public BinaryNode(T data, BinaryNode<T> left = null, BinaryNode<T> right = null, string name = "Root")
         {
-            this.Data = value;
+            this.Data = data;
             this.Left = left;
             this.Right = right;
             this.Name = name;
-        }
-        public BinaryNode(BinaryNode<T> node, string name = null)
-        {
-            this.Data = node.Data;
-            if (name == null) { this.Name = node.Name; }
-            else { this.Name = name; }
         }
         public T Data { get; set; }
         public string Name { get; set; }
@@ -35,6 +27,12 @@ namespace Common.Node
                     left.Name = this.Name + ".Left";
                 }
             }
+        }
+        public BinaryNode<T> Copy(string name = null)
+        {
+            var ret = new BinaryNode<T>(data: this.Data, name: name);
+            if (string.IsNullOrEmpty(name)) { ret.Name = this.Name; }
+            return ret;
         }
         public virtual BinaryNode<T> Right
         {
@@ -90,7 +88,7 @@ namespace Common.Node
                 }
             }
         }
-        // [System.Diagnostics.DebuggerStepThrough]
+        public BinaryNode<T> clone() => new BinaryNode<T>(data: this.Data, name: this.Name);
         public bool Equals(BinaryNode<T> other)
         {
             if (other is null) { return false; }

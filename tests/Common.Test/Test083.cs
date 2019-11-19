@@ -27,7 +27,7 @@ namespace Common.Test
         private static BinaryNode<string> n(string text, string name = null)
         {
             if (name is null) { name = text; }
-            return new BinaryNode<string>(value: text, name: name);
+            return new BinaryNode<string>(data: text, name: name);
         }
         private BinaryNode<string> n(object v) => n(v.ToString());
         [SetUp]
