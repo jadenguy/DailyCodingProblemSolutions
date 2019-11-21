@@ -39,11 +39,11 @@ namespace Common.Test
         }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase(4)]
         // [TestCase(0)]
         // [TestCase(1)]
-        // [TestCase(2)]
+        [TestCase(2)]
         // [TestCase(3)]
+        // [TestCase(4)]
         public void Problem087(int index)
         {
             //-- Arrange
