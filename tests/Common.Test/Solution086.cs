@@ -2,7 +2,7 @@ namespace Common
 {
     public class Solution086
     {
-        public static int MissingParenthesisCount(string content)
+        public static int MissingParenthesisCount(string content, out string newContent)
         {
             int currentOpenness = 0;
             int howManyOpenAddedToStart = 0;
@@ -16,8 +16,7 @@ namespace Common
                 }
             }
             var howManyCloseAddedToEnd = currentOpenness;
-            var newContent = new string('(', howManyOpenAddedToStart) + content + new string(')', howManyCloseAddedToEnd);
-            
+            newContent = new string('(', howManyOpenAddedToStart) + content + new string(')', howManyCloseAddedToEnd);
             return howManyOpenAddedToStart + howManyCloseAddedToEnd;
         }
     }

@@ -17,13 +17,16 @@ namespace Common.Test
         [TestCase("(())", 0)]
         [TestCase(")))))", 5)]
         [TestCase("()())()", 1)]
+        [TestCase("((((( this is all garbage +", 5)]
         public void Problem086(string content = "", int results = 0)
         {
             //-- Arrange
             var expected = results;
 
             //-- Act
-            int actual = Solution086.MissingParenthesisCount(content);
+            int actual = Solution086.MissingParenthesisCount(content, out var suggestion);
+            System.Console.WriteLine(suggestion);
+            System.Diagnostics.Debug.WriteLine(suggestion);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
