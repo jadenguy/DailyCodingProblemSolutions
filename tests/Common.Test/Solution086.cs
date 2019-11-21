@@ -4,19 +4,21 @@ namespace Common
     {
         public static int MissingParenthesisCount(string content)
         {
-            int howManyOpenUpToNow = 0;
+            int currentOpenness = 0;
             int howManyOpenAddedToStart = 0;
             for (int i = 0; i < content.Length; ++i)
             {
-                howManyOpenUpToNow += content[i] == '(' ? 1 : -1;
-                if (howManyOpenUpToNow == -1)
+                if (content[i] == '(') { currentOpenness++; }
+                if (content[i] == ')')
                 {
-                    howManyOpenAddedToStart += 1;
-                    howManyOpenUpToNow += 1;
+                    if (currentOpenness > 0) { currentOpenness--; }
+                    else { howManyOpenAddedToStart += 1; }
                 }
             }
-            var HowManyCloseAddedToEnd = howManyOpenUpToNow;
-            return howManyOpenUpToNow + howManyOpenAddedToStart;
+            var howManyCloseAddedToEnd = currentOpenness;
+            var newContent = new string('(', howManyOpenAddedToStart) + content + new string(')', howManyCloseAddedToEnd);
+            
+            return howManyOpenAddedToStart + howManyCloseAddedToEnd;
         }
     }
 }
