@@ -34,18 +34,24 @@ namespace Common.Test
             results.Add(false);
             ruleSets.Add(new string[] { "A NW B", "A N B" });
             results.Add(true);
+            ruleSets.Add(new string[] { "I NE J", "O NE P", "P NE Q", "X NE Y", "G NE H", "A NE B", "L NE M", "F NE G", "T NE U", "C NE D", "U NE V", "Q NE R", "D NE E", "M NE N", "E NE F", "H NE I", "K NE L", "S NE T", "N NE O", "W NE X", "V NE W", "R NE S", "B NE C", "Y NE Z", "J NE K" });
+            results.Add(true);
         }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase(0)]
+        [TestCase(4)]
+        // [TestCase(0)]
+        // [TestCase(1)]
+        // [TestCase(2)]
+        // [TestCase(3)]
         public void Problem087(int index)
         {
             //-- Arrange
-            string[] ruleSet = ruleSets[index];
+            var ruleSet = ruleSets[index];
             var expected = results[index];
 
             //-- Act
-            int actual = Solution087.Validate(ruleSet);
+            var actual = Solution087.Validate(ruleSet);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
