@@ -19,18 +19,18 @@ namespace Common
                 public Place(string placeName)
                 {
                     if (string.IsNullOrWhiteSpace(placeName)) { throw new ArgumentException("Null Placename", nameof(placeName)); }
-                    var EnumValues = GetEnumValues();
+                    var EnumValues = GetDirectionEnumValues();
                     Relationships = EnumValues.ToDictionary(k => k, v => new List<Place>());
                     PlaceName = placeName;
                 }
-                private static IEnumerable<Direction> GetEnumValues()
+                private static IEnumerable<Direction> GetDirectionEnumValues()
                 {
                     return Enum.GetValues(typeof(Direction)).Cast<Direction>();
                 }
                 public void RelateTo(char directionString, Place place) => RelateTo((Direction)Enum.Parse(typeof(Direction), directionString.ToString()), place);
                 public void RelateTo(Direction direction, Place place)
                 {
-                    Direction opposite = (Direction)(-(int)direction);
+                    Direction opposite = GetOpposite(direction);
                     if (this != place && !Relationships[direction].Contains(place))
                     {
                         Relationships[direction].Add(place);
@@ -41,9 +41,24 @@ namespace Common
                         }
                     }
                 }
+
+                private static Direction GetOpposite(Direction direction)
+                {
+                    return (Direction)(-(int)direction);
+                }
+
                 public bool Validate()
                 {
                     var ret = true;
+                    var dir = GetDirectionEnumValues();
+                    for (int i = 0; ret && i < dir.Count(); i++)
+                    {
+                        Direction direction = dir.ElementAt(i);
+                        var aList = new HashSet<Place>(Relationships[direction]);
+                        var opposite = GetOpposite(direction);
+                        var bList = new HashSet<Place>(Relationships[opposite]);
+                        ret = !aList.Intersect(bList).Any();
+                    }
                     return ret;
                 }
                 public string RelationshipCount()
@@ -72,8 +87,12 @@ namespace Common
         }
         public static bool Validate(string[] ruleSets)
         {
-            var ret = false;
+            var ret = true;
             var rules = Resolve(ruleSets);
+            for (int i = 0; ret && i < rules.Places.Count; i++)
+            {
+                ret = rules.Places[i].Validate();
+            }
             return ret;
         }
         private static Rules Resolve(string[] ruleSets)
