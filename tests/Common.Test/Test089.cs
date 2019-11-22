@@ -2,6 +2,7 @@
 // A binary search tree is a tree with two children, left and right, and satisfies the constraint that the key in the left child must be less than or equal to the root and the key in the right child must be greater than or equal to the root.
 
 
+using System;
 using System.Collections.Generic;
 using Common.Node;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ namespace Common.Test
     public class Test089
     {
         List<BinaryNode<int>> nodes;
-        List<bool> isBST;
+        List<bool> results;
 
         private static BinaryNode<int> n(int text)
         {
@@ -22,26 +23,55 @@ namespace Common.Test
         public void Setup()
         {
             nodes = new List<BinaryNode<int>>();
-            isBST = new List<bool>();
+            results = new List<bool>();
             BinaryNode<int> root;
+            var rand = new Random();
 
             // 0
-            nodes.Add(root = n('a'));
-            root.Left = n('b');
-            root.Right = n('c');
-            root.Left.Left = n('d');
-            root.Left.Right = n('e');
-            root.Right.Left = n('f');
-            isBST.Add(false);
-            var x = new BinarySearchNode();
+            var x = new BinarySearchNode(rand.Next());
+            x.Add(rand.Next());
+            x.Add(rand.Next());
+            x.Add(rand.Next());
+            x.Add(rand.Next());
+            x.Add(rand.Next());
+            x.Add(rand.Next());
+            x.Add(rand.Next());
+            x.Add(rand.Next());
+            x.Add(rand.Next());
+            nodes.Add(x);
+            results.Add(true);
+
+            // 1
+            nodes.Add(root = n(0));
+            root.Left = n(0);
+            root.Right = n(0);
+            root.Left.Left = n(0);
+            root.Left.Right = n(0);
+            root.Right.Left = n(0);
+            root.Right.Right = n(0);
+            results.Add(false);
+            nodes.Add(root = n(0));
+            root.Left = n(1);
+            root.Right = n(2);
+            root.Left.Left = n(3);
+            root.Left.Right = n(4);
+            root.Right.Left = n(5);
+            root.Right.Right = n(6);
+            results.Add(false);
+
         }
         // [TearDown] public void TearDown() { }
         [Test]
+        [TestCase()]
+        [TestCase()]
+        [TestCase()]
         [TestCase(0)]
-        public void Problem089(int testCase)
+        [TestCase(1)]
+        [TestCase(2)]
+        public void Problem089(int testCase = 0)
         {
             //-- Arrange
-            var expected = isBST[testCase];
+            var expected = results[testCase];
             var node = nodes[testCase];
 
             //-- Act
