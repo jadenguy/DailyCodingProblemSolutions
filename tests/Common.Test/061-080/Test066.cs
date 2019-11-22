@@ -4,6 +4,7 @@
 
 using System.Linq;
 using Common.Extensions;
+using Common.RandomSelector;
 using NUnit.Framework;
 
 namespace Common.Test
