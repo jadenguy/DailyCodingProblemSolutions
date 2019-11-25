@@ -29,15 +29,7 @@ namespace Common.Test
 
             // 0
             var x = new BinarySearchNode(rand.Next());
-            x.Add(rand.Next());
-            x.Add(rand.Next());
-            x.Add(rand.Next());
-            x.Add(rand.Next());
-            x.Add(rand.Next());
-            x.Add(rand.Next());
-            x.Add(rand.Next());
-            x.Add(rand.Next());
-            x.Add(rand.Next());
+            for (int i = 0; i < 10; i++) { x.Add(rand.Next()); }
             nodes.Add(x);
             results.Add(true);
 
