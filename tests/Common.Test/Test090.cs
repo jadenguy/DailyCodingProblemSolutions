@@ -15,13 +15,12 @@ namespace Common.Test
         [TestCase(3, new int[] { })]
         [TestCase(3, new int[] { 0 })]
         [TestCase(3, new int[] { 0, 1 })]
-        // [TestCase(1, new int[] { 0 })] // invalid test
         public void Problem090(int n = 3, int[] z = null)
         {
             //-- Arrange
             if (z == null) { z = new int[] { }; }
             double rounds = 1000;
-            var expectedAverage = rounds / (n - z.Length);
+            var expectedAverage = rounds / (n - Enumerable.Range(0, n).Intersect(z).Count());
             var expectedStdDev = 1 + expectedAverage * .1; // within 5 percent of the expected average
             var buckets = Enumerable.Range(0, n).ToDictionary(k => k, v => 0);
 
@@ -44,13 +43,12 @@ namespace Common.Test
             System.Console.WriteLine(expectedAverage);
             System.Console.WriteLine(actualStdDev);
             System.Console.WriteLine(expectedStdDev);
-            System.Console.WriteLine(rightNumbers.Count());
+            // System.Console.WriteLine(rightNumbers.Count());
 
             //-- Assert
             Assert.AreEqual(expectedAverage, actualAverage, 1, "average wrong");
             Assert.IsTrue(expectedStdDev > actualStdDev, "deviation wrong");
             Assert.IsTrue(wrongNumbers.Sum() == 0, "errant values");
-
         }
     }
 }
