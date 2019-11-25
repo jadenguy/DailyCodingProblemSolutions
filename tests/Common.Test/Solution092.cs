@@ -11,13 +11,17 @@ namespace Common
         {
             //put items with zero dependencies on the top
             var graphArray = scheduleRules.OrderBy(v => v.Value.Length).Distinct().Select(n => new GraphNode(n.Key)).ToArray();
-            foreach (var rule in scheduleRules)
+            foreach (var child in scheduleRules)
             {
-                foreach (var connection in rule.Value)
+                foreach (var parent in child.Value)
                 {
-                    var parentNode = graphArray.Where(g => g.Id == rule.Key).First();
-                    var childNode = graphArray.Where(g => g.Id == connection).First();
-                    childNode.ConnectTo(parentNode, -1);
+                    try
+                    {
+                        var childNode = graphArray.Where(g => g.Id == child.Key).FirstOrDefault();
+                        var parentNode = graphArray.Where(g => g.Id == parent).FirstOrDefault();
+                        parentNode.ConnectTo(childNode, -1);
+                    }
+                    catch (Exception) { return null; }
                 }
             }
             var bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
@@ -27,10 +31,10 @@ namespace Common
                 bellmanFordChart[chainStarts.First().Key] = 0;
                 bellmanFordChart.BellmanFord();
                 var loopie = bellmanFordChart.ToDictionary(k => k.Key, v => v.Value);
-                var noLoop = loopie.BellmanFord(0, true, true).All(v => !double.IsNegativeInfinity(v.Value));
-                if (!noLoop) { return null; }
+                var isLoop = loopie.BellmanFord(0, true, true).Any(v => double.IsNegativeInfinity(v.Value));
+                if (isLoop) { return null; }
             }
-            return bellmanFordChart.OrderByDescending(v => v.Value).ThenBy(k=>k.Key.Id).Select(k => k.Key.Id);
+            return bellmanFordChart.OrderByDescending(v => v.Value).ThenBy(k => k.Key.Id).Select(k => k.Key.Id);
         }
     }
 }

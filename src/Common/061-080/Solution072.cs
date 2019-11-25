@@ -11,9 +11,8 @@ namespace Common
         {
             int? ret = null;
             bool isLoop = DetectNegativeLoop(graphNodes);
-            if (isLoop)
+            if (!isLoop)
             {
-                ret = 3;
                 var paths = EveryPath(graphNodes);
                 var mostUsedPathChar = paths.Select(p => p.GroupBy(c => c.Id)
                                                           .OrderByDescending(g => g.Count())
@@ -29,7 +28,7 @@ namespace Common
         {
             var bellmanFord = graphNodes.ToDictionary(g => g, g => 0d);
             Solution032.BellmanFord(bellmanFord);
-            var isLoop = Solution032.BellmanFord(bellmanFord, 0, true, true).All(v => !double.IsNegativeInfinity(v.Value));
+            var isLoop = Solution032.BellmanFord(bellmanFord, 0, true, true).Any(v => double.IsNegativeInfinity(v.Value));
             return isLoop;
         }
 

@@ -41,11 +41,28 @@ namespace Common.Test
             ruleSet.Add("CSC100", new string[] { });
             scheduleRuleSets.Add(ruleSet);
             results.Add(new string[] { "1", "A", "CSC100", "2", "B", "C", "D" });
+
+            // 2
+            ruleSet = new Dictionary<string, string[]>();
+            ruleSet.Add("B", new string[] { "A" });
+            ruleSet.Add("A", new string[] { "B" });
+            scheduleRuleSets.Add(ruleSet);
+            results.Add(null);
+
+            // 3
+            ruleSet = new Dictionary<string, string[]>();
+            ruleSet.Add("B", new string[] { "A" });
+            // ruleSet.Add("A", new string[] { "B" });
+            scheduleRuleSets.Add(ruleSet);
+            results.Add(null);
+
         }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase()]
+        [TestCase(0)]
         [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
         public void Problem092(int testCase = 0)
         {
             //-- Arrange
