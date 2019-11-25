@@ -13,6 +13,7 @@ namespace Common.Test
         [Test]
         [TestCase(2, new int[] { 0 })]
         [TestCase(3, new int[] { })]
+        [TestCase(3, new int[] { 100 })] //should be same as above
         [TestCase(3, new int[] { 0 })]
         [TestCase(3, new int[] { 0, 1 })]
         public void Problem090(int n = 3, int[] z = null)
@@ -28,22 +29,17 @@ namespace Common.Test
             try
             {
                 var negativeDice = new NegativeDice(n, z);
-                for (int i = 0; i < rounds; i++)
-                {
-                    buckets[negativeDice.Next()]++;
-                }
+                for (int i = 0; i < rounds; i++) { buckets[negativeDice.Next()]++; }
             }
             catch (System.Exception) { Assert.Fail(); }
             var rightNumbers = buckets.Keys.Except(z).Select(k => buckets[k]).Select(k => (double)k);
             var wrongNumbers = buckets.Keys.Intersect(z).Select(k => buckets[k]).Select(k => (double)k);
             var actualAverage = rightNumbers.Average();
             var actualStdDev = rightNumbers.PopulationStandardDeviation();
-
-            System.Console.WriteLine(actualAverage);
-            System.Console.WriteLine(expectedAverage);
-            System.Console.WriteLine(actualStdDev);
-            System.Console.WriteLine(expectedStdDev);
-            // System.Console.WriteLine(rightNumbers.Count());
+            // System.Console.WriteLine(actualAverage);
+            // System.Console.WriteLine(expectedAverage);
+            // System.Console.WriteLine(actualStdDev);
+            // System.Console.WriteLine(expectedStdDev);
 
             //-- Assert
             Assert.AreEqual(expectedAverage, actualAverage, 1, "average wrong");
