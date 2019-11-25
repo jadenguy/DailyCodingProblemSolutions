@@ -14,7 +14,6 @@ namespace Common.Test
     {
         List<Dictionary<string, string[]>> scheduleRuleSets;
         List<string[]> results;
-
         private BinaryNode<string> n(object v) => n(v.ToString());
         [SetUp]
         public void Setup()
@@ -31,10 +30,22 @@ namespace Common.Test
             scheduleRuleSets.Add(ruleSet);
             results.Add(new string[] { "CSC100", "CSC200", "CSC300" });
 
+            // 1
+            ruleSet = new Dictionary<string, string[]>();
+            ruleSet.Add("D", new string[] { "C", "B", "A" });
+            ruleSet.Add("C", new string[] { "B", "A" });
+            ruleSet.Add("B", new string[] { "A" });
+            ruleSet.Add("A", new string[] { });
+            ruleSet.Add("1", new string[] { });
+            ruleSet.Add("2", new string[] { "1" });
+            ruleSet.Add("CSC100", new string[] { });
+            scheduleRuleSets.Add(ruleSet);
+            results.Add(new string[] { "1", "A", "CSC100", "2", "B", "C", "D" });
         }
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCase()]
+        [TestCase(1)]
         public void Problem092(int testCase = 0)
         {
             //-- Arrange

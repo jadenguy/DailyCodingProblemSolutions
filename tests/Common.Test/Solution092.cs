@@ -17,7 +17,7 @@ namespace Common
                 {
                     var parentNode = graphArray.Where(g => g.Id == rule.Key).First();
                     var childNode = graphArray.Where(g => g.Id == connection).First();
-                    parentNode.ConnectTo(childNode, -1);
+                    childNode.ConnectTo(parentNode, -1);
                 }
             }
             var bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
@@ -30,7 +30,7 @@ namespace Common
                 var noLoop = loopie.BellmanFord(0, true, true).All(v => !double.IsNegativeInfinity(v.Value));
                 if (!noLoop) { return null; }
             }
-            return bellmanFordChart.OrderBy(v => v.Value).Select(k => k.Key.Id);
+            return bellmanFordChart.OrderByDescending(v => v.Value).ThenBy(k=>k.Key.Id).Select(k => k.Key.Id);
         }
     }
 }
