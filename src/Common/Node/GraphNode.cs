@@ -32,6 +32,7 @@ namespace Common.Node
         }
         [System.Diagnostics.DebuggerStepThrough] public bool Equals(GraphNode other) => this.Id == other.Id;
         public void ConnectTo(GraphNode node, double weight) { Paths.Add(node, weight); }
+        [System.Diagnostics.DebuggerStepThrough]
         public override string ToString() => Id;
     }
 }
