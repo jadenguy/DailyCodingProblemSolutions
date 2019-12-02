@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using Common.Node;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -14,7 +13,6 @@ namespace Common.Test
     {
         List<Dictionary<string, string[]>> scheduleRuleSets;
         List<string[]> results;
-        private BinaryNode<string> n(object v) => n(v.ToString());
         [SetUp]
         public void Setup()
         {
