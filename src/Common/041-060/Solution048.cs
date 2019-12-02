@@ -7,18 +7,18 @@ namespace Common
 {
     public static class Solution048
     {
-        public static BinaryNode<T> Reconstruct<T>(IEnumerable<BinaryNode<T>> pOrder, IEnumerable<BinaryNode<T>> iOrder, string name = null)
+        public static BinaryNode<T> Reconstruct<T>(IEnumerable<BinaryNode<T>> preOrder, IEnumerable<BinaryNode<T>> inOrder, string name = null)
         {
-            var preOrder = pOrder.ToArray(); //fixes too many traversals issue
-            var inOrder = iOrder.ToArray();
-            int iLength = inOrder.Count();
+            var pOrder = preOrder.ToArray(); //fixes too many traversals issue
+            var iOrder = inOrder.ToArray();
+            int iLength = iOrder.Count();
             if (iLength == 0) { return null; }
-            int pLength = preOrder.Count();
+            int pLength = pOrder.Count();
             BinaryNode<T> potentialRoot = null;
             bool foundRoot = false;
             for (int p = 0; !foundRoot && p < pLength; p++)
             {
-                potentialRoot = preOrder.ElementAtOrDefault(p).Copy(name);
+                potentialRoot = pOrder.ElementAtOrDefault(p).Copy(name);
                 // if we have a left or right half of an in-order, 
                 // the root of that half is one of the first two 
                 // elements in the pre-order, we don't know which
@@ -26,12 +26,12 @@ namespace Common
                 // in-order collection.
                 for (int i = 0; !foundRoot && i < iLength; i++)
                 {
-                    foundRoot = inOrder.ElementAt(i).Data.Equals(potentialRoot.Data);
+                    foundRoot = iOrder.ElementAt(i).Data.Equals(potentialRoot.Data);
                     if (foundRoot)
                     {
-                        var leftNChildren = inOrder.Take(i);
-                        var rightNChildren = inOrder.TakeLast(iLength - i - 1);
-                        var resOfPreOrder = preOrder.TakeLast(pLength - p - 1);
+                        var leftNChildren = iOrder.Take(i);
+                        var rightNChildren = iOrder.TakeLast(iLength - i - 1);
+                        var resOfPreOrder = pOrder.TakeLast(pLength - p - 1);
                         potentialRoot.Left = Reconstruct(resOfPreOrder, leftNChildren, potentialRoot.Name + ".Left");
                         potentialRoot.Right = Reconstruct(resOfPreOrder, rightNChildren, potentialRoot.Name + ".Right");
                     }
