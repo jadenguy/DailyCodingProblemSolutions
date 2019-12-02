@@ -51,13 +51,9 @@ namespace Common.Test
             root.Right.Right.Left = n(-1);
             root.Right.Right.Right = n(7);
             results.Add(root.Right.Right);
-
         }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase()]
-        [TestCase()]
-        [TestCase()]
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
