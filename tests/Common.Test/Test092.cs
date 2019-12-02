@@ -73,5 +73,21 @@ namespace Common.Test
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
+        // [Test]
+        // uncomment to run every test at once
+        public void Problem092All()
+        {
+            if (scheduleRuleSets.Count == results.Count)
+            {
+                for (int testCase = 0; testCase < scheduleRuleSets.Count; testCase++)
+                {
+                    Problem092(testCase);
+                }
+            }
+            else
+            {
+                Assert.Fail("Test cases and results count mismatch.");
+            }
+        }
     }
 }
