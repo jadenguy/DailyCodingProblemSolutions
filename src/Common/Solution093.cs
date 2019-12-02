@@ -8,7 +8,7 @@ namespace Common
     {
         public static BinaryNode<int> LargestBST(BinaryNode<int> node)
         {
-            return node.PreOrder().Where(x => Solution089.IsBST(x)).FirstOrDefault();
+            return node.PreOrder().Where(x => Solution089.IsBST(x)).OrderByDescending(n => n.BreadthFirstSearch().Count()).FirstOrDefault();
         }
     }
 }
