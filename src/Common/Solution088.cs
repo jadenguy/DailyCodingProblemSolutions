@@ -2,7 +2,7 @@ namespace Common
 {
     public class Solution088
     {
-        public static object Divide(int numerator, int denominator)
+        public static int Divide(int numerator, int denominator)
         {
             var ret = 0;
             while (numerator > denominator)
