@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common.Node;
 using NUnit.Framework;
 
@@ -11,7 +12,6 @@ namespace Common.Test
     {
         List<BinaryNode<int>> nodes;
         List<int> results;
-
         private static BinaryNode<int> n(int data) => new BinaryNode<int>(data);
         [SetUp]
         public void Setup()
@@ -67,7 +67,7 @@ namespace Common.Test
             var node = nodes[testCase];
 
             //-- Act
-            var actual = Solution094.MaxPathSum(node);
+            var actual = Solution094.MaxPathSum(node).Max(n => n.Sum());
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
