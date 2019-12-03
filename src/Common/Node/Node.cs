@@ -58,9 +58,9 @@ namespace Common.Node
             {
                 foreach (var subchild in child.PostOrder(false))
                 { yield return subchild; }
-                yield return child;
+                // yield return child;
             }
-            if (root)
+            // if (root)
             { yield return (T)this; }
         }
     }

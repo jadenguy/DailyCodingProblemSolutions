@@ -10,15 +10,14 @@ namespace Common.Test
     public class Test094
     {
         List<BinaryNode<int>> nodes;
-        List<BinaryNode<int>> results;
+        List<int> results;
 
         private static BinaryNode<int> n(int data) => new BinaryNode<int>(data);
-        private BinaryNode<string> n(object v) => n(v.ToString());
         [SetUp]
         public void Setup()
         {
             nodes = new List<BinaryNode<int>>();
-            results = new List<BinaryNode<int>>();
+            results = new List<int>();
             BinaryNode<int> root;
             var rand = new Random();
 
@@ -30,25 +29,37 @@ namespace Common.Test
             root.Left.Right = n(0);
             root.Right.Left = n(0);
             root.Right.Right = n(0);
-            results.Add(root.Left.Left);
+            results.Add(0);
 
             // 1
-            nodes.Add(root = n(0));
+            nodes.Add(root = n(-1));
+            root.Left = n(0);
+            root.Right = n(0);
+            root.Left.Left = n(1);
+            root.Left.Right = n(0);
+            root.Right.Left = n(0);
+            root.Right.Right = n(0);
+            results.Add(1);
+
+            // 2
+            nodes.Add(root = n(-1000));
             root.Left = n(1);
             root.Right = n(2);
-            root.Left.Left = n(3);
-            root.Left.Right = n(4);
-            root.Right.Left = n(5);
-            root.Right.Right = n(6);
-            root.Right.Right.Left = n(-1);
-            root.Right.Right.Right = n(7);
-            results.Add(root.Right.Right);
+            results.Add(2);
+
+            // 3
+            nodes.Add(root = n(1));
+            root.Left = n(1);
+            root.Right = n(2);
+            results.Add(4);
+
         }
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
+        [TestCase(3)]
         public void Problem094(int testCase = 0)
         {
             //-- Arrange
