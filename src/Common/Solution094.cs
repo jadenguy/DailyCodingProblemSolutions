@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Node;
@@ -9,42 +8,7 @@ namespace Common
     {
         private const BinaryTreePath.PathType LEAF = BinaryTreePath.PathType.Leaf;
         private const BinaryTreePath.PathType BRANCH = BinaryTreePath.PathType.Branch;
-
-        public class BinaryTreePath
-        {
-            public enum PathType
-            {
-                Leaf, Branch, FullPath
-            }
-
-            private const PathType FULL = PathType.FullPath;
-            private BinaryNode<int>[] nodes;
-            public BinaryTreePath(BinaryNode<int>[] nodes, PathType type)
-            {
-                this.Nodes = nodes;
-                this.Type = type;
-            }
-            public BinaryNode<int>[] Nodes { get => nodes; set => nodes = value; }
-            public BinaryTreePath(BinaryTreePath branchA, BinaryNode<int> root, BinaryTreePath branchB = null)
-            {
-                if (branchA is null || root is null) { throw new ArgumentNullException(nameof(root)); }
-                var newPath = branchA.Nodes.Union(new BinaryNode<int>[] { root });
-                Type = BRANCH;
-                if (branchB is null)
-                { Type = FULL; }
-                else
-                {
-                    newPath = newPath.Union(branchB.Nodes.Reverse());
-                }
-                Nodes = newPath.ToArray();
-            }
-            public BinaryTreePath(BinaryTreePath results, BinaryNode<int> node, bool v)
-            {
-            }
-
-            public PathType Type { get; set; }
-            public int? Sum() => Nodes?.Sum(n => n.Data);
-        }
+        private const BinaryTreePath.PathType FULL =  BinaryTreePath.PathType.FullPath;
         public static IEnumerable<BinaryTreePath> MaxPathSum(BinaryNode<int> node)
         {
             if (node is null) { yield break; }
