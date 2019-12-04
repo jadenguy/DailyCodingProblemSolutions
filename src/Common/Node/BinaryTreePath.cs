@@ -9,7 +9,7 @@ namespace Common
     {
         public enum PathType
         {
-            Leaf, Branch, FullPath
+            Orphan, Branch, FullPath
         }
         private BinaryNode<int>[] nodes;
         public BinaryTreePath(BinaryNode<int>[] nodes, PathType type)
@@ -18,23 +18,23 @@ namespace Common
             this.Type = type;
         }
         public BinaryNode<int>[] Nodes { get => nodes; set => nodes = value; }
-        public BinaryTreePath(BinaryTreePath branchA, BinaryNode<int> root, BinaryTreePath branchB = null)
+        public BinaryTreePath(BinaryTreePath left, BinaryNode<int> root, BinaryTreePath right = null)
         {
-            if (branchA is null || root is null) { throw new ArgumentNullException(nameof(root)); }
-            var newPath = branchA.Nodes.Union(new BinaryNode<int>[] { root });
-            Type = PathType.Branch;
-            if (branchB is null)
-            { Type = PathType.FullPath; }
+            if (root is null) { throw new ArgumentNullException(nameof(root)); }
+            var newPath = left.Nodes.Union(new BinaryNode<int>[] { root });
+            bool hasLeft = left != null;
+            bool hasRight = right != null;
+            bool hasBoth = hasLeft && hasRight;
+            if (hasBoth) { Type = PathType.FullPath; }
             else
             {
-                newPath = newPath.Union(branchB.Nodes.Reverse());
+                Type = PathType.Branch;
+                if (hasLeft) { newPath = left.Nodes.Union(newPath); }
+                if (hasRight) { newPath = newPath.Union(right.Nodes.Reverse()); }
             }
             Nodes = newPath.ToArray();
         }
-        public BinaryTreePath(BinaryTreePath results, BinaryNode<int> node, bool v)
-        {
-        }
         public PathType Type { get; set; }
-        public int? Sum() => Nodes?.Sum(n => n.Data);
+        public int Sum() => Nodes?.Sum(n => n.Data) ?? 0;
     }
 }

@@ -6,42 +6,30 @@ namespace Common
 {
     public class Solution094
     {
-        private const BinaryTreePath.PathType LEAF = BinaryTreePath.PathType.Leaf;
+        private const BinaryTreePath.PathType ORPHAN = BinaryTreePath.PathType.Orphan;
         private const BinaryTreePath.PathType BRANCH = BinaryTreePath.PathType.Branch;
-        private const BinaryTreePath.PathType FULL =  BinaryTreePath.PathType.FullPath;
-        public static IEnumerable<BinaryTreePath> MaxPathSum(BinaryNode<int> node)
+        private const BinaryTreePath.PathType FULL = BinaryTreePath.PathType.FullPath;
+        public static BinaryTreePath MaxPathSum(BinaryNode<int> node, bool checkNegative = true)
         {
-            if (node is null) { yield break; }
+            if (node is null)
+            { return null; }
             else
             {
-                var rankedNodes = node.BreadthFirstSearch().OrderByDescending(n => n.Data);
-                var largestNode = rankedNodes.First();
-                if (true || largestNode.Data <= 0)
-                {
-                    yield return new BinaryTreePath(new BinaryNode<int>[] { largestNode }, LEAF);
-                }
+                var largestNode = node.BreadthFirstSearch().OrderByDescending(n => n.Data).First();
+                if (checkNegative || largestNode.Data <= 0) { return new BinaryTreePath(new BinaryNode<int>[] { largestNode }, ORPHAN); }
                 else
                 {
-                    yield return new BinaryTreePath(new BinaryNode<int>[] { largestNode }, BRANCH);
-                    var children = node.Children().Select(n => MaxPathSum(n)).ToArray();
-                    foreach (var child in children)
-                    {
-                        foreach (var results in child)
-                        {
-                            if (results.Type == BRANCH)
-                            {
-                                yield return new BinaryTreePath(results, node);
-                            }
-                            results.Type = LEAF;
-                            yield return results;
-                        }
-                    }
-                    //     var maxCountingNode = node.Data + childSum;
-                    //     if (maxCountingNode < 0 && !isParent) { return enumerable.Max(); }
-                    //     else if (maxCountingNode > childSum) { return maxCountingNode; }
-                    //     else if (node.Data > childSum) { return node.Data; }
-                    //     else { return childSum; }
-                    // throw new System.Exception("Need to finish this");
+                    var left = MaxPathSum(node.Left, false);
+                    var right = MaxPathSum(node.Right, false);
+                    var proposals = new List<BinaryTreePath>() { left, right };
+                    bool branchLeft = left.Sum() <= 0 || left.Type != BRANCH;
+                    bool branchRight = right.Sum() <= 0 || right.Type != BRANCH;
+                    if (branchLeft) { left = null; }
+                    else { proposals.Add(new BinaryTreePath(left, node)); }
+                    if (branchRight) { right = null; }
+                    else { proposals.Add(new BinaryTreePath(right, node)); }
+                    if (branchLeft && branchRight) { proposals.Add(new BinaryTreePath(left, node, right)); }
+                    return proposals.OrderByDescending(p => p.Sum()).FirstOrDefault();
                 }
             }
         }
