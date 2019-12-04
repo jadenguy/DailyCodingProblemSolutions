@@ -63,11 +63,11 @@ namespace Common.Test
         public void Problem094(int testCase = 0)
         {
             //-- Arrange
-            var expected = results[testCase];
+            int? expected = results[testCase];
             var node = nodes[testCase];
 
             //-- Act
-            var actual = Solution094.MaxPathSum(node).Max(n => n.Sum());
+            var actual = Solution094.MaxPathSum(node)?.Max(n => n.Sum());
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
