@@ -73,8 +73,7 @@ namespace Common.Test
             var node = nodes[testCase];
 
             //-- Act
-            var binaryTreePath = Solution094.PathValues(node);
-            var actual = binaryTreePath.Max(p => p.Sum());
+            var actual = Solution094.LongestPathSum(node);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
