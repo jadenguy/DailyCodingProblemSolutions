@@ -8,12 +8,13 @@ namespace Common
     public class BinaryTreePath
     {
         private BinaryNode<int>[] nodes;
-        public BinaryTreePath(BinaryNode<int>[] nodes, bool type)
+        public BinaryNode<int>[] Nodes { get => nodes; set => nodes = value; }
+        public bool IsBranch { get; set; }
+        public BinaryTreePath(BinaryNode<int>[] nodes, bool isBranch)
         {
             this.Nodes = nodes;
-            this.IsBranch = type;
+            this.IsBranch = isBranch;
         }
-        public BinaryNode<int>[] Nodes { get => nodes; set => nodes = value; }
         public BinaryTreePath(BinaryTreePath left, BinaryNode<int> root, BinaryTreePath right = null)
         {
             if (root is null) { throw new ArgumentNullException(nameof(root)); }
@@ -25,12 +26,11 @@ namespace Common
                     IsBranch = true;
                     break;
                 default:
-                    
+
                     IsBranch = false;
                     break;
             }
         }
-        public bool IsBranch { get; set; }
         public int Sum() => Nodes?.Sum(n => n.Data) ?? 0;
         public override string ToString() => $"{IsBranch.ToString()} {Nodes.Length} {Sum()}";
     }

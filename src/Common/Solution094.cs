@@ -6,7 +6,7 @@ namespace Common
 {
     public class Solution094
     {
-        public static BinaryTreePath MaxPath(BinaryNode<int> node, bool checkNegative = true)
+        public static IEnumerable<BinaryTreePath> PathValues(BinaryNode<int> node, bool checkNegative = true)
         {
             if (node is null)
             { throw new System.Exception("null node checked"); }
@@ -14,34 +14,21 @@ namespace Common
             {
                 if (checkNegative && node.BreadthFirstSearch().OrderByDescending(n => n.Data).First().Data <= 0)
                 {
-                    return new BinaryTreePath(new BinaryNode<int>[] { node.BreadthFirstSearch().OrderByDescending(n => n.Data).First() }, false);
+                    BinaryNode<int>[] nodes = new BinaryNode<int>[] { node.BreadthFirstSearch().OrderByDescending(n => n.Data).First() };
+                    return new BinaryTreePath[] { new BinaryTreePath(nodes, false) };
                 }
                 else
                 {
                     BinaryTreePath root = new BinaryTreePath(new BinaryNode<int>[] { node }, true);
-                    var proposals = new List<BinaryTreePath>() { root };
-                    if (TryFindPath(node.Left, out var left)) { proposals.Add(left); }
-                    if (TryFindPath(node.Right, out var right)) { proposals.Add(right); }
-                    if (proposals.Count == 3)
+                    var ret = new List<BinaryTreePath>() { root };
+                    foreach (var branch in node.Children())
                     {
-                        proposals.Add(new BinaryTreePath(left, node, right));
+                        var branchPaths = PathValues(branch);
+                        ret.AddRange(branchPaths.Select(p => new BinaryTreePath(p.Nodes, false)));
                     }
-                    var orderedProposals = proposals.OrderByDescending(p => p.Sum()).ThenBy(p => p.IsBranch ? 0 : 1).ToArray();
-                    var ret = orderedProposals.FirstOrDefault();
                     return ret;
                 }
             }
-        }
-        private static bool TryFindPath(BinaryNode<int> node, out BinaryTreePath path)
-        {
-            path = null;
-            bool isBranch = node != null;
-            if (isBranch)
-            {
-                path = MaxPath(node, false);
-                isBranch = path.Sum() > 0 && path.IsBranch;
-            }
-            return isBranch;
         }
     }
 }

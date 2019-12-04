@@ -74,7 +74,7 @@ namespace Common.Test
 
             //-- Act
             var binaryTreePath = Solution094.PathValues(node);
-            var actual = binaryTreePath.Sum();
+            var actual = binaryTreePath.Max(p => p.Sum());
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
