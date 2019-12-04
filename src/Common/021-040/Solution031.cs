@@ -102,7 +102,7 @@ namespace Common
         // }
         // private static IEnumerable<List<(SubString, SubString)>> GetChainsRecurse(this Dictionary<(SubString, SubString), List<(SubString, SubString)>> dict, List<(SubString, SubString)> list = null)
         // {
-        //     if (list == null) { list = dict.Keys.ToList(); }
+        //     if (list is null) { list = dict.Keys.ToList(); }
         //     var outList = new List<List<(SubString, SubString)>>();
         //     foreach (var item in list)
         //     {

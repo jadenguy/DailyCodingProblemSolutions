@@ -27,7 +27,7 @@ namespace Common.TextCompare
         public int CompareTo(SubString y)
         {
             var x = this;
-            if (y == null) { return -1; }
+            if (y is null) { return -1; }
             else
             {
                 var text = x.Text.CompareTo(y.Text);

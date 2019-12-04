@@ -22,7 +22,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = results;
-            if (input == null)
+            if (input is null)
             {
                 input = new string[] {
                     "10000",

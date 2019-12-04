@@ -39,7 +39,7 @@ namespace Common.Node
             { throw new ArgumentException("Value exists in tree"); }
             if (item < Data)
             {
-                if (Left == null)
+                if (Left is null)
                 {
                     Left = new BinarySearchNode(item);
                 }
@@ -47,7 +47,7 @@ namespace Common.Node
             }
             else
             {
-                if (Right == null)
+                if (Right is null)
                 {
                     Right = new BinarySearchNode(item);
                 }

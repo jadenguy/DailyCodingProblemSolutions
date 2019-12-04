@@ -44,7 +44,7 @@ namespace Common.Test
             int? ret = null;
             var direction = value.CompareTo(array[0]); // pick which direction to move
             int i;
-            for (i = 0; ret == null && i < array.Length; i++)
+            for (i = 0; ret is null && i < array.Length; i++)
             {
                 int index = (array.Length + (i * direction)) % array.Length;
                 if (array[index] == value)

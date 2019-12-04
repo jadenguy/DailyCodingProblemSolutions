@@ -40,7 +40,7 @@ namespace Common.Board
                 for (int y = 0; y < yLength; y++)
                 {
                     Cell cell = board[x, y];
-                    if (cell == null)
+                    if (cell is null)
                     {
                         ret.Append("X");
                     }

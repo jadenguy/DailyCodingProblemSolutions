@@ -43,7 +43,7 @@ namespace Common
         public static IEnumerable<int[,]> KnightTourFrom(int[,] board, (int x, int y) startPosition, int placeInList = 1, int? endPlace = null)
         {
             board[startPosition.x, startPosition.y] = placeInList;
-            if (endPlace == null) { endPlace = board.Length; }
+            if (endPlace is null) { endPlace = board.Length; }
             if (placeInList == endPlace)
             {
                 yield return board;

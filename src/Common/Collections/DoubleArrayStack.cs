@@ -26,7 +26,7 @@ namespace Common.Collections
             {
                 if (index > length) { throw new IndexOutOfRangeException(); }
                 int superArray = index / capacityRoot;
-                if (elements[superArray] == null) { elements[superArray] = new T[capacityRoot]; }
+                if (elements[superArray] is null) { elements[superArray] = new T[capacityRoot]; }
                 int localArray = index % capacityRoot;
                 elements[superArray][localArray] = value;
             }

@@ -19,7 +19,7 @@ namespace Common.Test
         public void Problem090(int n = 3, int[] z = null)
         {
             //-- Arrange
-            if (z == null) { z = new int[] { }; }
+            if (z is null) { z = new int[] { }; }
             double rounds = 1000;
             var expectedAverage = rounds / (n - Enumerable.Range(0, n).Intersect(z).Count());
             var expectedStdDev = 1 + expectedAverage * .1; // within 5 percent of the expected average
