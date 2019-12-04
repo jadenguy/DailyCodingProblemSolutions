@@ -7,15 +7,11 @@ namespace Common
 
     public class BinaryTreePath
     {
-        public enum PathType
-        {
-            Orphan, Branch, FullPath
-        }
         private BinaryNode<int>[] nodes;
-        public BinaryTreePath(BinaryNode<int>[] nodes, PathType type)
+        public BinaryTreePath(BinaryNode<int>[] nodes, bool type)
         {
             this.Nodes = nodes;
-            this.Type = type;
+            this.IsBranch = type;
         }
         public BinaryNode<int>[] Nodes { get => nodes; set => nodes = value; }
         public BinaryTreePath(BinaryTreePath left, BinaryNode<int> root, BinaryTreePath right = null)
@@ -25,16 +21,17 @@ namespace Common
             bool hasLeft = left != null;
             bool hasRight = right != null;
             bool hasBoth = hasLeft && hasRight;
-            if (hasBoth) { Type = PathType.FullPath; }
+            if (hasBoth) { IsBranch = false; }
             else
             {
-                Type = PathType.Branch;
+                IsBranch = true;
                 if (hasLeft) { newPath = left.Nodes.Union(newPath); }
                 if (hasRight) { newPath = newPath.Union(right.Nodes.Reverse()); }
             }
             Nodes = newPath.ToArray();
         }
-        public PathType Type { get; set; }
+        public bool IsBranch { get; set; }
         public int Sum() => Nodes?.Sum(n => n.Data) ?? 0;
+        public override string ToString() => $"{IsBranch.ToString()} {Nodes.Length} {Sum()}";
     }
 }

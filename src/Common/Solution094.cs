@@ -6,32 +6,38 @@ namespace Common
 {
     public class Solution094
     {
-        private const BinaryTreePath.PathType ORPHAN = BinaryTreePath.PathType.Orphan;
-        private const BinaryTreePath.PathType BRANCH = BinaryTreePath.PathType.Branch;
-        private const BinaryTreePath.PathType FULL = BinaryTreePath.PathType.FullPath;
-        public static BinaryTreePath MaxPathSum(BinaryNode<int> node, bool checkNegative = true)
+        public static BinaryTreePath MaxPath(BinaryNode<int> node, bool checkNegative = true)
         {
             if (node is null)
-            { return null; }
+            { throw new System.Exception("null node checked"); }
             else
             {
-                var largestNode = node.BreadthFirstSearch().OrderByDescending(n => n.Data).First();
-                if (checkNegative || largestNode.Data <= 0) { return new BinaryTreePath(new BinaryNode<int>[] { largestNode }, ORPHAN); }
+                if (checkNegative && node.BreadthFirstSearch().OrderByDescending(n => n.Data).First().Data <= 0)
+                {
+                    return new BinaryTreePath(new BinaryNode<int>[] { node.BreadthFirstSearch().OrderByDescending(n => n.Data).First() }, false);
+                }
                 else
                 {
-                    var left = MaxPathSum(node.Left, false);
-                    var right = MaxPathSum(node.Right, false);
-                    var proposals = new List<BinaryTreePath>() { left, right };
-                    bool branchLeft = left.Sum() <= 0 || left.Type != BRANCH;
-                    bool branchRight = right.Sum() <= 0 || right.Type != BRANCH;
-                    if (branchLeft) { left = null; }
-                    else { proposals.Add(new BinaryTreePath(left, node)); }
-                    if (branchRight) { right = null; }
-                    else { proposals.Add(new BinaryTreePath(right, node)); }
-                    if (branchLeft && branchRight) { proposals.Add(new BinaryTreePath(left, node, right)); }
-                    return proposals.OrderByDescending(p => p.Sum()).FirstOrDefault();
+                    BinaryTreePath root = new BinaryTreePath(new BinaryNode<int>[] { node }, true);
+                    var proposals = new List<BinaryTreePath>() { root };
+                    if (TryFindPath(node.Left, out var left)) { proposals.Add(left); }
+                    if (TryFindPath(node.Right, out var right)) { proposals.Add(right); }
+                    if (proposals.Count == 3) { proposals.Add(new BinaryTreePath(left, node, right)); }
+                    var ret = proposals.OrderByDescending(p => p.Sum()).ThenBy(p => p.IsBranch ? 1 : 0).FirstOrDefault();
+                    return ret;
                 }
             }
+        }
+        private static bool TryFindPath(BinaryNode<int> node, out BinaryTreePath path)
+        {
+            path = null;
+            bool isBranch = node != null;
+            if (isBranch)
+            {
+                path = MaxPath(node, false);
+                isBranch = path.Sum() > 0 && path.IsBranch;
+            }
+            return isBranch;
         }
     }
 }

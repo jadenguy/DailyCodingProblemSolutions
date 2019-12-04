@@ -56,9 +56,9 @@ namespace Common.Test
         }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
+        // [TestCase(0)]
+        // [TestCase(1)]
+        // [TestCase(2)]
         [TestCase(3)]
         public void Problem094(int testCase = 0)
         {
@@ -67,7 +67,7 @@ namespace Common.Test
             var node = nodes[testCase];
 
             //-- Act
-            var binaryTreePath = Solution094.MaxPathSum(node);
+            var binaryTreePath = Solution094.MaxPath(node);
             var actual = binaryTreePath.Sum();
 
             // //-- Assert
