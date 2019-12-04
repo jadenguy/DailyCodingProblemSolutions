@@ -22,8 +22,12 @@ namespace Common
                     var proposals = new List<BinaryTreePath>() { root };
                     if (TryFindPath(node.Left, out var left)) { proposals.Add(left); }
                     if (TryFindPath(node.Right, out var right)) { proposals.Add(right); }
-                    if (proposals.Count == 3) { proposals.Add(new BinaryTreePath(left, node, right)); }
-                    var ret = proposals.OrderByDescending(p => p.Sum()).ThenBy(p => p.IsBranch ? 1 : 0).FirstOrDefault();
+                    if (proposals.Count == 3)
+                    {
+                        proposals.Add(new BinaryTreePath(left, node, right));
+                    }
+                    var orderedProposals = proposals.OrderByDescending(p => p.Sum()).ThenBy(p => p.IsBranch ? 0 : 1).ToArray();
+                    var ret = orderedProposals.FirstOrDefault();
                     return ret;
                 }
             }

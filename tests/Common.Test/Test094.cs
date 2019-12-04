@@ -53,13 +53,19 @@ namespace Common.Test
             root.Right = n(2);
             results.Add(4);
 
+            // 4
+            nodes.Add(root = n(2));
+            root.Left = n(-1);
+            root.Left.Left = n(100);
+            results.Add(101);
         }
         // [TearDown] public void TearDown() { }
         [Test]
-        // [TestCase(0)]
-        // [TestCase(1)]
-        // [TestCase(2)]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
         [TestCase(3)]
+        [TestCase(4)]
         public void Problem094(int testCase = 0)
         {
             //-- Arrange
@@ -67,7 +73,7 @@ namespace Common.Test
             var node = nodes[testCase];
 
             //-- Act
-            var binaryTreePath = Solution094.MaxPath(node);
+            var binaryTreePath = Solution094.PathValues(node);
             var actual = binaryTreePath.Sum();
 
             // //-- Assert

@@ -17,18 +17,18 @@ namespace Common
         public BinaryTreePath(BinaryTreePath left, BinaryNode<int> root, BinaryTreePath right = null)
         {
             if (root is null) { throw new ArgumentNullException(nameof(root)); }
-            var newPath = left.Nodes.Union(new BinaryNode<int>[] { root });
-            bool hasLeft = left != null;
-            bool hasRight = right != null;
-            bool hasBoth = hasLeft && hasRight;
-            if (hasBoth) { IsBranch = false; }
-            else
+            Nodes = left.Nodes.Union(new BinaryNode<int>[] { root }).Union(right.Nodes.Reverse()).ToArray();
+            switch (right)
             {
-                IsBranch = true;
-                if (hasLeft) { newPath = left.Nodes.Union(newPath); }
-                if (hasRight) { newPath = newPath.Union(right.Nodes.Reverse()); }
+                case null:
+                    // Nodes = left.Nodes.Union(new BinaryNode<int>[] { root }).ToArray();
+                    IsBranch = true;
+                    break;
+                default:
+                    
+                    IsBranch = false;
+                    break;
             }
-            Nodes = newPath.ToArray();
         }
         public bool IsBranch { get; set; }
         public int Sum() => Nodes?.Sum(n => n.Data) ?? 0;
