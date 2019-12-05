@@ -15,7 +15,7 @@ namespace Common.Node
             {
                 var current = list.Dequeue();
                 yield return current;
-                var children = current.Children().ToArray();
+                var children = current.Children();
                 foreach (var child in children)
                 {
                     list.Enqueue(child);
@@ -30,7 +30,7 @@ namespace Common.Node
             {
                 var current = list.Pop();
                 yield return current;
-                var children = current.Children().ToArray().Reverse();
+                var children = current.Children().Reverse();
                 foreach (var child in children)
                 {
                     list.Push(child);

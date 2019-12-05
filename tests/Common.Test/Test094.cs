@@ -58,7 +58,8 @@ namespace Common.Test
             root.Left = n(-1);
             root.Left.Left = n(100);
             results.Add(101);
-            // 0
+
+            // 5
             nodes.Add(root = n(0));
             root.Left = n(0);
             root.Right = n(0);
@@ -83,7 +84,7 @@ namespace Common.Test
             var node = nodes[testCase];
 
             //-- Act
-            IEnumerable<BinaryTreePath> enumerable = Solution094.PathValues(node).ToArray();
+            IEnumerable<BinaryTreePath> enumerable = Solution094.PathValues(node);
             int actual = enumerable.Max(x => x.Sum());
 
             // //-- Assert
