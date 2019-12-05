@@ -58,6 +58,15 @@ namespace Common.Test
             root.Left = n(-1);
             root.Left.Left = n(100);
             results.Add(101);
+            // 0
+            nodes.Add(root = n(0));
+            root.Left = n(0);
+            root.Right = n(0);
+            root.Left.Left = n(0);
+            root.Left.Right = n(1);
+            root.Right.Left = n(1);
+            root.Right.Right = n(0);
+            results.Add(2);
         }
         // [TearDown] public void TearDown() { }
         [Test]
@@ -66,6 +75,7 @@ namespace Common.Test
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(4)]
+        [TestCase(5)]
         public void Problem094(int testCase = 0)
         {
             //-- Arrange
@@ -73,7 +83,8 @@ namespace Common.Test
             var node = nodes[testCase];
 
             //-- Act
-            var actual = Solution094.LongestPathSum(node);
+            IEnumerable<BinaryTreePath> enumerable = Solution094.PathValues(node).ToArray();
+            int actual = enumerable.Max(x => x.Sum());
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
