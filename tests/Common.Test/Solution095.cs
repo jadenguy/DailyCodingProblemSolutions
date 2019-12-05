@@ -9,22 +9,36 @@ namespace Common
         public static T[] NextLexicographically<T>(T[] array) where T : IComparable<T>
         {
             int length = array.Length;
-            bool foundInversion = false;
-            var ret = array;
-            System.Diagnostics.Debug.WriteLine(array.Print(" "));
+            System.Diagnostics.Debug.WriteLine(array.Print(" "), "source");
             int i;
             if (length >= 2)
             {
-                if (TryFindInversion(array, out i))
+                if (!TryFindInversion(array, out i))
                 {
-                    System.Diagnostics.Debug.WriteLine(i);
+                    if (TryFindFirstOrdered(array, out var j))
+                    {
+                        array.Swap(j, j + 1, true);
+                    }
+                    // else
+                    // {
+                    // no inversions and no ordered means it's an array of 2 or more identical members
+                    // return array;
+                    // }
                 }
+                else
                 {
-                    array.Swap(0, 1, true);
+                    System.Diagnostics.Debug.WriteLine(i, "inversion at");
+                    if (i == 1)
+                    {
+                        if (TryFindFirstOrdered(array, out var j, i))
+                        {
+                            array.Swap(j, j + 1, true);
+                        }
+                    }
                 }
             }
-            System.Diagnostics.Debug.WriteLine(foundInversion);
-            return ret.ToArray();
+            System.Diagnostics.Debug.WriteLine(array.Print(" "), "result");
+            return array;
         }
         private static bool TryFindFirstOrdered<T>(T[] array, out int j, int i = 0) where T : IComparable<T>
         {
@@ -39,6 +53,7 @@ namespace Common
                 ret = left.CompareTo(right) < 0;
                 j++;
             }
+            if (ret) { j--; }
             return ret;
         }
         private static void Swap<T>(this T[] array, int i, int j, bool inverse = false)
