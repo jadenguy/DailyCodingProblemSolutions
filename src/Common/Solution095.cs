@@ -25,7 +25,6 @@ namespace Common
                     // no inversions and no ordered means it's an array of 2 or more identical members
                     // return array;
                     // }
-
                 }
                 else
                 {
