@@ -15,6 +15,7 @@ namespace Common
             {
                 if (!TryFindInversion(array, out i))
                 {
+                    System.Diagnostics.Debug.WriteLine("this case is solved");
                     if (TryFindFirstOrdered(array, out var j))
                     {
                         array.Swap(j, j + 1, true);
@@ -24,15 +25,28 @@ namespace Common
                     // no inversions and no ordered means it's an array of 2 or more identical members
                     // return array;
                     // }
+
                 }
                 else
                 {
                     System.Diagnostics.Debug.WriteLine(i, "inversion at");
                     if (i == 1)
                     {
-                        if (TryFindFirstOrdered(array, out var j, i))
+                        if (TryFindFirstOrdered(array, out var j))
                         {
-                            array.Swap(j, j + 1, true);
+                            array.Swap(j, j - 1, true);
+                            System.Diagnostics.Debug.WriteLine("this case is solved");
+                        }
+                    }
+                    if (i == length - 1)
+                    {
+                        System.Diagnostics.Debug.WriteLine("full inversion");
+                        System.Diagnostics.Debug.WriteLine("this case is solved");
+                        for (int j = 0; j < length / 2; j++)
+                        {
+                            int i1 = length - j - 1;
+                            array.Swap(i1, j);
+
                         }
                     }
                 }
