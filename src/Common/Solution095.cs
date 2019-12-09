@@ -8,66 +8,77 @@ namespace Common
     {
         public static T[] NextLexicographically<T>(T[] array) where T : IComparable<T>
         {
-            int length = array.Length;
-            System.Diagnostics.Debug.WriteLine(array.Print(" "), "source");
-            int i;
+            var length = array.Length;
+            var inversion = 0;
             if (length >= 2)
             {
-                if (!TryFindInversion(array, out i))
-                {
-                    System.Diagnostics.Debug.WriteLine("this case is solved");
-                    if (TryFindFirstOrdered(array, out var j))
-                    {
-                        array.Swap(j, j + 1, true);
-                    }
-                    // else
-                    // {
-                    // no inversions and no ordered means it's an array of 2 or more identical members
-                    // return array;
-                    // }
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine(i, "inversion at");
-                    if (i == 1)
-                    {
-                        if (TryFindFirstOrdered(array, out var j))
-                        {
-                            array.Swap(j, j - 1, true);
-                            System.Diagnostics.Debug.WriteLine("this case is solved");
-                        }
-                    }
-                    if (i == length - 1)
-                    {
-                        System.Diagnostics.Debug.WriteLine("full inversion");
-                        System.Diagnostics.Debug.WriteLine("this case is solved");
-                        for (int j = 0; j < length / 2; j++)
-                        {
-                            int i1 = length - j - 1;
-                            array.Swap(i1, j);
 
-                        }
-                    }
+                bool hasInversion;
+                if (hasInversion = TryFindInversion(array, out inversion))
+                {
+
+                    System.Diagnostics.Debug.WriteLine(array[inversion], $"Value at {nameof(inversion)}");
                 }
+                System.Diagnostics.Debug.WriteLine(inversion, nameof(inversion));
+                bool hasOrdered;
+                if (hasOrdered = TryFindFirstOrdered(array, out var ordered, inversion - 1))
+                {
+                    System.Diagnostics.Debug.WriteLine(array[ordered], $"Value at {nameof(ordered)}");
+                    System.Diagnostics.Debug.WriteLine(ordered, nameof(ordered));
+                }
+                // if (!hasOrdered && !hasInversion)
+                // {
+                //     System.Diagnostics.Debug.WriteLine("not changeable");
+                // }
+                // System.Diagnostics.Debug.WriteLine(hasInversion, nameof(hasInversion));
+                // System.Diagnostics.Debug.WriteLine(hasOrdered, nameof(hasOrdered));
+                // if (hasInversion && hasOrdered)
+                // {
+                //     System.Diagnostics.Debug.WriteLine("WIP");
+                //     var x = LowerGreaterThanFirstOrdered(array, ordered);
+                //     Swap(array, inversion, x, true);
+                //     Reverse(array, array.Length - inversion);
+                // }
+                // else if (hasInversion)
+                // {
+                //     Reverse(array, array.Length);
+                // }
+                // else if (hasOrdered)
+                // {
+                //     Swap(array, ordered + 1, ordered, true);
+                // }
+                // else
+                // {
+                //     System.Diagnostics.Debug.WriteLine("two items in list are equal, all permutations are identical");
+                // }
             }
-            System.Diagnostics.Debug.WriteLine(array.Print(" "), "result");
             return array;
         }
-        private static bool TryFindFirstOrdered<T>(T[] array, out int j, int i = 0) where T : IComparable<T>
+        // private static int LowerGreaterThanFirstOrdered<T>(T[] array, int ordered) where T : IComparable<T>
+        // {
+        //     var i = array.Length;
+        //     T t;
+        //     T t1 = array[ordered];
+        //     int v;
+        //     do
+        //     {
+        //         i--;
+        //         t = array[i];
+
+        //         v = t.CompareTo(t1);
+        //         System.Diagnostics.Debug.WriteLine(t, "candidate");
+        //         System.Diagnostics.Debug.WriteLine(v, "isGreater");
+        //     }
+        //     while (v < 0);
+        //     return i;
+        // }
+        private static void Reverse<T>(T[] array, int count = -1, int start = 0) where T : IComparable<T>
         {
-            bool ret = false;
-            var length = array.Length;
-            j = i;
-            while (!ret && j < length - 1)
+            if (count == -1) { count = array.Length; }
+            for (int k = start; k < count / 2; k++)
             {
-                int v = length - j - 1;
-                var left = array[v - 1];
-                var right = array[v];
-                ret = left.CompareTo(right) < 0;
-                j++;
+                array.Swap(count - k - 1, k, true);
             }
-            if (ret) { j--; }
-            return ret;
         }
         private static void Swap<T>(this T[] array, int i, int j, bool inverse = false)
         {
@@ -84,18 +95,39 @@ namespace Common
             array[l] = array[r];
             array[r] = temp;
         }
-        private static bool TryFindInversion<T>(T[] array, out int i) where T : IComparable<T>
+        private static bool TryFindInversion<T>(T[] array, out int i, int length = -1) where T : IComparable<T>
         {
             bool ret = false;
-            var length = array.Length;
-            i = 0;
-            while (!ret && i < length - 1)
+            if (length == -1) { length = array.Length; }
+            i = length - 1;
+            while (!ret && i >= 1)
             {
-                int v = length - i - 1;
-                var left = array[v - 1];
-                var right = array[v];
+                var left = array[i - 1];
+                var right = array[i];
                 ret = left.CompareTo(right) > 0;
-                i++;
+                i--;
+            }
+            if (!ret)
+            {
+                i = length - 1;
+            }
+            return ret;
+        }
+        private static bool TryFindFirstOrdered<T>(T[] array, out int j, int length = -1) where T : IComparable<T>
+        {
+            bool ret = false;
+            if (length == -1) { length = array.Length; }
+            j = length - 1;
+            while (!ret && j >= 1)
+            {
+                var left = array[j - 1];
+                var right = array[j];
+                ret = left.CompareTo(right) < 0;
+                j--;
+            }
+            if (!ret)
+            {
+                j = length - 1;
             }
             return ret;
         }
