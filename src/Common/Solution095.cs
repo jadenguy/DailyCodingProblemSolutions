@@ -18,10 +18,10 @@ namespace Common
                 }
                 else if (hasInversion && hasOrdered)
                 {
-                    System.Diagnostics.Debug.WriteLine("WIP");
+                    // System.Diagnostics.Debug.WriteLine("WIP");
                     var firstGreaterThanOrderedAfterOrdered = FirstGreaterThanOrderedAfterOrdered(array, ordered);
                     Swap(array, ordered, firstGreaterThanOrderedAfterOrdered);
-                    Reverse(array, array.Length - inversion);
+                    Reverse(array, ordered + 1, array.Length - ordered - 2);
                 }
                 else if (hasInversion)
                 {
@@ -40,19 +40,15 @@ namespace Common
         }
         private static int FirstGreaterThanOrderedAfterOrdered<T>(T[] array, int ordered) where T : IComparable<T>
         {
-            var x = array[ordered];
+            var o = array[ordered];
             int i = array.Length - 1;
-            while (x.CompareTo(array[i]) <= 0)
-            {
-                System.Diagnostics.Debug.WriteLine(array[i]);
-                i--;
-            }
+            while (array[i].CompareTo(o) <= 0) { i--; }
             return i;
         }
-        private static void Reverse<T>(T[] array, int count = -1, int start = 0) where T : IComparable<T>
+        private static void Reverse<T>(T[] array, int start = 0, int count = -1) where T : IComparable<T>
         {
             if (count == -1) { count = array.Length - start - 1; }
-            for (int i = start; i <= count / 2; i++)
+            for (int i = 0; i <= count / 2; i++)
             {
                 array.Swap(start + i, start + count - i);
             }
@@ -76,10 +72,7 @@ namespace Common
                 ret = left.CompareTo(right) > 0;
                 i--;
             }
-            if (!ret)
-            {
-                i = length - 1;
-            }
+            if (!ret) { i = length - 1; }
             return ret;
         }
         private static bool TryFindFirstOrdered<T>(T[] array, out int o, int length = -1) where T : IComparable<T>
@@ -96,7 +89,7 @@ namespace Common
             }
             if (!ret)
             {
-                o = length - 1;
+                o = 0;
             }
             return ret;
         }

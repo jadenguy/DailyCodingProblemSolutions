@@ -14,21 +14,21 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
 
         [Test]
-        [TestCase(new int[] { 1, 3, 2 }, new int[] { 2, 1, 3 })]
-        [TestCase(new int[] { 1, 1, 5, 6, 4, 2, 1 }, new int[] { 1, 1, 6, 1, 2, 4, 5 })]
         [TestCase(new int[] { 1, 3, 2, 1 }, new int[] { 2, 1, 1, 3 })]
-        // [TestCase(new int[] { 1, 2, 2, 2, 2 }, new int[] { 2, 1, 2, 2, 2 })]
-        // [TestCase(new int[] { 1, 2, 2 }, new int[] { 2, 1, 2 })]
-        // [TestCase(new int[] { 1, 1, 2 }, new int[] { 1, 2, 1 })]
-        // [TestCase(new int[] { 1, 2, 3 }, new int[] { 1, 3, 2 })]
-        // [TestCase(new int[] { 1, 1, 1, 1, 2 }, new int[] { 1, 1, 1, 2, 1 })]
-        // [TestCase(new int[] { 2, 1, 1, 1, 1 }, new int[] { 1, 1, 1, 1, 2 })]
-        // [TestCase(new int[] { 3, 2, 1 }, new int[] { 1, 2, 3 })]
-        // [TestCase(new int[] { 2, 2, 2, 2, 1 }, new int[] { 1, 2, 2, 2, 2 })]
-        // [TestCase(new int[] { 1, 2 }, new int[] { 2, 1 })]
-        // [TestCase(new int[] { 2, 1 }, new int[] { 1, 2 })]
-        // [TestCase(new int[] { 1, 1 }, new int[] { 1, 1 })]
-        // [TestCase(new int[] { 1 }, new int[] { 1 })]
+        [TestCase(new int[] { 1, 1, 5, 6, 4, 2, 1 }, new int[] { 1, 1, 6, 1, 2, 4, 5 })]
+        [TestCase(new int[] { 1, 3, 2 }, new int[] { 2, 1, 3 })]
+        [TestCase(new int[] { 1, 2, 2, 2, 2 }, new int[] { 2, 1, 2, 2, 2 })]
+        [TestCase(new int[] { 1, 2, 2 }, new int[] { 2, 1, 2 })]
+        [TestCase(new int[] { 1, 1, 2 }, new int[] { 1, 2, 1 })]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { 1, 3, 2 })]
+        [TestCase(new int[] { 1, 1, 1, 1, 2 }, new int[] { 1, 1, 1, 2, 1 })]
+        [TestCase(new int[] { 2, 1, 1, 1, 1 }, new int[] { 1, 1, 1, 1, 2 })]
+        [TestCase(new int[] { 3, 2, 1 }, new int[] { 1, 2, 3 })]
+        [TestCase(new int[] { 2, 2, 2, 2, 1 }, new int[] { 1, 2, 2, 2, 2 })]
+        [TestCase(new int[] { 1, 2 }, new int[] { 2, 1 })]
+        [TestCase(new int[] { 2, 1 }, new int[] { 1, 2 })]
+        [TestCase(new int[] { 1, 1 }, new int[] { 1, 1 })]
+        [TestCase(new int[] { 1 }, new int[] { 1 })]
         public void Problem095(int[] input, int[] output)
         {
             //-- Arrange
@@ -38,12 +38,12 @@ namespace Common.Test
             // System.Diagnostics.Debug.WriteLine("new run");
 
             System.Diagnostics.Debug.WriteLine(input.Print(", "), "source");
-            var input1 = (int[])input.Clone();
-            var actual = Solution095.NextLexicographically(input1);
-            // System.Diagnostics.Debug.WriteLine(input.Print(", "), "result");
-            // System.Diagnostics.Debug.WriteLine(output.Print(", "), "expected");
+            var actual = (int[])input.Clone();
+            Solution095.NextLexicographically(actual);
+            System.Diagnostics.Debug.WriteLine(actual.Print(", "), "result");
+            System.Diagnostics.Debug.WriteLine(output.Print(", "), "expected");
 
-            // System.Diagnostics.Debug.WriteLine(expected.SequenceEqual(actual), "worked");
+            System.Diagnostics.Debug.WriteLine(expected.SequenceEqual(actual), "worked");
             System.Diagnostics.Debug.WriteLine("");
             // //-- Assert
             Assert.AreEqual(expected, actual);
