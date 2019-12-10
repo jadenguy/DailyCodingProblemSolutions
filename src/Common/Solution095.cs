@@ -38,13 +38,6 @@ namespace Common
             }
             return array;
         }
-        private static int FirstGreaterThanOrderedAfterOrdered<T>(T[] array, int ordered) where T : IComparable<T>
-        {
-            var o = array[ordered];
-            int i = array.Length - 1;
-            while (array[i].CompareTo(o) <= 0) { i--; }
-            return i;
-        }
         private static void Reverse<T>(T[] array, int start = 0, int count = -1) where T : IComparable<T>
         {
             if (count == -1) { count = array.Length - start - 1; }
@@ -92,6 +85,13 @@ namespace Common
                 o = 0;
             }
             return ret;
+        }
+        private static int FirstGreaterThanOrderedAfterOrdered<T>(T[] array, int ordered) where T : IComparable<T>
+        {
+            var o = array[ordered];
+            int i = array.Length - 1;
+            while (array[i].CompareTo(o) <= 0 && i > 0) { i--; }
+            return i;
         }
     }
 }
