@@ -1,12 +1,13 @@
-using System;
+using System.Linq;
+using Common.Extensions;
 
 namespace Common
 {
     public class Solution096
     {
-        public static int[,] Permutations(int[] number)
+        public static int[][] Permutations(int[] number)
         {
-            throw new NotImplementedException();
+            return number.EveryPermutation().ToArray();
         }
     }
 }

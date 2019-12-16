@@ -7,7 +7,7 @@ namespace App
         static int Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            PuzzleSolver.FindResults();
+            // PuzzleSolver.FindResults();
             return 0;
         }
     }
