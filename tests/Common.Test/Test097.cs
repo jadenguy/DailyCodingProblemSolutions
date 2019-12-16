@@ -9,14 +9,13 @@
 // d.get(1, 1) # get key 1 at time 1 should be 1
 // d.get(1, 3) # get key 1 at time 3 should be 2
 // d.set(1, 1, 5) # set key 1 to value 1 at time 5
-// d.get(1, 0) # get key 1 at time 0 should be null
+// d.get(1, 0) # get key 1 at time 0 should be null // IS IT?
 // d.get(1, 10) # get key 1 at time 10 should be 1
 // d.set(1, 1, 0) # set key 1 to value 1 at time 0
 // d.set(1, 2, 0) # set key 1 to value 2 at time 0
 // d.get(1, 0) # get key 1 at time 0 should be 2
 
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -26,20 +25,21 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        public void Problem097(int testCase = 0)
+        public void Problem097()
         {
             //-- Arrange0
             var d = new Solution097.Map();
-            var expected = new int?[] { 1, 2, null, 1, 2 };
+            var expected = new int?[] { 1, 2, 1, 1, 2 };
             var actual = new List<int?>();
 
             //-- Act
             d.Set(1, 1, 0);// set key 1 to value 1 at time 0
             d.Set(1, 2, 2);// set key 1 to value 2 at time 2
+            d.Set(2, 2, 2);// set key 2 to value 2 at time 2
             actual.Add(d.Get(1, 1));// get key 1 at time 1 should be 1
             actual.Add(d.Get(1, 3));// get key 1 at time 3 should be 2
             d.Set(1, 1, 5);// set key 1 to value 1 at time 5
-            actual.Add(d.Get(1, 0));// get key 1 at time 0 should be null
+            actual.Add(d.Get(1, 0));// get key 1 at time 0 should be 1
             actual.Add(d.Get(1, 10));// get key 1 at time 10 should be 1
             d.Set(1, 1, 0);// set key 1 to value 1 at time 0
             d.Set(1, 2, 0);// set key 1 to value 2 at time 0
@@ -48,7 +48,5 @@ namespace Common.Test
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
-
-
     }
 }
