@@ -13,16 +13,24 @@ namespace Common
             if (sequence.IsNullOrEmpty()) { ret = true; }
             else
             {
-                var q = new Queue<ArraySearchResult>(FindLetter(array, sequence));
-                if (!q.TryPeek(out var current)) { ret = false; }
-                else
+                var collection = FindElement(array, sequence).ToArray();
+                var stack = new Stack<ArraySearchResult>(collection);
+                var current = stack.Peek();
+                while (current != null && !current.IsDone && stack.Count > 0)
                 {
-                    do
+                    current = stack.Pop();
+                    var arraySearchResult = FindNextElement(array, sequence, current).ToArray();
+                    foreach (var n in arraySearchResult)
                     {
-                        FindLetter(array, sequence, current.Index + 1, current.Mask, current.X, current.Y, true).ToList().ForEach(n => q.Enqueue(n));
-                        if (q.TryPeek(out _)) { current = q.Dequeue(); }
-                    } while (!current.IsDone && current != null && q.Count > 0);
+                        stack.Push(n);
+                        if (n.IsDone)
+                        {
+                            current = n;
+                            // break;
+                        };
+                    }
                 }
+                ret = current?.IsDone ?? false;
             }
             return ret;
         }
@@ -59,23 +67,30 @@ namespace Common
             public bool[,] Mask { get; internal set; }
             public int X { get; internal set; }
             public int Y { get; internal set; }
-
+            public override string ToString() => $"{Index}: {X},{Y}";
         }
-        private static IEnumerable<ArraySearchResult> FindLetter<T>(T[,] array, T[] sequence, int index = 0, bool[,] mask = null, int x = 0, int y = 0, bool adjacent = false) where T : IEquatable<T>
+        private static IEnumerable<ArraySearchResult> FindNextElement<T>(T[,] array, T[] sequence, ArraySearchResult current) where T : IEquatable<T>
+        {
+            return FindElement(array, sequence, current.Index + 1, current.Mask, current.X, current.Y, true);
+        }
+        private static IEnumerable<ArraySearchResult> FindElement<T>(T[,] array, T[] sequence, int index = 0, bool[,] mask = null, int x = 0, int y = 0, bool adjacent = false) where T : IEquatable<T>
         {
             T target = sequence[index];
             mask = mask ?? MaskFromArray(array);
             GetDimensions(array, out var xLength, out var yLength);
             var checkPlaces = new List<(int x, int y)>();
+            var lookingForString = $"{sequence[index]} at {index}";
             if (adjacent)
             {
+                System.Diagnostics.Debug.WriteLine($"searching for {lookingForString} next to {x},{y}");
                 if (x > 0) { checkPlaces.Add((x - 1, y)); }
-                if (x < 1 + xLength) { checkPlaces.Add((x + 1, y)); }
+                if (x < xLength - 1) { checkPlaces.Add((x + 1, y)); }
                 if (y > 0) { checkPlaces.Add((x, y - 1)); }
-                if (y < 1 + yLength) { checkPlaces.Add((x, y + 1)); }
+                if (y < yLength - 1) { checkPlaces.Add((x, y + 1)); }
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine($"searching for {lookingForString} as first letter");
                 for (int xPlace = 0; xPlace < xLength; xPlace++)
                 {
                     for (int yPlace = 0; yPlace < yLength; yPlace++)
@@ -91,7 +106,8 @@ namespace Common
                 bool isMatch = placeValue.Equals(target);
                 if (checkablePlace && isMatch)
                 {
-                    bool isDone = index == array.Length - 1;
+                    bool isDone = index == sequence.Length - 1;
+                    System.Diagnostics.Debug.WriteLine($"match {lookingForString} at {place.x},{place.y} as {isDone}");
                     bool[,] nextMask = (bool[,])mask.Clone();
                     nextMask[place.x, place.y] = false;
                     yield return new ArraySearchResult(isDone, index, nextMask, place.x, place.y);

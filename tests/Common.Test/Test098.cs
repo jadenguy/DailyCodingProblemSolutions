@@ -22,16 +22,17 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase("ABCCED",true)]
-        [TestCase("SEE",true)]
-        [TestCase("ABCB",false)]
+        [TestCase("ABCCED", true)]
+        [TestCase("SA", true)]
+        [TestCase("SEE", true)]
+        [TestCase("ABCB", false)]
         public void Problem098(string text, bool exists)
         {
             //-- Arrange0
             var expected = exists;
 
             //-- Act
-            var actual = Solution098.DoesTextExist(array,text.ToCharArray());
+            var actual = Solution098.DoesTextExist(array, text.ToCharArray());
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
