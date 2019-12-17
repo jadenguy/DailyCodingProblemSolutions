@@ -8,14 +8,13 @@
 // ]
 // exists(board, "ABCCED") returns true, exists(board, "SEE") returns true, exists(board, "ABCB") returns false.
 
-using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Common.Test
 {
     public class Test098
     {
-        char[,] v = new char[,]{
+        char[,] array = new char[,]{
                 {'A','B','C','E'},
                 {'S','F','C','S'},
                 {'A','D','E','E'}
@@ -23,13 +22,16 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
+        [TestCase("ABCCED",true)]
+        [TestCase("SEE",true)]
+        [TestCase("ABCB",false)]
         public void Problem098(string text, bool exists)
         {
             //-- Arrange0
             var expected = exists;
 
             //-- Act
-            var actual = Solution098.DoesTextExist(v,text);
+            var actual = Solution098.DoesTextExist(array,text);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
