@@ -31,7 +31,7 @@ namespace Common.Test
             var expected = exists;
 
             //-- Act
-            var actual = Solution098.DoesTextExist(array,text);
+            var actual = Solution098.DoesTextExist(array,text.ToCharArray());
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
