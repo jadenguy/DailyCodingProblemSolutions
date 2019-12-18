@@ -26,6 +26,8 @@ namespace Common.Test
         [TestCase("SA", true)]
         [TestCase("SEE", true)]
         [TestCase("ABCB", false)]
+        [TestCase("X", false)]
+        [TestCase("", true)]
         public void Problem098(string text, bool exists)
         {
             //-- Arrange0
