@@ -14,7 +14,7 @@ namespace Common.Test
         [TestCase(new int[] { 100, 4, 200, 1, 3, 2 }, new int[] { 1, 2, 3, 4 })]
         public void Problem099(int[] array, int[] result)
         {
-            //-- Arrange0            
+            //-- Arrange
             var expected = result;
 
             //-- Act
