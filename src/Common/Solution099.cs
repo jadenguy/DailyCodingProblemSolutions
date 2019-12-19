@@ -39,13 +39,11 @@ namespace Common
         }
         private static void MatchPairs(Range[] clusters)
         {
-            var iterations = 0;
             foreach (var cluster in clusters.OrderBy(c => c.Min))
             {
                 var queue = new Queue<Range>(clusters);
                 while (queue.Count > 0)
                 {
-                    iterations++;
                     var other = queue.Dequeue();
                     bool adjoiningCluster = other.Min == cluster.Max + 1;
                     bool notAlreadyUpdated = cluster.Max != other.Max;
@@ -57,8 +55,6 @@ namespace Common
                     }
                 }
             }
-            System.Diagnostics.Debug.WriteLine(iterations.ToString(), nameof(iterations));
-            System.Console.WriteLine(iterations.ToString(), nameof(iterations));
         }
     }
 }
