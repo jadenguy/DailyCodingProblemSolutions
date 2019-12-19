@@ -42,7 +42,7 @@ namespace Common.Test
             var expected = steps[testIndex];
 
             //-- Act
-            var actual = Solution100.LongestConsecutiveSubset(places[testIndex]);
+            var actual = Solution100.FewestSteps(places[testIndex]);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
