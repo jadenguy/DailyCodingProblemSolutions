@@ -32,13 +32,19 @@ namespace Common.Test
             steps = new List<int>();
             places.Add(new (int, int)[] { (0, 0), (1, 1), (1, 2) });
             steps.Add(2);
+            places.Add(new (int, int)[] { (0, 0), (1, 1), (2, 2) });
+            steps.Add(2);
+            places.Add(new (int, int)[] { (0, 0), (1, 1), (2, 2), (3, 3) });
+            steps.Add(3);
             places.Add(new (int, int)[] { (0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5) });
-            steps.Add(4);
+            steps.Add(5);
         }
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCase(0)]
         [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
         public void Problem100(int testIndex)
         {
             //-- Arrange
@@ -49,6 +55,14 @@ namespace Common.Test
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void Problem100()
+        {
+            for (int i = 0; i < steps.Count; i++)
+            {
+                Problem100(i);
+            }
         }
     }
 }
