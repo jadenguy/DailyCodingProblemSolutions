@@ -33,7 +33,7 @@ namespace Common
             var connectorList = bellmanFordChart.Keys.SelectMany(g => g.Paths.Select(x => new { Start = g, End = x.Key, Weight = x.Value })).Random().ToArray();
             int i = 1;
             var same = true;
-            System.Diagnostics.Debug.WriteLine(connectorList.Print());
+            // System.Diagnostics.Debug.WriteLine(connectorList.Print());
             do
             {
                 var old = bellmanFordChart.ToDictionary(k => k.Key, v => v.Value);
@@ -50,7 +50,8 @@ namespace Common
                     }
                 }
                 i++;
-                System.Diagnostics.Debug.WriteLine(bellmanFordChart.Print());
+                // System.Diagnostics.Debug.WriteLine(bellmanFordChart.Print());
+                // System.Diagnostics.Debug.WriteLine("");
                 same = bellmanFordChart.Keys.All(item => old[item] == bellmanFordChart[item]);
             } while (!onceOver && !same && i < bellmanFordChart.Count);
             return bellmanFordChart;
