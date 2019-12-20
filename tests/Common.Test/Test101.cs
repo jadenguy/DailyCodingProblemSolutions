@@ -17,11 +17,11 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCaseSource("Case0")]
-        public void Problem101(int value, (int, int) primePair)
+        [TestCaseSource(nameof(Cases))]
+        public void Problem101(int value, int lesserPrime, int greaterPrime)
         {
             //-- Arrange
-            var expected = primePair;
+            var expected = (lesserPrime, greaterPrime);
 
             //-- Act
             (int, int) actual = Solution101.PrimePairSumTo(value);
@@ -29,8 +29,11 @@ namespace Common.Test
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
-        static object[] Case0 = {
-            new object[]{4,(2,2)}
+        static object[] Cases = {
+            new object[]{100,3,97},
+            new object[]{20,3,17},
+            new object[]{22,3,19},
+            new object[]{4,2,2},
         };
     }
 }
