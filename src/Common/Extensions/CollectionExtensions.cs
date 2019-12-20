@@ -52,6 +52,18 @@ namespace Common.Extensions
                 yield return combination.ToArray();
             }
         }
+        public static IEnumerable<IEnumerable<T>> EveryContiguousSubset<T>(this IEnumerable<T> enumerable)
+        {
+            for (int i = 0; i < enumerable.Count(); i++)
+            {
+                for (int j = 0; j + i < enumerable.Count(); j++)
+                {
+                    var subset = enumerable.Skip(i).Take(j);
+                    yield return subset;
+                }
+            }
+        }
+
         [System.Diagnostics.DebuggerStepThrough]
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> array) => (array is null || !array.Any());
         [System.Diagnostics.DebuggerStepThrough]

@@ -1,5 +1,5 @@
-using System;
 using System.Linq;
+using Common.Extensions;
 
 namespace Common
 {
@@ -7,19 +7,9 @@ namespace Common
     {
         public static int[] ContiguousListSum(int[] list, int k)
         {
-            for (int i = 0; i < list.Length; i++)
-            {
-
-                for (int j = 0; j + i < list.Length; j++)
-                {
-                    var enumerable = list.Skip(i).Take(j);
-                    if (enumerable.Sum() == k)
-                    {
-                        return enumerable.ToArray();
-                    }
-                }
-            }
-            return null;
+            int[] ret = null;
+            var g = list.EveryContiguousSubset().Where(s => s.Sum() == k).OrderBy(s => s.Count());
+            return ret;
         }
     }
 }
