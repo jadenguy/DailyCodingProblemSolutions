@@ -12,7 +12,7 @@ namespace Common
         {
             if (tiles == null || tiles.Length == 0) { return 0; }
             var graph = MakeGraph(tiles);
-            var distances = DistanceFindFrom(graph);
+            var distances = DistanceFromZero(graph);
             var ret = PathLength(distances);
             return ret;
             throw new NotImplementedException();
@@ -21,9 +21,12 @@ namespace Common
         {
             throw new NotImplementedException();
         }
-        private static object DistanceFindFrom(GraphNode graph)
+        private static Dictionary<GraphNode, double> DistanceFromZero(GraphNode graph)
         {
-            throw new NotImplementedException();
+            var bellmanFordChart = graph.BreadthFirstSearch().ToDictionary(k => k, v => double.PositiveInfinity);
+            bellmanFordChart[graph] = 0;
+            bellmanFordChart.BellmanFord();
+            return bellmanFordChart;
         }
         private static GraphNode MakeGraph((int x, int y)[] tiles)
         {
@@ -32,14 +35,14 @@ namespace Common
             for (int i = 0; i < tiles.Length; i++)
             {
                 var a = tiles[i];
-                nodes.Add(new GraphNode($"{a.x}, {a.y}"));
+                nodes.Add(new GraphNode($"([( {a.x} , {a.y} )])"));
                 for (int j = 0; j < i; j++)
                 {
                     var b = tiles[j];
                     if (Math.Abs(a.x - b.x) <= 1 && Math.Abs(a.y - b.y) <= 1)
                     {
-                        nodes[i].ConnectTo(nodes[j], 1);
-                        nodes[j].ConnectTo(nodes[i], 1);
+                        nodes[i].ConnectTo(nodes[j]);
+                        nodes[j].ConnectTo(nodes[i]);
                     }
                 }
             }
