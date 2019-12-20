@@ -12,19 +12,17 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(nameof(Cases))]
-        public void Problem103(int[] list, int k, int[] results)
+        public void Problem103(string phrase, char[] letters, string results)
         {
             //-- Arrange
             var expected = results;
 
             //-- Act
-            var actual = Solution103.ShortestInclusiveSubset(list, k);
+            var returnCharArray = Solution103.ShortestInclusiveSubset(phrase.ToCharArray(), letters);
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, string.Join(null, returnCharArray));
         }
-        static object[] Cases = {
-            new object[]{new int []{1, 2, 3, 4, 5},9,new int[]{2, 3, 4}}
-        };
+        static object[] Cases = { new object[] { "figehaeci", new char[] { 'a', 'e', 'i' }, "aeci" } };
     }
 }

@@ -7,9 +7,10 @@ namespace Common
     {
         public static int[] ContiguousListSum(int[] list, int k)
         {
-            int[] ret = null;
-            var g = list.EveryContiguousSubset().Where(s => s.Sum() == k).OrderBy(s => s.Count());
-            return ret;
+            return list.EveryContiguousSubset()
+                .Where(s => s.Sum() == k)
+                .OrderBy(s => s.Count())
+                .FirstOrDefault();
         }
     }
 }

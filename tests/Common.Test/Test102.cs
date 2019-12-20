@@ -22,8 +22,6 @@ namespace Common.Test
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
-        static object[] Cases = {
-            new object[]{new int []{1, 2, 3, 4, 5},9,new int[]{2, 3, 4}}
-        };
+        static object[] Cases = { new object[] { new int[] { 1, 2, 3, 4, 5 }, 9, new int[] { 2, 3, 4 } } };
     }
 }
