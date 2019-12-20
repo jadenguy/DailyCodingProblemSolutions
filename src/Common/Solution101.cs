@@ -26,14 +26,14 @@ namespace Common
             }
             return ret;
         }
-        private static int[] SieveOfEratosthenes(int value = 10000)
+        private static int[] SieveOfEratosthenes(int maxValue = 10000)
         {
-            var range = (new int[] { 2 }).Union(Enumerable.Range(3, value - 3)).ToList();
-            for (int i = 0; i < range.Count && range[i] * range[i] <= value; i++)
+            var range = Enumerable.Range(2, maxValue - 2).ToList();
+            for (int i = 0; i < range.Count && range[i] * range[i] <= maxValue; i++)
             {
                 var item = range[i];
                 System.Diagnostics.Debug.WriteLine(item, "Prime");
-                for (int j = item * 2; j < value; j += item)
+                for (int j = item * 2; j < maxValue; j += item)
                 {
                     System.Diagnostics.Debug.WriteLine(j, "Removing");
                     range.Remove(j);
