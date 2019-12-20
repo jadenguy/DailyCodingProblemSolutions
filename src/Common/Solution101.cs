@@ -32,10 +32,10 @@ namespace Common
             for (int i = 0; i < range.Count && range[i] * range[i] <= maxValue; i++)
             {
                 var item = range[i];
-                System.Diagnostics.Debug.WriteLine(item, "Prime");
+                // System.Diagnostics.Debug.WriteLine(item, "Prime");
                 for (int j = item * 2; j < maxValue; j += item)
                 {
-                    System.Diagnostics.Debug.WriteLine(j, "Removing");
+                    // System.Diagnostics.Debug.WriteLine(j, "Removing");
                     range.Remove(j);
                 }
             }
