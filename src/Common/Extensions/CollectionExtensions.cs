@@ -52,11 +52,13 @@ namespace Common.Extensions
                 yield return combination.ToArray();
             }
         }
+        [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T[]> EveryContiguousSubset<T>(this IEnumerable<T> enumerable)
         {
+            yield return new T[] { };
             for (int i = 0; i < enumerable.Count(); i++)
             {
-                for (int j = 0; j + i < enumerable.Count(); j++)
+                for (int j = 1; j + i - 1 < enumerable.Count(); j++)
                 {
                     var subset = enumerable.Skip(i).Take(j);
                     yield return subset.ToArray();
