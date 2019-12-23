@@ -10,15 +10,19 @@ namespace Common.Test
     {
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
-        // [Test]
-        // [TestCase()]
-        public void Problem105(Action<int> func, int time)
+        [Test]
+        public void Problem105()
         {
             //-- Arrange
-            var expected = time;
+            var expected = 0;
+            Func<int, int> func = e => e;
 
             //-- Act
-            var actual = Solution105.Debounce(func, time);
+            int milliseconds = 500;
+            int bounces = 10;
+            var awaiter = Solution105.Debounce(func, 0, milliseconds); ;
+            for (int i = 1; i < bounces; i++) { awaiter = Solution105.Debounce(func, i, milliseconds); }
+            var actual = awaiter.GetAwaiter().GetResult();
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
