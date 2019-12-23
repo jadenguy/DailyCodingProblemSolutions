@@ -38,6 +38,9 @@ namespace Common.Test
             steps.Add(3);
             places.Add(new (int, int)[] { (0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5) });
             steps.Add(5);
+            places.Add(new (int, int)[] { (0, 0), (1, 1), (1, 0) });
+            steps.Add(2);
+
         }
         // [TearDown] public void TearDown() { }
         [Test]
@@ -45,6 +48,7 @@ namespace Common.Test
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [TestCase(4)]
         public void Problem100(int testIndex)
         {
             //-- Arrange

@@ -10,7 +10,7 @@ namespace Common
         public static IEnumerable<string> Order(Dictionary<string, string[]> scheduleRules)
         {
             //put items with zero dependencies on the top
-            var graphArray = scheduleRules.OrderBy(v => v.Value.Length).Distinct().Select(n => new GraphNode(n.Key)).ToArray();
+            var graphArray = scheduleRules.OrderBy(v => v.Value.Length).Distinct().Select(n => new GraphNode<string>(n.Key)).ToArray();
             foreach (var child in scheduleRules)
             {
                 foreach (var parent in child.Value)
@@ -24,7 +24,7 @@ namespace Common
                     catch (Exception) { return null; }
                 }
             }
-            var bellmanFordChart = graphArray[0].BellmanFord(0, true, true);
+            var bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
             var chainStarts = bellmanFordChart.Where(v => v.Value == double.PositiveInfinity);
             while (chainStarts.Any())
             {

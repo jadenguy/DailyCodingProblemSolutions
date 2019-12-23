@@ -24,12 +24,12 @@ namespace Common
             // System.Diagnostics.Debug.WriteLine(bellmanFordChart.Print());
             // return isThereArbitrage;
         }
-        // private static bool DetectLoop(Dictionary<GraphNode, double> bellmanFordChart, double precision)
+        // private static bool DetectLoop(Dictionary<GraphNode<string>, double> bellmanFordChart, double precision)
         // {
         //     bellmanFordChart.BellmanFord(precision);
         //     return bellmanFordChart.BellmanFord(precision, true, true).ContainsValue(double.NegativeInfinity);
         // }
-        // public static Dictionary<GraphNode, double> BellmanFord(this Dictionary<GraphNode, double> bellmanFordChart, double precision = 0, bool detectNegativeCycles = false, bool onceOver = false)
+        // public static Dictionary<GraphNode<string>, double> BellmanFord(this Dictionary<GraphNode<string>, double> bellmanFordChart, double precision = 0, bool detectNegativeCycles = false, bool onceOver = false)
         // {
         //     var connectorList = bellmanFordChart.Keys.SelectMany(g => g.Paths.Select(x => new { Start = g, End = x.Key, Weight = x.Value })).Random().ToArray();
         //     int i = 0;
@@ -57,9 +57,9 @@ namespace Common
         //     }
         //     return bellmanFordChart;
         // }
-        public static GraphNode[] ToWeightedGraphArray(this Forex.CurrencyExchangeTable table)
+        public static GraphNode<string>[] ToWeightedGraphArray(this Forex.CurrencyExchangeTable table)
         {
-            var fullList = table.Select(x => x.OldCurrency).Distinct().Select(c => new GraphNode(c.Name)).ToArray();
+            var fullList = table.Select(x => x.OldCurrency).Distinct().Select(c => new GraphNode<string>(c.Name)).ToArray();
             foreach (var exchange in table)
             {
                 var oldCurrency = fullList.Where(n => n.Name == exchange.OldCurrency.Name).First();

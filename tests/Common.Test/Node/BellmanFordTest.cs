@@ -7,23 +7,23 @@ namespace Common.Node.Test
 {
     public class BellmanFordTest
     {
-        GraphNode[] graphArray;
-        Dictionary<GraphNode, double> bellmanFordChart;
+        GraphNode<string>[] graphArray;
+        Dictionary<GraphNode<string>, double> bellmanFordChart;
         [SetUp]
         public void SetUp()
         {
-            graphArray = new GraphNode[] {
-                new GraphNode("GOLD"),
-                new GraphNode("NZD"),
-                new GraphNode("SEK"),
-                new GraphNode("CNY"),
-                new GraphNode("CHF"),
-                new GraphNode("CAD"),
-                new GraphNode("AUD"),
-                new GraphNode("GBP"),
-                new GraphNode("JPY"),
-                new GraphNode("EUR"),
-                new GraphNode("USD"),
+            graphArray = new GraphNode<string>[] {
+                new GraphNode<string>("GOLD"),
+                new GraphNode<string>("NZD"),
+                new GraphNode<string>("SEK"),
+                new GraphNode<string>("CNY"),
+                new GraphNode<string>("CHF"),
+                new GraphNode<string>("CAD"),
+                new GraphNode<string>("AUD"),
+                new GraphNode<string>("GBP"),
+                new GraphNode<string>("JPY"),
+                new GraphNode<string>("EUR"),
+                new GraphNode<string>("USD"),
             };
             bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
             bellmanFordChart[graphArray[0]] = 0;
@@ -34,7 +34,7 @@ namespace Common.Node.Test
         {
             //-- Arrange
             this.LinearGraph();
-            GraphNode rootNode = graphArray[0];
+            GraphNode<string> rootNode = graphArray[0];
             rootNode.ConnectTo(rootNode, .1); //create positive loop, ignored
 
             //-- Act

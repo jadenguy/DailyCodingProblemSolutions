@@ -23,7 +23,7 @@ namespace Common.Test
     {
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown(){}
-        private static void AddTest(int? result, string Text, (int from, int to)[] Links, List<GraphNode[]> nodes, List<int?> results)
+        private static void AddTest(int? result, string Text, (int from, int to)[] Links, List<GraphNode<int>[]> nodes, List<int?> results)
         {
             results.Add(result);
             nodes.Add(Solution072.GenerateConnectedNodes(Text, Links).ToArray());
@@ -32,9 +32,9 @@ namespace Common.Test
         public void Problem072()
         {
             //-- Arrange
-            List<GraphNode[]> nodes;
+            List<GraphNode<int>[]> nodes;
             List<int?> results;
-            nodes = new List<GraphNode[]>();
+            nodes = new List<GraphNode<int>[]>();
             results = new List<int?>();
             AddTest(3, "ABACA", new (int from, int to)[] { (0, 1), (0, 2), (2, 3), (3, 4) }, nodes, results);
             AddTest(null, "A", new (int from, int to)[] { (0, 0) }, nodes, results);

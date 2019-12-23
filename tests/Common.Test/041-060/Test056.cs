@@ -8,14 +8,14 @@ namespace Common.Test
 {
     public class Test056
     {
-        List<GraphNode> nodes = new List<GraphNode>();
+        List<GraphNode<string>> nodes = new List<GraphNode<string>>();
         [SetUp]
         public void SetUp()
         {
             nodes.Clear();
             for (int i = 0; i < 6; i++)
             {
-                nodes.Add(new GraphNode(i.ToString()));
+                nodes.Add(new GraphNode<string>(i.ToString()));
             }
             Join(0, 2);
             Join(0, 3);

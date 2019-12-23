@@ -172,18 +172,18 @@ namespace Common.Test
         public void BellmanFordGraphNoArbitrage()
         {
             //-- Arrange
-            var graphArray = new GraphNode[] {
-                new GraphNode("GOLD"),
-                new GraphNode("NZD"),
-                new GraphNode("SEK"),
-                new GraphNode("CNY"),
-                new GraphNode("CHF"),
-                new GraphNode("CAD"),
-                new GraphNode("AUD"),
-                new GraphNode("GBP"),
-                new GraphNode("JPY"),
-                new GraphNode("EUR"),
-                new GraphNode("USD"),
+            var graphArray = new GraphNode<string>[] {
+                new GraphNode<string>("GOLD"),
+                new GraphNode<string>("NZD"),
+                new GraphNode<string>("SEK"),
+                new GraphNode<string>("CNY"),
+                new GraphNode<string>("CHF"),
+                new GraphNode<string>("CAD"),
+                new GraphNode<string>("AUD"),
+                new GraphNode<string>("GBP"),
+                new GraphNode<string>("JPY"),
+                new GraphNode<string>("EUR"),
+                new GraphNode<string>("USD"),
             };
             var bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
             bellmanFordChart[graphArray[0]] = 0;
@@ -212,8 +212,7 @@ namespace Common.Test
             Assert.IsTrue(isConnected, "Some node is not connected");
             Assert.IsTrue(noLoop, "A negative loop was detected");
         }
-
-        private static void negLog(GraphNode node, GraphNode otherNode, double weight)
+        private static void negLog(GraphNode<string> node, GraphNode<string> otherNode, double weight)
         {
             node.ConnectTo(otherNode, -Math.Log(weight));
             if (weight == 0) { otherNode.ConnectTo(node, 0); }

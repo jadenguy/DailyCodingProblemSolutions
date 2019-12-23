@@ -5,18 +5,28 @@ using Common.Extensions;
 
 namespace Common.Node
 {
-    public class GraphNode : Node<GraphNode>, IEquatable<GraphNode>
+    public class GraphNode<T> : Node<GraphNode<T>>, IEquatable<GraphNode<T>> where T : IEquatable<T>
 
     {
-        public Dictionary<GraphNode, double> Paths = new Dictionary<GraphNode, double>();
+        public Dictionary<GraphNode<T>, double> Paths = new Dictionary<GraphNode<T>, double>();
         public string Name { get; set; }
-        public GraphNode(string id) { Name = id; }
-        public override IEnumerable<GraphNode> Children() => Paths.Keys.Select(p => p);
-        public override IEnumerable<GraphNode> BreadthFirstSearch()
+        public T Value { get; private set; }
+        public GraphNode(T value)
         {
-            var list = new Queue<GraphNode>() { };
-            var everVisited = new List<GraphNode>() { };
-            list.Enqueue((GraphNode)this);
+            Name = value.ToString();
+            Value = value;
+        }
+        public GraphNode(T value, string name)
+        {
+            Name = name;
+            Value = value;
+        }
+        public override IEnumerable<GraphNode<T>> Children() => Paths.Keys.Select(p => p);
+        public override IEnumerable<GraphNode<T>> BreadthFirstSearch()
+        {
+            var list = new Queue<GraphNode<T>>() { };
+            var everVisited = new List<GraphNode<T>>() { };
+            list.Enqueue(this);
             do
             {
                 var current = list.Dequeue();
@@ -28,11 +38,11 @@ namespace Common.Node
                 }
             } while (list.Count != 0);
         }
-        [System.Diagnostics.DebuggerStepThrough] public bool Equals(GraphNode other) => this.Name == other.Name;
-        public void ConnectTo(GraphNode node, double weight = 1) { Paths[node] = weight; }
+        [System.Diagnostics.DebuggerStepThrough] public bool Equals(GraphNode<T> other) => Name == other.Name && Value.Equals(other.Value);
+        [System.Diagnostics.DebuggerStepThrough] public void ConnectTo(GraphNode<T> node, double weight = 1) { Paths[node] = weight; }
         [System.Diagnostics.DebuggerStepThrough] public override string ToString() => Name;
         public bool ContainsNegativeLoop(int precision = 0) => BellmanFord(precision, true).Any(v => double.IsNegativeInfinity(v.Value));
-        public Dictionary<GraphNode, double> BellmanFord(double precision = 0, bool detectNegativeCycles = false, bool propagateNegative = false, Dictionary<GraphNode, double> bellmanFordChart = null)
+        public Dictionary<GraphNode<T>, double> BellmanFord(double precision = 0, bool detectNegativeCycles = false, bool propagateNegative = false, Dictionary<GraphNode<T>, double> bellmanFordChart = null)
         {
             bellmanFordChart = bellmanFordChart ?? this.BreadthFirstSearch().ToDictionary(k => k, v => double.PositiveInfinity);
             bellmanFordChart[this] = 0d;

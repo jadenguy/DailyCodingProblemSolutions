@@ -5,7 +5,7 @@ namespace Common
 {
     public class Solution056
     {
-        public static bool IsColorable(GraphNode node, int k)
+        public static bool IsColorable(GraphNode<string> node, int k)
         {
             var ret = true;
             if (k < 4)

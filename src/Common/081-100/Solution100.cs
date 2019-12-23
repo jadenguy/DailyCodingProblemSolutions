@@ -11,9 +11,9 @@ namespace Common
         public static int FewestSteps((int, int)[] tiles)
         {
             int? length = tiles?.Length;
-            int ret = length - 1 ?? 0; ;
+            int ret = length - 1 ?? 0;
             //short loops are always simple, skip these
-            if (length > 2)
+            if (length > 1)
             {
                 // shortcut here that we can assume that if the
                 // rest of the graph is fully interconnected,
@@ -23,18 +23,19 @@ namespace Common
                 // we have to move in one direction out from
                 // the first .point
                 var graph = MakeGraph(tiles);
-                if (!IsAlreadyInterconnectedOrLinear(graph))
-                {
-                    graph.InterconnectEveryPointWithMaxPathLength();
-                    var pathLengths = PathLengths(graph).OrderBy(v => v.Value);
-                    System.Diagnostics.Debug.WriteLine(pathLengths.Select(p => $"{p.Value}: " + p.Key.Print(" ")).Print());
-                    int minPath = pathLengths.Select(v => v.Value).Min();
-                    ret = minPath;
-                }
+                //bool solvedByNature = IsAlreadyInterconnectedOrLinear(graph);
+                //if (!solvedByNature)
+                //{
+                graph.InterconnectEveryPointWithMaxPathLength();
+                var pathLengths = PathLengths(graph).OrderBy(v => v.Value);
+                System.Diagnostics.Debug.WriteLine(pathLengths.Select(p => $"{p.Value}: " + p.Key.Print(" ")).Print());
+                int minPath = pathLengths.Select(v => v.Value).Min();
+                ret = minPath;
+                //}
             }
             return ret;
         }
-        private static bool IsAlreadyInterconnectedOrLinear(GraphNode graph)
+        private static bool IsAlreadyInterconnectedOrLinear(GraphNode<string> graph)
         {
             var graphList = graph.BreadthFirstSearch().Skip(1).ToArray();
             var pathCount = graphList.Select(n => n.Paths.Keys.Where(k => k != graph).Count());
@@ -43,17 +44,17 @@ namespace Common
             bool maxPathIsLength = min == graphList.Length - 1;
             bool minPathIsLength = max == graphList.Length - 1;
             bool linearPath = min == 2 && max == 2;
-            return (minPathIsLength && maxPathIsLength) || linearPath;
+            bool interconnected = (minPathIsLength && maxPathIsLength);
+            return interconnected || linearPath;
         }
-        private static Dictionary<GraphNode[], int> PathLengths(GraphNode graph)
+        private static Dictionary<GraphNode<string>[], int> PathLengths(GraphNode<string> graph)
         {
             var list = graph.BreadthFirstSearch().ToArray();
             var permutationsOfSuffix = list.Skip(1).EveryPermutation();
             var permutations = permutationsOfSuffix.Select(r => list.Take(1).Union(r).ToArray()).ToArray();
-            Dictionary<GraphNode[], int> dictionary = permutations.ToDictionary(k => k, v => PathLength(v));
-            return dictionary;
+            return permutations.ToDictionary(k => k, v => PathLength(v));
         }
-        private static int PathLength(GraphNode[] suggestion)
+        private static int PathLength(GraphNode<string>[] suggestion)
         {
             int result = int.MaxValue;
             var pathLength = 0d;
@@ -66,9 +67,9 @@ namespace Common
             result = Math.Min(result, (int)pathLength);
             return result;
         }
-        private static GraphNode InterconnectEveryPointWithMaxPathLength(this GraphNode graph)
+        private static GraphNode<string> InterconnectEveryPointWithMaxPathLength(this GraphNode<string> graph)
         {
-            var distanceTable = graph.BreadthFirstSearch().ToDictionary(k => k, v => graph.BellmanFord());
+            var distanceTable = graph.BreadthFirstSearch().ToDictionary(k => k, v => v.BellmanFord());
             foreach (var subTable in distanceTable)
             {
                 var key = subTable.Key;
@@ -83,14 +84,14 @@ namespace Common
             }
             return graph;
         }
-        private static GraphNode MakeGraph((int x, int y)[] tiles)
+        private static GraphNode<string> MakeGraph((int x, int y)[] tiles)
         {
             if (tiles.IsNullOrEmpty()) { return null; }
-            var nodes = new List<GraphNode>();
+            var nodes = new List<GraphNode<string>>();
             for (int i = 0; i < tiles.Length; i++)
             {
                 var a = tiles[i];
-                nodes.Add(new GraphNode($"([( {a.x} , {a.y} )])"));
+                nodes.Add(new GraphNode<string>($"([( {a.x} , {a.y} )])"));
                 for (int j = 0; j < i; j++)
                 {
                     var b = tiles[j];
