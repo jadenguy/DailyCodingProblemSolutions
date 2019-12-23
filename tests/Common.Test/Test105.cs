@@ -2,6 +2,7 @@
 // That is, as long as the debounced f continues to be invoked, f itself will not be called for N milliseconds.
 
 using System;
+using System.Threading;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -21,12 +22,32 @@ namespace Common.Test
             Func<int, int> func = e => e;
 
             //-- Act
-            var awaiter = Solution105.Debounce(func, 0, milliseconds);
-            for (int i = 1; i < bounces; i++) { awaiter = Solution105.Debounce(func, i, milliseconds); }
+            TaskWaiter awaiter = null;
+            for (int i = 0; i < bounces; i++) { awaiter = Solution105.Debounce(func, i, milliseconds); }
             var actual = awaiter.GetAwaiter().GetResult();
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void Problem105DebounceFast()
+        {
+            //-- Arrange
+            var expected = 0;
+            int bounces = 10;
+            Func<int, int> func = e => e;
+
+            //-- Act
+            TaskWaiter awaiter = null;
+            for (int i = 0; i < bounces; i++)
+            {
+                awaiter = Solution105.Debounce(func, i, milliseconds, true);
+                Thread.Sleep(10);
+            }
+            var actual = awaiter.GetAwaiter().GetResult();
+
+            // //-- Assert
+            Assert.AreNotEqual(expected, actual);
         }
         [Test]
         public void Problem105AfterDebounce()
@@ -37,7 +58,7 @@ namespace Common.Test
 
             //-- Act
             var awaiter = Solution105.Debounce(func, 0, milliseconds);
-            System.Threading.Thread.Sleep(milliseconds + 10);
+            Thread.Sleep(milliseconds + 10);
             awaiter = Solution105.Debounce(func, 1, milliseconds);
             var actual = awaiter.GetAwaiter().GetResult();
 
