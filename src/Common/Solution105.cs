@@ -10,7 +10,7 @@ namespace Common
         public static Dictionary<Func<int, int>, Task<int>> list = new Dictionary<Func<int, int>, Task<int>>();
         public static Task<int> Debounce(Func<int, int> func, int number, int time)
         {
-            if (!list.ContainsKey(func))
+            if (!list.ContainsKey(func) || list[func].IsCompleted)
             {
                 list[func] = Task.Run(() =>
                 {
