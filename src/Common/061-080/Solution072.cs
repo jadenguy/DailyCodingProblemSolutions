@@ -10,11 +10,11 @@ namespace Common
         public static int? DoTheThing(GraphNode[] graphNodes)
         {
             int? ret = null;
-            bool isLoop = DetectNegativeLoop(graphNodes);
-            if (!isLoop)
+            
+            if (!graphNodes[0]?.ContainsNegativeLoop()??false)
             {
                 var paths = EveryPath(graphNodes);
-                var mostUsedPathChar = paths.Select(p => p.GroupBy(c => c.Id)
+                var mostUsedPathChar = paths.Select(p => p.GroupBy(c => c.Name)
                                                           .OrderByDescending(g => g.Count())
                                                           .First());
                 var mostUsedChar = mostUsedPathChar.OrderByDescending(g => g.Count())
@@ -26,10 +26,7 @@ namespace Common
         }
         private static bool DetectNegativeLoop(GraphNode[] graphNodes)
         {
-            var bellmanFord = graphNodes.ToDictionary(g => g, g => 0d);
-            Solution032.BellmanFord(bellmanFord);
-            var isLoop = Solution032.BellmanFord(bellmanFord, 0, true, true).Any(v => double.IsNegativeInfinity(v.Value));
-            return isLoop;
+            return graphNodes[0].BellmanFord(0, true).Any(v => double.IsNegativeInfinity(v.Value));
         }
 
         private static GraphNode[][] EveryPath(IEnumerable<GraphNode> ListOfNodes)

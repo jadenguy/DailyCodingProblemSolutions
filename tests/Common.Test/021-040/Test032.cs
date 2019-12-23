@@ -205,8 +205,8 @@ namespace Common.Test
             }
 
             //-- Act
-            var isConnected = bellmanFordChart.BellmanFord(0.000000001).All(v => !double.IsPositiveInfinity(v.Value)); //really small numbers require really small precision checks
-            var noLoop = bellmanFordChart.BellmanFord(0.000000001, true, true).All(v => !double.IsNegativeInfinity(v.Value)); //really small numbers require really small precision checks
+            var isConnected = rootNode.BellmanFord(0.000000001).All(v => !double.IsPositiveInfinity(v.Value)); //really small numbers require really small precision checks
+            var noLoop = rootNode.BellmanFord(0.000000001, true, true).All(v => !double.IsNegativeInfinity(v.Value)); //really small numbers require really small precision checks
 
             //-- Assert
             Assert.IsTrue(isConnected, "Some node is not connected");

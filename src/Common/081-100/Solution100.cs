@@ -68,12 +68,10 @@ namespace Common
         }
         private static GraphNode InterconnectEveryPointWithMaxPathLength(this GraphNode graph)
         {
-            var distanceTable = graph.BreadthFirstSearch().ToDictionary(k => k, v => graph.BreadthFirstSearch().ToDictionary(k => k, v2 => double.PositiveInfinity));
+            var distanceTable = graph.BreadthFirstSearch().ToDictionary(k => k, v => graph.BellmanFord());
             foreach (var subTable in distanceTable)
             {
                 var key = subTable.Key;
-                distanceTable[key][key] = 0;
-                distanceTable[key].BellmanFord();
                 foreach (var item2 in subTable.Value)
                 {
                     if (key != item2.Key)

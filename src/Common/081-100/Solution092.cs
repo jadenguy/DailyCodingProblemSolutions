@@ -17,24 +17,22 @@ namespace Common
                 {
                     try
                     {
-                        var childNode = graphArray.Where(g => g.Id == child.Key).FirstOrDefault();
-                        var parentNode = graphArray.Where(g => g.Id == parent).FirstOrDefault();
+                        var childNode = graphArray.Where(g => g.Name == child.Key).FirstOrDefault();
+                        var parentNode = graphArray.Where(g => g.Name == parent).FirstOrDefault();
                         parentNode.ConnectTo(childNode, -1);
                     }
                     catch (Exception) { return null; }
                 }
             }
-            var bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
+            var bellmanFordChart = graphArray[0].BellmanFord(0, true, true);
             var chainStarts = bellmanFordChart.Where(v => v.Value == double.PositiveInfinity);
             while (chainStarts.Any())
             {
-                bellmanFordChart[chainStarts.First().Key] = 0;
-                bellmanFordChart.BellmanFord();
-                var loopie = bellmanFordChart.ToDictionary(k => k.Key, v => v.Value);
-                var isLoop = loopie.BellmanFord(0, true, true).Any(v => double.IsNegativeInfinity(v.Value));
+                chainStarts.First().Key.BellmanFord(0, true, true, bellmanFordChart);
+                var isLoop = bellmanFordChart.Any(v => double.IsNegativeInfinity(v.Value));
                 if (isLoop) { return null; }
             }
-            return bellmanFordChart.OrderByDescending(v => v.Value).ThenBy(k => k.Key.Id).Select(k => k.Key.Id);
+            return bellmanFordChart.OrderByDescending(v => v.Value).ThenBy(k => k.Key.Name).Select(k => k.Key.Name);
         }
     }
 }
