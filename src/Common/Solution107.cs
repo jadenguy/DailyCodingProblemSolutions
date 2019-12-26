@@ -4,9 +4,9 @@ using Common.Node;
 
 namespace Common
 {
-    public class Solution107
+    public static class Solution107
     {
-        public static IEnumerable<BinaryTreePath> PrintTree(BinaryNode<int> node)
+        public static string PrintTree(BinaryNode<int> node)
         {
             throw new NotImplementedException();
         }
