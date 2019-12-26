@@ -26,13 +26,11 @@ namespace Common.Test
             var rand = new Random();
 
             // 0
-            nodes.Add(root = n(0));
-            root.Left = n(0);
-            root.Right = n(0);
-            root.Left.Left = n(0);
-            root.Left.Right = n(0);
-            root.Right.Left = n(0);
-            root.Right.Right = n(0);
+            nodes.Add(root = n(1));
+            root.Left = n(2);
+            root.Right = n(3);
+            root.Right.Left = n(4);
+            root.Right.Right = n(5);
             results.Add($"  1\n / \\\n2   3\n   / \\\n  4   5\n");
 
             // // 1
@@ -85,12 +83,16 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = results[testCase];
-            System.Diagnostics.Debug.WriteLine(expected);
+            System.Console.WriteLine("");
+            System.Diagnostics.Debug.WriteLine("");
             System.Console.WriteLine(expected);
+            System.Diagnostics.Debug.WriteLine(expected);
             var node = nodes[testCase];
 
             //-- Act
             var actual = Solution107.PrintTree(node);
+            System.Console.WriteLine(actual);
+            System.Diagnostics.Debug.WriteLine(actual);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
