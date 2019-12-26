@@ -41,6 +41,7 @@ namespace Common
         {
             this.task = task;
             this.waiter = Task.Delay(milliseconds);
+            this.fast = fast;
         }
         public Task<int> GetTask() => task;
         public System.Runtime.CompilerServices.TaskAwaiter<int> GetAwaiter() => GetTask().GetAwaiter();

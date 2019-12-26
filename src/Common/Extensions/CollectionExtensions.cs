@@ -65,8 +65,11 @@ namespace Common.Extensions
                 }
             }
         }
-
         [System.Diagnostics.DebuggerStepThrough]
+        public static void Fill<T>(this T[] array, T value)
+        {
+            for (int i = 0; i < array.Length; i++) { array[i] = value; }
+        }
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> array) => (array is null || !array.Any());
         [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable) where T : IEquatable<T>

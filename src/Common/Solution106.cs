@@ -1,15 +1,15 @@
-using System;
+using Common.Extensions;
 
 namespace Common
 {
-    public class Solution106
+    public static class Solution106
     {
         public static bool CanHop(int[] input)
         {
             int length = input.Length;
             if (length == 1) { return true; }
             bool[] reachable = new bool[length];
-            Array.Fill(reachable, false);
+            reachable.Fill(false);
             reachable[0] = true;
             for (int i = 0; i < length - 1; i++)
             {
