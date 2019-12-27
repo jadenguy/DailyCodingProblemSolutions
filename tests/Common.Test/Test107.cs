@@ -29,11 +29,13 @@ namespace Common.Test
 
             //-- Act
             var actual = Solution107.PrintTree(node);
-            System.Console.WriteLine(actual);
-            System.Diagnostics.Debug.WriteLine(actual);
+            System.Diagnostics.Debug.WriteLine(node.Print());
+            System.Console.WriteLine(node.Print());
+            // System.Console.WriteLine(actual);
+            // System.Diagnostics.Debug.WriteLine(actual);
 
             // //-- Assert
-            // Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
         class Cases : IEnumerable
         {
@@ -47,7 +49,7 @@ namespace Common.Test
                 root.Right = n("THREE");
                 root.Right.Left = n("FOUR");
                 root.Right.Right = n("FIVE");
-                result = "  1\n / \\\n2   3\n   / \\\n  4   5\n";
+                result = "ONE, TWO, THREE, FOUR, FIVE";
                 yield return new object[] { root, result };
 
                 // // 1
@@ -60,7 +62,7 @@ namespace Common.Test
                 root.Right.Left.Right = n("SEVEN");
                 root.Right.Left.Right.Left = n("EIGHT");
                 root.Right.Left.Right.Right = n("NINE");
-                result = "  1\n / \\\n2   3\n   / \\\n  4   5\n / \\\n6   7\n   / \\\n  8   9\n";
+                result = "ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE";
                 yield return new object[] { root, result };
             }
         }

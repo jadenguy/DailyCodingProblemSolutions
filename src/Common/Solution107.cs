@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Common.Extensions;
 using Common.Node;
 
@@ -8,12 +9,14 @@ namespace Common
 {
     public static class Solution107
     {
-        public static string PrintTree<T>(BinaryNode<T> node)
+        static char[] seperators = new char[] { '└', '├', ' ', '│' };
+
+        public static string PrintTree<T>(BinaryNode<T> node) => node.BreadthFirstSearch().Select(n => n.Data).Print(", ");
+        public static string PrintTreeWide<T>(BinaryNode<T> node)
         {
             var levels = GenerateStrata(node);
             return GenerateStrings(levels, node);
         }
-
         private static string GenerateStrings<T>(Dictionary<BinaryNode<T>, int> levels, BinaryNode<T> root)
         {
             var maxHeight = levels.Values.Max() + 1;
@@ -52,6 +55,26 @@ namespace Common
                 }
             }
             return ret.Print();
+        }
+        public static string PrintNode<T>(this BinaryNode<T> node, Func<BinaryNode<T>, string> textFunc, string indent = "", bool last = false)
+        {
+            var ret = new StringBuilder();
+            ret.Append(indent);
+            if (last)
+            {
+                ret.Append("\\-");
+                indent += "  ";
+            }
+            else
+            {
+                ret.Append("|-");
+                indent += "| ";
+            }
+            ret.AppendLine(textFunc(node));
+            var Children = node.Children().ToList();
+            for (int i = 0; i < Children.Count; i++)
+                ret.Append(PrintNode(Children[i], textFunc, indent, i == Children.Count - 1));
+            return ret.ToString();
         }
         private static Dictionary<BinaryNode<T>, int> GenerateStrata<T>(this BinaryNode<T> node)
         {
