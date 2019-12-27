@@ -71,8 +71,8 @@ namespace Common.Test
         }
         private void AddResults(BinaryNode<string> root)
         {
-            poNodes.Add(root.PreOrder().Select(k => n(k.Data)).ToArray());
-            ioNodes.Add(root.InOrder().Select(k => n(k.Data)).ToArray());
+            poNodes.Add(root.PreOrder().Select(k => n(k.Value)).ToArray());
+            ioNodes.Add(root.InOrder().Select(k => n(k.Value)).ToArray());
         }
 
         // [TearDown] public void TearDown() { }
@@ -91,9 +91,9 @@ namespace Common.Test
             var actual = Solution048.Reconstruct(preOrder, inOrder);
 
             // //-- Assert
-            Assert.AreEqual(expected.PreOrder().Select(n => n.Data), actual.PreOrder().Select(n => n.Data), "preorder failed");
-            Assert.AreEqual(expected.InOrder().Select(n => n.Data), actual.InOrder().Select(n => n.Data), "inorder failed");
-            Assert.AreEqual(expected.PostOrder().Select(n => n.Data), actual.PostOrder().Select(n => n.Data), "postorder failed");
+            Assert.AreEqual(expected.PreOrder().Select(n => n.Value), actual.PreOrder().Select(n => n.Value), "preorder failed");
+            Assert.AreEqual(expected.InOrder().Select(n => n.Value), actual.InOrder().Select(n => n.Value), "inorder failed");
+            Assert.AreEqual(expected.PostOrder().Select(n => n.Value), actual.PostOrder().Select(n => n.Value), "postorder failed");
         }
     }
 }

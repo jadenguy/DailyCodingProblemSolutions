@@ -7,7 +7,7 @@ namespace Common
     {
         public static int Evaluate(this BinaryNode<string> node)
         {
-            switch (node.Data)
+            switch (node.Value)
             {
                 case "+":
                     return node.Left.Evaluate() + node.Right.Evaluate();
@@ -26,7 +26,7 @@ namespace Common
                 // case "divide":
                 //     return node.Left.Evaluate() / node.Right.Evaluate();
                 default:
-                    return int.Parse(node.Data);
+                    return int.Parse(node.Value);
             }
         }
     }

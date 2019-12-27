@@ -29,7 +29,7 @@ namespace Common
                 IsBranch = false;
             }
         }
-        public int Sum() => Nodes?.Sum(n => n.Data) ?? 0;
+        public int Sum() => Nodes?.Sum(n => n.Value) ?? 0;
         public override string ToString() => $"{IsBranch.ToString()} {Nodes.Length} {Sum()}";
     }
 }

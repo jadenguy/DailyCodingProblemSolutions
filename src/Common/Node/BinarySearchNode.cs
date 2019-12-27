@@ -8,7 +8,7 @@ namespace Common.Node
     {
         public BinarySearchNode(int value, BinarySearchNode left = null, BinarySearchNode right = null, string name = "Root") : base(value, left, right, name)
         {
-            Data = value;
+            Value = value;
             Left = null;
             Right = null;
             // if (left != null) { this.Add(left.InOrder()); }
@@ -20,12 +20,12 @@ namespace Common.Node
             var array = sequence.ToArray();
             if (array.Length > 0)
             {
-                ret.Data = array[0];
+                ret.Value = array[0];
                 ret.Add(array.Skip(1));
             }
             return ret;
         }
-        private void Add(IEnumerable<BinaryNode<int>> enumerable) => Add(enumerable.Select(v => v.Data));
+        private void Add(IEnumerable<BinaryNode<int>> enumerable) => Add(enumerable.Select((Func<BinaryNode<int>, int>)(v => (int)v.Value)));
         public void Add(IEnumerable<int> enumerable)
         {
             foreach (var item in enumerable)
@@ -35,9 +35,9 @@ namespace Common.Node
         }
         public void Add(int item)
         {
-            if (item == Data)
+            if (item == Value)
             { throw new ArgumentException("Value exists in tree"); }
-            if (item < Data)
+            if (item < Value)
             {
                 if (Left is null)
                 {
@@ -56,7 +56,7 @@ namespace Common.Node
         }
         public int CompareTo(BinarySearchNode other)
         {
-            return Data.CompareTo(other.Data);
+            return Value.CompareTo(other.Value);
         }
     }
 }

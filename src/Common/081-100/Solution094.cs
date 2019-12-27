@@ -11,9 +11,9 @@ namespace Common
             if (node is null) { return null; }
             else
             {
-                if (isRoot && node.BreadthFirstSearch().OrderByDescending(n => n.Data).First().Data <= 0)
+                if (isRoot && node.BreadthFirstSearch().OrderByDescending(n => n.Value).First().Value <= 0)
                 {
-                    BinaryNode<int>[] nodes = new BinaryNode<int>[] { node.BreadthFirstSearch().OrderByDescending(n => n.Data).ThenBy(n => n.Name).First() };
+                    BinaryNode<int>[] nodes = new BinaryNode<int>[] { node.BreadthFirstSearch().OrderByDescending(n => n.Value).ThenBy(n => n.Name).First() };
                     return new BinaryTreePath[] { new BinaryTreePath(nodes, false) };
                 }
                 else

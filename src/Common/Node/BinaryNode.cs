@@ -1,28 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Common.Node
 {
+    [DataContract]
     public class BinaryNode<T> : Node<BinaryNode<T>>, IEquatable<BinaryNode<T>>
     {
-        public BinaryNode(T data, BinaryNode<T> left = null, BinaryNode<T> right = null, string name = "Root", NodeDirection direction = NodeDirection.Root)
+        public BinaryNode() { }
+        public BinaryNode(
+            T data,
+            BinaryNode<T> left = null,
+            BinaryNode<T> right = null,
+            string name = "Root",
+            NodeDirection direction = NodeDirection.Root)
         {
-            Data = data;
+            Value = data;
             Left = left;
             Right = right;
             Name = name;
             Direction = direction;
         }
-        public NodeDirection Direction { get; set; }
-        public T Data { get; set; }
-        public T Value { get => Data; set => Data = value; }
-        public string Name { get; set; }
+        [JsonIgnore] public NodeDirection Direction { get; set; }
+        [DataMember] public T Value { get; set; }
+        [DataMember] public string Name { get; set; }
         private BinaryNode<T> left;
         private BinaryNode<T> right;
-        public bool IsRight { get => Direction == NodeDirection.Right; }
-        public bool IsLeft { get => Direction == NodeDirection.Left; }
+        [JsonIgnore] public bool IsRight { get => Direction == NodeDirection.Right; }
+        [JsonIgnore] public bool IsLeft { get => Direction == NodeDirection.Left; }
+        [DataMember]
         public virtual BinaryNode<T> Left
         {
             get => left;
@@ -36,12 +45,7 @@ namespace Common.Node
                 }
             }
         }
-        public BinaryNode<T> Copy(string name = null)
-        {
-            var ret = new BinaryNode<T>(data: this.Data, name: name);
-            if (string.IsNullOrEmpty(name)) { ret.Name = this.Name; }
-            return ret;
-        }
+        [DataMember]
         public virtual BinaryNode<T> Right
         {
             get => right;
@@ -55,12 +59,18 @@ namespace Common.Node
                 }
             }
         }
+        public BinaryNode<T> Copy(string name = null)
+        {
+            var ret = new BinaryNode<T>(data: this.Value, name: name);
+            if (string.IsNullOrEmpty(name)) { ret.Name = this.Name; }
+            return ret;
+        }
         public override IEnumerable<BinaryNode<T>> Children()
         {
             if (Left != null) { yield return Left; }
             if (Right != null) { yield return Right; }
         }
-        public override string ToString() => Name + " " + Data;
+        public override string ToString() => Name + " " + Value;
         public IEnumerable<BinaryNode<T>> InOrder()
         {
             if (Left != null)
@@ -85,13 +95,13 @@ namespace Common.Node
                 foreach (var item in Left.OutOrder()) { yield return item; }
             }
         }
-        public BinaryNode<T> clone() => new BinaryNode<T>(data: this.Data, name: this.Name);
+        public BinaryNode<T> clone() => new BinaryNode<T>(data: this.Value, name: this.Name);
         public bool Equals(BinaryNode<T> other)
         {
             if (other is null) { return false; }
 
             bool sameName = this.Name.Equals(other.Name);
-            bool sameData = this.Data.Equals(other.Data);
+            bool sameData = this.Value.Equals(other.Value);
             bool sameChildren = true;
 
             if (this.Left != null || other.Left != null) { sameChildren &= this.Left != null && this.Left.Equals(other.Left); }

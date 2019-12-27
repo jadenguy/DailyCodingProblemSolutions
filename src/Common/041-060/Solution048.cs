@@ -26,7 +26,7 @@ namespace Common
                 // in-order collection.
                 for (int i = 0; !foundRoot && i < iLength; i++)
                 {
-                    foundRoot = iOrder.ElementAt(i).Data.Equals(potentialRoot.Data);
+                    foundRoot = iOrder.ElementAt(i).Value.Equals(potentialRoot.Value);
                     if (foundRoot)
                     {
                         var leftNChildren = iOrder.Take(i);

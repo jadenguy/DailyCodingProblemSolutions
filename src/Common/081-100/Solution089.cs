@@ -15,6 +15,6 @@ namespace Common
             var inOrderTraversalOfTree = node.InOrder().Data();
             return inOrderTraversalOfTree.SequenceEqual(allElements);
         }
-        private static IEnumerable<T> Data<T>(this IEnumerable<BinaryNode<T>> enumerable) => enumerable.Select(v => v.Data);
+        private static IEnumerable<T> Data<T>(this IEnumerable<BinaryNode<T>> enumerable) => enumerable.Select((Func<BinaryNode<T>, T>)(v => (T)v.Value));
     }
 }

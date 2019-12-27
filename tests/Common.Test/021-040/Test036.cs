@@ -25,7 +25,7 @@ namespace Common.Test
             BinarySearchNode actual = Solution036.SecondLargestNodeInTree(tree);
 
             //-- Assert
-            Assert.AreEqual(expected.Data, actual.Data);
+            Assert.AreEqual(expected.Value, actual.Value);
         }
     }
 }
