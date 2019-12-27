@@ -21,20 +21,21 @@ namespace Common.Test
         [Test]
         [TestCaseSource(typeof(Cases))]
         // [TestCaseSource(typeof(CasesTwo))]
-        public void Problem107<T>(BinaryNode<T> node, string result)
+        public void Problem107(BinaryNode<string> node, string result)
         {
             //-- Arrange
             var expected = result;
             System.Console.WriteLine("");
             System.Diagnostics.Debug.WriteLine("");
+            System.Console.WriteLine(node?.Print(n => n.Value.ToString()));
+            System.Diagnostics.Debug.WriteLine(node?.Print(n => n.Value.ToString()));
             System.Console.WriteLine(expected);
             System.Diagnostics.Debug.WriteLine(expected);
 
             //-- Act
             var actual = Solution107.PrintBFS(node);
-            System.Diagnostics.Debug.WriteLine(node.Print());
-            System.Console.WriteLine(node.Print());
-            // System.Console.WriteLine(actual);
+            System.Console.WriteLine(actual);
+            System.Diagnostics.Debug.WriteLine(actual);
             // System.Diagnostics.Debug.WriteLine(actual);
 
             // //-- Assert
@@ -69,18 +70,30 @@ namespace Common.Test
                 yield return new object[] { root, result };
             }
         }
-        // class CasesTwo : IEnumerable
-        // {
-        //     public IEnumerator GetEnumerator()
-        //     {
-        //         // BinaryNode<int> root=null;
-        //         // String result=null;
-        //         // var rand = new Random();
-        //         // root = BinarySearchNode<int>.GenerateBinarySearchNode(Enumerable.Range(0, 20).Select(r => rand.Next()));
-        //         // result = root.BreadthFirstSearch().Print(", ");
-        //         // yield return new object[] { root, result };
-        //         yield break;
-        //     }
-        // }
+        class CasesTwo : IEnumerable
+        {
+            private const int testCount = 10;
+
+            public IEnumerator GetEnumerator()
+            {
+                BinaryNode<string> root = null;
+                String result = null;
+                var rand = new Random();
+
+
+                for (int i = 0; i < testCount; i++)
+                {
+
+                    var enumerable = Enumerable.Range(0, testCount).Select(r => rand.Next().ToString("X8")).Distinct();
+                    root = BinarySearchNode<string>.GenerateBinarySearchNode(enumerable);
+                    System.Diagnostics.Debug.WriteLine(root?.Print(n => n.Value.ToString()));
+                    System.Console.WriteLine(root?.Print(n => n.Value.ToString()));
+                    result = root.BreadthFirstSearch().Select(n => n.Value).Print(", ");
+                    yield return new object[] { root, result };
+                }
+
+
+            }
+        }
     }
 }

@@ -9,8 +9,7 @@ namespace Common
 {
     public static class Solution107
     {
-        static char[] seperators = new char[] { '└', '├', ' ', '│' };
-        public static string PrintBFS<T>(BinaryNode<T> node) => node.BreadthFirstSearch().Select(n => n.Value).Print(", ");
+        public static string PrintBFS<T>(BinaryNode<T> node) => node?.BreadthFirstSearch().Select(n => n.Value).Print(", ");
         public static string PrintTreeWide<T>(BinaryNode<T> node)
         {
             var levels = GenerateStrata(node);

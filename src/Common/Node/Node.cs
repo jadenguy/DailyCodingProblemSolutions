@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Common.Node
 {
@@ -63,5 +64,30 @@ namespace Common.Node
             // if (root)
             { yield return (T)this; }
         }
+        private string PrintInternal(Func<Node<T>, string> textFunc, string indent, bool last, bool isChild)
+        {
+            if (textFunc is null) { textFunc = n => n.ToString(); }
+            var ret = new StringBuilder();
+            ret.Append(indent);
+            if (last)
+            {
+                ret.Append('└');
+                indent += ' ';
+            }
+            else if (isChild)
+            {
+                ret.Append('├');
+                indent += '│';
+            }
+            ret.AppendLine(textFunc(this));
+            var children = Children().ToList();
+            var stack = new Stack<Node<T>>(Children());
+
+            for (int i = 0; i < children.Count; i++) { ret.Append(children[i].PrintInternal(textFunc, indent, i == children.Count - 1, true)); }
+            // ret.Append(Left?.PrintInternal(textFunc, indent, false, true) ?? indent + "├\n");
+            // ret.Append(Right?.PrintInternal(textFunc, indent, true, true) ?? indent + "└\n");
+            return ret.ToString();
+        }
+        public string Print(Func<Node<T>, string> textFunc = null) => PrintInternal(textFunc, string.Empty, Children().Count() == 0, false);
     }
 }

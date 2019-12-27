@@ -117,19 +117,19 @@ namespace Common.Node
             ret.Append(indent);
             if (last)
             {
-                ret.Append("\\-");
-                indent += "  ";
+                ret.Append('└');
+                indent += ' ';
             }
             else if (isChild)
             {
-                ret.Append("|-");
-                indent += "| ";
+                ret.Append('├');
+                indent += '│';
             }
             ret.AppendLine(textFunc(this));
-
-
-            var children = Children().ToList();
-            for (int i = 0; i < children.Count; i++) { ret.Append(children[i].PrintInternal(textFunc, indent, i == children.Count - 1, true)); }
+            // var children = Children().ToList();
+            // for (int i = 0; i < children.Count; i++) { ret.Append(children[i].PrintInternal(textFunc, indent, i == children.Count - 1, true)); }
+            ret.Append(Left?.PrintInternal(textFunc, indent, false, true) ?? indent + "├\n");
+            ret.Append(Right?.PrintInternal(textFunc, indent, true, true) ?? indent + "└\n");
             return ret.ToString();
         }
     }

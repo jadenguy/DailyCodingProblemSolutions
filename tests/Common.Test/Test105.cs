@@ -58,7 +58,7 @@ namespace Common.Test
 
             //-- Act
             var awaiter = Solution105.Debounce(func, 0, milliseconds);
-            Thread.Sleep(milliseconds + 10);
+            Thread.Sleep(milliseconds + 50);
             awaiter = Solution105.Debounce(func, 1, milliseconds);
             var actual = awaiter.GetAwaiter().GetResult();
 
