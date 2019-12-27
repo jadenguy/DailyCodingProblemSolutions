@@ -7,10 +7,10 @@ namespace Common
     public class Solution036
 
     {
-        public static BinarySearchNode SecondLargestNodeInTree(BinarySearchNode root)
+        public static BinarySearchNode<int> SecondLargestNodeInTree(BinarySearchNode<int> root)
         {
             var array = root.InOrder().ToArray();
-            return (BinarySearchNode)array[array.Length - 2];
+            return (BinarySearchNode<int>)array[array.Length - 2];
         }
     }
 }

@@ -17,12 +17,12 @@ namespace Common.Test
         public void Problem036()
         {
             //-- Arrange
-            var expected = new BinarySearchNode(14);
-            var tree = new BinarySearchNode(7);
+            var expected = new BinarySearchNode<int>(14);
+            var tree = new BinarySearchNode<int>(7);
             tree.Add(new int[] { 10, 11, 8, 9, 14, 15, 12, 13, 2, 3, 0, 1, 6, 4, 5 });
 
             //-- Act
-            BinarySearchNode actual = Solution036.SecondLargestNodeInTree(tree);
+            BinarySearchNode<int> actual = Solution036.SecondLargestNodeInTree(tree);
 
             //-- Assert
             Assert.AreEqual(expected.Value, actual.Value);

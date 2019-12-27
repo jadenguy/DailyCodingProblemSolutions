@@ -28,7 +28,7 @@ namespace Common.Test
             var rand = new Random();
 
             // 0
-            var x = new BinarySearchNode(rand.Next());
+            var x = new BinarySearchNode<int>(rand.Next());
             for (int i = 0; i < 10; i++) { x.Add(rand.Next()); }
             nodes.Add(x);
             results.Add(true);

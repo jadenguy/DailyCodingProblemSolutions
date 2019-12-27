@@ -13,7 +13,6 @@ namespace Common.Test
     {
         List<BinaryNode<int>> nodes;
         List<BinaryNode<int>> results;
-
         private static BinaryNode<int> n(int data) => new BinaryNode<int>(data);
         private BinaryNode<string> n(object v) => n(v.ToString());
         [SetUp]
@@ -25,7 +24,7 @@ namespace Common.Test
             var rand = new Random();
 
             // 0
-            var x = new BinarySearchNode(rand.Next());
+            var x = new BinarySearchNode<int>(rand.Next());
             for (int i = 0; i < 10; i++) { x.Add(rand.Next()); }
             nodes.Add(x);
             results.Add(x);

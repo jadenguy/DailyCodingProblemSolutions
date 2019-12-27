@@ -20,7 +20,7 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(typeof(Cases))]
-        [TestCaseSource(typeof(CasesTwo))]
+        // [TestCaseSource(typeof(CasesTwo))]
         public void Problem107<T>(BinaryNode<T> node, string result)
         {
             //-- Arrange
@@ -69,17 +69,18 @@ namespace Common.Test
                 yield return new object[] { root, result };
             }
         }
-        class CasesTwo : IEnumerable
-        {
-            public IEnumerator GetEnumerator()
-            {
-                BinaryNode<int> root;
-                String result;
-                var rand = new Random();
-                root = BinarySearchNode.GenerateBinarySearchNode(Enumerable.Range(0, 20).Select(r => rand.Next()));
-                result = root.BreadthFirstSearch().Print(", ");
-                yield return new object[] { root, result };
-            }
-        }
+        // class CasesTwo : IEnumerable
+        // {
+        //     public IEnumerator GetEnumerator()
+        //     {
+        //         // BinaryNode<int> root=null;
+        //         // String result=null;
+        //         // var rand = new Random();
+        //         // root = BinarySearchNode<int>.GenerateBinarySearchNode(Enumerable.Range(0, 20).Select(r => rand.Next()));
+        //         // result = root.BreadthFirstSearch().Print(", ");
+        //         // yield return new object[] { root, result };
+        //         yield break;
+        //     }
+        // }
     }
 }

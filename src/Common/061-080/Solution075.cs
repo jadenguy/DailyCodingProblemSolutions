@@ -34,7 +34,7 @@ namespace Common
         public static int LongestRaisingSequenceBinaryTree(int[] sequence)
         {
             var ret = 0;
-            var node = BinarySearchNode.GenerateBinarySearchNode(sequence);
+            var node = BinarySearchNode<int>.GenerateBinarySearchNode(sequence);
             var nodeList = node.BreadthFirstSearch();
             var split = nodeList.Select(g => g.Name.Split('.'));
             var splitCount = split.ToDictionary(k => k, r => r.Reverse().TakeWhile(f => f == "Right").Count());
