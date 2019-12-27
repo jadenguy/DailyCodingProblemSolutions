@@ -5,17 +5,22 @@ namespace Common.Node
 {
     public class BinaryNode<T> : Node<BinaryNode<T>>, IEquatable<BinaryNode<T>>
     {
-        public BinaryNode(T data, BinaryNode<T> left = null, BinaryNode<T> right = null, string name = "Root")
+        public BinaryNode(T data, BinaryNode<T> left = null, BinaryNode<T> right = null, string name = "Root", NodeDirection direction = NodeDirection.Root)
         {
-            this.Data = data;
-            this.Left = left;
-            this.Right = right;
-            this.Name = name;
+            Data = data;
+            Left = left;
+            Right = right;
+            Name = name;
+            Direction = direction;
         }
+        public NodeDirection Direction { get; set; }
         public T Data { get; set; }
+        public T Value { get => Data; set => Data = value; }
         public string Name { get; set; }
         private BinaryNode<T> left;
         private BinaryNode<T> right;
+        public bool IsRight { get => Direction == NodeDirection.Right; }
+        public bool IsLeft { get => Direction == NodeDirection.Left; }
         public virtual BinaryNode<T> Left
         {
             get => left;
@@ -25,6 +30,7 @@ namespace Common.Node
                 {
                     left = value;
                     left.Name = this.Name + ".Left";
+                    left.Direction = NodeDirection.Left;
                 }
             }
         }
@@ -43,6 +49,7 @@ namespace Common.Node
                 {
                     right = value;
                     right.Name = this.Name + ".Right";
+                    right.Direction = NodeDirection.Right;
                 }
             }
         }
@@ -56,36 +63,24 @@ namespace Common.Node
         {
             if (Left != null)
             {
-                foreach (var item in Left.InOrder())
-                {
-                    yield return item;
-                }
+                foreach (var item in Left.InOrder()) { yield return item; }
             }
             yield return this;
             if (Right != null)
             {
-                foreach (var item in Right.InOrder())
-                {
-                    yield return item;
-                }
+                foreach (var item in Right.InOrder()) { yield return item; }
             }
         }
         public IEnumerable<BinaryNode<T>> OutOrder()
         {
             if (Right != null)
             {
-                foreach (var item in Right.OutOrder())
-                {
-                    yield return item;
-                }
+                foreach (var item in Right.OutOrder()) { yield return item; }
             }
             yield return this;
             if (Left != null)
             {
-                foreach (var item in Left.OutOrder())
-                {
-                    yield return item;
-                }
+                foreach (var item in Left.OutOrder()) { yield return item; }
             }
         }
         public BinaryNode<T> clone() => new BinaryNode<T>(data: this.Data, name: this.Name);
