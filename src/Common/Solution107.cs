@@ -10,8 +10,7 @@ namespace Common
     public static class Solution107
     {
         static char[] seperators = new char[] { '└', '├', ' ', '│' };
-
-        public static string PrintTree<T>(BinaryNode<T> node) => node.BreadthFirstSearch().Select(n => n.Data).Print(", ");
+        public static string PrintBFS<T>(BinaryNode<T> node) => node.BreadthFirstSearch().Select(n => n.Value).Print(", ");
         public static string PrintTreeWide<T>(BinaryNode<T> node)
         {
             var levels = GenerateStrata(node);
@@ -55,26 +54,6 @@ namespace Common
                 }
             }
             return ret.Print();
-        }
-        public static string PrintNode<T>(this BinaryNode<T> node, Func<BinaryNode<T>, string> textFunc, string indent = "", bool last = false)
-        {
-            var ret = new StringBuilder();
-            ret.Append(indent);
-            if (last)
-            {
-                ret.Append("\\-");
-                indent += "  ";
-            }
-            else
-            {
-                ret.Append("|-");
-                indent += "| ";
-            }
-            ret.AppendLine(textFunc(node));
-            var Children = node.Children().ToList();
-            for (int i = 0; i < Children.Count; i++)
-                ret.Append(PrintNode(Children[i], textFunc, indent, i == Children.Count - 1));
-            return ret.ToString();
         }
         private static Dictionary<BinaryNode<T>, int> GenerateStrata<T>(this BinaryNode<T> node)
         {

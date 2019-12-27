@@ -99,7 +99,8 @@ namespace Common.Node
 
             return sameName && sameData && sameChildren;
         }
-        public string Print(Func<BinaryNode<T>, string> textFunc = null, string indent = "", bool last = false)
+        public string Print(Func<BinaryNode<T>, string> textFunc = null) => PrintInternal(textFunc, string.Empty, Children().Count() == 0, false);
+        private string PrintInternal(Func<BinaryNode<T>, string> textFunc, string indent, bool last, bool isChild)
         {
             if (textFunc is null) { textFunc = n => n.ToString(); }
             var ret = new StringBuilder();
@@ -109,15 +110,16 @@ namespace Common.Node
                 ret.Append("\\-");
                 indent += "  ";
             }
-            else
+            else if (isChild)
             {
                 ret.Append("|-");
                 indent += "| ";
             }
             ret.AppendLine(textFunc(this));
+
+
             var children = Children().ToList();
-            for (int i = 0; i < children.Count; i++)
-                ret.Append(children[i].Print(textFunc, indent, i == children.Count - 1));
+            for (int i = 0; i < children.Count; i++) { ret.Append(children[i].PrintInternal(textFunc, indent, i == children.Count - 1, true)); }
             return ret.ToString();
         }
     }

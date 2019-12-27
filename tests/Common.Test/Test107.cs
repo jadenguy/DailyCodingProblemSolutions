@@ -7,6 +7,8 @@
 
 using System;
 using System.Collections;
+using System.Linq;
+using Common.Extensions;
 using Common.Node;
 using NUnit.Framework;
 
@@ -18,7 +20,8 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(typeof(Cases))]
-        public void Problem107(BinaryNode<string> node, string result)
+        [TestCaseSource(typeof(CasesTwo))]
+        public void Problem107<T>(BinaryNode<T> node, string result)
         {
             //-- Arrange
             var expected = result;
@@ -28,7 +31,7 @@ namespace Common.Test
             System.Diagnostics.Debug.WriteLine(expected);
 
             //-- Act
-            var actual = Solution107.PrintTree(node);
+            var actual = Solution107.PrintBFS(node);
             System.Diagnostics.Debug.WriteLine(node.Print());
             System.Console.WriteLine(node.Print());
             // System.Console.WriteLine(actual);
@@ -37,9 +40,9 @@ namespace Common.Test
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
+        private static BinaryNode<string> n(object data) => new BinaryNode<string>(data.ToString());
         class Cases : IEnumerable
         {
-            private static BinaryNode<string> n(object data) => new BinaryNode<string>(data.ToString());
             public IEnumerator GetEnumerator()
             {
                 BinaryNode<string> root;
@@ -63,6 +66,18 @@ namespace Common.Test
                 root.Right.Left.Right.Left = n("EIGHT");
                 root.Right.Left.Right.Right = n("NINE");
                 result = "ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE";
+                yield return new object[] { root, result };
+            }
+        }
+        class CasesTwo : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                BinaryNode<int> root;
+                String result;
+                var rand = new Random();
+                root = BinarySearchNode.GenerateBinarySearchNode(Enumerable.Range(0, 20).Select(r => rand.Next()));
+                result = root.BreadthFirstSearch().Print(", ");
                 yield return new object[] { root, result };
             }
         }
