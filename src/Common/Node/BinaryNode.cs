@@ -128,7 +128,6 @@ namespace Common.Node
             }
             ret.AppendLine(textFunc(this));
             var hasChildren = Children().Count() > 0;
-            // for (int i = 0; i < children.Count; i++) { ret.Append(children[i].PrintInternal(textFunc, indent, i == children.Count - 1, true)); }
             if (hasChildren)
             {
                 ret.Append(Left?.PrintInternal(textFunc, indent, false, true) ?? indent + "├\n");

@@ -82,10 +82,7 @@ namespace Common.Node
             ret.AppendLine(textFunc(this));
             var children = Children().ToList();
             var stack = new Stack<Node<T>>(Children());
-
             for (int i = 0; i < children.Count; i++) { ret.Append(children[i].PrintInternal(textFunc, indent, i == children.Count - 1, true)); }
-            // ret.Append(Left?.PrintInternal(textFunc, indent, false, true) ?? indent + "├\n");
-            // ret.Append(Right?.PrintInternal(textFunc, indent, true, true) ?? indent + "└\n");
             return ret.ToString();
         }
         public string Print(Func<Node<T>, string> textFunc = null) => PrintInternal(textFunc, string.Empty, Children().Count() == 0, false);
