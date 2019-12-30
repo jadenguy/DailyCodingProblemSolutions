@@ -12,6 +12,7 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCase("ab", "abxaba", new int[] { 0, 3, 4 })]
+        [TestCase("an", "banana", new int[] { 1, 2, 3, 4 })]
         [TestCase("", "", new int[] { 0 })]
         public void Problem111(string W, string S, int[] result)
         {
