@@ -65,6 +65,8 @@ namespace Common.Extensions
                 }
             }
         }
+        [System.Diagnostics.DebuggerStepThrough] public static HashSet<T> ToHashSet<T>(this IEnumerable<T> enumerable) => new HashSet<T>(enumerable);
+        [System.Diagnostics.DebuggerStepThrough] public static HashSet<TOut> ToHashSet<TIn, TOut>(this IEnumerable<TIn> enumerable, Func<TIn, TOut> func) => new HashSet<TOut>(enumerable.Select(e => func(e)));
         [System.Diagnostics.DebuggerStepThrough]
         public static void Fill<T>(this T[] array, T value)
         {

@@ -21,7 +21,7 @@ namespace Common.Test
             //-- Act
             char[] subset = W.ToCharArray();
             char[] set = S.ToCharArray();
-            var actual = Solution111.FindAnagramSubstringIndexes<char>(subset, set).ToArray();
+            var actual = Solution111.FindAnagramSubstringIndexes<char>(subset, set);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
