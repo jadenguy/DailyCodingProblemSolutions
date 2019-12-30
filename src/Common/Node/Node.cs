@@ -71,13 +71,13 @@ namespace Common.Node
             ret.Append(indent);
             if (last)
             {
-                ret.Append('└');
-                indent += ' ';
+                ret.Append("└─");
+                indent += "  ";
             }
             else if (isChild)
             {
-                ret.Append('├');
-                indent += '│';
+                ret.Append("├─");
+                indent += "│ ";
             }
             ret.AppendLine(textFunc(this));
             var children = Children().ToList();

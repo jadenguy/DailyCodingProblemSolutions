@@ -20,7 +20,7 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(typeof(Cases))]
-        // [TestCaseSource(typeof(CasesTwo))]
+        [TestCaseSource(typeof(CasesTwo))]
         public void Problem107(BinaryNode<string> node, string result)
         {
             //-- Arrange
@@ -36,7 +36,6 @@ namespace Common.Test
             var actual = Solution107.PrintBFS(node);
             System.Console.WriteLine(actual);
             System.Diagnostics.Debug.WriteLine(actual);
-            // System.Diagnostics.Debug.WriteLine(actual);
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
@@ -78,21 +77,19 @@ namespace Common.Test
             {
                 BinaryNode<string> root = null;
                 String result = null;
-                var rand = new Random();
-
-
+                const int Seed = 0;
+                // by using a seed here, we can better use automatic testing
+                // the reason is that the name of the test changes based on the text of the object
+                var rand = new Random(Seed);
                 for (int i = 0; i < testCount; i++)
                 {
-
                     var enumerable = Enumerable.Range(0, testCount).Select(r => rand.Next().ToString("X8")).Distinct();
                     root = BinarySearchNode<string>.GenerateBinarySearchNode(enumerable);
-                    System.Diagnostics.Debug.WriteLine(root?.Print(n => n.Value.ToString()));
-                    System.Console.WriteLine(root?.Print(n => n.Value.ToString()));
+                    // System.Diagnostics.Debug.WriteLine(root?.Print(n => n.Value.ToString()));
+                    // System.Console.WriteLine(root?.Print(n => n.Value.ToString()));
                     result = root.BreadthFirstSearch().Select(n => n.Value).Print(", ");
                     yield return new object[] { root, result };
                 }
-
-
             }
         }
     }
