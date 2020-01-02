@@ -1,9 +1,9 @@
 ﻿// Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree. Assume that each node in the tree also has a pointer to its parent.
 // According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
 
-
 using System.Collections;
 using Common.Node;
+using Common.Extensions;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -19,36 +19,23 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = lca;
-            PrintInputs(root, a, b, expected);
+            WriteInputs(root, a, b, expected);
 
             //-- Act
             var actual = Solution112.FindLowestCommonAncestor(root, a, b);
-            WriteOutput(actual);
+            actual.WriteHost("results");
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
-        private static void PrintInputs(BinaryNode<int> node, BinaryNode<int> a, BinaryNode<int> b, BinaryNode<int> expected)
+        private static void WriteInputs(BinaryNode<int> node, BinaryNode<int> a, BinaryNode<int> b, BinaryNode<int> expected)
         {
             var tree = node?.Print(n => n.Value.ToString());
-            WriteHost(tree);
-            WriteHost(a);
-            WriteHost(b);
-            WriteHost(expected);
+            tree.WriteHost("Tree");
+            a.WriteHost("A");
+            b.WriteHost("B");
+            expected.WriteHost("LCA");
         }
-
-        private static void WriteHost(object tree, string header = "")
-        {
-            WriteOutput(header);
-            WriteOutput(tree);
-        }
-
-        private static void WriteOutput(object Value)
-        {
-            System.Console.WriteLine(Value.ToString());
-            System.Diagnostics.Debug.WriteLine(Value.ToString());
-        }
-
         private static BinaryNode<int> n(int data) => new BinaryNode<int>(data);
         class Cases : IEnumerable
         {
@@ -59,13 +46,18 @@ namespace Common.Test
                 BinaryNode<int> b;
                 BinaryNode<int> result;
 
-
                 root = n(1);
                 root.Left = n(2);
                 root.Right = n(3);
                 root.Left.Left = n(4);
                 root.Right.Left = n(5);
                 root.Right.Right = n(6);
+                root.Right.Left.Right = n(7);
+
+                a = root.Right.Left;
+                b = root.Right.Right;
+                result = root.Right;
+                yield return new object[] { root, a, b, result };
 
                 a = root.Left;
                 b = root.Right;
@@ -85,11 +77,6 @@ namespace Common.Test
                 a = root.Left.Left;
                 b = root.Right.Left;
                 result = root;
-                yield return new object[] { root, a, b, result };
-
-                a = root.Right.Left;
-                b = root.Right.Right;
-                result = root.Right;
                 yield return new object[] { root, a, b, result };
             }
         }

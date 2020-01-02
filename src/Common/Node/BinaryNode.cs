@@ -100,6 +100,7 @@ namespace Common.Node
         public bool Equals(BinaryNode<T> other)
         {
             if (other is null) { return false; }
+            if (object.ReferenceEquals(this, other)) { return true; }
 
             bool sameName = this.Name.Equals(other.Name);
             bool sameData = this.Value.Equals(other.Value);
