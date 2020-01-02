@@ -11,7 +11,9 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase("hello world hello", "hello world hello")]
+        [TestCase("d abc", "abc d")]
+        [TestCase("abc d", "d abc")]
+        [TestCase("hello world here", "here world hello")]
         public void Problem113(string input, string result)
         {
             //-- Arrange

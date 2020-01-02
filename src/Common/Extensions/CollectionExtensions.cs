@@ -13,6 +13,24 @@ namespace Common.Extensions
         [System.Diagnostics.DebuggerStepThrough] public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n") => string.Join(seperator, enumerable);
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
         [System.Diagnostics.DebuggerStepThrough]
+        public static void Reverse<T>(this T[] array, int start = 0, int count = -1) where T : IComparable<T>
+        {
+            if (count == -1) { count = array.Length - start - 1; }
+            for (int i = 0; i <= count / 2; i++)
+            {
+                array.Swap(start + i, start + count - i);
+            }
+        }
+        [System.Diagnostics.DebuggerStepThrough]
+        public static void Swap<T>(this T[] array, int i, int o)
+        {
+            if (i == o) { return; }
+            var temp = array[i];
+            array[i] = array[o];
+            array[o] = temp;
+        }
+
+        [System.Diagnostics.DebuggerStepThrough]
         public static bool TryPeek<T>(this Queue<T> queue, out T peek)
         {
             var ret = false;

@@ -1,4 +1,5 @@
 using System;
+using Common.Extensions;
 
 namespace Common
 {
@@ -20,16 +21,16 @@ namespace Common
                 {
                     // System.Diagnostics.Debug.WriteLine("WIP");
                     var firstGreaterThanOrderedAfterOrdered = FirstGreaterThanOrderedAfterOrdered(array, ordered);
-                    Swap(array, ordered, firstGreaterThanOrderedAfterOrdered);
-                    Reverse(array, ordered + 1, array.Length - ordered - 2);
+                    array.Swap(ordered, firstGreaterThanOrderedAfterOrdered);
+                    array.Reverse(ordered + 1, array.Length - ordered - 2);
                 }
                 else if (hasInversion)
                 {
-                    Reverse(array);
+                    array.Reverse();
                 }
                 else if (hasOrdered)
                 {
-                    Swap(array, ordered + 1, ordered);
+                    array.Swap(ordered + 1, ordered);
                 }
                 else
                 {
@@ -37,21 +38,6 @@ namespace Common
                 }
             }
             return array;
-        }
-        private static void Reverse<T>(T[] array, int start = 0, int count = -1) where T : IComparable<T>
-        {
-            if (count == -1) { count = array.Length - start - 1; }
-            for (int i = 0; i <= count / 2; i++)
-            {
-                array.Swap(start + i, start + count - i);
-            }
-        }
-        private static void Swap<T>(this T[] array, int i, int o)
-        {
-            if (i == o) { return; }
-            var temp = array[i];
-            array[i] = array[o];
-            array[o] = temp;
         }
         private static bool TryFindInversion<T>(T[] array, out int i, int length = -1) where T : IComparable<T>
         {
