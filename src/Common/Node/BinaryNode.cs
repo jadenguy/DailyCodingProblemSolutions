@@ -96,6 +96,7 @@ namespace Common.Node
                 foreach (var item in Left.OutOrder()) { yield return item; }
             }
         }
+
         public BinaryNode<T> clone() => new BinaryNode<T>(data: this.Value, name: this.Name);
         public bool Equals(BinaryNode<T> other)
         {
@@ -136,5 +137,7 @@ namespace Common.Node
             }
             return ret.ToString();
         }
+        public override bool Equals(object obj) => (obj.GetType() == this.GetType()) ? this.Equals(obj) : base.Equals(obj);
+        public override int GetHashCode() => Print().GetHashCode();
     }
 }
