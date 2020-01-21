@@ -137,7 +137,7 @@ namespace Common.Node
             }
             return ret.ToString();
         }
-        public override bool Equals(object obj) => (obj.GetType() == this.GetType()) ? this.Equals(obj) : base.Equals(obj);
+        public override bool Equals(object obj) => (obj.GetType() == this.GetType()) ? this.Equals(obj as BinaryNode<T>) : base.Equals(obj);
         public override int GetHashCode() => Print().GetHashCode();
     }
 }
