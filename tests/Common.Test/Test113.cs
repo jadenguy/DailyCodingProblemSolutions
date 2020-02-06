@@ -11,6 +11,10 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
+        [TestCase("a ", " a")]
+        [TestCase("d  abc", "abc  d")]
+        [TestCase("d   abc", "abc   d")]
+        [TestCase("a", "a")]
         [TestCase("d abc", "abc d")]
         [TestCase("abc d", "d abc")]
         [TestCase("hello world here", "here world hello")]
@@ -18,7 +22,7 @@ namespace Common.Test
         {
             //-- Arrange
             input.WriteHost("input");
-            result.WriteHost("result");
+            result.WriteHost("desired");
             var expected = result;
 
             //-- Act
