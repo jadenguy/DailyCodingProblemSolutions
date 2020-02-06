@@ -5,7 +5,7 @@ namespace Common
 {
     public static class Solution095
     {
-        public static T[] NextLexicographically<T>(T[] array) where T : IComparable<T>
+        public static T[] NextLexicographically<T>(T[] array) where T : IComparable<T>, IEquatable<T>
         {
             var length = array.Length;
             var inversion = -1;

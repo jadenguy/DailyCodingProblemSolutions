@@ -13,7 +13,7 @@ namespace Common.Extensions
         [System.Diagnostics.DebuggerStepThrough] public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n") => string.Join(seperator, enumerable);
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
         [System.Diagnostics.DebuggerStepThrough]
-        public static void Reverse<T>(this T[] array, int start = 0, int count = -1) where T : IComparable<T>
+        public static void Reverse<T>(this T[] array, int start = 0, int count = -1) where T : IEquatable<T>
         {
             if (count == -1) { count = array.Length - start - 1; }
             for (int i = 0; i <= count / 2; i++)
