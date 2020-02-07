@@ -11,7 +11,8 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase("hello/world:here/", "/:", "hello//world:here")]
+        [TestCase("hello/world:here/", "/:", "here/world:hello/")]
+        [TestCase("hello//world:here", "/:", "here//world:hello")]
         [TestCase("hello/world:here", "/:", "here/world:hello")]
         public void Problem114(string input, string delimiters, string result)
         {
@@ -21,7 +22,7 @@ namespace Common.Test
             var expected = result;
 
             //-- Act
-            var actual = Solution114.ReverseWordOrder(input, delimiters);
+            var actual = Solution114.ReverseWordOrderDelimiterList(input, delimiters);
             actual.WriteHost("results");
 
             // //-- Assert
