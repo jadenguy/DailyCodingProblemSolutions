@@ -27,30 +27,20 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = result;
-            PrintInputs(node, expected);
+            PrintInputs(node, result);
 
             //-- Act
             var actual = Solution110.EnumerateBranches(node).ToArray();
-            PrintOutput(actual);
+            PrintOutput(actual, "Output");
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
-        private static void PrintOutput(IEnumerable<IEnumerable<int>> actual)
-        {
-            string paths = actual.Select(p => p.Print(",")).Print();
-            System.Console.WriteLine("");
-            System.Diagnostics.Debug.WriteLine("");
-            System.Console.WriteLine(paths);
-            System.Diagnostics.Debug.WriteLine(paths);
-        }
+        private static void PrintOutput(IEnumerable<IEnumerable<int>> enumerable, string header = null) => enumerable.Select(p => p.Print(",")).Print().WriteHost(header);
         private static void PrintInputs(BinaryNode<int> node, int[][] expected)
         {
-            System.Console.WriteLine("");
-            System.Diagnostics.Debug.WriteLine("");
-            var tree = node?.Print(n => n.Value.ToString());
-            System.Console.WriteLine(tree);
-            System.Diagnostics.Debug.WriteLine(tree);
+            ("Tree").WriteHost();
+            node?.Print(n => n.Value.ToString()).WriteHost();
             PrintOutput(expected);
         }
         private static BinaryNode<int> n(int data) => new BinaryNode<int>(data);

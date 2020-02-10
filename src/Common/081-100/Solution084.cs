@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common.Extensions;
 
 namespace Common
 {
@@ -94,8 +95,7 @@ namespace Common
             }
             if (output)
             {
-                System.Console.WriteLine(ret.ToString());
-                System.Diagnostics.Debug.WriteLine(ret.ToString());
+                ret.WriteHost();
             }
             return ret.ToString();
         }

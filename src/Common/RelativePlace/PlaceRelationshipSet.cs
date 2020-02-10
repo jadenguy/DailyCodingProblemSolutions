@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common.Extensions;
 
 namespace Common.RelativeAPlace
 {
@@ -45,8 +46,7 @@ namespace Common.RelativeAPlace
                         if (anyCommon)
                         {
                             var message = "Vaildation Failed:" + string.Join($" is {direction.x} and {direction.y} of ", common.Select(p => p.PlaceName));
-                            System.Diagnostics.Debug.WriteLine(message);
-                            System.Console.WriteLine(message);
+                            message.WriteHost();
                         }
                         return !anyCommon;
                     }

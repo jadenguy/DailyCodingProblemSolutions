@@ -36,10 +36,6 @@ namespace Common.Test
             var wrongNumbers = buckets.Keys.Intersect(z).Select(k => buckets[k]).Select(k => (double)k);
             var actualAverage = rightNumbers.Average();
             var actualStdDev = rightNumbers.PopulationStandardDeviation();
-            // System.Console.WriteLine(actualAverage);
-            // System.Console.WriteLine(expectedAverage);
-            // System.Console.WriteLine(actualStdDev);
-            // System.Console.WriteLine(expectedStdDev);
 
             //-- Assert
             Assert.AreEqual(expectedAverage, actualAverage, 1, "average wrong");
