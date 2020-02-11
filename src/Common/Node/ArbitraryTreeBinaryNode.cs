@@ -2,6 +2,11 @@ namespace Common.Node
 {
     public static class ArbitraryTreeBinaryNode
     {
+        public static BinaryNode<int> GenerateArbitaryBinaryTreeNode(int seed = 0, string name = "Root")
+        {
+            int x = 0;
+            return GenerateArbitaryBinaryTreeNode(ref x, seed, name);
+        }
         public static BinaryNode<int> GenerateArbitaryBinaryTreeNode(ref int count, int seed = 0, string name = "Root")
         {
             count++;
