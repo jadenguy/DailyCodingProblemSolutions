@@ -3,11 +3,11 @@ using Common.Node;
 
 namespace Common
 {
-    public class Solution115
+    public static class Solution115
     {
-        public static bool BSTContainsBST(BinaryNode<int> a, BinaryNode<int> b)
+        public static bool BSTContainsBST(this BinaryNode<int> a, BinaryNode<int> b)
         {
-            return a.BreadthFirstSearch().ToList().Contains(b);
+            return a.BreadthFirstSearch().Contains(b);
         }
     }
 }

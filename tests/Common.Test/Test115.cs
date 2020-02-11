@@ -26,7 +26,7 @@ namespace Common.Test
             expected.WriteHost(nameof(expected));
 
             //-- Act
-            var actual = Solution115.BSTContainsBST(a, b);
+            var actual = a.BSTContainsBST(b);
             actual.WriteHost("IsPartOrWhole");
 
             // //-- Assert
