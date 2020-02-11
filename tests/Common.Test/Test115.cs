@@ -19,8 +19,11 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = result;
-            a?.Print(n => n.Value.ToString()).WriteHost(nameof(a));
-            b?.Print(n => n.Value.ToString()).WriteHost(nameof(b));
+            System.Func<BinaryNode<int>, string> textFunc = n => n.Value.ToString();
+            WriterExtension.WriteHost("Starting");
+            a?.Print(textFunc).WriteHost();
+            b?.Print(textFunc).WriteHost();
+            expected.WriteHost(nameof(expected));
 
             //-- Act
             var actual = Solution115.BSTContainsBST(a, b);
@@ -33,11 +36,12 @@ namespace Common.Test
         {
             public IEnumerator GetEnumerator()
             {
-                var a = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode();
+                var rand = new System.Random(115);
+                var a = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode(rand.Next());
                 yield return new object[] { a, a, true };
-                var b = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode();
+                var b = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode(rand.Next());
                 yield return new object[] { a, b, false };
-                var c = a.BreadthFirstSearch().Random().Take(1);
+                var c = a.Children().FirstOrDefault();
                 yield return new object[] { a, c, true };
             }
         }
