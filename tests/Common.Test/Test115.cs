@@ -21,8 +21,8 @@ namespace Common.Test
             var expected = result;
             System.Func<BinaryNode<int>, string> textFunc = n => n.Value.ToString();
             WriterExtension.WriteHost("Starting");
-            a?.Print(textFunc).WriteHost();
-            b?.Print(textFunc).WriteHost();
+            a?.Print(textFunc).WriteHost(nameof(a));
+            b?.Print(textFunc).WriteHost(nameof(b));
             expected.WriteHost(nameof(expected));
 
             //-- Act
@@ -34,15 +34,23 @@ namespace Common.Test
         }
         class Cases : IEnumerable
         {
+            private const int testCountPer = 10;
+
             public IEnumerator GetEnumerator()
             {
+                //seeded to assist testing fixtures
                 var rand = new System.Random(115);
-                var a = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode(rand.Next());
-                yield return new object[] { a, a, true };
-                var b = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode(rand.Next());
-                yield return new object[] { a, b, false };
-                var c = a.Children().FirstOrDefault();
-                yield return new object[] { a, c, true };
+                var root = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode(rand.Next());
+
+                for (int i = 0; i < testCountPer; i++)
+                {
+                    var other = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode(rand.Next(), "Other");
+                    yield return new object[] { root, other, false };
+
+                    var subRand = new System.Random(rand.Next());
+                    var sub = root.BreadthFirstSearch().Random(subRand).ToArray().FirstOrDefault();
+                    yield return new object[] { root, sub, true };
+                }
             }
         }
     }

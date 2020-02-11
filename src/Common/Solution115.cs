@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using Common.Node;
 
 namespace Common
@@ -7,7 +7,7 @@ namespace Common
     {
         public static bool BSTContainsBST(BinaryNode<int> a, BinaryNode<int> b)
         {
-            throw new NotImplementedException();
+            return a.BreadthFirstSearch().ToList().Contains(b);
         }
     }
 }
