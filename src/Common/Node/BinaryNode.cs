@@ -28,8 +28,8 @@ namespace Common.Node
         [DataMember] public T Value { get; set; }
         [JsonIgnore] public T Data { get => Value; set => Value = value; }
         [DataMember] public string Name { get; set; }
-        private BinaryNode<T> left;
-        private BinaryNode<T> right;
+        protected BinaryNode<T> left;
+        protected BinaryNode<T> right;
         [JsonIgnore] public bool IsRight { get => Direction == NodeDirection.Right; }
         [JsonIgnore] public bool IsLeft { get => Direction == NodeDirection.Left; }
         [DataMember]
