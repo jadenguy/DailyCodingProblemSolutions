@@ -11,6 +11,7 @@ namespace Common
             var inputSet = new HashSet<(int, int)>(input);
             var start = input.Min(n => n.end);
             var end = input.Max(n => n.start);
+            if (end < start) { (end, start) = (start, end); }
             var possibleCoveringIntegers = Enumerable.Range(start, end - start + 1);
 
             var coveredIntervals = possibleCoveringIntegers.ToDictionary(k => k, v => input.Where(r => r.start <= v && r.end >= v));

@@ -2,6 +2,7 @@
 // For example, given the intervals [0, 3], [2, 6], [3, 4], [6, 9], one set of numbers that covers all these intervals is {3, 6}.
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Common.Extensions;
 using NUnit.Framework;
@@ -14,19 +15,19 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(typeof(Cases))]
-        public void Problem119((int, int)[] input, int[] result)
+        public void Problem119((int, int)[] input, int[][] result)
         {
             //-- Arrange
-            var expected = result.OrderBy(n => n);
+            var expected = result.Select(r => r.ToHashSet(h => h));
             input.Print(",").WriteHost("Source");
-            expected.Print(",").WriteHost("Expected");
+            expected.Print("; ", n => "[" + (n as IEnumerable<int>).Print(",") + "]").WriteHost("Expected");
 
             //-- Act
             var actual = Solution119.NumbersCoveringIntervals(input);
-            actual.Print(",").WriteHost("Actual");
+            ("[" + actual.Print(",") + "]").WriteHost("Actual");
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(expected.Where(e => e.SetEquals(actual)).Any());
         }
         class Cases : IEnumerable
         {
@@ -34,11 +35,15 @@ namespace Common.Test
             private System.Random rand = new System.Random(119);
             public IEnumerator GetEnumerator()
             {
-                (int, int)[] x;
-                int[] y;
-                x = new (int, int)[] { (0, 3), (2, 6), (3, 4), (6, 9) };
-                y = new int[] { 3, 6 };
-                yield return new object[] { x, y };
+                (int, int)[] intervals;
+                int[][] coveringIntegerSets;
+                intervals = new (int, int)[] { (0, 3), (2, 6), (3, 4), (6, 9) };
+                coveringIntegerSets = new int[][] { new int[] { 3, 6 } };
+                yield return new object[] { intervals, coveringIntegerSets };
+
+                intervals = new (int, int)[] { (0, 3) };
+                coveringIntegerSets = Enumerable.Range(0, 3).Select(n => new int[] { n }).ToArray();
+                yield return new object[] { intervals, coveringIntegerSets };
             }
         }
     }
