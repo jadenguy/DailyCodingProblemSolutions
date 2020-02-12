@@ -17,12 +17,13 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = result;
+            ("tree").WriteHost();
             node.Print(n => " " + n.Value.ToString()).WriteHost();
-            expected.WriteHost();
+            expected.WriteHost("Expected");
 
             //-- Act
             var actual = Solution117.MinimumSum(node);
-            actual.WriteHost();
+            actual.WriteHost("Actual");
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
