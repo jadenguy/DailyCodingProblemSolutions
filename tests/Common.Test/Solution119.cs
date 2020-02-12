@@ -6,7 +6,7 @@ namespace Common
 {
     public class Solution119
     {
-        public static IEnumerable<int> NumbersCoveringIntervals((int start, int end)[] input)
+        public static int[] NumbersCoveringIntervals((int start, int end)[] input)
         {
             var inputSet = new HashSet<(int, int)>(input);
             var start = input.Min(n => n.end);
@@ -20,7 +20,8 @@ namespace Common
             var possibleAnswers = possibleSets.ToDictionary(k => k, n => new HashSet<(int, int)>(n.SelectMany(g => coveredIntervals[g])));
             var answers = possibleAnswers.Where(v => v.Value.SetEquals(inputSet)).OrderBy(k => k.Key.Length);
 
-            return answers.FirstOrDefault().Key.OrderBy(n => n);
+            var ret = answers.FirstOrDefault().Key;
+            return ret;
         }
     }
 }

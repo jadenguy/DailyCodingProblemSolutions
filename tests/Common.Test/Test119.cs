@@ -31,8 +31,8 @@ namespace Common.Test
         }
         class Cases : IEnumerable
         {
-            private const int testCountPer = 10;
-            private System.Random rand = new System.Random(119);
+            private const int rangeStart = 0;
+            private const int rangeLength = 3;
             public IEnumerator GetEnumerator()
             {
                 (int, int)[] intervals;
@@ -41,8 +41,12 @@ namespace Common.Test
                 coveringIntegerSets = new int[][] { new int[] { 3, 6 } };
                 yield return new object[] { intervals, coveringIntegerSets };
 
-                intervals = new (int, int)[] { (0, 3) };
-                coveringIntegerSets = Enumerable.Range(0, 3).Select(n => new int[] { n }).ToArray();
+                intervals = new (int, int)[] { (rangeStart, rangeStart + rangeLength) };
+                coveringIntegerSets = Enumerable.Range(rangeStart, 1 + rangeLength).Select(n => new int[] { n }).ToArray();
+                yield return new object[] { intervals, coveringIntegerSets };
+
+                intervals = new (int, int)[] { (rangeStart, rangeStart + rangeLength), (1 - rangeStart, 1 + rangeStart + rangeLength) };
+                coveringIntegerSets = Enumerable.Range(rangeStart + 1, rangeLength).Select(n => new int[] { n }).ToArray();
                 yield return new object[] { intervals, coveringIntegerSets };
             }
         }
