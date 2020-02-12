@@ -1,7 +1,6 @@
 ﻿// Given a binary tree, return the level of the tree with minimum sum.
 
 using System.Collections;
-using System.Linq;
 using Common.Extensions;
 using Common.Node;
 using NUnit.Framework;
@@ -18,7 +17,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = result;
-            node.Print().WriteHost();
+            node.Print(n => " " + n.Value.ToString()).WriteHost();
             expected.WriteHost();
 
             //-- Act
@@ -77,6 +76,11 @@ namespace Common.Test
                     current = current.Right;
                 }
                 result = nodeCount3;
+                yield return new object[] { root, result };
+
+                // 4
+                root = n(int.MaxValue);
+                result = 0;
                 yield return new object[] { root, result };
             }
         }

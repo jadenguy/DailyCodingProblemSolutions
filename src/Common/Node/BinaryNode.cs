@@ -112,7 +112,7 @@ namespace Common.Node
 
             return sameName && sameData && sameChildren;
         }
-        public string Print(Func<BinaryNode<T>, string> textFunc = null) => PrintInternal(textFunc, string.Empty, Children().Count() == 0, false);
+        public string Print(Func<BinaryNode<T>, string> textFunc = null) => PrintInternal(textFunc, string.Empty, false, false);
         private string PrintInternal(Func<BinaryNode<T>, string> textFunc, string indent, bool last, bool isChild)
         {
             if (textFunc is null) { textFunc = n => n.ToString(); }
