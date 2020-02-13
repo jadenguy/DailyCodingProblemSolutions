@@ -6,6 +6,7 @@
 // The most we can collect is 0 + 2 + 1 + 5 + 3 + 1 = 12 coins.
 
 using System.Collections;
+using System.Linq;
 using Common.Extensions;
 using NUnit.Framework;
 
@@ -26,7 +27,7 @@ namespace Common.Test
             expected.WriteHost("Best Score");
 
             //-- Act
-            var actual = Solution122.BestPathScore(input);
+            var actual = Solution122.BestPathScoreNaive(input);
             actual.WriteHost("Actual");
 
             // //-- Assert
@@ -48,7 +49,7 @@ namespace Common.Test
                 maxPath = 12;
                 yield return new object[] { array, maxPath };
 
-                const int max = 3;
+                const int max = 5;
                 const int len = max + 1;
                 array = new int[len, len];
                 array[rand.Next(0, max), rand.Next(0, max)] = 1;
@@ -57,7 +58,7 @@ namespace Common.Test
 
                 array = new int[len, len];
                 array[rand.Next(0, max), rand.Next(0, max)] = -1;
-                maxPath = 0;
+                maxPath = (array.Cast<int>()).Max();
                 yield return new object[] { array, maxPath };
             }
         }
