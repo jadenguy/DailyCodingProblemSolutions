@@ -16,6 +16,25 @@ namespace Common.Extensions
             if (func is null) { func = v => v.ToString(); }
             return string.Join(seperator, enumerable.Select(v => func(v)));
         }
+        public static string Print<T>(this T[,] enumerable, Func<T, object> func = null)
+        {
+            if (func is null) { func = o => o; }
+            var sb = new System.Text.StringBuilder();
+            int maxX = enumerable.GetUpperBound(0);
+            int maxY = enumerable.GetUpperBound(1);
+            var width = 1 + (enumerable.Cast<T>()).Select(n => func(n)).Max(t => t.ToString().Length);
+            for (int x = 0; x <= maxX; x++)
+            {
+                sb.AppendLine();
+                for (int y = 0; y <= maxY; y++)
+                {
+                    var current = func(enumerable[x, y]);
+                    sb.Append(new string(' ', width - current.ToString().Length));
+                    sb.Append(current.ToString());
+                }
+            }
+            return sb.ToString();
+        }
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
         [System.Diagnostics.DebuggerStepThrough]
         public static void Reverse<T>(this T[] array, int start = 0, int count = -1)

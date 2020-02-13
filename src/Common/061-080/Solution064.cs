@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common.Extensions;
 
 namespace Common
 {
@@ -20,25 +20,6 @@ namespace Common
                 }
             }
             return ret;
-        }
-        public static string PrintBoard(this int[,] board, bool autoPrint = false)
-        {
-            var sb = new StringBuilder();
-            for (int x = 0; x <= board.GetUpperBound(0); x++)
-            {
-                for (int y = 0; y <= board.GetUpperBound(1); y++)
-                {
-                    sb.Append($"{board[x, y],5}");
-                }
-                sb.AppendLine();
-            }
-            if (autoPrint)
-            {
-                System.Diagnostics.Debug.WriteLine(sb.ToString());
-                System.Console.WriteLine();
-                System.Console.WriteLine(sb.ToString());
-            }
-            return sb.ToString();
         }
         public static IEnumerable<int[,]> KnightTourFrom(int[,] board, (int x, int y) startPosition, int placeInList = 1, int? endPlace = null)
         {

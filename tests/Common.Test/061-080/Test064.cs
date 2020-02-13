@@ -4,6 +4,7 @@
 using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
+using Common.Extensions;
 
 namespace Common.Test
 {
@@ -101,7 +102,7 @@ namespace Common.Test
             {
                 selectionSum += item;
             }
-            selected.PrintBoard();
+            selected.Print().WriteHost();
             int actual = selected[x, y];
 
             //-- Assert

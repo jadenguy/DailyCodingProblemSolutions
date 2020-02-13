@@ -8,16 +8,6 @@ namespace Common
 {
     public static class Solution054
     {
-        public static string PrintBoard(this string board)
-        {
-            var sb = new StringBuilder();
-            for (int i = 0; i < 9; i++)
-            {
-                sb.AppendLine(board.Substring(i * 9, 9));
-            }
-            System.Diagnostics.Debug.WriteLine(sb);
-            return sb.ToString();
-        }
         public static bool IsSquareSolved(string square)
         {
             bool valid;
