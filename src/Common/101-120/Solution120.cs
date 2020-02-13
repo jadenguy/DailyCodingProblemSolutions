@@ -15,17 +15,33 @@ namespace Common
                 {
                     lock (l)
                     {
-                        x = !x;
-                        return x ? a : b;
+                        return X ? a : b;
                     }
                 }
                 set
                 {
                     lock (l)
-
+                    {
+                        if (X) { a = value; } else { b = value; }
+                    }
+                }
+            }
+            public static bool X
+            {
+                get
+                {
+                    lock (l)
                     {
                         x = !x;
-                        if (x) { a = value; } else { b = value; }
+                        return x;
+                    }
+                }
+                set
+                {
+                    lock (l)
+                    {
+                        x = !x;
+                        x = value;
                     }
                 }
             }
