@@ -35,7 +35,7 @@ namespace Common.Extensions
             }
             return sb.ToString();
         }
-        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Random<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
+        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
         [System.Diagnostics.DebuggerStepThrough]
         public static void Reverse<T>(this T[] array, int start = 0, int count = -1)
         {
@@ -115,7 +115,7 @@ namespace Common.Extensions
         }
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> array) => (array is null || !array.Any());
         [System.Diagnostics.DebuggerStepThrough]
-        public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable) where T : IEquatable<T>
+        public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable)
         {
             if (enumerable.Count() == 1) { yield return enumerable.ToArray(); }
             else

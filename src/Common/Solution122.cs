@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Extensions;
+using Common.Node;
 
 namespace Common
 {
@@ -34,16 +35,42 @@ namespace Common
                         while (hash == 0) { hash = rand.Next(); }
                     }
                     return hash;
-
                 }
             }
             public override string ToString() => IsX ? "X" : "Y";
-            public override int GetHashCode()
-            {
-                return Hash;
-            }
-
+            public override int GetHashCode() => Hash;
             public bool Equals(Instruction other) => other.Hash == Hash;
+        }
+        public static int BestPathScore(int[,] input)
+        {
+            if (input.Length < 1) { return 0; }
+            int xLen = input.GetUpperBound(0) + 1;
+            int yLen = input.GetUpperBound(1) + 1;
+            var nodes = new GraphNode<int>[xLen, yLen];
+            var start = new GraphNode<int>(0, "Start");
+            var end = new GraphNode<int>(0, "End");
+            for (int x = 0; x < xLen; x++)
+            {
+                for (int y = 0; y < yLen; y++)
+                {
+                    int value = -input[x, y];
+                    nodes[x, y] = new GraphNode<int>(value, $"{x},{y}");
+                    var current = nodes[x, y];
+                    if (y > 0)
+                    {
+                        nodes[x, y - 1].ConnectTo(current, value);
+                    }
+                    if (x > 0)
+                    {
+                        nodes[x - 1, y].ConnectTo(current, value);
+                    }
+                }
+            }
+            start.ConnectTo(nodes[0, 0], -input[0, 0]);
+            nodes[xLen - 1, yLen - 1].ConnectTo(end,0);
+            var distances = start.BellmanFord();
+            var ret = -Convert.ToInt32(distances[end]);
+            return ret;
         }
         public static int BestPathScoreNaive(int[,] input)
         {

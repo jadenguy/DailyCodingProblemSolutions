@@ -27,7 +27,7 @@ namespace Common.Test
             expected.WriteHost("Best Score");
 
             //-- Act
-            var actual = Solution122.BestPathScoreNaive(input);
+            var actual = Solution122.BestPathScore(input);
             actual.WriteHost("Actual");
 
             // //-- Assert
@@ -41,7 +41,7 @@ namespace Common.Test
             {
                 int[,] array;
                 int maxPath;
-                var rand = new System.Random();
+                var rand = new System.Random(122);
 
                 array = new int[,] {{0,3,1,1},
                                     {2,0,0,4},
@@ -49,17 +49,24 @@ namespace Common.Test
                 maxPath = 12;
                 yield return new object[] { array, maxPath };
 
-                const int max = 5;
+                const int max = 2;
                 const int len = max + 1;
-                array = new int[len, len];
-                array[rand.Next(0, max), rand.Next(0, max)] = 1;
-                maxPath = 1;
-                yield return new object[] { array, maxPath };
+                for (int i = 0; i < 5; i++)
+                {
+                    int x = rand.Next(0, max);
+                    int y = rand.Next(0, max);
 
-                array = new int[len, len];
-                array[rand.Next(0, max), rand.Next(0, max)] = -1;
-                maxPath = (array.Cast<int>()).Max();
-                yield return new object[] { array, maxPath };
+                    var array1 = new int[len, len];
+                    array1[x, y] = 1;
+                    maxPath = 1;
+                    yield return new object[] { array1, maxPath };
+
+                    var array2 = new int[len, len];
+                    array2[x, y] = -1;
+                    maxPath = 0;
+                    if ((x == max && y == max) || (x == 0 && y == 0)) { maxPath = -1; }
+                    yield return new object[] { array2, maxPath };
+                }
             }
         }
     }

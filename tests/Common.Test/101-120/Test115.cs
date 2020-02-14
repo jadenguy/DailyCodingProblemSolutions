@@ -48,7 +48,7 @@ namespace Common.Test
                     yield return new object[] { root, other, false };
 
                     var subRand = new System.Random(rand.Next());
-                    var sub = root.BreadthFirstSearch().Random(subRand).ToArray().FirstOrDefault();
+                    var sub = root.BreadthFirstSearch().Shuffle(subRand).ToArray().FirstOrDefault();
                     yield return new object[] { root, sub, true };
                 }
             }

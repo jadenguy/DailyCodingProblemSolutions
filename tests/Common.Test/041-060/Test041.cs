@@ -75,7 +75,7 @@ namespace Common.Test
             //-- Act
             var flights = flightLists[testCaseIndex]
                 .Select(t => new Tuple<string, string>(t.Item1, t.Item2))
-                .Random()
+                .Shuffle()
                 .ToArray();
             var itineraries = Solution041.FindItineraries(flights, startingPoint[testCaseIndex]).ToArray();
             var actual = itineraries.FirstOrDefault();

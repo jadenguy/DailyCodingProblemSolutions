@@ -46,14 +46,15 @@ namespace Common.Node
         {
             bellmanFordChart = bellmanFordChart ?? this.BreadthFirstSearch().ToDictionary(k => k, v => double.PositiveInfinity);
             bellmanFordChart[this] = 0d;
-            var connectorList = bellmanFordChart.Keys.SelectMany(g => g.Paths.Select(x => new { Start = g, End = x.Key, Weight = x.Value })).Random().ToArray();
+            var connectors = bellmanFordChart.Keys.SelectMany(g => g.Paths.Select(x => new { Start = g, End = x.Key, Weight = x.Value }));
+            var connectorArray = connectors.Shuffle().ToArray();
             int i = 1;
             var same = true;
             // System.Diagnostics.Debug.WriteLine(connectorList.Print());
             do
             {
                 var old = bellmanFordChart.ToDictionary(k => k.Key, v => v.Value);
-                foreach (var connector in connectorList)
+                foreach (var connector in connectorArray)
                 {
                     var sourceDistance = bellmanFordChart[connector.Start];
                     double currentDistance = bellmanFordChart[connector.End];
