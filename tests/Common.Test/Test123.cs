@@ -10,6 +10,7 @@
 // •	"a -2"
 // •	"-"
 
+// I'm assuming that 1e1e2 is invalid, not 1e100
 
 using Common.Extensions;
 using NUnit.Framework;
