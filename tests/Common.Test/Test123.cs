@@ -28,6 +28,7 @@ namespace Common.Test
         [TestCase("-10.1", true)]
         [TestCase("1e5", true)]
         [TestCase("1e-2", true)]
+        [TestCase("-1e-2", true)]
         [TestCase("a", false)]
         [TestCase("x 1", false)]
         [TestCase("a -2", false)]

@@ -20,6 +20,7 @@ namespace Common
             bool ret = input.ToCharArray().All(v => valid.Contains(v));
             ret &= input.Any(n => validNumbers.Contains(n));
             if (!ret) { return false; }
+            numType.WriteHost();
             switch (numType)
             {
                 case NumberType.Decimal:
@@ -27,13 +28,11 @@ namespace Common
                     break;
                 case NumberType.Scientific:
                     double mantissa = 0, magnitude = 0;
-                    var a = input.LastIndexOf('e');
-                    var b = input.LastIndexOf('E');
-                    var c = Math.Max(a, b);
-                    var d = input.Substring(0, c);
-                    var e = input.Substring(c + 1);
-                    ret &= d.Length > 0 && e.Length > 0;
-                    ret &= TryConvertDecimal(d, out mantissa) && TryConvertDecimal(e, out magnitude);
+                    var divider = Math.Max(input.LastIndexOf('e'), input.LastIndexOf('E'));
+                    var pMantissa = input.Substring(0, divider);
+                    var pMagnitude = input.Substring(divider + 1);
+                    ret &= pMantissa.Length > 0 && pMagnitude.Length > 0;
+                    ret &= TryConvertDecimal(pMantissa, out mantissa) && TryConvertInteger(pMagnitude, out magnitude);
                     if (ret)
                     { value = mantissa * Math.Pow(10, magnitude); }
                     break;
@@ -58,10 +57,8 @@ namespace Common
                 if (input[i] != '.')
                 {
                     var current = input[i] - 48;
-                    double v = 0;
-                    if (decimalPlace > i)
-                    { v = Math.Pow(10, decimalPlace - i - 1); }
-                    else { v = Math.Pow(10, decimalPlace - i); }
+                    var magnitude = decimalPlace - i - ((decimalPlace > i) ? 1 : 0);
+                    var v = Math.Pow(10, magnitude);
                     (v * current).WriteHost();
                     value += v * current;
                 }
@@ -71,29 +68,9 @@ namespace Common
         }
         private static bool TryConvertInteger(string input, out double value)
         {
-            var ret = true;
             value = 0;
-            if (!ret) { return ret; }
-            ret = IsNegative(input, out var isNegative);
-            if (!ret) { return ret; }
-            if (isNegative) { input = input.Substring(1); }
-            ret = FindDecimal(input, isNegative, out var decimalPlace);
-            if (!ret) { return ret; }
-            for (int i = 0; i < input.Length; i++)
-            {
-                if (input[i] != '.')
-                {
-                    var current = input[i] - 48;
-                    double v = 0;
-                    if (decimalPlace > i)
-                    { v = Math.Pow(10, decimalPlace - i - 1); }
-                    else { v = Math.Pow(10, decimalPlace - i); }
-                    (v * current).WriteHost();
-                    value += v * current;
-                }
-            }
-            value *= isNegative ? -1 : 1;
-            return ret;
+            FindDecimal(input, true, out var decimalPlace);
+            return decimalPlace == input.Length ? TryConvertDecimal(input, out value) : false;
         }
         private static bool IsNegative(string input, out bool isNegative)
         {
