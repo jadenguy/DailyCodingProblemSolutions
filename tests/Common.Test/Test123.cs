@@ -27,10 +27,14 @@ namespace Common.Test
         [TestCase("10.1", true)]
         [TestCase("-10.1", true)]
         [TestCase("1e5", true)]
+        [TestCase("1e-2", true)]
         [TestCase("a", false)]
         [TestCase("x 1", false)]
         [TestCase("a -2", false)]
         [TestCase("-", false)]
+        [TestCase("192.168.0.1", false)]
+        [TestCase("1ee1", false)]
+        [TestCase("-.", false)] //maybe?
         public void Problem123(string input, bool isNumeric)
         {
             //-- Arrange
