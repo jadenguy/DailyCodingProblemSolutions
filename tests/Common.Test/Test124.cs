@@ -24,7 +24,7 @@ namespace Common.Test
             //-- Arrange
             var expected = 2 * (coins - 1);
             var rand = new System.Random(124);
-            double delta = Math.Ceiling(Math.Log(coins, 2));
+            double delta = Math.Ceiling(Math.Log(coins, 10));
             coins.WriteHost("Coins");
             expected.WriteHost("Expected Flips");
             delta.WriteHost("Delta");
