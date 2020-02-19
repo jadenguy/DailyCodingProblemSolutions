@@ -19,19 +19,45 @@ namespace Common.Test
         [TestCase(2)]
         [TestCase(10)]
         [TestCase(1000)]
-        public void Problem124(int coins)
+        public void Problem124Individually(int coins)
         {
             //-- Arrange
             var expected = 2 * (coins - 1);
             var rand = new System.Random(124);
+            const int roundsToCheck = 1000;
             double delta = Math.Ceiling(Math.Log(coins, 10));
             coins.WriteHost("Coins");
             expected.WriteHost("Expected Flips");
             delta.WriteHost("Delta");
 
             //-- Act
-            var ret = new int[1000];
-            Parallel.ForEach(Enumerable.Range(0, 1000), n => ret[n] = Solution124.FlipUntilTails(coins, rand.Next()));
+
+            var ret = new int[roundsToCheck];
+            Parallel.ForEach(Enumerable.Range(0, roundsToCheck), n => ret[n] = Solution124.FlipIndividualUntilTails(coins, rand.Next()));
+            var actual = ret.Average();
+            actual.WriteHost("Actual Flips");
+
+            // //-- Assert
+            Assert.AreEqual(expected, actual, delta);
+        }
+        [Test]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(10)]
+        [TestCase(1000)]
+        public void Problem124Group(int coins)
+        {
+            //-- Arrange
+            var expected = Math.Floor(Math.Log(coins, 2));
+            double delta = Math.Ceiling(Math.Log(coins, 10));
+            coins.WriteHost("Coins");
+            expected.WriteHost("Expected Flips");
+            delta.WriteHost("Delta");
+            const int roundsToCheck = 1000;
+
+            //-- Act
+            var ret = new int[roundsToCheck];
+            Parallel.ForEach(Enumerable.Range(0, roundsToCheck), n => ret[n] = Solution124.FlipGroupUntilTails(coins));
             var actual = ret.Average();
             actual.WriteHost("Actual Flips");
 
