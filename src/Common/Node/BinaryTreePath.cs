@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
-using Common.Node;
 
-namespace Common
+namespace Common.Node
 {
-
     public class BinaryTreePath
     {
         private BinaryNode<int>[] nodes;
