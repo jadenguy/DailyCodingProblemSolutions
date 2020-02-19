@@ -1,5 +1,6 @@
 ﻿// Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
 
+using System;
 using System.Collections;
 using System.Linq;
 using Common.Extensions;
@@ -19,7 +20,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = result;
-            System.Func<BinaryNode<int>, string> textFunc = n => n.Value.ToString();
+            Func<BinaryNode<int>, object> textFunc = n => n.Value;
             WriterExtension.WriteHost("Starting");
             a?.Print(textFunc).WriteHost(nameof(a));
             b?.Print(textFunc).WriteHost(nameof(b));

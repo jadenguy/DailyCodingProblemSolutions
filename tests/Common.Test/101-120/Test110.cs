@@ -39,8 +39,7 @@ namespace Common.Test
         private static void PrintOutput(IEnumerable<IEnumerable<int>> enumerable, string header = null) => enumerable.Select(p => p.Print(",")).Print().WriteHost(header);
         private static void PrintInputs(BinaryNode<int> node, int[][] expected)
         {
-            ("Tree").WriteHost();
-            node?.Print(n => n.Value.ToString()).WriteHost();
+            node?.Print(n => n.Value).WriteHost("Tree",true,true);
             PrintOutput(expected);
         }
         private static BinaryNode<int> n(int data) => new BinaryNode<int>(data);

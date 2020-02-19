@@ -3,9 +3,9 @@
     public static class WriterExtension
     {
         [System.Diagnostics.DebuggerStepThrough]
-        public static void WriteHost(this object obj, object header = null, bool newLine = true)
+        public static void WriteHost(this object obj, object header = null, bool newLine = true, bool newLineAfterHeader = false)
         {
-            if (!string.IsNullOrWhiteSpace(header?.ToString())) { WriteOutput(header.ToString() + ": ", false); }
+            if (!string.IsNullOrWhiteSpace(header?.ToString())) { WriteOutput(header.ToString() + ": ", newLineAfterHeader); }
             WriteOutput(obj, newLine);
         }
         [System.Diagnostics.DebuggerStepThrough]

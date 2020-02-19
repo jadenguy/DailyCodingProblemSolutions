@@ -27,8 +27,8 @@ namespace Common.Test
             var expected = result;
             System.Console.WriteLine("");
             System.Diagnostics.Debug.WriteLine("");
-            System.Console.WriteLine(node?.Print(n => n.Value.ToString()));
-            System.Diagnostics.Debug.WriteLine(node?.Print(n => n.Value.ToString()));
+            System.Console.WriteLine(node?.Print(n => n.Value));
+            System.Diagnostics.Debug.WriteLine(node?.Print(n => n.Value));
             System.Console.WriteLine(expected);
             System.Diagnostics.Debug.WriteLine(expected);
 

@@ -25,10 +25,8 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = result.ToHashSet(n => n);
-
-            input.Print().WriteHost();
+            input.Print(n => n.Value).WriteHost("Node", true, true);
             result.Print(",").WriteHost("Expected");
-            expected.WriteHost("Best Score");
 
             //-- Act
             var actual = Solution125.FindSumPairs(input, k);
@@ -39,16 +37,16 @@ namespace Common.Test
         }
         class Cases : IEnumerable
         {
-            private const int rangeStart = 0;
-            private const int rangeLength = 3;
             public IEnumerator GetEnumerator()
             {
                 BinarySearchNode<int> root;
-                (BinarySearchNode<int>, BinarySearchNode<int>) pairs;
+                int sum;
+                BinarySearchNode<int>[] pairs;
                 int[] sequence = new int[] { 10, 5, 15, 11, 16 };
                 root = BinarySearchNode<int>.GenerateBinarySearchNode(sequence);
-                pairs = (root.Left as BinarySearchNode<int>, root.Right.Right as BinarySearchNode<int>);
-                yield return new object[] { root, pairs };
+                sum = 20;
+                pairs = new BinarySearchNode<int>[] { root.Left as BinarySearchNode<int>, root.Right as BinarySearchNode<int> };
+                yield return new object[] { root, sum, pairs };
             }
         }
     }

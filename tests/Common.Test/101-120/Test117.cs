@@ -17,8 +17,7 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = result;
-            ("tree").WriteHost();
-            node.Print(n => " " + n.Value.ToString()).WriteHost();
+            node.Print(n => " " + n.Value.ToString()).WriteHost("Tree",true,true);
             expected.WriteHost("Expected");
 
             //-- Act

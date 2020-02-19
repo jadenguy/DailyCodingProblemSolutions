@@ -30,7 +30,7 @@ namespace Common.Test
         }
         private static void WriteInputs(BinaryNode<int> node, BinaryNode<int> a, BinaryNode<int> b, BinaryNode<int> expected)
         {
-            var tree = node?.Print(n => n.Value.ToString());
+            var tree = node?.Print(n => n.Value);
             tree.WriteHost("Tree");
             a.WriteHost("A");
             b.WriteHost("B");
