@@ -80,8 +80,7 @@ namespace Common.RelativeAPlace
                 }
                 if (toConsole)
                 {
-                    System.Diagnostics.Debug.WriteLine(ret);
-                    System.Console.WriteLine(ret);
+                    ret.WriteHost();
                 }
                 return ret.ToString();
                 ;

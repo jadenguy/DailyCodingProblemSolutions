@@ -25,17 +25,12 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = result;
-            System.Console.WriteLine("");
-            System.Diagnostics.Debug.WriteLine("");
-            System.Console.WriteLine(node?.Print(n => n.Value));
-            System.Diagnostics.Debug.WriteLine(node?.Print(n => n.Value));
-            System.Console.WriteLine(expected);
-            System.Diagnostics.Debug.WriteLine(expected);
+            node?.Print(n => n.Value).WriteHost();
+            expected.WriteHost();
 
             //-- Act
             var actual = Solution107.PrintBFS(node);
-            System.Console.WriteLine(actual);
-            System.Diagnostics.Debug.WriteLine(actual);
+            actual.WriteHost();
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
@@ -77,7 +72,7 @@ namespace Common.Test
             {
                 BinaryNode<string> root = null;
                 String result = null;
-                
+
                 // by using a constant seed here, we can better use automatic testing
                 // the reason is that the name of the test changes based on the text of the object
                 var rand = new Random(Seed);
