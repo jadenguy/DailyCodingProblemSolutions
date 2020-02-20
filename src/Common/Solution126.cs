@@ -11,14 +11,27 @@ namespace Common
             k %= length;
             if (k != 0)
             {
-                var z = (length % k);
-                int future, current = 0;
-                
-                for (int i = 0; i < length; i++)
+                bool v1 = (length % k) == 0;
+                int cycleCount, cycleSize;
+                if (v1)
                 {
-                    future = (current + k) % length;
-                    (a[current], a[future]) = (a[future], a[current]);
-                    current = future;
+                    cycleCount = (length / k) - 1;
+                    cycleSize = k;
+                }
+                else
+                {
+                    cycleCount = 1;
+                    cycleSize = length - 1;
+                }
+                for (int i = 0; i < cycleCount; i++)
+                {
+                    int future, current = i;
+                    for (int j = 0; j < cycleSize; j++)
+                    {
+                        future = (current + k) % length;
+                        (a[current], a[future]) = (a[future], a[current]);
+                        current = future;
+                    }
                 }
             }
             return a;

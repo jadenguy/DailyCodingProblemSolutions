@@ -15,6 +15,8 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, 1, new int[] { 2, 3, 4, 5, 6, 1 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, 5, new int[] { 6, 1, 2, 3, 4, 5 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, -4, new int[] { 3, 4, 5, 6, 1, 2 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, 2, new int[] { 3, 4, 5, 6, 1, 2 })]
         public void Problem126Individually(int[] a, int k, int[] b)
