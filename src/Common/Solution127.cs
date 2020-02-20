@@ -12,12 +12,14 @@ namespace Common
             var bCur = b;
             do
             {
-                int aInt = a?.Next?.Value ?? 0;
-                int bInt = b?.Next?.Value ?? 0;
+                int aInt = aCur?.Next?.Value ?? 0;
+                int bInt = bCur?.Next?.Value ?? 0;
                 int v = (aInt + bInt);
                 current.Value += v % 10;
                 current.Next = new SinglyLinkedListNode<int>(v / 10);
                 current = current.Next;
+                aCur = aCur?.Next;
+                bCur = bCur?.Next;
             } while (aCur?.Next != null || bCur?.Next != null);
             return ret;
         }
