@@ -19,17 +19,18 @@ namespace Common.Test
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, 5, new int[] { 6, 1, 2, 3, 4, 5 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, -4, new int[] { 3, 4, 5, 6, 1, 2 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6 }, 2, new int[] { 3, 4, 5, 6, 1, 2 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, 2, new int[] { 3, 4, 5, 6, 7, 1, 2 })]
         public void Problem126Individually(int[] a, int k, int[] b)
         {
             //-- Arrange
             var expected = b;
-            a.WriteHost("Coins");
-            b.WriteHost("Expected Flips");
-            k.WriteHost("Delta");
+            a.Print(",").WriteHost("input");
+            k.WriteHost("rotations");
+            b.Print(",").WriteHost("expected");
 
             //-- Act
             var actual = Solution126.RotateArray(a, k);
-            actual.WriteHost("Actual Flips");
+            actual.Print(",").WriteHost("Actual Flips");
 
             // //-- Assert
             Assert.AreEqual(expected, actual);

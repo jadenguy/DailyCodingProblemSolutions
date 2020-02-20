@@ -11,9 +11,8 @@ namespace Common
             k %= length;
             if (k != 0)
             {
-                bool v1 = (length % k) == 0;
                 int cycleCount, cycleSize;
-                if (v1)
+                if (length % k == 0)
                 {
                     cycleCount = (length / k) - 1;
                     cycleSize = k;
