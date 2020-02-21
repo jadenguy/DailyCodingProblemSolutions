@@ -49,7 +49,7 @@ namespace Common
                     islandOcean.Land[x, y] = (cell == '1');
                 }
             }
-            islandOcean.Land.Print();
+            islandOcean.Land.PrintOcean();
             return islandOcean;
         }
         public static IEnumerable<IEnumerable<(int x, int y)>> ListIslands(IslandOcean ocean)
@@ -80,7 +80,7 @@ namespace Common
     }
     public static class BoolOceanExtension
     {
-        public static string Print(this bool[,] Land, bool output = true)
+        public static string PrintOcean(this bool[,] Land, bool output = true)
         {
             var ret = new StringBuilder();
             for (int x = 0; x <= Land.GetUpperBound(0); x++)

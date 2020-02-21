@@ -11,7 +11,7 @@ namespace Common.Extensions
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeSub<T>(this IEnumerable<T> enumerable, int start, int length = 1) => enumerable.Skip(start).Take(length);
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumerable, int i) => enumerable.Reverse().Take(i).Reverse();
         [System.Diagnostics.DebuggerStepThrough]
-        public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n", Func<object, string> func = null)
+        public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n", Func<T, object> func = null)
         {
             if (func is null) { func = v => v.ToString(); }
             return string.Join(seperator, enumerable.Select(v => func(v)));
