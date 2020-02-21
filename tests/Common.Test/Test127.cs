@@ -27,30 +27,36 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = sum;
-            a.BreadthFirstSearch().Select(n => n.Value).Print(",").WriteHost();
-            b.BreadthFirstSearch().Select(n => n.Value).Print(",").WriteHost();
-            sum.BreadthFirstSearch().Select(n => n.Value).Print(",").WriteHost();
+            a.BreadthFirstSearch().Select(n => n.Value).Print("->").WriteHost("First");
+            b.BreadthFirstSearch().Select(n => n.Value).Print("->").WriteHost("Second");
+            sum.BreadthFirstSearch().Select(n => n.Value).Print("->").WriteHost("Wanted");
 
             //-- Act
             var actual = Solution127.AddReverseDigitLinkedList(a, b);
-            actual.BreadthFirstSearch().Select(n => n.Value).Print(",").WriteHost();
+            actual.BreadthFirstSearch().Select(n => n.Value).Print("->").WriteHost("Actual Sum");
 
             // //-- Assert
-            Assert.AreEqual(a, b);
+            Assert.AreEqual(expected.BreadthFirstSearch().Select(n => n.Value), actual.BreadthFirstSearch().Select(n => n.Value));
         }
         class Cases : IEnumerable
         {
+            const int testCount = 5;
             public IEnumerator GetEnumerator()
             {
-                SinglyLinkedListNode<int> a, b, sum;
-                CreateTests(99, 25, out a, out b, out sum);
-                yield return new object[] { a, b, sum };
+                var rand = new System.Random(127);
+                yield return CreateTests(99, 25);
+                for (int i = 0; i < testCount; i++)
+                {
+                    yield return CreateTests(rand.Next(int.MaxValue / 2), rand.Next(int.MaxValue / 2));
+                    yield return CreateTests(rand.Next(int.MaxValue / 2), rand.Next(9));
+                }
             }
-            private static void CreateTests(int aInt, int bInt, out SinglyLinkedListNode<int> a, out SinglyLinkedListNode<int> b, out SinglyLinkedListNode<int> sum)
+            private static object[] CreateTests(int aInt, int bInt)
             {
-                a = new SinglyLinkedListNode<int>(aInt.ToString().Reverse().Select(n => n - 48));
-                b = new SinglyLinkedListNode<int>(bInt.ToString().Reverse().Select(n => n - 48));
-                sum = new SinglyLinkedListNode<int>((aInt + bInt).ToString().Reverse().Select(n => n - 48));
+                var a = new SinglyLinkedListNode<int>(aInt.ToString().Reverse().Select(n => n - 48));
+                var b = new SinglyLinkedListNode<int>(bInt.ToString().Reverse().Select(n => n - 48));
+                var sum = new SinglyLinkedListNode<int>((aInt + bInt).ToString().Reverse().Select(n => n - 48));
+                return new object[] { a, b, sum };
             }
         }
     }

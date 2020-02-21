@@ -2,6 +2,7 @@
 {
     public static class WriterExtension
     {
+        [System.Diagnostics.DebuggerStepThrough] public static void WriteHost() => string.Empty.WriteHost();
         [System.Diagnostics.DebuggerStepThrough]
         public static void WriteHost(this object obj, object header = null, bool newLine = true, bool newLineAfterHeader = false)
         {

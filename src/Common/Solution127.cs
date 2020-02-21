@@ -10,13 +10,17 @@ namespace Common
             var current = ret;
             var aCur = a;
             var bCur = b;
-            while (aCur != null || bCur != null)
+            bool keepGoing = true;
+            while (keepGoing)
             {
-                int aInt = aCur?.Value ?? 0;
-                int bInt = bCur?.Value ?? 0;
-                int v = (aInt + bInt);
-                current.Value += v % 10;
-                current.Next = new SinglyLinkedListNode<int>(v / 10);
+                keepGoing = aCur?.Next != null || bCur?.Next != null;
+                current.Value += aCur?.Value ?? 0;
+                current.Value += bCur?.Value ?? 0;
+                if (current.Value >= 10 || keepGoing)
+                {
+                    current.Next = new SinglyLinkedListNode<int>(current.Value / 10);
+                    current.Value %= 10;
+                }
                 current = current.Next;
                 aCur = aCur?.Next;
                 bCur = bCur?.Next;
