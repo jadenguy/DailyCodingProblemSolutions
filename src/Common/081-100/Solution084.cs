@@ -33,6 +33,25 @@ namespace Common
                     }
                 }
             }
+            public string PrintOcean(bool output = true)
+            {
+                var ret = new StringBuilder();
+                for (int x = 0; x <= Land.GetUpperBound(0); x++)
+                {
+                    ret.AppendLine();
+                    if (Land[x, 0]) { ret.Append("X"); } else { ret.Append("_"); }
+                    for (int y = 1; y <= Land.GetUpperBound(1); y++)
+                    {
+                        ret.Append("|");
+                        if (Land[x, y]) { ret.Append("X"); } else { ret.Append("_"); }
+                    }
+                }
+                if (output)
+                {
+                    ret.WriteHost();
+                }
+                return ret.ToString();
+            }
         }
         public static IslandOcean StringArrayToGrid(string[] array)
         {
@@ -49,7 +68,7 @@ namespace Common
                     islandOcean.Land[x, y] = (cell == '1');
                 }
             }
-            islandOcean.Land.PrintOcean();
+            islandOcean.PrintOcean();
             return islandOcean;
         }
         public static IEnumerable<IEnumerable<(int x, int y)>> ListIslands(IslandOcean ocean)
@@ -76,28 +95,6 @@ namespace Common
                 }
             }
             return islands.Select(l => l.Distinct());
-        }
-    }
-    public static class BoolOceanExtension
-    {
-        public static string PrintOcean(this bool[,] Land, bool output = true)
-        {
-            var ret = new StringBuilder();
-            for (int x = 0; x <= Land.GetUpperBound(0); x++)
-            {
-                ret.AppendLine();
-                if (Land[x, 0]) { ret.Append("X"); } else { ret.Append("_"); }
-                for (int y = 1; y <= Land.GetUpperBound(1); y++)
-                {
-                    ret.Append("|");
-                    if (Land[x, y]) { ret.Append("X"); } else { ret.Append("_"); }
-                }
-            }
-            if (output)
-            {
-                ret.WriteHost();
-            }
-            return ret.ToString();
         }
     }
 }

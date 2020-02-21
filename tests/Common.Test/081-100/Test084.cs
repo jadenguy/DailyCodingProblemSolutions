@@ -33,7 +33,7 @@ namespace Common.Test
                     "11101"
                 };
             }
-            Solution084.IslandOcean board = Solution084.StringArrayToGrid(input);
+            var board = Solution084.StringArrayToGrid(input);
 
             //-- Act
             var actual = Solution084.ListIslands(board);
