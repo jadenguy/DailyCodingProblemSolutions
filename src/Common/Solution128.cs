@@ -7,12 +7,13 @@ namespace Common
 {
     public static class Solution128
     {
-        private static void WriteHost(this object o, object h = null) => System.Diagnostics.Debug.WriteLine(o, h?.ToString()?? string.Empty);
-        public static (int, int)[] SolveTowerOfHanoi(int height)
+        private static void WriteHost(this object o) => System.Diagnostics.Debug.WriteLine(o);
+        public static (int from, int to)[] SolveTowerOfHanoi(int height)
         {
             var ret = new List<(int, int)>();
             var t = new HanoiPuzzle(height);
-            ("Top level").WriteHost();
+            string.Empty.WriteHost();
+            ("Starting").WriteHost();
             (int, int)[] p = SolveForPlace(height - 1, 0, 2);
             ("Done").WriteHost();
             string.Empty.WriteHost();
@@ -27,7 +28,7 @@ namespace Common
             var wanted = diskName(height);
             var needed = diskName(height - 1);
             ($"\tI wish to move {wanted} from {from} to {to}").WriteHost();
-            if (height > 0) { ($"\t - To move {wanted} from {from} to {to} I need to move {needed} from {from} to {other}").WriteHost(); }
+            if (height > 0) { ($"\t\tTo move {wanted} from {from} to {to} I need to move {needed} from {from} to {other}").WriteHost(); }
             var upperLevelOff = SolveForPlace(height - 1, from, other);
             var desired = new (int, int)[] { (from, to) };
             ($"Move {wanted} from {from} to {to}").WriteHost();
@@ -44,9 +45,7 @@ namespace Common
             foreach (var move in moves)
             {
                 if (wasAlreadySolved) { return false; }
-                t.TryMove(move).WriteHost("Valid");
-                t.IsDone.WriteHost("IsDone");
-                t.Print().WriteHost("Tower");
+                t.TryMove(move);
                 wasAlreadySolved = t.IsDone;
             }
             return t.IsValid && t.IsDone;

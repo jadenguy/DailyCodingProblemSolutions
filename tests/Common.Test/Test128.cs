@@ -27,16 +27,16 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(typeof(Cases))]
-        public void Problem128(int height, (int, int)[] moves)
+        public void Problem128(int height, (int from, int to)[] moves)
         {
             //-- Arrange
             var expected = moves;
             height.WriteHost("Height");
-            moves.Print("\n", n => "Move " + n.Item1.ToString() + " to " + n.Item2.ToString()).WriteHost("Steps");
+            moves.Print("\n", n => "Move " + n.from.ToString() + " to " + n.to.ToString()).WriteHost("Steps");
 
             //-- Act
             var actual = Solution128.SolveTowerOfHanoi(height);
-            actual.Print("\n", n => "Move " + n.Item1.ToString() + " to " + n.Item2.ToString()).WriteHost("Actual");
+            actual.Print("\n", n => "Move " + n.from.ToString() + " to " + n.to.ToString()).WriteHost("Actual");
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
