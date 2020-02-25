@@ -35,6 +35,19 @@ namespace Common.Extensions
             }
             return sb.ToString();
         }
+        public static IEnumerable<T[]> StarsAndBars<T>(this IEnumerable<T> enumerable)
+        {
+            var enumerable1 = enumerable.GroupBy(n => n).ToArray();
+            var dict = enumerable1.ToDictionary(k => k.Key, v => v.Count());
+            foreach (var key in dict.Keys)
+            {
+                var sub = dict.SelectMany(n => Enumerable.Repeat(n.Key, n.Value - ((n.Key.Equals(key)) ? 1 : 0)));
+                foreach (var subList in sub.StarsAndBars())
+                {
+                    yield return (new List<T>(subList) { key }).ToArray();
+                }
+            }
+        }
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, Random rand = null) => e.OrderBy(r => (rand ?? new Random()).Next());
         [System.Diagnostics.DebuggerStepThrough]
         public static void Reverse<T>(this T[] array, int start = 0, int count = -1)

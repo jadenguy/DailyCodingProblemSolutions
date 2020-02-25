@@ -18,12 +18,13 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = profit;
-            array.WriteHost("Square");
-            expected.WriteHost("Square Root");
+            array.Print(",").WriteHost("array");
+            k.WriteHost("buys and sells");
+            expected.WriteHost("best profit");
 
             //-- Act
             var actual = Solution130.BestProfit(array, k);
-            actual.WriteHost("Calculated Square Root");
+            actual.WriteHost("actual profit");
 
             // //-- Assert
             Assert.AreEqual(expected, actual);
