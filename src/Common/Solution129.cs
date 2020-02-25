@@ -1,6 +1,8 @@
 // Given a real number n, find the square root of n. For example, given n = 9, return 3
 
+using System;
 using System.Numerics;
+using Common.Extensions;
 
 namespace Common
 {
@@ -16,57 +18,66 @@ namespace Common
             {
                 var max = top * top;
                 var min = bottom * bottom;
-                // WriterExtension.WriteHost($"IS {n} BETWEEN {bottom * bottom} AND {top * top}?");
+                if (max < min) { (max, min) = (min, max); (bottom, top) = (top, bottom); }
                 double delta = (top - bottom);
+                WriteHost($"IS {n} BETWEEN {bottom * bottom} AND {top * top}?");
                 if (n > max)
                 {
-                    (top, bottom) = (top + delta / 2, top);
-                    // WriterExtension.WriteHost("\tNO HIGHER");
+                    (top, bottom) = (top + delta * 2d, top);
+                    WriteHost("\tHIGHER");
                 }
                 else if (n < min)
                 {
-                    (top, bottom) = (bottom, bottom - delta / 2d);
-                    // WriterExtension.WriteHost("\tNO LOWER");
+                    (top, bottom) = (bottom, bottom - delta * 2d);
+                    WriteHost("\tLOWER");
                 }
                 else
                 {
-                    // WriterExtension.WriteHost("\tYES");
-                }
-                delta = (top - bottom);
-                var mid = bottom + (delta / 2d);
-                // WriterExtension.WriteHost($"IS {n} CLOSER TO {bottom * bottom} OR {top * top} BASED ON {mid * mid}?");
-                if (n == max)
-                {
-                    bottom = top;
-                    // WriterExtension.WriteHost("\tIS TOP");
-                }
-                else if (n == min)
-                {
-                    top = bottom;
-                    // WriterExtension.WriteHost("\tIS BOTTOM");
-                }
-                else if (n == mid * mid)
-                {
-                    (top, bottom) = (mid, mid);
-                    // WriterExtension.WriteHost("\tIS MIDDLE");
-                }
-                else if (n > mid * mid)
-                {
-                    bottom = mid;
-                    // WriterExtension.WriteHost("\tCLOSER TO TOP");
-                }
-                else if (n < mid * mid)
-                {
-                    top = mid;
-                    // WriterExtension.WriteHost("\tCLOSER TO BOTTOM");
-                }
-                if (top == bottom)
-                {
-                    // i.WriteHost("SOLVED ITERATIONS");
-                    break;
+                    var mid = bottom + (delta / 2d);
+                    WriteHost($"\tINSIDE. IS {n} CLOSER TO {bottom * bottom} OR {top * top} BASED ON {mid * mid}?");
+                    if (n == max)
+                    {
+                        bottom = top;
+                        WriteHost("\t\tIS TOP");
+                    }
+                    else if (n == min)
+                    {
+                        top = bottom;
+                        WriteHost("\t\tIS BOTTOM");
+                    }
+                    else if (n == mid * mid)
+                    {
+                        (top, bottom) = (mid, mid);
+                        WriteHost("\t\tIS MIDDLE");
+                    }
+                    else if (n > mid * mid)
+                    {
+                        bottom = mid;
+                        WriteHost("\t\tCLOSER TO TOP");
+                    }
+                    else if (n < mid * mid)
+                    {
+                        top = mid;
+                        WriteHost("\t\tCLOSER TO BOTTOM");
+                    }
+                    if (top == bottom)
+                    {
+                        i.WriteHost("SOLVED ITERATIONS");
+                        break;
+                    }
                 }
             }
             return top * (imaginary ? Complex.ImaginaryOne : Complex.One);
+        }
+        private static void WriteHost(object o)
+        {
+            // Common.Extensions.WriterExtension.WriteHost(o);
+            System.Diagnostics.Debug.WriteLine(o);
+        }
+        private static void WriteHost(object o, object h)
+        {
+            // Common.Extensions.WriterExtension.WriteHost(o, h);
+            System.Diagnostics.Debug.WriteLine(o, h.ToString());
         }
     }
 }

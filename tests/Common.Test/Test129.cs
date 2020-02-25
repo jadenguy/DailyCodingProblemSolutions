@@ -37,12 +37,14 @@ namespace Common.Test
                 yield return new object[] { -Math.PI * Math.PI, Math.PI * Complex.ImaginaryOne };
                 yield return new object[] { -4, 2 * Complex.ImaginaryOne };
                 yield return new object[] { -1, 1 * Complex.ImaginaryOne };
+                yield return new object[] { -.25, .5 * Complex.ImaginaryOne };
                 yield return new object[] { 0, 0 * Complex.ImaginaryOne };
+                yield return new object[] { .0625, .25 * Complex.One };
+                yield return new object[] { .09, .3 * Complex.One };
                 yield return new object[] { .25, .5 * Complex.One };
                 yield return new object[] { 1, 1 * Complex.One };
                 yield return new object[] { 9, 3 * Complex.One };
-                yield return new object[] { Math.PI * Math.PI, Math.PI * Complex.One };
-                yield return new object[] { 12345 * 12345, 12345 * Complex.One };
+                yield return new object[] { 2.25, 1.5 * Complex.One };
                 yield break;
             }
         }
