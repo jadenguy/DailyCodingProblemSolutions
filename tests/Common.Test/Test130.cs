@@ -2,7 +2,6 @@
 // For example, given k = 2 and the array [5, 2, 4, 0, 1], you should return 3.
 
 using System.Collections;
-using System.Numerics;
 using Common.Extensions;
 using NUnit.Framework;
 
@@ -34,6 +33,7 @@ namespace Common.Test
             public IEnumerator GetEnumerator()
             {
                 yield return new object[] { new int[] { 5, 2, 4, 0, 1 }, 2, 3 };
+                yield return new object[] { new int[] { 5, 2, 4, 0, 1 }, 1, 2 };
             }
         }
     }

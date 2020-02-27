@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace Common.Extensions
 {
@@ -35,16 +34,20 @@ namespace Common.Extensions
             }
             return sb.ToString();
         }
-        public static IEnumerable<T[]> StarsAndBars<T>(this IEnumerable<T> enumerable)
+        [System.Diagnostics.DebuggerStepThrough]
+        public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable) where T : IEquatable<T>
         {
-            var enumerable1 = enumerable.GroupBy(n => n).ToArray();
-            var dict = enumerable1.ToDictionary(k => k.Key, v => v.Count());
-            foreach (var key in dict.Keys)
+            if (enumerable.Count() == 1) { yield return enumerable.ToArray(); }
+            else
             {
-                var sub = dict.SelectMany(n => Enumerable.Repeat(n.Key, n.Value - ((n.Key.Equals(key)) ? 1 : 0)));
-                foreach (var subList in sub.StarsAndBars())
+                var dict = enumerable.GroupBy(n => n).ToDictionary(k => k.Key, v => v.Count());
+                foreach (var key in dict.Keys)
                 {
-                    yield return (new List<T>(subList) { key }).ToArray();
+                    var sub = dict.SelectMany(n => Enumerable.Repeat(n.Key, n.Value - (n.Key.Equals(key) ? 1 : 0)));
+                    foreach (var subList in sub.EveryPermutation())
+                    {
+                        yield return (new List<T>(subList) { key }).ToArray();
+                    }
                 }
             }
         }
@@ -84,7 +87,7 @@ namespace Common.Extensions
         {
             foreach (var item in e)
             {
-                Thread.Sleep(milliseconds);
+                System.Threading.Thread.Sleep(milliseconds);
                 yield return item;
             }
         }
@@ -121,28 +124,7 @@ namespace Common.Extensions
         }
         [System.Diagnostics.DebuggerStepThrough] public static HashSet<T> ToHashSet<T>(this IEnumerable<T> enumerable) => new HashSet<T>(enumerable);
         [System.Diagnostics.DebuggerStepThrough] public static HashSet<TOut> ToHashSet<TIn, TOut>(this IEnumerable<TIn> enumerable, Func<TIn, TOut> func) => new HashSet<TOut>(enumerable.Select(e => func(e)));
-        [System.Diagnostics.DebuggerStepThrough]
-        public static void Fill<T>(this T[] array, T value)
-        {
-            for (int i = 0; i < array.Length; i++) { array[i] = value; }
-        }
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> array) => (array is null || !array.Any());
-        [System.Diagnostics.DebuggerStepThrough]
-        public static IEnumerable<T[]> EveryPermutation<T>(this IEnumerable<T> enumerable)
-        {
-            if (enumerable.Count() == 1) { yield return enumerable.ToArray(); }
-            else
-            {
-                for (int i = 0; i < enumerable.Count(); i++)
-                {
-                    var permutation = new List<T>(enumerable);
-                    permutation.RemoveAt(i);
-                    foreach (var item in permutation.EveryPermutation())
-                    {
-                        yield return (new List<T>(item) { enumerable.ElementAt(i) }).ToArray();
-                    }
-                }
-            }
-        }
+        [System.Diagnostics.DebuggerStepThrough] public static void Fill<T>(this T[] array, T value) => System.Threading.Tasks.Parallel.ForEach(Enumerable.Range(0, array.Length), n => array[n] = value);
+        [System.Diagnostics.DebuggerStepThrough] public static bool IsNullOrEmpty<T>(this IEnumerable<T> array) => (array is null || !array.Any());
     }
 }
