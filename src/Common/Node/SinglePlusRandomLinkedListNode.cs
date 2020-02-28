@@ -1,9 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Common.Extensions;
 using Common.Node;
 
 namespace Common
 {
+    public class SinglePlusLinkComparer<T> : EqualityComparer<SinglePlusRandomLinkedListNode<T>> where T : IEquatable<T>
+    {
+        public override bool Equals(SinglePlusRandomLinkedListNode<T> x, SinglePlusRandomLinkedListNode<T> y)
+        {
+            var a = x.BreadthFirstSearch().ToDictionary(k => k, v => ((SinglePlusRandomLinkedListNode<T>)v).Next);
+            var b = y.BreadthFirstSearch();
+            return false;
+        }
+        public override int GetHashCode(SinglePlusRandomLinkedListNode<T> obj) => obj.BreadthFirstSearch().Print("->").ToString().GetHashCode();
+    }
     public class SinglePlusRandomLinkedListNode<T> : GraphNode<T> where T : IEquatable<T>
     {
         public SinglePlusRandomLinkedListNode<T> Next { get; set; }

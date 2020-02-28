@@ -2,6 +2,7 @@
 
 using System.Collections;
 using System.Linq;
+using Common;
 using Common.Extensions;
 using NUnit.Framework;
 
@@ -17,15 +18,15 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = clone;
-            original.Print().WriteHost("List", true, true);
-            clone.Print().WriteHost("Copy", true, true);
+            original.Print().WriteHost("List");
+            clone.Print().WriteHost("Copy");
 
             //-- Act
-            var actual = original.Clone();
+            var actual = original.DeepClone();
             actual.Print().WriteHost();
 
             // //-- Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.BreadthFirstSearch(), actual.BreadthFirstSearch());
         }
         class Cases : IEnumerable
         {
@@ -39,10 +40,15 @@ namespace Common.Test
                 var b = numbers.Select(n => new SinglePlusRandomLinkedListNode<int>(n)).ToArray();
                 for (int i = 1; i < Count; i++)
                 {
-                    a[i - 1].Next = a[i];
-                    b[i - 1].Next = b[i];
+                    MakeConnections(links, a, i, i - 1);
+                    MakeConnections(links, b, i, i - 1);
                 }
                 yield return new object[] { a.First(), b.First() };
+            }
+            private static void MakeConnections(int[] link, SinglePlusRandomLinkedListNode<int>[] array, int second, int first)
+            {
+                array[first].Other = array[link[second]];
+                array[first].Next = array[second];
             }
         }
     }

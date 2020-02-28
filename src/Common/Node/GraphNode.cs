@@ -16,6 +16,7 @@ namespace Common.Node
             Name = value.ToString();
             Value = value;
         }
+        public string Print() => ToString();
         public GraphNode(T value, string name)
         {
             Name = name;
@@ -42,6 +43,7 @@ namespace Common.Node
         [System.Diagnostics.DebuggerStepThrough] public void ConnectTo(GraphNode<T> node, double weight = 1) { Paths[node] = weight; }
         [System.Diagnostics.DebuggerStepThrough] public override string ToString() => Name;
         public bool ContainsNegativeLoop(int precision = 0) => BellmanFord(precision, true).Any(v => double.IsNegativeInfinity(v.Value));
+
         public Dictionary<GraphNode<T>, double> BellmanFord(double precision = 0, bool detectNegativeCycles = false, bool propagateNegative = false, Dictionary<GraphNode<T>, double> bellmanFordChart = null)
         {
             bellmanFordChart = bellmanFordChart ?? this.BreadthFirstSearch().ToDictionary(k => k, v => double.PositiveInfinity);
