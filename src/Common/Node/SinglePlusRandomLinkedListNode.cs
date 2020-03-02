@@ -6,15 +6,17 @@ using Common.Node;
 
 namespace Common
 {
-    public class SinglePlusLinkComparer<T> : EqualityComparer<SinglePlusRandomLinkedListNode<T>> where T : IEquatable<T>
+    public class SinglePlusLinkComparer<T> : IEqualityComparer<SinglePlusRandomLinkedListNode<T>> where T : IEquatable<T>
     {
-        public override bool Equals(SinglePlusRandomLinkedListNode<T> x, SinglePlusRandomLinkedListNode<T> y)
+        public bool Equals(SinglePlusRandomLinkedListNode<T> x, SinglePlusRandomLinkedListNode<T> y)
         {
-            var a = x.BreadthFirstSearch().ToDictionary(k => k, v => ((SinglePlusRandomLinkedListNode<T>)v).Next);
-            var b = y.BreadthFirstSearch();
+            var a = x.BreadthFirstSearch().Select(n => ((SinglePlusRandomLinkedListNode<T>)n).Next).ToArray();
+            var b = y.BreadthFirstSearch().Select(n => ((SinglePlusRandomLinkedListNode<T>)n).Next).ToArray();
+            var c = x.BreadthFirstSearch().Select(n => ((SinglePlusRandomLinkedListNode<T>)n).Other).ToArray();
+            var d = y.BreadthFirstSearch().Select(n => ((SinglePlusRandomLinkedListNode<T>)n).Other).ToArray();
             return false;
         }
-        public override int GetHashCode(SinglePlusRandomLinkedListNode<T> obj) => obj.BreadthFirstSearch().Print("->").ToString().GetHashCode();
+        public int GetHashCode(SinglePlusRandomLinkedListNode<T> obj) => obj.BreadthFirstSearch().Print("->").GetHashCode();
     }
     public class SinglePlusRandomLinkedListNode<T> : GraphNode<T> where T : IEquatable<T>
     {
