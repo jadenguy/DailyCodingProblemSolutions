@@ -4,7 +4,6 @@
 // •	range(lower, upper): returns the number of hits that occurred between timestamps lower and upper (inclusive)
 // Follow-up: What if our system has limited memory?
 
-using System.Collections;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -14,27 +13,29 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCaseSource(typeof(Cases))]
         public void Problem132()
         {
             //-- Arrange
-            var expected = new object();
+            const int hitCount = 100;
+            var expectedTotal = hitCount;
+            var expectedYesterday = 24;
             var counter = new Solution132.HitCounter();
-            
-            //-- Act
-            counter.Hit(System.DateTime.Now);
-            var actual = counter;
-            
+            var now = System.DateTimeOffset.UtcNow.ToLocalTime();
+            var lower = now.AddDays(-2).AddSeconds(1);
+            var upper = now.AddDays(-1);
 
-            // //-- Assert
-            Assert.AreEqual(expected, actual);
-        }
-        class Cases : IEnumerable
-        {
-            public IEnumerator GetEnumerator()
+            //-- Act
+            for (int i = 0; i < hitCount; i++)
             {
-                yield return new object[] { };
+                var v = now.AddHours(-i);
+                counter.Record(v);
             }
+            var actualTotal = counter.Total();
+            var actualYesterday = counter.Range(lower, upper);
+
+                        // //-- Assert
+            Assert.AreEqual(expectedTotal, actualTotal);
+            Assert.AreEqual(expectedYesterday, actualYesterday);
         }
     }
 }

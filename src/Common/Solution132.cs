@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Common
 {
@@ -6,14 +8,11 @@ namespace Common
     {
         public class HitCounter
         {
-            public HitCounter()
-            {
-            }
-
-            public void Hit(DateTime now)
-            {
-                throw new NotImplementedException();
-            }
+            private List<DateTimeOffset> dt = new List<DateTimeOffset>();
+            public HitCounter() { }
+            public void Record(DateTimeOffset? hitTime = null) => dt.Add(hitTime ?? System.DateTimeOffset.Now);
+            public int Total() => dt.Count;
+            public int Range(DateTimeOffset lower, DateTimeOffset upper) => dt.Where(h => h >= lower && h <= upper).Count();
         }
     }
 }
