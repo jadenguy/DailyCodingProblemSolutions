@@ -33,7 +33,7 @@ namespace Common.Test
             var actualTotal = counter.Total();
             var actualYesterday = counter.Range(lower, upper);
 
-                        // //-- Assert
+            // //-- Assert
             Assert.AreEqual(expectedTotal, actualTotal);
             Assert.AreEqual(expectedYesterday, actualYesterday);
         }
