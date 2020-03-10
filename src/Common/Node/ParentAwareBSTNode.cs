@@ -17,18 +17,18 @@ namespace Common.Node
         {
             get => ((ParentAwareBSTNode<T>)(base.Left)); set
             {
-                var value1 = (ParentAwareBSTNode<T>)value;
-                base.Left = value1;
-                value1.Parent = this;
+                var v = (ParentAwareBSTNode<T>)value;
+                base.Left = v;
+                if (v != null) { v.Parent = this; }
             }
         }
         public override BinaryNode<T> Right
         {
             get => ((ParentAwareBSTNode<T>)(base.Right)); set
             {
-                var value1 = (ParentAwareBSTNode<T>)value;
-                base.Right = value1;
-                value1.Parent = this;
+                var v = (ParentAwareBSTNode<T>)value;
+                base.Right = v;
+                if (v != null) { v.Parent = this; }
             }
         }
         public override IEnumerable<BinaryNode<T>> BreadthFirstSearch()
