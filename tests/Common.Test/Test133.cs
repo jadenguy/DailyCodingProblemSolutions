@@ -47,7 +47,7 @@ namespace Common.Test
                 root.Right.Right.Right.Left = v(4);
                 root.Right.Right.Right.Left.Right = v(5);
                 root.Right.Right.Right.Right = v(11);
-                yield return new object[] { root.Right.Left, root.Right };
+                yield return new object[] { root.Right.Right.Right.Left, root.Right.Right.Right.Left.Right };
             }
             private static ParentAwareBSTNode<int> v(int value) => new ParentAwareBSTNode<int>(value);
         }
