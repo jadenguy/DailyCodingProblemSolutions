@@ -1,15 +1,24 @@
-using System;
 using Common.Node;
 
 namespace Common
 {
     public static class Solution133
     {
-        public static ParentAwareBSTNode<int> FindSuccessor(ParentAwareBSTNode<int> leaf)
+        public static BinaryNode<int> FindSuccessor(BinaryNode<int> leaf)
         {
             var current = leaf;
-            while (current.Parent.Left == current && (current.Right?.Value ?? int.MinValue) < (current.Parent?.Value ?? int.MinValue)) { current = current.Parent; }
-            return current;
+            if (leaf.Right != null)
+            {
+                current = (BinaryNode<int>)current.Right;
+                while (current.Left != null)
+                { current = (BinaryNode<int>)current.Left; }
+                return current;
+            }
+            else
+            {
+                while (ReferenceEquals(current.Parent?.Right, current)) { current = current.Parent; }
+                return current?.Parent;
+            }
         }
     }
 }

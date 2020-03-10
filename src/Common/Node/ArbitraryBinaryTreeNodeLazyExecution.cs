@@ -3,16 +3,16 @@ using Common.Node;
 
 namespace Common
 {
-    public class ArbitraryBinaryTreeNodeLazyExecution : BinaryNode<int>
+    public class ArbitraryBinaryTreeNodeLazyExecution : BinaryNode<object>
     {
         public bool KnownLeft { get; private set; } = false;
         private readonly System.Random rand;
-        public ArbitraryBinaryTreeNodeLazyExecution(int seed = 0)
+        public ArbitraryBinaryTreeNodeLazyExecution(int seed = 0, int data = 0) : base(null)
         {
             if (seed == 0) { rand = new System.Random(); } else { rand = new System.Random(seed); }
         }
         public bool KnownRight { get; private set; } = false;
-        public new BinaryNode<int> Left
+        public new BinaryNode<object> Left
         {
             get
             {
@@ -24,7 +24,7 @@ namespace Common
                 return left;
             }
         }
-        public new BinaryNode<int> Right
+        public new BinaryNode<object> Right
         {
             get
             {
@@ -36,7 +36,7 @@ namespace Common
                 return right;
             }
         }
-        public override IEnumerable<BinaryNode<int>> Children()
+        public override IEnumerable<BinaryNode<object>> Children()
         {
             if (Left != null) { yield return Left; }
             if (Right != null) { yield return Right; }

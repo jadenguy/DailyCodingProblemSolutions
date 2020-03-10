@@ -6,7 +6,6 @@ namespace Common.Node
 {
     public class BinarySearchNode<T> : BinaryNode<T>, IComparable<BinarySearchNode<T>> where T : IComparable<T>
     {
-        public BinarySearchNode() : base() { }
         public BinarySearchNode(T value, BinarySearchNode<T> left = null, BinarySearchNode<T> right = null, string name = "Root") : base(value, left, right, name)
         {
             Value = value;

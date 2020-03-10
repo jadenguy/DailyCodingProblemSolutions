@@ -25,6 +25,7 @@ namespace Common.Node
             Direction = direction;
         }
         [JsonIgnore] public NodeDirection Direction { get; set; }
+        [JsonIgnore] public BinaryNode<T> Parent { get; set; }
         [DataMember] public T Value { get; set; }
         [JsonIgnore] public T Data { get => Value; set => Value = value; }
         [DataMember] public string Name { get; set; }
@@ -43,6 +44,7 @@ namespace Common.Node
                     left = value;
                     left.Name = this.Name + ".Left";
                     left.Direction = NodeDirection.Left;
+                    left.Parent = this;
                 }
             }
         }
@@ -57,6 +59,7 @@ namespace Common.Node
                     right = value;
                     right.Name = this.Name + ".Right";
                     right.Direction = NodeDirection.Right;
+                    right.Parent = this;
                 }
             }
         }

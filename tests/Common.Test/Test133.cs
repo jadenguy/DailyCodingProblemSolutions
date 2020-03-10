@@ -1,5 +1,5 @@
-﻿// Given a node in a binary search tree, return the next bigger element, also known as the inorder successor.
-// For example, the inorder successor of 22 is 30.
+﻿// Given a node in a binary search tree, return the next bigger element, also known as the in order successor.
+// For example, the in order successor of 22 is 30.
 //    10
 //   /  \
 //  5    30
@@ -22,7 +22,7 @@ namespace Common.Test
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(typeof(Cases))]
-        public void Problem133(ParentAwareBSTNode<int> leaf, ParentAwareBSTNode<int> successor)
+        public void Problem133(BinaryNode<int> leaf, BinaryNode<int> successor)
         {
             //-- Arrange
             var expected = successor;
@@ -30,17 +30,17 @@ namespace Common.Test
             root.Print().WriteHost("Tree", true, true);
             root.InOrder().Select(v => v.Value).Print(",").WriteHost("InOrder");
             leaf.WriteHost("Leaf");
-            successor.WriteHost("Wanted Successor");
+            WriteNodeValue(successor, "Wanted Successor");
 
             //-- Act
             var actual = Solution133.FindSuccessor(leaf);
-            actual.Value.WriteHost("Actual");
+            WriteNodeValue(actual, "Actual");
 
             //-- Assert
             Assert.AreSame(expected, actual);
         }
-
-        private static ParentAwareBSTNode<int> FindRoot(ParentAwareBSTNode<int> leaf)
+        private static void WriteNodeValue(BinaryNode<int> actual, string header) => (actual?.Value.ToString() ?? "[null]").WriteHost(header);
+        private static BinaryNode<int> FindRoot(BinaryNode<int> leaf)
         {
             var root = leaf;
             while (root.Parent != null) { root = root.Parent; }
@@ -52,6 +52,7 @@ namespace Common.Test
         {
             public IEnumerator GetEnumerator()
             {
+                // 0
                 var root = v(10);
                 root.Left = v(5);
                 root.Right = v(30);
@@ -59,26 +60,19 @@ namespace Common.Test
                 root.Right.Right = v(35);
                 foreach (var test in WriteTests(root)) { yield return test; }
 
-                root = v(1);
-                root.Right = v(2);
-                root.Right.Right = v(3);
-                root.Right.Right.Right = v(7);
-                root.Right.Right.Right.Left = v(5);
-                root.Right.Right.Right.Left.Left = v(4);
-                root.Right.Right.Right.Left.Right = v(6);
-                root.Right.Right.Right.Right = v(8);
+                // 1    
+                root = BinarySearchNode<int>.GenerateBinarySearchNode(Enumerable.Range(0, 10).Shuffle(133));
                 foreach (var test in WriteTests(root)) { yield return test; }
-                // var g = ParentAwareBSTNode<int>.GenerateBinarySearchNode(Enumerable.Range(0, 10).Shuffle(133));
             }
-            private static IEnumerable<object[]> WriteTests(ParentAwareBSTNode<int> root)
+            private static IEnumerable<object[]> WriteTests(BinaryNode<int> root)
             {
                 var list = root.InOrder().ToArray();
-                for (int i = 0; i < list.Length - 1; i++)
+                for (int i = 0; i < list.Length; i++)
                 {
-                    yield return new object[] { list[i], list[i + 1] };
+                    yield return new object[] { list.ElementAtOrDefault(i), list.ElementAtOrDefault(i + 1) };
                 }
             }
-            private static ParentAwareBSTNode<int> v(int value) => new ParentAwareBSTNode<int>(value);
+            private static BinaryNode<int> v(int value) => new BinaryNode<int>(value);
         }
     }
 }
