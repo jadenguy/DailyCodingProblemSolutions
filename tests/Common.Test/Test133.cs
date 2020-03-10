@@ -8,6 +8,9 @@
 // You can assume each node has a parent pointer.
 
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Common.Extensions;
 using Common.Node;
 using NUnit.Framework;
 
@@ -23,13 +26,28 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = successor;
+            var root = FindRoot(leaf);
+            root.Print().WriteHost("Tree", true, true);
+            root.InOrder().Select(v => v.Value).Print(",").WriteHost("InOrder");
+            leaf.WriteHost("Leaf");
+            successor.WriteHost("Wanted Successor");
 
             //-- Act
             var actual = Solution133.FindSuccessor(leaf);
+            actual.Value.WriteHost("Actual");
 
             //-- Assert
             Assert.AreSame(expected, actual);
         }
+
+        private static ParentAwareBSTNode<int> FindRoot(ParentAwareBSTNode<int> leaf)
+        {
+            var root = leaf;
+            while (root.Parent != null) { root = root.Parent; }
+
+            return root;
+        }
+
         class Cases : IEnumerable
         {
             public IEnumerator GetEnumerator()
@@ -39,15 +57,26 @@ namespace Common.Test
                 root.Right = v(30);
                 root.Right.Left = v(22);
                 root.Right.Right = v(35);
-                yield return new object[] { root.Right.Left, root.Right };
+                foreach (var test in WriteTests(root)) { yield return test; }
+
                 root = v(1);
                 root.Right = v(2);
                 root.Right.Right = v(3);
-                root.Right.Right.Right = v(10);
-                root.Right.Right.Right.Left = v(4);
-                root.Right.Right.Right.Left.Right = v(5);
-                root.Right.Right.Right.Right = v(11);
-                yield return new object[] { root.Right.Right.Right.Left, root.Right.Right.Right.Left.Right };
+                root.Right.Right.Right = v(7);
+                root.Right.Right.Right.Left = v(5);
+                root.Right.Right.Right.Left.Left = v(4);
+                root.Right.Right.Right.Left.Right = v(6);
+                root.Right.Right.Right.Right = v(8);
+                foreach (var test in WriteTests(root)) { yield return test; }
+                // var g = ParentAwareBSTNode<int>.GenerateBinarySearchNode(Enumerable.Range(0, 10).Shuffle(133));
+            }
+            private static IEnumerable<object[]> WriteTests(ParentAwareBSTNode<int> root)
+            {
+                var list = root.InOrder().ToArray();
+                for (int i = 0; i < list.Length - 1; i++)
+                {
+                    yield return new object[] { list[i], list[i + 1] };
+                }
             }
             private static ParentAwareBSTNode<int> v(int value) => new ParentAwareBSTNode<int>(value);
         }
