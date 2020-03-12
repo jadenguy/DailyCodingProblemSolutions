@@ -27,15 +27,14 @@ namespace Common.Test
             //-- Arrange
             var expected = minPathSum;
             root.Print().WriteHost("Tree", true, true);
-            root.InOrder().Select(v => v.Value).Print(",").WriteHost("InOrder");
             minPathSum.WriteHost("Wanted Leaf Path Sum");
 
             //-- Act
-            var actual = Solution135.CheapestPath(root);
+            var actual = Solution135.CheapestPath(root).Min(p => p.Sum());
             actual.WriteHost("Actual");
 
             //-- Assert
-            Assert.AreSame(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
         class Cases : IEnumerable
         {
@@ -43,6 +42,15 @@ namespace Common.Test
             {
                 // 0
                 var root = n(10);
+                root.Left = n(5);
+                root.Left.Right = n(2);
+                root.Right = n(5);
+                root.Right.Right = n(1);
+                root.Right.Right.Right = n(-1);
+                yield return new object[] { root, 15 };
+
+                // 1
+                root = n(10);
                 yield return new object[] { root, 10 };
             }
             private static BinaryNode<int> n(int value) => new BinaryNode<int>(value);
