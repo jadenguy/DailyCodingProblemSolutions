@@ -28,8 +28,7 @@ namespace Common.Extensions
                 for (int y = 0; y <= maxY; y++)
                 {
                     var current = func(enumerable[x, y]);
-                    sb.Append(new string(' ', width - current.ToString().Length));
-                    sb.Append(current.ToString());
+                    sb.Append(current.ToString().PadLeft(width));
                 }
             }
             return sb.ToString();
