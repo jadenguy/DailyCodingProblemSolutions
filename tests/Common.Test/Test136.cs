@@ -7,8 +7,8 @@
 // Return 4.
 
 using System.Collections;
+using System.Linq;
 using Common.Extensions;
-using Common.Node;
 using NUnit.Framework;
 
 namespace Common.Test
@@ -23,27 +23,64 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = area;
-            Common.Extensions.CollectionExtensions.Print(matrix, n => n ? "1" : "0").WriteHost("Matrix",true,true);
+            matrix.Print(n => n ? "XX" : "__").WriteHost("Matrix");
+            area.WriteHost("Wanted");
 
             //-- Act
-            var actual = Solution136.LargestRectangle(matrix);
-            actual.Value.WriteHost("Actual");
+            var enumerable = Solution136.LargestRectangle(matrix);
+            var actual = (!enumerable.Any()) ? 0 : enumerable.Max(g => (g.x1 - g.x0) * (g.y1 - g.y0));
+            actual.WriteHost("Actual");
 
             //-- Assert
-            Assert.AreEqual(expected, actual.Value);
+            Assert.AreEqual(expected, actual);
         }
         class Cases : IEnumerable
         {
             public IEnumerator GetEnumerator()
             {
-                var matrix = new bool[,] {
+                bool[,] matrix;
+                int area;
+
+                // 0
+                matrix = new bool[,] {
+                        {true, false },
+                        { false, false }
+                    };
+                area = 1;
+                yield return new object[] { matrix, area };
+                // 0
+                matrix = new bool[,] {
+                        { false, true },
+                        { false, false }
+                    };
+                area = 1;
+                yield return new object[] { matrix, area };
+                // 0
+                matrix = new bool[,] {
+                        { false, false },
+                        { true, false }
+
+                    };
+                area = 1;
+                yield return new object[] { matrix, area };
+                // 0
+                matrix = new bool[,] {
+                        {true, false},
+                        { false, false}
+                    };
+                area = 1;
+                yield return new object[] { matrix, area };
+
+                // 1
+                matrix = new bool[,] {
                         {true, false, false, false},
                         {true, false, true, true},
                         {true, false, true, true},
                         {false, true, false, false}
                     };
-                var area = 4;
+                area = 4;
                 yield return new object[] { matrix, area };
+
             }
         }
     }
