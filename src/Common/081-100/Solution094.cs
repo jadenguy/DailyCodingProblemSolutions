@@ -6,7 +6,8 @@ namespace Common
 {
     public class Solution094
     {
-        public static IEnumerable<BinaryTreePath> PathValues(BinaryNode<int> node, bool isRoot = true)
+        public static IEnumerable<BinaryTreePath> PathValues(BinaryNode<int> node) => PathValues(node, true);
+        private static IEnumerable<BinaryTreePath> PathValues(BinaryNode<int> node, bool isRoot)
         {
             if (node is null) { return null; }
             else

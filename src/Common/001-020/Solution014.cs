@@ -7,9 +7,9 @@ namespace Common
     public class Solution014
 
     {
-        public static double CalculatePi(int steps, int parallel = 1)
+        public static double CalculatePi(int steps, int parallel = 1, int seed = 0)
         {
-            var rand = new Random();
+            var rand = seed == 0 ? new Random() : new Random(seed);
             var seeds = new int[parallel];
             for (int i = 0; i < seeds.Length; i++)
             {

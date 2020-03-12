@@ -5,9 +5,8 @@ namespace Common.Node
 {
     public class BinaryTreePath
     {
-        private BinaryNode<int>[] nodes;
-        public BinaryNode<int>[] Nodes { get => nodes; set => nodes = value; }
-        public bool IsBranch { get; set; }
+        public BinaryNode<int>[] Nodes { get; }
+        public bool IsBranch { get; }
         public BinaryTreePath(BinaryNode<int>[] nodes, bool isBranch)
         {
             this.Nodes = nodes;

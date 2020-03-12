@@ -1,20 +1,19 @@
 // The area of a circle is defined as πr^2. Estimate π to 3 double places using a Monte Carlo method.
 // Hint: The basic equation of a circle is x2 + y2 = r2.
 
-using System;
-using System.Collections.Generic;
 using NUnit.Framework;
+using Common.Extensions;
 
 namespace Common.Test
 {
     [TestFixture]
     public class Test014
     {
-        private const int e6 = 1000000;
-        private const int e5 = 100000;
-        private const int e4 = 10000;
-        private const int e3 = 1000;
-        private const int e2 = 100;
+        private const int e6 = (int)1e6;
+        private const int e5 = (int)1e5;
+        private const int e4 = (int)1e4;
+        private const int e3 = (int)1e3;
+        private const int e2 = (int)1e2;
 
         [Test]
         [TestCase(e4, e4)]
@@ -44,15 +43,14 @@ namespace Common.Test
 
             //-- Act
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            var actual = Solution014.CalculatePi(steps, parallel);
+            var actual = Solution014.CalculatePi(steps, parallel, 14);
             System.Diagnostics.Debug.WriteLine(steps);
             System.Diagnostics.Debug.WriteLine(parallel);
             System.Diagnostics.Debug.WriteLine(steps * parallel);
             System.Diagnostics.Debug.WriteLine(expected);
             System.Diagnostics.Debug.WriteLine(actual);
-            System.Diagnostics.Debug.WriteLine(expected - actual);
-            System.Diagnostics.Debug.WriteLine(timer.ElapsedMilliseconds);
-            System.Console.WriteLine(timer.ElapsedMilliseconds);
+            (expected - actual).WriteHost();
+            timer.ElapsedMilliseconds.WriteHost();
             System.Console.WriteLine(expected - actual);
 
 
