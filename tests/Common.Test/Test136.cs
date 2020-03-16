@@ -28,7 +28,7 @@ namespace Common.Test
 
             //-- Act
             var rectangles = Solution136.Rectangles(matrix).ToArray();
-            var actual = rectangles.Select(g => (g.xUpper - g.xLower + 1) * (g.yUpper - g.yLower + 1)).First();
+            var actual = rectangles.Max(a => a.Area);
             actual.WriteHost("Actual");
 
             //-- Assert
@@ -41,13 +41,13 @@ namespace Common.Test
                 bool[,] matrix;
                 int area;
 
-                // // 0
-                // matrix = new bool[,] {
-                //         {true, false },
-                //         { false, false }
-                //     };
-                // area = 1;
-                // yield return new object[] { matrix, area };
+                // 0
+                matrix = new bool[,] {
+                        {true, false },
+                        { false, false }
+                    };
+                area = 1;
+                yield return new object[] { matrix, area };
 
                 // // 1
                 // matrix = new bool[,] {
@@ -84,14 +84,14 @@ namespace Common.Test
                 // yield return new object[] { matrix, area };
 
                 // 5
-                matrix = new bool[,] {
-                        {true, false, false, false},
-                        {true, false, true, true},
-                        {true, false, true, true},
-                        {false, true, false, false}
-                    };
-                area = 4;
-                yield return new object[] { matrix, area };
+                // matrix = new bool[,] {
+                //         {true, false, false, false},
+                //         {true, false, true, true},
+                //         {true, false, true, true},
+                //         {false, true, false, false}
+                //     };
+                // area = 4;
+                // yield return new object[] { matrix, area };
             }
         }
     }
