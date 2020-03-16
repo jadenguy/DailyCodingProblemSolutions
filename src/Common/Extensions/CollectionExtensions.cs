@@ -19,13 +19,13 @@ namespace Common.Extensions
         {
             if (func is null) { func = o => o; }
             var sb = new System.Text.StringBuilder();
-            int maxX = enumerable.GetUpperBound(0);
-            int maxY = enumerable.GetUpperBound(1);
+            int xMax = enumerable.GetUpperBound(0);
+            int yMax = enumerable.GetUpperBound(1);
             var width = 1 + (enumerable.Cast<T>()).Select(n => func(n)).Max(t => t.ToString().Length);
-            for (int x = 0; x <= maxX; x++)
+            for (int x = 0; x <= xMax; x++)
             {
                 sb.AppendLine();
-                for (int y = 0; y <= maxY; y++)
+                for (int y = 0; y <= yMax; y++)
                 {
                     var current = func(enumerable[x, y]);
                     sb.Append(current.ToString().PadLeft(width));

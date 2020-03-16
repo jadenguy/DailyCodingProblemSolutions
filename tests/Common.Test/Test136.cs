@@ -23,12 +23,12 @@ namespace Common.Test
         {
             //-- Arrange
             var expected = area;
-            matrix.Print(n => n ? "XX" : "__").WriteHost("Matrix");
+            matrix.Print(n => n ? "X" : "_").WriteHost("Matrix");
             area.WriteHost("Wanted");
 
             //-- Act
-            var enumerable = Solution136.LargestRectangle(matrix);
-            var actual = (!enumerable.Any()) ? 0 : enumerable.Max(g => (g.x1 - g.x0) * (g.y1 - g.y0));
+            var rectangles = Solution136.Rectangles(matrix).ToArray();
+            var actual = rectangles.Select(g => (g.xUpper - g.xLower + 1) * (g.yUpper - g.yLower + 1)).First();
             actual.WriteHost("Actual");
 
             //-- Assert
@@ -41,37 +41,49 @@ namespace Common.Test
                 bool[,] matrix;
                 int area;
 
-                // 0
-                matrix = new bool[,] {
-                        {true, false },
-                        { false, false }
-                    };
-                area = 1;
-                yield return new object[] { matrix, area };
-                // 0
-                matrix = new bool[,] {
-                        { false, true },
-                        { false, false }
-                    };
-                area = 1;
-                yield return new object[] { matrix, area };
-                // 0
-                matrix = new bool[,] {
-                        { false, false },
-                        { true, false }
+                // // 0
+                // matrix = new bool[,] {
+                //         {true, false },
+                //         { false, false }
+                //     };
+                // area = 1;
+                // yield return new object[] { matrix, area };
 
-                    };
-                area = 1;
-                yield return new object[] { matrix, area };
-                // 0
-                matrix = new bool[,] {
-                        {true, false},
-                        { false, false}
-                    };
-                area = 1;
-                yield return new object[] { matrix, area };
+                // // 1
+                // matrix = new bool[,] {
+                //         { false, true },
+                //         { false, false }
+                //     };
+                // area = 1;
+                // yield return new object[] { matrix, area };
 
-                // 1
+                // // 2
+                // matrix = new bool[,] {
+                //         { false, false },
+                //         { true, false }
+
+                //     };
+                // area = 1;
+                // yield return new object[] { matrix, area };
+
+                // // 3
+                // matrix = new bool[,] {
+                //         { false, false},
+                //         { false,true}
+                //     };
+                // area = 1;
+                // yield return new object[] { matrix, area };
+
+                // // 4
+                // matrix = new bool[,] {
+                //         { false, false, false},
+                //         { false,true, false},
+                //         { false, false, false}
+                //     };
+                // area = 1;
+                // yield return new object[] { matrix, area };
+
+                // 5
                 matrix = new bool[,] {
                         {true, false, false, false},
                         {true, false, true, true},
@@ -80,7 +92,6 @@ namespace Common.Test
                     };
                 area = 4;
                 yield return new object[] { matrix, area };
-
             }
         }
     }

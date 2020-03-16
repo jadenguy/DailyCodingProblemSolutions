@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Extensions;
@@ -6,78 +7,145 @@ namespace Common
 {
     public static class Solution136
     {
-        public static IEnumerable<(int x0, int x1, int y0, int y1)> LargestRectangle(bool[,] matrix)
+        public class ViewPort
         {
-            var q = new Queue<(int x0, int x1, int y0, int y1)>() { };
-            q.Enqueue((0, matrix.GetUpperBound(0), 0, matrix.GetUpperBound(1)));
-            while (q.Any())
+            public int XUpper { get; }
+            public int XLower { get; }
+            public int YUpper { get; }
+            public int YLower { get; }
+            public bool[,] Matrix { get; }
+            public ViewPort(int xUpper, int xLower, int yUpper, int yLower, bool[,] matrix)
             {
-                (var x0, var x1, var y0, var y1) = q.Dequeue();
-                if (x0 <= x1 || y0 <= y1)
+                if (matrix is null) { throw new NullReferenceException(); }
+                if (!(matrix.GetUpperBound(0) >= xUpper
+                    && xUpper >= xLower
+                    && xLower >= 0
+                    && matrix.GetUpperBound(1) >= yUpper
+                    && yUpper >= yLower
+                    && yLower >= 0)
+                ) { throw new IndexOutOfRangeException(); }
+                XUpper = xUpper;
+                XLower = xLower;
+                YUpper = yUpper;
+                YLower = yLower;
+                Matrix = matrix;
+            }
+            private bool[,] View()
+            {
+                var ret = new bool[XUpper - XLower + 1, YUpper - YLower + 1];
+                for (int x = XLower; x <= XUpper; x++)
                 {
-                    matrix.View(x0, x1, y0, y1).Print(n => n ? "X" : "_").WriteHost();
-                    if (Validate(matrix, x0, x1, y0, y1)) { yield return (x0, x1, y0, y1); }
-                    var topLeft00 = matrix[x0, y0];
-                    var topRight10 = matrix[x1, y0];
-                    var bottomLeft01 = matrix[x0, y1];
-                    var bottomRight11 = matrix[x1, y1];
-
-
-                    if (topLeft00 && !bottomRight11)
+                    for (int y = YLower; y <= YUpper; y++)
                     {
-                        if (topRight10) { q.Enqueue((x0, x1, y0, y1 - 1)); }
-                        if (bottomLeft01) { q.Enqueue((x0, x1 - 1, y0, y1)); }
-                        if (!topRight10 && !bottomLeft01) { q.Enqueue((x0, x1 - 1, y0, y1 - 1)); }
-                    }
-                    if (!topLeft00 && bottomRight11)
-                    {
-                        if (topRight10) { q.Enqueue((x0 + 1, x1, y0, y1)); }
-                        if (bottomLeft01) q.Enqueue((x0, x1, y0 + 1, y1));
-                        if (!topRight10 && !bottomLeft01) { q.Enqueue((x0 + 1, x1, y0 + 1, y1)); }
-                    }
-                    if (topRight10 && !bottomLeft01)
-                    {
-                        if (topLeft00) { q.Enqueue((x0, x1 - 1, y0, y1)); }
-                        if (bottomRight11) q.Enqueue((x0, x1, y0, y1 - 1));
-                        if (!topLeft00 && bottomRight11) { q.Enqueue((x0, x1 - 1, y0, y1 - 1)); }
-                    }
-                    if (!topRight10 && bottomLeft01)
-                    {
-                        if (topLeft00) { q.Enqueue((x0, x1 - 1, y0, y1)); }
-                        if (bottomRight11) q.Enqueue((x0, x1, y0, y1 - 1));
-                    }
-
-
-                    if (!topLeft00 || !bottomRight11 || !topRight10 || !bottomLeft01)
-                    {
-                        q.Enqueue((x0 + 1, x1 - 1, y0 + 1, y1 - 1));
+                        ret[x - XLower, y - YLower] = Matrix[x, y];
                     }
                 }
+                return ret;
+            }
+            public bool IsRectangle => Values().All(v => v);
+            public bool IsEmpty => !Values().Any(v => v);
+            private IEnumerable<bool> Values()
+            {
+                for (int x = XLower; x <= XUpper; x++)
+                {
+                    for (int y = YLower; y <= YUpper; y++)
+                    {
+                        yield return Matrix[x, y];
+                    }
+                }
+            }
+            private static Func<bool, string> pretty() => n => n ? "X" : "_";
+            private bool Validate(bool[,] matrix, (int xLower, int xUpper, int yLower, int yUpper) coordinates)
+            {
+                return XUpper <= matrix.GetUpperBound(0);
             }
         }
-        private static bool Validate(bool[,] matrix, int x0, int x1, int y0, int y1)
-            => ConsiderArea(matrix, x0, x1, y0, y1).All(n => n);
-        private static IEnumerable<bool> ConsiderArea(bool[,] matrix, int x0, int x1, int y0, int y1)
+        public static IEnumerable<ViewPort> Rectangles(bool[,] matrix)
         {
-            for (int x = x0; x <= x1; x++)
+            var whole = new ViewPort(0, matrix.GetUpperBound(0), 0, matrix.GetUpperBound(1), matrix);
+            if (whole.IsRectangle)
             {
-                for (int y = y0; y <= y1; y++)
+                WriterExtension.WriteHost("Whole thing");
+                yield return whole;
+                yield break;
+            }
+            else
+            {
+                seedStack = new[] { whole };
+            }
+            var stack = AddNextSuggestions(matrix, seedStack);
+            while (stack.Any())
+            {
+                foreach (var coordinates in stack.Where(v => v.Valid).Select(g => g.Coordinates))
                 {
-                    yield return matrix[x, y];
+                    yield return coordinates;
                 }
+                stack = AddNextSuggestions(matrix, stack.Where(v => !v.Valid).Select(n => n.Coordinates).ToArray());
             }
         }
-        private static bool[,] View(this bool[,] matrix, int x0, int x1, int y0, int y1)
+        private static IEnumerable<((int xLower, int xUpper, int yLower, int yUpper) Coordinates, bool Valid)> AddNextSuggestions(bool[,] matrix, IEnumerable<(int xLower, int xUpper, int yLower, int yUpper)> r)
         {
-            var ret = new bool[x1 - x0 + 1, y1 - y0 + 1];
-            for (int x = x0; x <= x1; x++)
+            if (!r.Any()) { return new ((int, int, int, int), bool)[0]; }
+            var q = r.Take(0).ToList();
+            q.Print().WriteHost();
+            var p = r.First();
+            (var xLower, var xUpper, var yLower, var yUpper) = p;
+            matrix.View(p).Print(pretty()).WriteHost($"Inside Of {p.xLower},{p.yLower} and {p.xUpper},{p.yUpper}");
+            if (matrix[xLower, yLower])
             {
-                for (int y = y0; y <= y1; y++)
-                {
-                    ret[x - x0, y - y0] = matrix[x, y];
-                }
+                q.Add((xLower, xUpper, yLower, yUpper - 1));
+                q.Add((xLower, xUpper - 1, yLower, yUpper));
+                q.Add((xLower, xUpper - 1, yLower, yUpper - 1));
             }
-            return ret;
+            if (matrix[xUpper, yLower])
+            {
+                q.Add((xLower + 1, xUpper, yLower, yUpper));
+                q.Add((xLower, xUpper, yLower, yUpper - 1));
+                q.Add((xLower + 1, xUpper, yLower, yUpper - 1));
+            }
+            if (matrix[xUpper, yUpper])
+            {
+                q.Add((xLower + 1, xUpper, yLower, yUpper));
+                q.Add((xLower, xUpper, yLower + 1, yUpper));
+                q.Add((xLower + 1, xUpper, yLower + 1, yUpper));
+            }
+            if (matrix[xLower, yUpper])
+            {
+                q.Add((xLower, xUpper - 1, yLower, yUpper));
+                q.Add((xLower, xUpper, yLower - 1, yUpper));
+                q.Add((xLower, xUpper - 1, yLower + 1, yUpper));
+            }
+            q.Add((xLower + 1, xUpper - 1, yLower, yUpper));
+            q.Add((xLower, xUpper, yLower + 1, yUpper - 1));
+            q.Add((xLower + 1, xUpper - 1, yLower + 1, yUpper - 1));
+            var next = q.Where(g =>
+                    g.xLower >= 0 &&
+                    g.xUpper >= 0 &&
+                    g.yLower >= 0 &&
+                    g.yUpper >= 0 &&
+                    g.xLower <= g.xUpper &&
+                    g.yLower <= g.yUpper
+                ).ToArray();
+            var enumerable = next.Concat(r.Skip(1));
+            var summary = next.Select(g =>
+                        new
+                        {
+                            LandMass = matrix.ConsiderArea(g).Count(f => f),
+                            Area = (g.xUpper - g.xLower + 1) * (g.yUpper - g.yLower + 1),
+                            Coordinates = g,
+                            Valid = Validate(matrix, g)
+                        }
+                    );
+            var ret = summary.Distinct()
+                .Where(t => t.LandMass > 0 && (t.Valid || t.Area > 1))
+                .OrderByDescending(g => g.Area)
+                .ThenByDescending(t => t.LandMass)
+                .ThenBy(x => x.Coordinates.xLower)
+                .ThenBy(y => y.Coordinates.yLower)
+                .ThenBy(x => x.Coordinates.xUpper)
+                .ThenBy(y => y.Coordinates.yUpper); ;
+            ret.Count().WriteHost("Remainder");
+            return ret.Select(g => (g.Coordinates, g.Valid)).ToArray();
         }
     }
 }
