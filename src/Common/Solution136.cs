@@ -79,8 +79,8 @@ namespace Common
             {
                 ViewPort viewPort = stack[i];
                 if (viewPort.IsFullRectangle) { yield return viewPort; }
-                    stack.AddRange(AddNextSuggestions(viewPort));
-                    stack = stack.Distinct().ToList();
+                stack.AddRange(AddNextSuggestions(viewPort));
+                stack = stack.Distinct().ToList();
             }
             stack.Count.WriteHost("ConsideredRectangles");
         }
@@ -90,26 +90,15 @@ namespace Common
             (var xLower, var xUpper, var yLower, var yUpper, var matrix) =
                 (viewPort.XLower, viewPort.XUpper, viewPort.YLower, viewPort.YUpper, viewPort.Matrix);
             // viewPort.Print().WriteHost($"Inside Of {xLower},{yLower} and {xUpper},{yUpper}");
-            var bits = Enumerable.Range(0, 16).Select(b => new
-            {
-                xLower = (b & 1) == 1,
-                xUpper = (b & 2) == 2,
-                yLower = (b & 4) == 4,
-                yUpper = (b & 8) == 8
-            });
             var stack = new List<ViewPort>();
-            foreach (var bitmask in bits)
+            foreach (var bitmask in MathExtensions.GenerateBitMasks(4))
             {
-                try
-                {
-                    int xLower1 = xLower + (bitmask.xLower ? 1 : 0);
-                    int xUpper1 = xUpper - (bitmask.xUpper ? 1 : 0);
-                    int yLower1 = yLower + (bitmask.yLower ? 1 : 0);
-                    int yUpper1 = yUpper - (bitmask.yUpper ? 1 : 0);
-                    if (Solution136.ViewPort.Validate(matrix, xLower1, xUpper1, yLower1, yUpper1))
-                    { stack.Add(new ViewPort(xLower1, xUpper1, yLower1, yUpper1, matrix)); }
-                }
-                catch (System.Exception) { }
+                int xLowerNew = xLower + (bitmask[0] ? 1 : 0);
+                int xUpperNew = xUpper - (bitmask[1] ? 1 : 0);
+                int yLowerNew = yLower + (bitmask[2] ? 1 : 0);
+                int yUpperNew = yUpper - (bitmask[3] ? 1 : 0);
+                if (Solution136.ViewPort.Validate(matrix, xLowerNew, xUpperNew, yLowerNew, yUpperNew))
+                { stack.Add(new ViewPort(xLowerNew, xUpperNew, yLowerNew, yUpperNew, matrix)); }
             }
             return stack.Where(v => !v.IsEmpty);
         }

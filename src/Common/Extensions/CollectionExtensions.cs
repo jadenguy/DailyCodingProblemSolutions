@@ -96,26 +96,26 @@ namespace Common.Extensions
         {
             var source = enumerable.ToArray();
             int length = source.Length;
-            for (int i = 0; i < Math.Pow(2, length); i++)
+            var masks = MathExtensions.GenerateBitMasks(length);
+            foreach (var mask in masks)
             {
-                List<T> combination = new List<T> { };
-                for (int j = 0; j < length; j++)
+                for (int i = 0; i < length; i++)
                 {
-                    if ((i & 1 << length - j - 1) != 0)
-                    {
-                        combination.Add(source[j]);
-                    }
+                    List<T> combination = new List<T> { };
+                    if (mask[i])
+                    { combination.Add(source[i]); }
+                    yield return combination.ToArray();
                 }
-                yield return combination.ToArray();
             }
         }
         [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T[]> EveryContiguousSubset<T>(this IEnumerable<T> enumerable)
         {
             yield return new T[] { };
-            for (int i = 0; i < enumerable.Count(); i++)
+            int length = enumerable.Count();
+            for (int i = 0; i < length; i++)
             {
-                for (int j = 1; j + i - 1 < enumerable.Count(); j++)
+                for (int j = 1; j + i - 1 < length; j++)
                 {
                     var subset = enumerable.Skip(i).Take(j);
                     yield return subset.ToArray();
