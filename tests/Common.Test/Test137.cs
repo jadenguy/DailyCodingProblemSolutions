@@ -13,9 +13,7 @@ namespace Common.Test
 {
     public class Test137
     {
-        const int size = 128;
-        const bool V1 = true;
-        const bool V2 = false;
+        const int size = 10;
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
@@ -23,33 +21,29 @@ namespace Common.Test
         {
             //-- Arrange
             var bitArray = new Solution137.BitArray(size);
-            var array = bitArray;
-            var expectedValue = V1;
 
             //-- Act
-            bitArray.Set(0, V1);
-            array[0] = V1;
+            bitArray.Set(0, true);
             var actualValue = bitArray.Get(0);
-            bitArray[1] = V2;
-            array[1] = V2;
+            bitArray[1] = true;
+            bitArray[2] = true;
+            bitArray[2] = false;
             var actualValueTwo = bitArray[1];
-            var actualNoValue = bitArray[2];
+            var actualValueThree = bitArray[2];
             var actualCount = bitArray.StorageSize;
             var values = bitArray.GetValues().ToArray();
-            (bool largeIndex, bool negativeIndex) = (false, false);
+            (bool largeIndexTest, bool negativeIndexTest) = (false, false);
             try { bitArray[size] = true; }
-            catch (IndexOutOfRangeException oor) { largeIndex = (oor.Message) == Solution137.BitArray.BitArrayExceptionMessage; }
+            catch (IndexOutOfRangeException oor) { largeIndexTest = (oor.Message) == Solution137.BitArray.BitArrayExceptionMessage; }
             try { bitArray[-1] = true; }
-            catch (IndexOutOfRangeException oor) { negativeIndex = (oor.Message) == Solution137.BitArray.BitArrayExceptionMessage; }
+            catch (IndexOutOfRangeException oor) { negativeIndexTest = (oor.Message) == Solution137.BitArray.BitArrayExceptionMessage; }
 
             //-- Assert
-            Assert.AreEqual(expectedValue, actualValue);
-            // Assert.AreEqual(expectedValueTwo, actualValueTwo);
-            // Assert.AreEqual(expectedNoValue, actualNoValue);
-            Assert.IsTrue(negativeIndex);
-            Assert.IsTrue(largeIndex);
-            // Assert.AreEqual(expectedCount, actualCount);
-            // Assert.IsTrue(array.SequenceEqual(bitArray));
+            Assert.IsTrue(actualValue,"Failed to set first value");
+            Assert.IsTrue(actualValueTwo, "Failed to set second Value");
+            Assert.IsTrue(!actualValueThree, "Failed to set third value");
+            Assert.IsTrue(negativeIndexTest, "Negative Index Accepted");
+            Assert.IsTrue(largeIndexTest, "Positive Index Accepted");
         }
     }
 }
