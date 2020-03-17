@@ -4,7 +4,6 @@
 // •	set(i, val): updates index at i with val where val is either 1 or 0.
 // •	get(i): gets the value at index i.
 
-
 using System;
 using System.Linq;
 using NUnit.Framework;
@@ -38,10 +37,10 @@ namespace Common.Test
             var actualCount = bitArray.StorageSize;
             var values = bitArray.GetValues().ToArray();
             (bool largeIndex, bool negativeIndex) = (false, false);
-            // try { bitArray[array.Length] = 1; }
-            // catch (IndexOutOfRangeException oor) { largeIndex = (oor.Message) == Solution137.SparseArray<int>.SparseArrayExceptionMessage; }
-            // try { bitArray[-1] = 1; }
-            // catch (IndexOutOfRangeException oor) { negativeIndex = (oor.Message) == Solution137.SparseArray<int>.SparseArrayExceptionMessage; }
+            try { bitArray[size] = true; }
+            catch (IndexOutOfRangeException oor) { largeIndex = (oor.Message) == Solution137.BitArray.BitArrayExceptionMessage; }
+            try { bitArray[-1] = true; }
+            catch (IndexOutOfRangeException oor) { negativeIndex = (oor.Message) == Solution137.BitArray.BitArrayExceptionMessage; }
 
             //-- Assert
             Assert.AreEqual(expectedValue, actualValue);
