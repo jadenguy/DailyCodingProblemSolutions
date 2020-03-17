@@ -34,8 +34,9 @@ namespace Common
             public bool Get(int index)
             {
                 (int clusterIndex, int bitIndex) = GetAddress(index);
-                byte v = internalClusterArray[clusterIndex];
-                return 1 == ((1 << bitIndex) & v) >> bitIndex;
+                var cluster = internalClusterArray[clusterIndex];
+                var mask = 1 << bitIndex;
+                return 1 == (cluster & mask) >> bitIndex;
             }
             public IEnumerable<bool> GetValues() => Enumerable.Range(0, Size).Select(i => Get(i));
             private (int byteAddress, int bitAddress) GetAddress(int index)
