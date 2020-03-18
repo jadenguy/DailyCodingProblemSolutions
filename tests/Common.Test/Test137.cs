@@ -21,6 +21,7 @@ namespace Common.Test
         {
             //-- Arrange
             var bitArray = new Solution137.BitArray(size);
+            var expectedArray = new[] { true, true, false, false, false, false, false, false, false, false };
 
             //-- Act
             bitArray.Set(0, true);
@@ -28,10 +29,11 @@ namespace Common.Test
             bitArray[1] = true;
             bitArray[2] = true;
             bitArray[2] = false;
+            bitArray[3] = false;
             var actualValueTwo = bitArray[1];
             var actualValueThree = bitArray[2];
             var actualCount = bitArray.StorageSize;
-            var values = bitArray.GetValues().ToArray();
+            var actualArray = bitArray.GetValues().ToArray();
             (bool largeIndexTest, bool negativeIndexTest) = (false, false);
             try { bitArray[size] = true; }
             catch (IndexOutOfRangeException oor) { largeIndexTest = (oor.Message) == Solution137.BitArray.BitArrayExceptionMessage; }
@@ -39,11 +41,12 @@ namespace Common.Test
             catch (IndexOutOfRangeException oor) { negativeIndexTest = (oor.Message) == Solution137.BitArray.BitArrayExceptionMessage; }
 
             //-- Assert
-            Assert.IsTrue(actualValue,"Failed to set first value");
+            Assert.IsTrue(actualValue, "Failed to set first value");
             Assert.IsTrue(actualValueTwo, "Failed to set second Value");
             Assert.IsTrue(!actualValueThree, "Failed to set third value");
             Assert.IsTrue(negativeIndexTest, "Negative Index Accepted");
             Assert.IsTrue(largeIndexTest, "Positive Index Accepted");
+            Assert.IsTrue(expectedArray.SequenceEqual(actualArray), "Array values incorrect");
         }
     }
 }
