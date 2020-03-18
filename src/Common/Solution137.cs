@@ -22,13 +22,11 @@ namespace Common
             public void Set(int index, bool value)
             {
                 (int byteAddress, int bitAddress) = GetAddress(index);
-                var bits = internalClusterArray[byteAddress];
                 var bit = (byte)(1 << bitAddress);
                 if (value) { internalClusterArray[byteAddress] |= bit; }
                 else
                 {
-                    bit ^= 0xFF;
-                    internalClusterArray[byteAddress] ^= bit;
+                    internalClusterArray[byteAddress] &= (byte)~bit;
                 }
             }
             public bool Get(int index)
