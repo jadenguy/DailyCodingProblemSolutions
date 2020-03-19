@@ -7,17 +7,17 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using Common.Extensions;
+using System.Collections;
 
 namespace Common.Test
 {
     public class Test138
     {
-        static int[] denominations = new int[] { 1, 5, 10, 25 };
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCase(16, 3)]
-        public void Problem138(int n, int result)
+        [TestCaseSource(typeof(Cases))]
+        public void Problem138(int[] denominations, int n, int result)
         {
             //-- Arrange
             var expected = result;
@@ -27,6 +27,15 @@ namespace Common.Test
 
             //-- Assert
             Assert.AreEqual(expected, actual);
+        }
+        class Cases : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                int[] american = new int[] { 1, 5, 10, 25 };
+                yield return new object[] { american, 16, 3 };
+                yield return new object[] { new int[] { 9, 6, 5, 1 }, 11, 2 };
+            }
         }
     }
 }
