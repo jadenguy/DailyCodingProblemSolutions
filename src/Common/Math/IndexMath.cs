@@ -5,21 +5,22 @@ namespace Common.IndexMath
 {
     public static class IndexMath
     {
-        public static int[] OneToMultiIndex(this int i, int[] sizes)
+        public static int[] OneToMultiIndex(this int index, int[] sizes)
         {
-            if (i > sizes.Product()) { throw new IndexOutOfRangeException("Single Dimensional Index Out Of Multi-Dimensional Range"); }
+            if (index > sizes.Product()) { throw new IndexOutOfRangeException("Single Dimensional Index Out Of Multi-Dimensional Range"); }
             int length = sizes.Length;
-            var ret = new int[length];
+            var indexes = new int[length];
             for (int j = 0; j < length; j++)
             {
-                ret[j] = i;
+                indexes[j] = index;
                 for (int k = j + 1; k < length; k++)
                 {
-                    ret[j] /= sizes[k];
+                    indexes[j] /= sizes[k];
                 }
             }
-            ret[length - 1] = i % sizes[length - 1];
-            return ret;
+            indexes[length - 1] = index % sizes[length - 1];
+            if (indexes.MultiToOneIndex(sizes) != index) { throw new Exception(); }
+            return indexes;
         }
         private static int Product(this int[] sizes)
         {
@@ -28,7 +29,7 @@ namespace Common.IndexMath
         public static int MultiToOneIndex(this int[] indexes, int[] sizes)
         {
             int length = sizes.Length;
-            var ret = 0;
+            var index = 0;
             for (int i = 0; i < length; i++)
             {
                 var r = indexes[i];
@@ -37,9 +38,9 @@ namespace Common.IndexMath
                 {
                     r *= sizes[j];
                 }
-                ret += r;
+                index += r;
             }
-            return ret;
+            return index;
         }
     }
 }
