@@ -7,18 +7,12 @@ namespace Common
     {
         public static int Rand5(int seed = 0)
         {
-            Random rand;
-            if (seed == 0)
-            { rand = new Random(); }
-            else { rand = new Random(seed); }
-            return rand.Next(1, 6);
+            Random rand = (seed == 0) ? new Random() : new Random(seed);
+            return rand.Next(5);
         }
         public static int Rand7(int seed = 0)
         {
-            Random rand;
-            if (seed == 0)
-            { rand = new Random(); }
-            else { rand = new Random(seed); }
+            Random rand = (seed == 0) ? new Random() : new Random(seed);
             var x = 1 + (Enumerable.Range(0, 7).Select(k => Rand5(rand.Next())).Sum() % 7);
             return x;
         }

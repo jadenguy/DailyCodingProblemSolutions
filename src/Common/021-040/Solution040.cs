@@ -1,6 +1,4 @@
-﻿//https://www.geeksforgeeks.org/find-the-element-that-appears-once/ 
-// for the original method, I knew it was Xor somehow, but didn't realize how
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +11,8 @@ namespace Common
     {
         public static int FindUnique(IEnumerable<int> arr)
         {
+            //https://www.geeksforgeeks.org/find-the-element-that-appears-once/ 
+            // for the original method, I knew it was Xor somehow, but didn't realize how
             int common_bit_mask, ones = 0, twos = 0;
             for (int i = 0; i < arr.Count(); i++)
             {
