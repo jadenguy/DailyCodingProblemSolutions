@@ -39,7 +39,7 @@ namespace Common
             else { System.Diagnostics.Debug.WriteLine(0, "array and score"); }
             return highScore;
         }
-        public static int Worthless(IEnumerable<int> array) => DnC.DivideAndConquor(array, CombineOrReturnOne);
+        public static int Worthless(IEnumerable<int> array) => DivideConquerer.DivideAndConquer(array, CombineOrReturnOne);
         public static int CombineOrReturnOne(int a, int b)
         {
             if (a > 0 && b > 0) { return a + b; }
@@ -47,6 +47,5 @@ namespace Common
             if (b > 0) { return b; }
             return 0;
         }
-
     }
 }

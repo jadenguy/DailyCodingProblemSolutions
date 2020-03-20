@@ -5,14 +5,14 @@ using Common.Extensions;
 
 namespace Common.Algorithm
 {
-    public static class DnC
+    public static class DivideConquerer
     {
 
-        public static T DivideAndConquor<T>(IEnumerable<T> array, Func<T, T, T> evaluator)
+        public static T DivideAndConquer<T>(IEnumerable<T> array, Func<T, T, T> evaluator)
 
         {
             var divided = Divide(array, out var leftHalf, out var rightHalf);
-            return Conquor(evaluator, leftHalf, rightHalf, divided);
+            return Conquer(evaluator, leftHalf, rightHalf, divided);
         }
         private static bool Divide<T>(IEnumerable<T> array, out IEnumerable<T> leftHalf, out IEnumerable<T> rightHalf)
         {
@@ -23,13 +23,13 @@ namespace Common.Algorithm
             rightHalf = array.TakeLast(smallHalf);
             return length <= 2;
         }
-        private static T Conquor<T>(Func<T, T, T> evaluator, IEnumerable<T> leftHalf, IEnumerable<T> rightHalf, bool divided)
+        private static T Conquer<T>(Func<T, T, T> evaluator, IEnumerable<T> leftHalf, IEnumerable<T> rightHalf, bool divided)
         {
             if (!divided) { return evaluator(leftHalf.FirstOrDefault(), rightHalf.FirstOrDefault()); }
             else
             {
-                T q = DivideAndConquor(leftHalf, evaluator);
-                T q1 = DivideAndConquor(rightHalf, evaluator);
+                T q = DivideAndConquer(leftHalf, evaluator);
+                T q1 = DivideAndConquer(rightHalf, evaluator);
                 return evaluator(q, q1);
             }
         }
