@@ -15,6 +15,8 @@ namespace Common.Extensions
         }
         public static double PopulationStandardDeviation(this IEnumerable<double> numberSet) => StandardDeviation(numberSet, numberSet.Count());
         public static double SampleStandardDeviation(this IEnumerable<double> numberSet) => StandardDeviation(numberSet, numberSet.Count() - 1);
+        public static double PopulationStandardDeviation(this IEnumerable<int> numberSet) => StandardDeviation(numberSet.Select(n=>(double)n), numberSet.Count());
+        public static double SampleStandardDeviation(this IEnumerable<int> numberSet) => StandardDeviation(numberSet.Select(n=>(double)n), numberSet.Count() - 1);
         public static bool[][] GenerateBitMasks(int n)
         {
             var bitmasks = Enumerable.Range(0, (int)Math.Pow(2, n)).ToArray();

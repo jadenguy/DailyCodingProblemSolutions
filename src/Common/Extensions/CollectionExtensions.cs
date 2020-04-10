@@ -11,13 +11,10 @@ namespace Common.Extensions
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumerable, int i) => enumerable.Reverse().Take(i).Reverse();
         [System.Diagnostics.DebuggerStepThrough]
         public static string Print<T>(this IEnumerable<T> enumerable, string seperator = "\n", Func<T, object> func = null)
-        {
-            if (func is null) { func = v => v.ToString(); }
-            return string.Join(seperator, enumerable.Select(v => func(v)));
-        }
+            => string.Join(seperator, enumerable.Select(v => (func ?? (o => o))(v)));
         public static string Print<T>(this T[,] enumerable, Func<T, object> func = null)
         {
-            if (func is null) { func = o => o; }
+            func = func ?? (o => o);
             var sb = new System.Text.StringBuilder();
             int xMax = enumerable.GetUpperBound(0);
             int yMax = enumerable.GetUpperBound(1);
@@ -65,9 +62,7 @@ namespace Common.Extensions
         public static void Swap<T>(this T[] array, int i, int o)
         {
             if (i == o) { return; }
-            var temp = array[i];
-            array[i] = array[o];
-            array[o] = temp;
+            (array[i], array[o]) = (array[o], array[i]);
         }
         [System.Diagnostics.DebuggerStepThrough]
         public static bool TryPeek<T>(this Queue<T> queue, out T peek)
