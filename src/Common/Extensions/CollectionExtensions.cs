@@ -99,9 +99,9 @@ namespace Common.Extensions
             var masks = MathExtensions.GenerateBitMasks(length);
             foreach (var mask in masks)
             {
+                List<T> combination = new List<T>();
                 for (int i = 0; i < length; i++)
                 {
-                    List<T> combination = new List<T> { };
                     if (mask[i])
                     { combination.Add(source[i]); }
                     yield return combination.ToArray();
