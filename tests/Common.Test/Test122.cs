@@ -17,7 +17,7 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCaseSource(typeof(Cases))]
+        [TestCaseSource(typeof(Cases122))]
         public void Problem122(int[,] input, int result)
         {
             //-- Arrange
@@ -33,7 +33,7 @@ namespace Common.Test
             // //-- Assert
             Assert.AreEqual(expected, actual);
         }
-        class Cases : IEnumerable
+        private class Cases122 : IEnumerable
         {
             private const int rangeStart = 0;
             private const int rangeLength = 3;

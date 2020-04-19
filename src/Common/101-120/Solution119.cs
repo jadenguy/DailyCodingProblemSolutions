@@ -17,7 +17,7 @@ namespace Common
             var coveredIntervals = possibleCoveringIntegers.ToDictionary(k => k, v => input.Where(r => r.start <= v && r.end >= v));
 
             var possibleSets = coveredIntervals.Keys.EverySubset();
-            var possibleAnswers = possibleSets.ToDictionary(k => k, n => new HashSet<(int, int)>(n.SelectMany(g => coveredIntervals[g])));
+            var possibleAnswers = possibleSets.Distinct().ToDictionary(k => k, n => new HashSet<(int, int)>(n.SelectMany(g => coveredIntervals[g])));
             var answers = possibleAnswers.Where(v => v.Value.SetEquals(inputSet)).OrderBy(k => k.Key.Length);
 
             var ret = answers.FirstOrDefault().Key;
