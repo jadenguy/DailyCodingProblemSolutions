@@ -26,7 +26,7 @@ namespace Common.Test
 
             //-- Assert
             Assert.AreEqual(expected.SampleStandardDeviation(), actual.SampleStandardDeviation(), stDevTolerance, "standard deviation wrong");
-            Assert.AreEqual(expected.Average(), actual.Average(), avgTolerance , "average wrong");
+            Assert.AreEqual(expected.Average(), actual.Average(), avgTolerance, "average wrong");
         }
         [Test]
         public void Problem045Control()
@@ -36,10 +36,11 @@ namespace Common.Test
 
             //-- Act
             var actual = Enumerable.Range(0, nRuns).SelectMany(k => Enumerable.Range(1, 5).Select(v => Solution045.Rand5(rand.Next()))).ToArray();
+            actual.GroupBy(n => n).OrderBy(g => g.Key).Print("\n", g => (g.Key, g.Count())).WriteHost();
 
             //-- Assert
             Assert.AreEqual(expected.SampleStandardDeviation(), actual.SampleStandardDeviation(), stDevTolerance, "standard deviation wrong");
-            Assert.AreEqual(expected.Average(), actual.Average(), avgTolerance , "average wrong");
+            Assert.AreEqual(expected.Average(), actual.Average(), avgTolerance, "average wrong");
         }
     }
 }

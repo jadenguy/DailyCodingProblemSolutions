@@ -8,7 +8,7 @@ namespace Common
         public static int Rand5(int seed = 0)
         {
             Random rand = (seed == 0) ? new Random() : new Random(seed);
-            return rand.Next(1, 5);
+            return rand.Next(1, 6);
         }
         public static int Rand7(int seed = 0)
         {
