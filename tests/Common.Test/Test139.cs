@@ -14,11 +14,7 @@
 //     def hasNext(self):
 //         pass
 
-
-
-
 using NUnit.Framework;
-using System.Collections;
 using System.Linq;
 
 namespace Common.Test
@@ -28,27 +24,33 @@ namespace Common.Test
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
-        [TestCaseSource(typeof(Cases))]
-        public void Problem139(int[] denominations, int n, int result)
+        public void Problem139Iterator()
         {
             //-- Arrange
-            var iterator = new Solution139.Iterator<int>(Enumerable.Range(0,10));
-            var expected = result;
+            var enumerable = Enumerable.Range(0, 10).ToArray();
+            var iterator = new Solution139.Iterator<int>(enumerable);
+            var expected = enumerable;
 
             //-- Act
-            int actual = new Solution139.
+            var actual = Enumerable.Range(139, 10).Select(n => iterator.Next());
 
             //-- Assert
             Assert.AreEqual(expected, actual);
         }
-        class Cases : IEnumerable
+        [Test]
+        public void Problem139PeekableIterator()
         {
-            public IEnumerator GetEnumerator()
-            {
-                int[] american = new int[] { 1, 5, 10, 25 };
-                yield return new object[] { american, 16, 3 };
-                yield return new object[] { new int[] { 9, 6, 5, 1 }, 11, 2 };
-            }
+            //-- Arrange
+            var enumerable = Enumerable.Range(0, 10).ToArray();
+            var iterator = new Solution139.Iterator<int>(enumerable);
+            var peekableIterator = new Solution139.PeekableIterator<int>(iterator);
+            var expected = enumerable;
+
+            //-- Act
+            var actual = Enumerable.Range(139, 10).Select(n => peekableIterator.Next());
+
+            //-- Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }
