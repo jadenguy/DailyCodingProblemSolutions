@@ -15,6 +15,7 @@
 //         pass
 
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Common.Test
@@ -27,28 +28,51 @@ namespace Common.Test
         public void Problem139Iterator()
         {
             //-- Arrange
-            var enumerable = Enumerable.Range(0, 10).ToArray();
-            var iterator = new Solution139.Iterator<int>(enumerable);
-            var expected = enumerable;
+            var series = Enumerable.Range(0, 10);
+            var iterator = new Solution139.Iterator<int>(series);
+            var expected = series;
 
             //-- Act
-            var actual = Enumerable.Range(139, 10).Select(n => iterator.Next());
+            var actual = series.Select(n => iterator.Next());
 
             //-- Assert
             Assert.AreEqual(expected, actual);
         }
         [Test]
-        public void Problem139PeekableIterator()
+        public void Problem139PeekableIteratorOnceThrough()
         {
             //-- Arrange
-            var enumerable = Enumerable.Range(0, 10).ToArray();
-            var iterator = new Solution139.Iterator<int>(enumerable);
+            var series = Enumerable.Range(0, 10);
+            var iterator = new Solution139.Iterator<int>(series);
             var peekableIterator = new Solution139.PeekableIterator<int>(iterator);
-            var expected = enumerable;
+            var expected = series;
 
             //-- Act
-            var actual = Enumerable.Range(139, 10).Select(n => peekableIterator.Next());
+            var actual = series.Select(n => peekableIterator.Next());
 
+            //-- Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void Problem139PeekableIteratorRepeatPeak()
+        {
+            //-- Arrange
+            var rand = new System.Random(139);
+            var series = Enumerable.Range(0, 10);
+            var iterator = new Solution139.Iterator<int>(series);
+            var peekableIterator = new Solution139.PeekableIterator<int>(iterator);
+            var expected = series.SelectMany(n => Enumerable.Repeat(n, n));
+
+            //-- Act
+            var actual = new List<int>();
+            foreach (var i in series)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    actual.Add(peekableIterator.PeekNext());
+                }
+                peekableIterator.Next();
+            }
             //-- Assert
             Assert.AreEqual(expected, actual);
         }

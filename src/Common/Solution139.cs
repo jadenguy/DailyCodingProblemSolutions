@@ -6,23 +6,25 @@ namespace Common
     {
         public class PeekableIterator<T> : IIterator<T>
         {
-            private Iterator<T> iterator;
+            private Iterator<T> innerIterator;
             private T peekNext;
-            private readonly bool isPeek;            public bool HasNext => iterator.HasNext;
+            private readonly bool isPeek;
+            public bool HasNext => innerIterator.HasNext;
             public PeekableIterator(Iterator<T> iterator)
             {
-                this.iterator = iterator ?? throw new System.ArgumentNullException(nameof(iterator));
-                peekNext = iterator.Next();
+                this.innerIterator = iterator ?? throw new System.ArgumentNullException(nameof(iterator));
+                Next();
             }
             public T Next()
             {
                 var ret = peekNext;
-                peekNext = iterator.Next();
+                peekNext = HasNext ? innerIterator.Next() : default;
                 return ret;
             }
             public T PeekNext() => peekNext;
-            public void Reset() => iterator.Reset();
-        }        public interface IIterator<T>
+            public void Reset() => innerIterator.Reset();
+        }
+        public interface IIterator<T>
         {
             bool HasNext { get; }
             T Next();
@@ -30,21 +32,23 @@ namespace Common
         }
         public class Iterator<T> : IIterator<T>
         {
-            private readonly IEnumerator<T> enumerator;
-            private IEnumerable<T> innerEnumerable;
+            private  IEnumerator<T> enumerator;
+            private readonly IEnumerable<T> innerEnumerable;
             private bool hasNext;
             public bool HasNext { get => hasNext; }
             public Iterator(IEnumerable<T> enumerable)
             {
                 innerEnumerable = enumerable ?? throw new System.ArgumentNullException(nameof(enumerable));
                 enumerator = innerEnumerable.GetEnumerator();
+                Next();
+                Reset();
             }
             public T Next()
             {
                 hasNext = enumerator.MoveNext();
-                return enumerator.Current;
+                return hasNext ? enumerator.Current : default;
             }
-            public void Reset() => enumerator.Reset();
+            public void Reset() => enumerator = innerEnumerable.GetEnumerator();
         }
     }
 }
