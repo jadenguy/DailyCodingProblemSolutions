@@ -32,14 +32,30 @@ namespace Common
         }
         private static IEnumerable<int> FindUniqueTheXorWay(int[] array)
         {
+            // XOR the whole list
             int xor = array.Aggregate(0, (x, i) => x ^= i);
             // Convert.ToString(xor,2).WriteHost();
+            // subtracting one from a number takes all the rightmost 0s 
+            // and turns them into 1, and the first 1 to a 0
+            // the opposite of that is for the first 1 to be a 1, all
+            // of the remaining 0s to 1s, so the left half is reverse
+            // the first 1 is a 1, and the right is all 0s.
+            // when you and that against itself you get the first one
+            // because the left half is opposite and the right half
+            // is all zeros.
             int v = ~(xor - 1);
             // Convert.ToString(v,2).WriteHost();
             int setBit = xor & v;
             // Convert.ToString(setBit,2).WriteHost();
             int a = 0;
             int b = 0;
+            // the XOR of a list of doubles and two singles is the XOR
+            // of just the two singles, the others cancel out.
+            // by definition, the 1s are unique to each number, so by
+            // picking a random (leftmost) 1, we can make two sets:
+            // numbers that have the bit set and numbers that don't.
+            // because pairs will XOR out, it doesn't matter where 
+            // they go. The unique ones will thus separate themselves.
             foreach (var item in array)
             {
                 if ((item & setBit) == setBit) { a ^= item; }
