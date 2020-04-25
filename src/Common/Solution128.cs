@@ -7,7 +7,7 @@ namespace Common
 {
     public static class Solution128
     {
-        private static void WriteHost(this object o) => System.Diagnostics.Debug.WriteLine(o);
+        // private static void WriteHost(this object o) => System.Diagnostics.Debug.WriteLine(o);
         public static (int from, int to)[] SolveTowerOfHanoi(int height)
         {
             var ret = new List<(int, int)>();
