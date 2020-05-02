@@ -17,17 +17,23 @@ namespace Common
                         balance--;
                         break;
                     case '*':
-                        wildcard++;
+                        if (balance >= 0) wildcard++;
                         break;
                     default:
                         break;
                 }
-                if (balance<0){
+                if (balance < 0)
+                {
                     wildcard--;
-                    if (wildcard<0){break;} else{balance++;}
+                    if (wildcard < 0)
+                    {
+                        wildcard--;
+                        break;
+                    }
+                    else { balance++; }
                 }
             }
-            return balance == 0;
+            return balance <= wildcard;
         }
     }
 }

@@ -30,18 +30,19 @@ namespace Common.Test
         {
             public IEnumerator GetEnumerator()
             {
+                yield return new object[] { "*)", true };
+                // passing
                 yield return new object[] { "", true };
                 yield return new object[] { "*", true };
                 yield return new object[] { "**", true };
                 yield return new object[] { "***", true };
                 yield return new object[] { "(*", true };
-                yield return new object[] { "*)", true };
                 yield return new object[] { "(*)", true };
                 yield return new object[] { "(**)", true };
                 yield return new object[] { "(", false };
+                yield return new object[] { ")", false };
                 yield return new object[] { "((", false };
                 yield return new object[] { "(()", false };
-                yield return new object[] { ")", false };
                 yield return new object[] { ")()", false };
                 yield return new object[] { "))", false };
                 yield return new object[] { ")(", false };
