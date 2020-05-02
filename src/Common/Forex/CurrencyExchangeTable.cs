@@ -7,8 +7,7 @@ namespace Common.Forex
     {
         public new void Add(Exchange x)
         {
-            IEnumerable<Exchange> enumerable = this.Where(e => e.OldCurrency == x.OldCurrency && e.NewCurrency == x.NewCurrency);
-            if (!this.Contains(x) && !enumerable.Any())
+            if (!this.Contains(x) && !this.Any(e => e.OldCurrency == x.OldCurrency && e.NewCurrency == x.NewCurrency))
             {
                 ((List<Exchange>)this).Add(x);
             }

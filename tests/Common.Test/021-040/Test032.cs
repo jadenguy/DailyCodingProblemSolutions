@@ -16,6 +16,7 @@ namespace Common.Test
         private const double percentageMarketIsOff = 1.1;
         double[][,] arraysArray;
         string[] currencyNames;
+        Random rand = Rand.NewRandom(032);
         CurrencyExchangeTable table;
         [SetUp]
         public void Setup()
@@ -84,7 +85,6 @@ namespace Common.Test
             var array = arraysArray[arrayIndex];
             if (arbitrage)
             {
-                var rand = new System.Random();
                 array[rand.Next(array.GetLowerBound(0)), rand.Next(array.GetLowerBound(1))] *= percentageMarketIsOff;
             }
 
@@ -119,7 +119,6 @@ namespace Common.Test
             var array = arraysArray[arrayIndex];
             if (arbitrage)
             {
-                var rand = new System.Random();
                 array[rand.Next(array.GetLowerBound(0)), rand.Next(array.GetLowerBound(1))] *= percentageMarketIsOff;
             }
 
@@ -188,7 +187,6 @@ namespace Common.Test
             var bellmanFordChart = graphArray.ToDictionary(k => k, v => double.PositiveInfinity);
             bellmanFordChart[graphArray[0]] = 0;
             // var expected = true;
-            var rand = new System.Random();
             var rootNode = graphArray[0]; //create a gold currency
             foreach (var otherNode in graphArray.Where(o => o != rootNode).Where(o => !o.Paths.ContainsKey(rootNode))) //create creates an exchange rate for each currency against gold
             {

@@ -7,9 +7,7 @@ namespace Common
     {
         public static int[] SwapShuffleDeck(int seed = 0, int cards = 52)
         {
-            Random rand;
-            if (seed == 0) { rand = new Random(); }
-            else { rand = new Random(seed); }
+            var rand = Rand.NewRandom(seed);
             var deck = Enumerable.Range(1, cards).ToArray();
             for (int i = 0; i < cards; i++)
             {

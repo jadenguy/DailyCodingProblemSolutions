@@ -11,7 +11,7 @@ namespace Common
         private class Instruction : IEquatable<Instruction>
         {
             private bool isX = false;
-            private static System.Random rand;
+            private static System.Random rand = Rand.NewRandom(122);
             private static object l = new object();
             private int hash;
             public int XDelta { get => IsX ? 1 : 0; }
@@ -24,7 +24,6 @@ namespace Common
                 {
                     lock (l)
                     {
-                        rand = rand == null ? new System.Random() : rand;
                         while (hash == 0) { hash = rand.Next(); }
                     }
                     return hash;
@@ -60,7 +59,7 @@ namespace Common
                 }
             }
             start.ConnectTo(nodes[0, 0], -input[0, 0]);
-            nodes[xLen - 1, yLen - 1].ConnectTo(end,0);
+            nodes[xLen - 1, yLen - 1].ConnectTo(end, 0);
             var distances = start.BellmanFord();
             var ret = -Convert.ToInt32(distances[end]);
             return ret;

@@ -5,12 +5,11 @@ namespace Common.RandomSelector
 
     public class UnbalancedCoin
     {
-        Random rand;
+        System.Random rand;
         int probAnchor;
         public UnbalancedCoin(int seed = 0)
         {
-            if (seed == 0) { rand = new Random(); }
-            else { rand = new Random(seed); }
+            rand = Rand.NewRandom(seed);
             probAnchor = rand.Next();
         }
         public bool TossBiased() => rand.Next() < probAnchor;

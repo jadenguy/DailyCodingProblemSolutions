@@ -16,7 +16,7 @@ namespace Common.Test
         {
             var list = new List<int[]>();
             var result = new List<int>();
-            var rand = new Random();
+            var rand = Rand.NewRandom(078);
             var listCount = 5;
             var elementCount = 5;
             for (int i = 0; i < listCount; i++)

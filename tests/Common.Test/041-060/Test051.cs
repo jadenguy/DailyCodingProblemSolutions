@@ -19,7 +19,7 @@ namespace Common.Test
             double expected = ((double)cards) / 2 + .5;
 
             //-- Act
-            var actual = Solution051.SwapShuffleDeck(cards: cards).Average();
+            var actual = Solution051.SwapShuffleDeck(cards: cards, seed: 51).Average();
 
             // //-- Assert
             Assert.AreEqual(expected, actual);

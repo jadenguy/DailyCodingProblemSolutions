@@ -9,12 +9,11 @@ namespace Common.Node
 
     {
         private IDictionary<int, XorLinkedListNode> memory;
-        private Random rand;
+        private System.Random rand;
         private XorLinkedListNode topNode;
         public XorLinkedListMemoryDictionary(string rootNodeValue = "root", int seed = 0)
         {
-            if (seed == 0) { rand = new Random(); }
-            else { rand = new Random(seed); }
+            rand = Rand.NewRandom(seed);
             memory = new Dictionary<int, XorLinkedListNode>();
             topNode = new XorLinkedListNode(this, rootNodeValue, 0, 0);
             memory.Add(0, topNode);
@@ -22,8 +21,7 @@ namespace Common.Node
 
         public XorLinkedListMemoryDictionary(IEnumerable<string> values, string rootNodeValue = "root", int seed = 0)
         {
-            if (seed == 0) { rand = new Random(); }
-            else { rand = new Random(seed); }
+            rand = Rand.NewRandom(seed);
             memory = new Dictionary<int, XorLinkedListNode>();
             topNode = new XorLinkedListNode(this, rootNodeValue, 0, 0);
             memory.Add(0, topNode);

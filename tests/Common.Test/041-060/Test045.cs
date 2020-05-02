@@ -9,7 +9,7 @@ namespace Common.Test
 {
     public class Test045
     {
-        Random rand = new Random(45);
+        System.Random rand = new System.Random(45);
         private const double stDevTolerance = .1;
         private const double avgTolerance = .1;
         private const int nRuns = 1000;

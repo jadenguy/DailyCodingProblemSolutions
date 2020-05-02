@@ -7,6 +7,7 @@ namespace Common.Node.Test
 {
     public class BellmanFordTest
     {
+        private const int Seed = 100;
         GraphNode<string>[] graphArray;
         Dictionary<GraphNode<string>, double> bellmanFordChart;
         [SetUp]
@@ -68,7 +69,7 @@ namespace Common.Node.Test
         public void BellmanFordGraphConnectedNoNegativeNoLoop()
         {
             //-- Arrange
-            var rand = new Random();
+            var rand = Rand.NewRandom(Seed);
             foreach (var node in graphArray)
             {
                 foreach (var otherNode in graphArray.Where(o => o != node).Where(o => !o.Paths.ContainsKey(node)))

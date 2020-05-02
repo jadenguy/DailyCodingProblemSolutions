@@ -18,7 +18,7 @@ namespace Common.Test
         public void Problem055()
         {
             //-- Arrange
-            Random rand = new Random();
+            var rand = Rand.NewRandom(055);
             var urlShortener = new Shortener();
             const int urlCount = 100;
             string[] urls = new string[urlCount];

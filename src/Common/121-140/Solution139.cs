@@ -8,7 +8,6 @@ namespace Common
         {
             private Iterator<T> innerIterator;
             private T peekNext;
-            private readonly bool isPeek;
             public bool HasNext => innerIterator.HasNext;
             public PeekableIterator(Iterator<T> iterator)
             {

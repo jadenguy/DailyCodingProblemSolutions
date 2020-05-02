@@ -67,7 +67,7 @@ namespace Common.Test
         class CasesTwo : IEnumerable
         {
             private const int TestCount = 10;
-            private const int Seed = 0;
+            private const int Seed = 107;
             public IEnumerator GetEnumerator()
             {
                 BinaryNode<string> root = null;
@@ -75,7 +75,7 @@ namespace Common.Test
 
                 // by using a constant seed here, we can better use automatic testing
                 // the reason is that the name of the test changes based on the text of the object
-                var rand = new Random(Seed);
+                var rand = Rand.NewRandom(Seed);
                 for (int i = 0; i < TestCount; i++)
                 {
                     var enumerable = Enumerable.Range(0, TestCount).Select(r => rand.Next().ToString("X8")).Distinct();

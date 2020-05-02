@@ -25,7 +25,7 @@ namespace Common.Test
             nodes = new List<BinaryNode<int>>();
             results = new List<bool>();
             BinaryNode<int> root;
-            var rand = new Random();
+            var rand = Rand.NewRandom(089);
 
             // 0
             var x = new BinarySearchNode<int>(rand.Next());

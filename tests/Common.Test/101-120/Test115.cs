@@ -47,9 +47,7 @@ namespace Common.Test
                 {
                     var other = ArbitraryTreeBinaryNode.GenerateArbitaryBinaryTreeNode(rand.Next(), "Other");
                     yield return new object[] { root, other, false };
-
-                    var subRand = new System.Random(rand.Next());
-                    var sub = root.BreadthFirstSearch().Shuffle(subRand).ToArray().FirstOrDefault();
+                    var sub = root.BreadthFirstSearch().Shuffle(rand.Next()).ToArray().FirstOrDefault();
                     yield return new object[] { root, sub, true };
                 }
             }

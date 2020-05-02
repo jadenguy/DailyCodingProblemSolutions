@@ -38,7 +38,7 @@ namespace Common.Test
             var returnedValues = array.ToDictionary(a => a, a => 0);
 
             //-- Act
-            var rand = new Random();
+            var rand = Rand.NewRandom(015);
             for (int i = 0; i < cycles; i++)
             {
                 var streamElementSelector = new StreamElementSelector<int>(rand.Next());

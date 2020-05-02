@@ -8,9 +8,7 @@ namespace Common
         public bool KnownLeft { get; private set; } = false;
         private readonly System.Random rand;
         public ArbitraryBinaryTreeNodeLazyExecution(int seed = 0, int data = 0) : base(null)
-        {
-            if (seed == 0) { rand = new System.Random(); } else { rand = new System.Random(seed); }
-        }
+            => rand = Rand.NewRandom(seed);
         public bool KnownRight { get; private set; } = false;
         public new BinaryNode<object> Left
         {

@@ -14,7 +14,7 @@ namespace Common.Test
         public void Problem120()
         {
             //-- Arrange
-            var rand = new System.Random();
+            var rand = Rand.NewRandom(120);
             var checks = rand.Next(100, 200);
             var expectedA = rand.Next(0, 10);
             var expectedB = rand.Next(0, 10);

@@ -4,14 +4,10 @@ namespace Common.RandomSelector
 {
     public class StreamElementSelector<T>
     {
-        private Random random;
+        private System.Random random;
         private int streamElementCount = 0;
         public T Element { get; set; }
-        public StreamElementSelector(int seed = 0)
-        {
-            if (seed == 0) { random = new Random(); }
-            else random = new Random(seed);
-        }
+        public StreamElementSelector(int seed = 0) => random = Rand.NewRandom(seed);
         public StreamElementSelector(T first)
         {
             Element = first;

@@ -47,8 +47,8 @@ namespace Common.Extensions
                 }
             }
         }
-        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, Random rand) => e.OrderBy(r => (rand ?? new Random()).Next());
-        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, int seed = 0) => e.Shuffle(seed == 0 ? new Random() : new Random(seed));
+        [System.Diagnostics.DebuggerStepThrough] private static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, System.Random rand) => e.OrderBy(r => rand.Next());
+        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, int seed = 0) => e.Shuffle(Rand.NewRandom(seed));
         [System.Diagnostics.DebuggerStepThrough]
         public static void Reverse<T>(this T[] array, int start = 0, int count = -1)
         {

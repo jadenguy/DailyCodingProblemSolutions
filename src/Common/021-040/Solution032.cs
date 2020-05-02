@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Common.Extensions;
 using Common.Forex;
 using Common.Node;
 
@@ -14,49 +13,11 @@ namespace Common
         public static bool FindArbitrageBellmanFord(double[,] array, double precision = 0)
         {
             // var isThereArbitrage = false;
-            var table = array.ToExchangeTable();
+            var table = array.ToExchangeTable(seed: 32);
             var graphArray = table.ToWeightedGraphArray();
             var root = graphArray[0];
             return root.BellmanFord(precision, true).ContainsValue(double.NegativeInfinity);
-            // var bellmanFordChart = graphArray.ToDictionary(k => k, k => double.PositiveInfinity);
-            // bellmanFordChart[bellmanFordChart.Keys.First()] = 0;
-            // isThereArbitrage = DetectLoop(bellmanFordChart, precision);
-            // System.Diagnostics.Debug.WriteLine(bellmanFordChart.Print());
-            // return isThereArbitrage;
         }
-        // private static bool DetectLoop(Dictionary<GraphNode<string>, double> bellmanFordChart, double precision)
-        // {
-        //     bellmanFordChart.BellmanFord(precision);
-        //     return bellmanFordChart.BellmanFord(precision, true, true).ContainsValue(double.NegativeInfinity);
-        // }
-        // public static Dictionary<GraphNode<string>, double> BellmanFord(this Dictionary<GraphNode<string>, double> bellmanFordChart, double precision = 0, bool detectNegativeCycles = false, bool onceOver = false)
-        // {
-        //     var connectorList = bellmanFordChart.Keys.SelectMany(g => g.Paths.Select(x => new { Start = g, End = x.Key, Weight = x.Value })).Random().ToArray();
-        //     int i = 0;
-        //     var same = true;
-        //     // System.Diagnostics.Debug.WriteLine(connectorList.Print());
-        //     while (!onceOver && !same && i < bellmanFordChart.Count)
-        //     {
-        //         var old = bellmanFordChart.ToDictionary(k => k.Key, v => v.Value);
-        //         foreach (var connector in connectorList)
-        //         {
-        //             var sourceDistance = bellmanFordChart[connector.Start];
-        //             double currentDistance = bellmanFordChart[connector.End];
-        //             double pathWeight = connector.Weight;
-        //             double potentialDistance = sourceDistance + pathWeight;
-        //             if (potentialDistance + precision < currentDistance)
-        //             {
-        //                 if (detectNegativeCycles) { bellmanFordChart[connector.End] = double.NegativeInfinity; }
-        //                 else { bellmanFordChart[connector.End] = potentialDistance; }
-        //             }
-        //         }
-        //         i++;
-        //         // System.Diagnostics.Debug.WriteLine(bellmanFordChart.Print());
-        //         // System.Diagnostics.Debug.WriteLine("");
-        //         same = bellmanFordChart.Keys.All(item => old[item] == bellmanFordChart[item]);
-        //     }
-        //     return bellmanFordChart;
-        // }
         public static GraphNode<string>[] ToWeightedGraphArray(this Forex.CurrencyExchangeTable table)
         {
             var fullList = table.Select(x => x.OldCurrency).Distinct().Select(c => new GraphNode<string>(c.Name)).ToArray();
@@ -68,7 +29,7 @@ namespace Common
             }
             return fullList;
         }
-        public static IEnumerable<Arbitrage> ArbitrateNaive(double[,] array, double precision = 0) => ArbitrateNaive(array.ToExchangeTable(), precision);
+        public static IEnumerable<Arbitrage> ArbitrateNaive(double[,] array, double precision = 0) => ArbitrateNaive(array.ToExchangeTable(seed: 32), precision);
         public static IEnumerable<Arbitrage> ArbitrateNaive(CurrencyExchangeTable list, double precision = 0)
         {
             foreach (var item in GenerateLoops(list))
@@ -116,12 +77,11 @@ namespace Common
             ratio = money;
             return isArbitrage;
         }
-        public static CurrencyExchangeTable ToExchangeTable(this double[,] array)
+        public static CurrencyExchangeTable ToExchangeTable(this double[,] array, int seed = 0)
         {
             var list = new CurrencyExchangeTable();
             var yList = new Dictionary<int, Currency>();
-            var rand = new Random();
-            for (int y = 0; y <= array.GetUpperBound(1); y++)
+            var rand = Rand.NewRandom(seed); for (int y = 0; y <= array.GetUpperBound(1); y++)
             {
                 yList.Add(y, new Currency(y, rand.Next().GetHashCode().ToString("X")));
             }
@@ -156,7 +116,7 @@ namespace Common
         {
             var last = chain.Last();
             var matchingLinks = list.Where(x => chain.Contains(x) == false).Where(x => x.OldCurrency == last.NewCurrency).ToArray();
-            if (chain.IsLoop())
+            if (chain.IsLoop)
             {
                 yield return chain;
             }
@@ -176,27 +136,5 @@ namespace Common
                 }
             }
         }
-        private static bool IsLoop(this ExchangeChain chain)
-        {
-            Exchange current;
-            var previous = chain.Last();
-            var ret = true;
-            for (int i = 0; ret && i < chain.Count; i++)
-            {
-                current = chain[i];
-                ret = current.OldCurrency == previous.NewCurrency;
-                previous = current;
-            }
-            return ret;
-        }
-        // public static IEnumerable<Arbitrage> FindArbitrageBellmanFord(double[,] array, double precision = 0)
-        // {
-        //     CurrencyExchangeTable list = TurnArrayToDictionaryOfExchangeValues(array);
-        //     return ArbitrateBellmanFord(list, precision);
-        // }
-        // private static IEnumerable<Arbitrage> ArbitrateBellmanFord(CurrencyExchangeTable list, double precision)
-        // {
-        //     throw new NotImplementedException();
-        // }
     }
 }

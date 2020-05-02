@@ -6,6 +6,7 @@ namespace Common.Test
 {
     public class Solution059
     {
+        static System.Random rand = Rand.NewRandom(059);
         public static ulong TransferFile(byte[] localFile, byte[] remoteFile, object fileSystem, object connection, int blockSize = 1000, int errorOnePer = 1000000, int maxRetry = 10)
         {
             ulong ret = 0;
@@ -49,7 +50,7 @@ namespace Common.Test
         }
         private static T GetRemoteWithErrorRate<T>(T @return, T errorReturn, int errorOnePer)
         {
-            if (new System.Random().Next(errorOnePer) == 0)
+            if (rand.Next(errorOnePer) == 0)
             {
                 return errorReturn;
             }

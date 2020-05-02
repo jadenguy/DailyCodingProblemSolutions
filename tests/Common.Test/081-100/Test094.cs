@@ -19,7 +19,7 @@ namespace Common.Test
             nodes = new List<BinaryNode<int>>();
             results = new List<int>();
             BinaryNode<int> root;
-            var rand = new Random();
+            var             rand = Rand.NewRandom(094);
 
             // 0
             nodes.Add(root = n(0));

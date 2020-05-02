@@ -18,7 +18,7 @@ namespace Common.Test
         {
             scheduleRuleSets = new List<Dictionary<string, string[]>>();
             results = new List<string[]>();
-            var rand = new Random();
+            var rand = Rand.NewRandom(092);
 
             // 0
             var ruleSet = new Dictionary<string, string[]>();
