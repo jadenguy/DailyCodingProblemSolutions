@@ -6,11 +6,8 @@
 //         pass
 //     def push(self, item, stack_number):
 
-using System;
-using System.Linq;
-using NUnit.Framework;
-using Common.Extensions;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Common.Test
 {
@@ -22,17 +19,17 @@ namespace Common.Test
         public void Problem141()
         {
             //-- Assert
-var expected = new[]{new[]{0},new[]{1},new[]{2}};
-            var triStack = new Common.Solution141.TriStack();
+            var expected = new[] { new[] { 0 }, new[] { 1 }, new[] { 2 } };
+            var triStack = new Common.Solution141.TriStack<int>();
             //-- Arrange
             for (int i = 0; i < 3; i++)
             {
-                triStack.Push(i,i);
+                triStack.Push(i, i);
             }
             var actual = new List<List<int>>();
             for (int i = 0; i < 3; i++)
             {
-actual.Add(             new List<int> (){  triStack.Pop(i)});
+                actual.Add(new List<int>() { triStack.Pop(i) });
             }
 
             //-- Act
