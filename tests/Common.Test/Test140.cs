@@ -19,7 +19,7 @@ namespace Common.Test
             var expected = new HashSet<int>(singles);
 
             //-- Arrange
-            var actual = new HashSet<int>(Solution140.FindUnique(array));
+            var actual = new HashSet<int>(Solution140.FindUniquePair(array));
 
             //-- Act
             Assert.IsTrue(expected.SetEquals(actual), "sets unequal");

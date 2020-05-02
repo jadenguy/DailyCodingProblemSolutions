@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Common
 {
-    internal static class Solution140
+    public static class Solution140
     {
-        internal static IEnumerable<int> FindUnique(int[] array)
+        public static IEnumerable<int> FindUniquePair(int[] array)
         {
             // return FindUniqueTheEasyWay(array);
             // return FindUniqueTheMediumWay(array);
@@ -32,7 +32,7 @@ namespace Common
         }
         private static IEnumerable<int> FindUniqueTheXorWay(int[] array)
         {
-            // XOR the whole list
+            // XOR the whole list, to get a XOR of unique pairs
             int xor = array.Aggregate(0, (x, i) => x ^= i);
             // Convert.ToString(xor,2).WriteHost();
             // subtracting one from a number takes all the rightmost 0s 
