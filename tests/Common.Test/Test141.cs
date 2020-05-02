@@ -21,6 +21,7 @@ namespace Common.Test
             //-- Assert
             var expected = new[] { new[] { 0 }, new[] { 1 }, new[] { 2 } };
             var triStack = new Common.Solution141.TriStack<int>();
+            
             //-- Arrange
             for (int i = 0; i < 3; i++)
             {
