@@ -1,10 +1,6 @@
 // You're given a string consisting solely of (, ), and *. * can represent either a (, ), or an empty string. Determine whether the parentheses are balanced.
 
-using System;
-using System.Linq;
 using NUnit.Framework;
-using Common.Extensions;
-using System.Collections.Generic;
 using System.Collections;
 
 namespace Common.Test
@@ -30,13 +26,13 @@ namespace Common.Test
         {
             public IEnumerator GetEnumerator()
             {
-                yield return new object[] { "*)", true };
                 // passing
                 yield return new object[] { "", true };
                 yield return new object[] { "*", true };
                 yield return new object[] { "**", true };
                 yield return new object[] { "***", true };
                 yield return new object[] { "(*", true };
+                yield return new object[] { "*)", true };
                 yield return new object[] { "(*)", true };
                 yield return new object[] { "(**)", true };
                 yield return new object[] { "(", false };

@@ -17,7 +17,7 @@ namespace Common
                         balance--;
                         break;
                     case '*':
-                        if (balance >= 0) wildcard++;
+                        wildcard++;
                         break;
                     default:
                         break;
