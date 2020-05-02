@@ -6,33 +6,38 @@ namespace Common
 {
     public class Solution141
     {
-        public class TriStack<T>
+        public class NStack<T>
         {
-            private List<T> innerList;
-            private int[] lengths;
+            private readonly int n;
+            private readonly List<T> innerList;
+            private readonly int[] lengths;
             private int maxLength => lengths.Max();
-            public TriStack()
+            public int N { get => n; }
+            public NStack(int n)
             {
+                this.n = n;
                 this.innerList = new List<T>();
-                this.lengths = new int[3];
+                this.lengths = new int[this.N];
             }
             public void Push(int list, T value)
             {
                 int wasMax = maxLength;
-                int triIndex = lengths[list]++;
-                if (triIndex == wasMax)
+                int nIndex = lengths[list]++;
+                if (nIndex == wasMax)
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < N; i++)
                     {
                         innerList.Add(value);
                     }
                 }
-                else { innerList[triIndex * 3 + list] = value; }
+                else { innerList[nIndex * N + list] = value; }
             }
             public T Pop(int list)
             {
-                int v = lengths[list]--;
-                return innerList[v * 3 + list];
+                var v = lengths[list]-- - 1;
+                var v1 = v * N + list;
+                var t = innerList[v1];
+                return t;
             }
         }
     }
