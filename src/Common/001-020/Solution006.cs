@@ -30,11 +30,11 @@ namespace Common
 // {
 //     public class Runner
 //     {
+//         const int seed = 1;
 //         public static void RunThis()
 //         {
 //             XorLinkedList.XorTest();
-
-//             var rand = new Random();
+//             var rand = new Random(seed);
 //             var values = Enumerable.Range(0, 15).Select(i => rand.Next(3*i, 3*i+3));
 //             using(var xs = new XorLinkedList(values))
 //             {
