@@ -28,15 +28,16 @@ namespace Common.Test
             //-- Act
             for (int i = 0; i < 3; i++)
             {
-                Assert.IsTrue(expected[0].SetEquals(actual[0]));
+                Assert.IsTrue(expected[i].SetEquals(actual[i]));
             }
         }
         private class Cases143 : IEnumerable
         {
+            private const int Count = 3;
             public IEnumerator GetEnumerator()
             {
-                var series = Enumerable.Range(0, 10).ToArray();
-                for (int i = -1; i < 11; i++)
+                var series = Enumerable.Range(0, Count).ToArray();
+                for (int i = -1; i <= Count; i++)
                 {
                     yield return new object[]{
                         i
