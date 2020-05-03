@@ -2,11 +2,12 @@
 // *	The first part contains all elements in lst that are less than x
 // *	The second part contains all elements in lst that are equal to x
 // *	The third part contains all elements in lst that are larger than x
-// Ordering within a part can be arbitrary.
-using System;
+// Ordering within a part can be arbitrary.
+
 using System.Linq;
 using NUnit.Framework;
-using Common.Extensions;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Common.Test
 {
@@ -14,15 +15,39 @@ namespace Common.Test
     {
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
-        //[Test]
-        public void Problem143()
+        [Test]
+        [TestCaseSource(typeof(Cases143))]
+        public void Problem143(int x, int[] lst, int[][] results)
         {
             //-- Assert
+            var expected = results.Select(n => new HashSet<int>(n)).ToArray();
 
             //-- Arrange
+            var actual = Solution143.Partition(x, lst).Select(n => new HashSet<int>(n)).ToArray();
 
             //-- Act
-            Assert.Pass();
+            for (int i = 0; i < 3; i++)
+            {
+                Assert.IsTrue(expected[0].SetEquals(actual[0]));
+            }
+        }
+        private class Cases143 : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                var series = Enumerable.Range(0, 10).ToArray();
+                for (int i = -1; i < 11; i++)
+                {
+                    yield return new object[]{
+                        i
+                        ,series
+                        ,new[] { series.Where(n => n < i).ToArray()
+                            ,series.Where(n => n== i).ToArray()
+                            ,series.Where(n => n > i).ToArray()
+                        }
+                    };
+                }
+            }
         }
     }
 }
