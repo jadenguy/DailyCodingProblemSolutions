@@ -10,14 +10,13 @@ namespace Common
             var delta = 1;
             while (true)
             {
-                int v = index + delta;
-                int v1 = index - delta;
-                int length = array.Length;
-                bool v2 = length > v;
-                bool v3 = 0 <= v1;
-                if (v2 && array[v] > yardstick) { return v; }
-                else if (v3 && array[v1] > yardstick) { return v1; }
-                else if (!(v2 | v3)) { return null; }
+                int upperIndex = index + delta;
+                int lowerIndex = index - delta;
+                bool upperBoundOK = array.Length > upperIndex;
+                bool lowerBoundOk = 0 <= lowerIndex;
+                if (upperBoundOK && array[upperIndex] > yardstick) { return upperIndex; }
+                else if (lowerBoundOk && array[lowerIndex] > yardstick) { return lowerIndex; }
+                else if (!(upperBoundOK | lowerBoundOk)) { return null; }
                 delta++;
             }
         }
