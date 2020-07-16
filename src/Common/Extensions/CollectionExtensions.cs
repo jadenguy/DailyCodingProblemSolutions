@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Common.Extensions
 {
-
     public static class CollectionExtensions
     {
         [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> TakeSub<T>(this IEnumerable<T> enumerable, int start, int length = 1) => enumerable.Skip(start).Take(length);
@@ -47,8 +46,8 @@ namespace Common.Extensions
                 }
             }
         }
-        [System.Diagnostics.DebuggerStepThrough] private static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, System.Random rand) => e.OrderBy(r => rand.Next());
-        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, int seed = 0) => e.Shuffle(Rand.NewRandom(seed));
+        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, Random rand) => e.OrderBy(r => (rand ?? new Random()).Next());
+        [System.Diagnostics.DebuggerStepThrough] public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> e, int seed = 0) => e.Shuffle(seed == 0 ? new Random() : new Random(seed));
         [System.Diagnostics.DebuggerStepThrough]
         public static void Reverse<T>(this T[] array, int start = 0, int count = -1)
         {
@@ -123,5 +122,10 @@ namespace Common.Extensions
         [System.Diagnostics.DebuggerStepThrough] public static HashSet<TOut> ToHashSet<TIn, TOut>(this IEnumerable<TIn> enumerable, IEqualityComparer<TOut> comparer, Func<TIn, TOut> func) => new HashSet<TOut>(enumerable.Select(e => func(e)), comparer);
         [System.Diagnostics.DebuggerStepThrough] public static void Fill<T>(this T[] array, T value) => System.Threading.Tasks.Parallel.ForEach(Enumerable.Range(0, array.Length), n => array[n] = value);
         [System.Diagnostics.DebuggerStepThrough] public static bool IsNullOrEmpty<T>(this IEnumerable<T> array) => (array is null || !array.Any());
+        // [System.Diagnostics.DebuggerStepThrough]
+        public static IEnumerable<TOut> JoinOn<TIn, TOut>(this IEnumerable<TIn> a, IEnumerable<TIn> b, Func<TIn, TIn, bool> funcJoinOn, Func<TIn, TIn, TOut> funcOut)
+            => a.Join(b, x => 0, x => 0, (x, y) => (x, y))
+                .Where(p => funcJoinOn(p.x, p.y))
+                .Select(o => funcOut(o.x, o.y));
     }
 }
