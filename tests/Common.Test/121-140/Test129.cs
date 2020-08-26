@@ -12,9 +12,23 @@ namespace Common.Test
     {
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
+        private static object[] NegativeTest(double value)
+        {
+            double square = -1 * value * value;
+            Complex complex = value * Complex.ImaginaryOne;
+            return new object[] { square, complex };
+        }
+        private static object[] PositiveTest(double value)
+        {
+            double square = value * value;
+            Complex complex = value;
+            return new object[] { square, complex };
+        }
         [Test]
         [TestCaseSource(typeof(Cases))]
-        public void Problem129(double n, Complex sqRt)
+        public void Problem129(double sqRt) => TestProblem129(NegativeTest(sqRt));
+        private void TestProblem129(object[] vs) => TestProblem129((double)vs[0], (Complex)vs[1]);
+        public void TestProblem129(double n, Complex sqRt)
         {
             //-- Arrange
             var expected = sqRt;
@@ -33,18 +47,18 @@ namespace Common.Test
         {
             public IEnumerator GetEnumerator()
             {
-                yield return new object[] { -12345 * 12345, 12345 * Complex.ImaginaryOne };
-                yield return new object[] { -Math.PI * Math.PI, Math.PI * Complex.ImaginaryOne };
-                yield return new object[] { -4, 2 * Complex.ImaginaryOne };
-                yield return new object[] { -1, 1 * Complex.ImaginaryOne };
-                yield return new object[] { -.25, .5 * Complex.ImaginaryOne };
-                yield return new object[] { 0, 0 * Complex.ImaginaryOne };
-                yield return new object[] { .0625, .25 * Complex.One };
-                yield return new object[] { .09, .3 * Complex.One };
-                yield return new object[] { .25, .5 * Complex.One };
-                yield return new object[] { 1, 1 * Complex.One };
-                yield return new object[] { 9, 3 * Complex.One };
-                yield return new object[] { 2.25, 1.5 * Complex.One };
+                yield return 12345;
+                yield return Math.PI;
+                yield return 2;
+                yield return 1;
+                yield return .5;
+                yield return 0;
+                yield return .25;
+                yield return .3;
+                yield return .5;
+                yield return 1;
+                yield return 3;
+                yield return 1.5;
                 yield break;
             }
         }
