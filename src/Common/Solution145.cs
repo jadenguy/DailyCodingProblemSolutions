@@ -7,19 +7,21 @@ namespace Common
         public static SinglyLinkedListNode<T> FlipEveryTwo<T>(SinglyLinkedListNode<T> node)
         {
             var current = node;
-            bool hasSecond = (current?.Next ?? null) != null;
-            if (hasSecond)
+            int listLength = node?.Height ?? 0;
+            var ret = node;
+            if (listLength >= 2)
             {
-                var ret = current.Next;
-                while (hasSecond)
+                ret = node.Next;
+                for (int i = 0; i < listLength / 2; i++)
                 {
-                    var newHead = current.Next;
-                    current = (current?.Next ?? null);
-                    hasSecond = (current?.Next ?? null) != null;
+                    var x = current.Next;
+                    var nextTail = x.Next;
+                    current.Next.Next = current;
+                    current.Next = x;
+                    current = nextTail;
                 }
-                return ret;
             }
-            else { return node; }
+            return ret;
         }
     }
 }

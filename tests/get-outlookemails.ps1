@@ -5,7 +5,7 @@ $pathParts = @('jadenguy@gmail.com', 'inbox', 'dailycodingproblem')
 foreach ($newPath in $pathParts) {
     $current = $current.Folders.Item($newPath) #| Where-Object -property FolderPath -eq $path | Select-Object -First 1
 }
-$Challenges = $current.Items| Sort-Object receivedtime
+$Challenges = $current.Items | Sort-Object receivedtime
 
 # $challenges | Select-Object subject, body |ConvertTo-Json|set-content dailycoding.json
 . .\stringAssets.ps1
