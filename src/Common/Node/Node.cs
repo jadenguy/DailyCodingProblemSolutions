@@ -11,11 +11,14 @@ namespace Common.Node
         public virtual IEnumerable<T> BreadthFirstSearch()
         {
             var list = new Queue<T>() { };
+            var check = new HashSet<T>() { };
             list.Enqueue((T)this);
             do
             {
                 var current = list.Dequeue();
+                if (check.Contains(current)) { throw new System.StackOverflowException("Loop detected."); }
                 yield return current;
+                check.Add(current);
                 var children = current.Children();
                 foreach (var child in children)
                 {
@@ -81,7 +84,7 @@ namespace Common.Node
             }
             ret.AppendLine(textFunc(this));
             var children = Children().ToList();
-            
+
             for (int i = 0; i < children.Count; i++) { ret.Append(children[i].PrintInternal(textFunc, indent, i == children.Count - 1, true)); }
             return ret.ToString();
         }
