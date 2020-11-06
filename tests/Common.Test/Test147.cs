@@ -15,14 +15,18 @@ namespace Common.Test
         public void Problem147()
         {
             //-- Assert
-            var array = Enumerable.Range(0,10).Shuffle().ToArray();
-            var expected = Enumerable.Range(0,10).ToArray();
+            var array = Enumerable.Range(0, 9).Shuffle().ToArray();
+            var expected = Enumerable.Range(0, 9).ToArray();
+
+            array.Print(",").WriteHost("Input");
+            expected.Print(",").WriteHost("Wanted");
 
             //-- Arrange
             var actual = Solution147.SortWithReverseOnly(array);
+            actual.Print(",").WriteHost("Output");
 
             //-- Act
-            Assert.AreEqual(expected,actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }
