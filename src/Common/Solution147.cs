@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Extensions;
@@ -6,7 +7,7 @@ namespace Common
 {
     public static class Solution147
     {
-        public static T[] Reverse<T>(this IEnumerable<T> lst, int i, int j)
+        static T[] Reverse<T>(this IEnumerable<T> lst, int i, int j)
         {
             var len = j - i;
             T[] ret = lst.ToArray();
@@ -17,10 +18,11 @@ namespace Common
             return ret;
         }
 
-        public static int[] SortWithReverseOnly(int[] array)
+        public static T[] SortWithReverseOnly<T>(T[] array) where T : IComparable<T>
         {
             // array.Print(",").WriteHost();
             var len = array.Length;
+            // var changes = 0;
 
             // Solution147.Reverse(array, 0, 9).Print(",").WriteHost();
             for (int r = 0; r < len; r++)
@@ -28,12 +30,12 @@ namespace Common
                 int rIndex = len - 1 - r;
                 for (int i = 0; i < rIndex; i++)
                 {
-                    if (array[i] > array[rIndex])
+                    if (array[i].CompareTo(array[rIndex]) > 0)
                     {
-                        array.Print(",").WriteHost($"reverse {i} to {rIndex}");
+                        // array.Print(",").WriteHost($"reverse {i} to {rIndex}");
                         array = Reverse(array, i, rIndex);
-                        array.Print(",").WriteHost("changed");
-                        // i = -1;
+                        // array.Print(",").WriteHost("changed");
+                        // changes++;
                     }
                 }
             }
