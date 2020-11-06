@@ -4,18 +4,19 @@ using Common.Node;
 
 namespace Common
 {
-    public class Solution146
+    public static class Solution146
     {
-        public static BinaryNode<int> Prune(BinaryNode<int> input)
+        public static BinaryNode<int> Prune(BinaryNode<int> node)
         {
-            var list = input.BreadthFirstSearch().Reverse().ToArray();
-            var withParent = list.SelectMany(p => p.Children().Select(c => (c, p)));
-            foreach ((var child, var parent) in withParent)
-            {
-                var d = child.Direction;
-            }
-            return input;
-            throw new NotImplementedException();
+            if (node is null) { return null; }
+
+            BinaryNode<int> newLeft = Prune(node.Left);
+            node.Left = newLeft;
+            BinaryNode<int> newRight = Prune(node.Right);
+            node.Right = newRight;
+            var prune = (node.Left is null && node.Right is null && node.Value == 0);
+            BinaryNode<int> ret = prune ? null : node;
+            return ret;
         }
     }
 }

@@ -39,9 +39,9 @@ namespace Common.Node
             get => left;
             set
             {
+                left = value;
                 if (value != null)
                 {
-                    left = value;
                     left.Name = this.Name + ".Left";
                     left.Direction = NodeDirection.Left;
                     left.Parent = this;
@@ -54,9 +54,9 @@ namespace Common.Node
             get => right;
             set
             {
+                right = value;
                 if (value != null)
                 {
-                    right = value;
                     right.Name = this.Name + ".Right";
                     right.Direction = NodeDirection.Right;
                     right.Parent = this;

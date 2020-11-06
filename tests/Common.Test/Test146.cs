@@ -42,7 +42,7 @@ namespace Common.Test
             actual.Print(n => n.Data).WriteHost("Results");
 
             //-- Act
-            Assert.Pass();
+            Assert.AreEqual(expected, actual, "trees don't match");
         }
         class Cases146 : IEnumerable
         {
@@ -71,10 +71,12 @@ namespace Common.Test
                 normal.Right.Left.Left = n(0);
                 normal.Right.Left.Right = n(0);
 
-                clean = n(1);
+                clean = n(0);
                 clean.Left = n(1);
+                clean.Right = n(0);
+                clean.Right.Left = n(1);
 
-                // yield return new object[] { normal, clean };
+                yield return new object[] { normal, clean };
             }
         }
     }
