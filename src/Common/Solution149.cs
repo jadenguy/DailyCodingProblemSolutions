@@ -6,7 +6,12 @@ namespace Common
     {
         public static object Sum(int[] l, int i, int j)
         {
-            throw new NotImplementedException();
+            var ret = 0;
+            for (int x = i; x < j; x++)
+            {
+                ret += l[x];
+            }
+            return ret;
         }
     }
 }
