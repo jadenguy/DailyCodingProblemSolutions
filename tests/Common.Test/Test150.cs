@@ -1,9 +1,6 @@
 // Given a list of points, a central point, and an integer k, find the nearest k points from the central point.
 
-using System;
-using System.Linq;
 using NUnit.Framework;
-using Common.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 
