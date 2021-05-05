@@ -36,11 +36,37 @@ namespace Common.Test
         {
             public IEnumerator GetEnumerator()
             {
-                // yield return new object[]{};
+                // Simple Test
                 var colors = new[,] { { b, w } };
                 var colorsAfter = new[,] { { b, g } };
                 int x = 0;
                 int y = 1;
+                yield return new object[] { colors, x, y, colorsAfter };
+
+                // Simple Test 2
+                colors = new[,] {
+                    { b, w }
+                };
+                colorsAfter = new[,] {
+                    { g, w }
+                };
+                x = 0;
+                y = 0;
+                yield return new object[] { colors, x, y, colorsAfter };
+
+                // given test
+                colors = new[,] {
+                    {b,b,w},
+                    {w,w,w},
+                    {w,w,w},
+                    {b,b,b} };
+                colorsAfter = new[,] {
+                    {b,b,g},
+                    {g,g,g},
+                    {g,g,g},
+                    {b,b,b} };
+                x = 2;
+                y = 2;
                 yield return new object[] { colors, x, y, colorsAfter };
             }
         }
