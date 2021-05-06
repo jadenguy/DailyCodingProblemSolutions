@@ -6,38 +6,54 @@ using System.Linq;
 using NUnit.Framework;
 using Common.Extensions;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Common.Test
 {
     public class Test152
     {
-        private const int bunch = 10000;
+        private const double rounds = 10000;
 
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(typeof(Cases152))]
-        public void Problem152(object[] objects, double[] probabilities)
+        public void Problem152(IEnumerable<object> objects, double[] probabilities)
         {
             //-- Assert
-            int count = objects.Count();
-            var rounds = bunch * count;
-            var table = objects.ToDictionary(n => n, v => 0);
+            var objects1 = objects.ToArray();
+            var table = objects1.ToDictionary(n => n, v => 0);
+            var expected = probabilities.Select(p => p * rounds).ToArray();
+            var r = new Solution152(152);
 
             //-- Arrange
             for (int i = 0; i < rounds; i++)
             {
-                table[Solution152.WeightedRandom(objects, probabilities, 152)]++;
+                table[r.WeightedRandom(objects1, probabilities)]++;
             }
 
             //-- Act
-            Assert.Pass();
+            for (int i = 0; i < objects1.Length; i++)
+            {
+                Assert.AreEqual(expected[i], table[objects1[i]], 10);
+            }
         }
         private class Cases152 : IEnumerable
         {
             public IEnumerator GetEnumerator()
             {
-                yield return new object[] { };
+                object[] objects;
+                double[] probibilaties;
+
+                // Simple Test
+                objects = new object[] { 'a', 'b' };
+                probibilaties = new[] { .5, .5 };
+                yield return new object[] { objects, probibilaties };
+
+                // Slightly More Complicated test
+                objects = new object[] { 'a', 'b' };
+                probibilaties = new[] { .6, .4 };
+                yield return new object[] { objects, probibilaties };
             }
         }
     }
