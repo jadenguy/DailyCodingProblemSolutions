@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Common
 {
@@ -11,10 +12,15 @@ namespace Common
             rand = ((seed == 0) ? new Random() : new Random(seed));
         }
 
-        public T WeightedRandom<T>(T[] objects, double[] probabilities, int seed = 0)
+        public T WeightedRandom<T>(T[] objects, double[] probabilities)
         {
-            var length = objects.Length;
-            return objects[rand.Next(length)];
+            var runningProbability = probabilities.ToArray();
+            for (int i = 1; i < runningProbability.Length; i++)
+            {
+                runningProbability[i] += runningProbability[i - 1];
+            }
+            var v = rand.NextDouble();
+            return objects[runningProbability.Where(p => p < v).Count()];
         }
     }
 }

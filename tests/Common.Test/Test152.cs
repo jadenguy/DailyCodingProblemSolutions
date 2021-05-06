@@ -12,13 +12,12 @@ namespace Common.Test
 {
     public class Test152
     {
-        private const double rounds = 10000;
 
         // [SetUp] public void Setup() { }
         // [TearDown] public void TearDown() { }
         [Test]
         [TestCaseSource(typeof(Cases152))]
-        public void Problem152(IEnumerable<object> objects, double[] probabilities)
+        public void Problem152(IEnumerable<object> objects, double[] probabilities, int rounds)
         {
             //-- Assert
             var objects1 = objects.ToArray();
@@ -44,16 +43,38 @@ namespace Common.Test
             {
                 object[] objects;
                 double[] probibilaties;
+                int rounds;
 
                 // Simple Test
                 objects = new object[] { 'a', 'b' };
                 probibilaties = new[] { .5, .5 };
-                yield return new object[] { objects, probibilaties };
+                rounds = 100000;
+                yield return new object[] { objects, probibilaties, rounds };
 
                 // Slightly More Complicated test
                 objects = new object[] { 'a', 'b' };
                 probibilaties = new[] { .6, .4 };
-                yield return new object[] { objects, probibilaties };
+                yield return new object[] { objects, probibilaties, rounds };
+
+                // Somewhat More Complicated test
+                objects = new object[] { 'a', 'b' };
+                probibilaties = new[] { 1.0, 0.0 };
+                yield return new object[] { objects, probibilaties, rounds };
+
+                // Somewhat More Complicated test
+                objects = new object[] { 'a', 'b' };
+                probibilaties = new[] { 0.0, 1.0 };
+                yield return new object[] { objects, probibilaties, rounds };
+
+                // Complicated test
+                objects = new object[] { 'a', 'a', 'b' };
+                probibilaties = new[] { .5, .5, 0 };
+                yield return new object[] { objects, probibilaties, rounds };
+
+                // Complicated test
+                objects = new object[] { new System.Random(), new Exception() };
+                probibilaties = new[] { 0.5, 0.5 };
+                yield return new object[] { objects, probibilaties, rounds };
             }
         }
     }
