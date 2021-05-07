@@ -4,7 +4,6 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using Common.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,21 +19,29 @@ namespace Common.Test
         public void Problem152(IEnumerable<object> objects, double[] probabilities, int rounds)
         {
             //-- Assert
-            var objects1 = objects.ToArray();
-            var table = objects1.ToDictionary(n => n, v => 0);
-            var expected = probabilities.Select(p => p * rounds).ToArray();
-            var r = new Solution152(152);
+            object[] objArray = objects.ToArray();
+            var uniqueObjects = objArray.Distinct().ToArray();
+            var table = uniqueObjects.ToDictionary(n => n, v => 0);
+            var expectedTable = uniqueObjects.ToDictionary(n => n, v => 0d);
+            for (int i = 0; i < probabilities.Length; i++)
+            {
+                var obj = objArray[i];
+                var prob = probabilities[i];
+                expectedTable[obj] += prob * rounds;
+            }
+            var rand = new Solution152(152);
 
             //-- Arrange
-            for (int i = 0; i < rounds; i++)
+            for (int r = 0; r < rounds; r++)
             {
-                table[r.WeightedRandom(objects1, probabilities)]++;
+                table[rand.WeightedRandom(objArray, probabilities)]++;
             }
 
             //-- Act
-            for (int i = 0; i < objects1.Length; i++)
+            for (int i = 0; i < uniqueObjects.Length; i++)
             {
-                Assert.AreEqual(expected[i], table[objects1[i]], 10);
+                object obj = uniqueObjects[i];
+                Assert.AreEqual(expectedTable[obj], table[obj], 10);
             }
         }
         private class Cases152 : IEnumerable
@@ -48,7 +55,7 @@ namespace Common.Test
                 // Simple Test
                 objects = new object[] { 'a', 'b' };
                 probibilaties = new[] { .5, .5 };
-                rounds = 100000;
+                rounds = 10000;
                 yield return new object[] { objects, probibilaties, rounds };
 
                 // Slightly More Complicated test
