@@ -18,7 +18,7 @@ namespace Common.Test
             var expected = distance;
 
             //-- Arrange
-            int actual = Solution153.ShortestDistanceBetweenWords(str, word1, word2);
+            int actual = Solution153.ShortestDistanceBetweenWords(str, word1, word2) - 1;
 
             //-- Act
             Assert.AreEqual(expected, actual);
