@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace Common.Test
 {
-    internal class Solution153
+    public class Solution153
     {
-        internal static int ShortestDistanceBetweenWords(string str, string word1, string word2)
+        public static int ShortestDistanceBetweenWords(string str, string word1, string word2)
         {
             var words = Tokenize(str).ToArray();
             var table = BuildTable(words);
