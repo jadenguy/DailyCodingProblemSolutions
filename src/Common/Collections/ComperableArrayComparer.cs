@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Common
+namespace Common.Collections
 {
     public class ComperableArrayComparer<T> : IComparer<T[]> where T : IComparable<T>
     {
